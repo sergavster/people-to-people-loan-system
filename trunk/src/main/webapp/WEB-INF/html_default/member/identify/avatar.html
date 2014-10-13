@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<#include "../../include/resource.html"> 
+<body>
+<#assign nid="member"> 
+<#include "../../include/header.html">
+<!--header-end-->
+<link href="${webroot}${theme_dir}/media/css/modal.css" rel="stylesheet" type="text/css" />
+<link href="${webroot}${theme_dir}/media/css/jquery.Jcrop.min.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="${webroot}${theme_dir}/media/js/jquery.Jcrop.min.js"></script>
+
+<!--用户中心的主栏目 开始-->
+ <div id="main" class="clearfix" style="margin-top:10px;">
+<div class="wrap950 " style="margin-top:0">
+	<!--左边的导航 开始-->
+	<div class="user_left">
+    	<#assign mid="m_identify" >
+		<#include "../user_menu.html">
+	</div>
+	<!--左边的导航 结束-->
+
+	<!--右边的内容 开始-->
+	<div class="user_right">
+		<div class="user_right_menu">
+			<#assign userinfo_type="avatar">
+			<#include "identify_menu.html">
+		</div>
+		<div class="user_right_main">
+		
+				<!--头像 开始-->
+		<div class="user_help alert">请上传你网站的头像</div>
+		<div id="useravatar"><img src="${request.getContextPath()}/imgurl.html?userid=${session_user.user_id?c}&size=middle" style="margin:0 auto; margin-bottom:10px;"/></div>
+		<table id="cropview" style="marigin-left:10px;display:none;width:100%">
+	      <tr>
+          	<td width=100></td>
+	        <td width=330>
+	        	<div id="cropimgbox">
+		        	<div id="cropimg" style=" margin:0px auto 0;">
+		        		
+		        	</div>
+	        	</div>
+	        </td>
+	        <td>
+	          <div style="margin:30px;width:100px;height:100px;overflow:hidden;float:left; border:1px solid #ccc;">
+	            <img src="${request.getContextPath()}/imgurl.html?userid=${session_user.user_id?c}&size=middle" id="preview" alt="Preview" class="jcrop-preview" />
+	          </div>
+	        </td>
+	      </tr>
+	    </table>
+		<div> 
+		<form enctype="multipart/form-data"  method="post" action="" >
+			<input type="file" class="input" name="upload" id="upload" onchange="return ajaxFileUpload('${request.getContextPath()}/upload.html');" style="margin-top:20px; margin-right:15px;" />
+			<a href="#" id="saveavatar"   class="btn-action"  >保存头像</a>
+		</form>
+		</div>
+		<div class="user_right_foot alert">
+		* 温馨提示：请用鼠标自由截取头像大小，并进行保存<!--头像现在有三种，大，中，小-->
+		</div>
+		<!--头像 结束-->
+		
+		
+		</div>
+	</div>
+	<!--右边的内容 结束-->
+</div>
+</div>
+<!--用户中心的主栏目 结束-->
+
+<script type="text/javascript" src="${webroot}${theme_dir}/media/js/ajaxfileupload.js"></script>
+<script type="text/javascript" src="${webroot}${theme_dir}/media/js/upload.js"></script>
+<#include "../../include/footer.html"> 
+</body>
+</html>

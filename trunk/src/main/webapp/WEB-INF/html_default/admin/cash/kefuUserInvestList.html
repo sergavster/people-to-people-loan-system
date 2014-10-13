@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="客服—用户投资记录">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+
+                                <div class="toolbor-module export">
+                                    <input type="button" onClick="exportxls()" value="导出报表" class="input-button export-btn"/>
+                                    
+                                </div>
+
+                                <#if param?exists>
+                                    <#if param.get("dotime1")?exists><#assign dotime1=param.get("dotime1")></#if>
+                                    <#if param.get("dotime2")?exists><#assign dotime2=param.get("dotime2")></#if>
+                                    <#if param.get("kefu_name")?exists><#assign kefu_name=param.get("kefu_name")></#if>
+                                </#if>
+								<div class="toolbor-module search">    
+                                    <input type="button" value="搜索"  class="input-button" onClick="sousuo();">
+                                </div>
+                                <div class="toolbor-module search">
+                                    <div class="select-box" id="status">
+                                        <div class="tag-select" >所属客服</div>
+                                        <ul class="tag-options">
+                                        <li data-value="" class="open-selected">所属客服</li>
+                                            <#list kfList as item>
+                                                <li data-value="${item.username}" id="${item.user_id}" >${item.username}</li>
+                                            </#list>
+                                            <input type="hidden" name="kefu_name" id="kefu_name" value="${kefu_name}">
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- v1.6.7.1 RDPROJECT-402 zza 2013-11-07 start -->
+                                <div class="toolbor-module search">
+                                    <input type="text" name="realname" id="realname" value="请输入真实姓名" data-value="请输入真实姓名" class="search-value">
+                                </div>
+                                <!-- v1.6.7.1 RDPROJECT-402 zza 2013-11-07 end -->
+                     
+                                <div class="toolbor-module search">
+                                    <div style="height:22px;line-height:22px;float:left;">投标时间：</div>
+                                    <input class="_search-value js-datetime" name="dotime1" id="dotime1" value="${dotime1!}"/>
+                                    <div style="height:22px;line-height:22px;float:left;margin:0 8px;"> 到 </div>
+                                    <input class="_search-value js-datetime" name="dotime2" value="${dotime2!}" id="dotime2"/>
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form action="" method="post">
+                                    <table class="data-list">
+                                        <tr class="header">
+                                            <td>ID</td>
+                                            <td>客服名称</td>
+                                            <td>用户名</td>
+                                            <td>真实姓名</td>
+                                            <td>注册时间</td>
+                                            <td>投标时间</td>
+                                            <td>投资金额</td>
+                                        </tr>
+                                        <#list list as item>
+                                            <tr class="s">
+                                                <td>${(item.id!0)?c}</td>
+                                                <td >${item.kefu_username!"ERROR!"}</td>
+                                                <td><a href="javascript:void(0)" onclick='alertPop("用户详细信息查看","url:get?${request.getContextPath()}/admin/attestation/viewUserInfo.html?username=${item.username!}",500,230,"true","","true","text")'>
+		                                            ${item.username!}
+		                                        </a></td>
+		                                        <!-- v1.6.7.1 RDPROJECT-402 zza 2013-11-07 start -->
+                                                <td>${item.realname!}</td>
+                                                <!-- v1.6.7.1 RDPROJECT-402 zza 2013-11-07 end -->
+                                                <td>${dateformat(item.regiter_time!"")}</td>
+                                                <td>${dateformat(item.addtime!"")}</td>
+                                                <td>${item.account!}</td>
+                                            </tr>
+                                            </#list>
+                                    </table>
+                                </form>
+
+                                <!--底部工具栏--{-->
+                                <#if kefuUserInvestSum??><div style="height:22px;line-height:22px;color:red;margin-left:12px; padding-top:10px;"> 投资总额：${kefuUserInvestSum}元 </div></#if>
+                                  <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+
+                                    <!--翻页系统--{-->
+                                    <div class="container">
+                                        <#import "../../common/page.html" as pager>
+                                            <@pager.pagination page=page url="/admin/cash/kefuUserInvest.html" map=param style="style1"  />
+                                    </div>
+                                    <!--翻页系统--}-->
+                                </div>
+                                <!--底部工具栏--}-->
+
+                                <script>
+                                    var url = 'kefuUserInvest.html?search=true';
+                                    var xlsurl = 'kefuUserInvest.html?type=export';
+
+                                    function sousuo(){
+                                        var sou = "";
+                                        var kefu_username = $("#status").find(".open-selected").attr("data-value");
+                    					if(kefu_username!=""){
+                    						sou += "&kefu_name="+kefu_username;
+                    					}
+                                        var dotime1 = $("#dotime1").val();
+                                        var dotime2 = $("#dotime2").val();
+                                        if (dotime1!=null){
+                                            sou += "&dotime1="+dotime1;
+                                        }
+                                        if (dotime2!=null){
+                                            sou += "&dotime2="+dotime2;
+                                        }
+                                     	// v1.6.7.1 RDPROJECT-402 zza 2013-11-07 start
+                                        var realname = $("#realname").val();
+                                        if (realname!=null&&realname!=""&&realname!="undefine"&&realname!="请输入真实姓名"){
+                                            sou += "&realname="+realname;
+                                        }
+                                     	// v1.6.7.1 RDPROJECT-402 zza 2013-11-07 end
+                                        if (sou!=""){
+                                            location.href=url+sou;
+                                        }
+                                    }
+                                    function exportxls(){
+                                        var sou = "";
+                                        var kefu_username = $("#kefu_name").val();
+                    					if(kefu_username!=""){
+                    						sou += "&kefu_name="+kefu_username;
+                    					}
+                                        var dotime1 = $("#dotime1").val();
+                                        var dotime2 = $("#dotime2").val();
+                                        if (dotime1!=null){
+                                            sou += "&dotime1="+dotime1;
+                                        }
+                                        if (dotime2!=null){
+                                            sou += "&dotime2="+dotime2;
+                                        }
+                                     	// v1.6.7.1 RDPROJECT-402 zza 2013-11-07 start
+                                        var realname = $("#realname").val();
+                                        if (realname!=null&&realname!=""&&realname!="undefine"&&realname!="请输入真实姓名"){
+                                            sou += "&realname="+realname;
+                                        }
+                                     	// v1.6.7.1 RDPROJECT-402 zza 2013-11-07 end
+                                        if (sou!=""){
+                                            location.href=xlsurl+sou;
+                                        }else{
+                                            location.href=xlsurl;
+                                        }
+                                    }
+                                </script>
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

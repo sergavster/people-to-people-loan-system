@@ -1,0 +1,7 @@
+<ul id="tab" class="list-tab clearfix">
+	<li <#if msg_type?exists&&msg_type=="box">class="cur"</#if> ><a href="${request.getContextPath()}/member/message/box.html">收件箱</a></li>
+	<li <#if msg_type?exists&&msg_type=="sent">class="cur"</#if> ><a href="${request.getContextPath()}/member/message/sent.html">已发送</a></li>
+	<#if (session_user.real_status!0)?number==1>
+	<li <#if msg_type?exists&&msg_type=="send">class="cur"</#if> ><a href="${request.getContextPath()}/member/message/send.html">发信息</a></li>
+</#if>
+</ul>

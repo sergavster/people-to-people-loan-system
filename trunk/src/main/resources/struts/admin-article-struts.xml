@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="admin-article" namespace="/admin/article"
+		extends="wzd-admin">
+
+		<action name="showSite" class="manageSiteAction" method="showSite">
+			<result name="success" type="ftl">/admin/article/site.html
+			</result>
+		</action>
+		<action name="addSite" class="manageSiteAction" method="addSite">
+			<result name="success" type="ftl">/admin/article/addsite.html
+			</result>
+		</action>
+		<action name="modifySite" class="manageSiteAction" method="modifySite">
+			<result name="success" type="ftl">/admin/article/site.html
+			</result>
+		</action>
+		<action name="delSite" class="manageSiteAction" method="delSite">
+			<result name="success" type="ftl">/admin/article/site.html
+			</result>
+		</action>
+		
+		<action name="addArticle" class="manageArticleAction" method="addArticle">
+			<result name="success" type="ftl">/admin/article/addarticle.html
+			</result>
+		</action>
+		
+		<action name="addRiskReportArticle" class="manageArticleAction" method="addRiskReportArticle">
+			<result name="success" type="ftl">/admin/article/addRiskReportArticle.html
+			</result>
+		</action>
+		<action name="addTroubleFundArticle" class="manageArticleAction" method="addTroubleFundArticle">
+			<result name="success" type="ftl">/admin/article/addTroubleFundArticle.html
+			</result>
+		</action>
+		<action name="modifyArticle" class="manageArticleAction" method="modifyArticle">
+			<result name="success" type="ftl">/admin/article/modifyarticle.html
+			</result>
+		</action>
+		
+		<action name="delArticle" class="manageArticleAction" method="delArticle">
+			<result name="success" type="ftl">/admin/article/delarticle.html
+			</result>
+		</action>
+		
+		<action name="batchOperateArticle" class="manageArticleAction" method="batchOperateArticle">
+			<result name="success" type="ftl">/admin/article/showArticle.html
+			</result>
+		</action>
+		
+		<action name="showArticle" class="manageArticleAction" method="showArticle">
+			<result name="success" type="ftl">/admin/article/showArticle.html
+			</result>
+		</action>
+		
+		<action name="modifyArticleStatus" class="manageArticleAction" method="modifyArticleStatus">
+			<result name="success" type="ftl">/admin/article/showArticle.html
+			</result>
+		</action>
+		
+		<action name="showScrollPic" class="manageArticleAction" method="showScrollPic">
+			<result name="success" type="ftl">/admin/article/scrollPic.html
+			</result>
+		</action>
+		<action name="modifyScrollPic" class="manageArticleAction" method="modifyScrollPic">
+			<result name="success" type="ftl">/admin/article/modifyScrollPic.html
+			</result>
+		</action>
+		<action name="deleteScrollPic" class="manageArticleAction" method="deleteScrollPic">
+			<result name="success" type="ftl">/admin/article/scrollPic.html
+			</result>
+		</action>
+		<action name="addScrollPic" class="manageArticleAction" method="addScrollPic">
+			<result name="success" type="ftl">/admin/article/addScrollPic.html
+			</result>
+		</action>
+	</package>
+</struts>

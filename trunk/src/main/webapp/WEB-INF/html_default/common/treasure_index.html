@@ -1,0 +1,48 @@
+<!--   v1.6.7.2 理财宝显示 zhangyz 2013-12-09 start-->
+<#if treasureList?exists>
+               <#list treasureList as item> 	
+               <div class="investitem-list clearfix">
+                    <div class="investitem-list-img">
+                        <a href="${webroot}/treasure/detail.html?id=${item.id?c}">
+                    	    <img src="${webroot}${theme_dir}/images/lcb_d.jpg" data-url="${webroot}/imgurl.html?userid=${item.user_id?c}&size=middle" class="lazyload" >
+                        </a>
+                    </div>
+                    <ul class="investitem-list-ul">
+                    	<li style="position:absolute; left:462px; top:20px; width:140px; height:25px; overflow:hidden; line-height:25px; ">发标时间： ${dateformat(item.add_time?c)}</li>
+                        <li class="titleli">
+                           <span>
+                                <a href="${webroot}/treasure/detail.html?id=${item.id?c}" class="titletxt">
+                                <#if item.name?length lt 23>${item.name}<#else>${item.name[0..20]}...</#if>&nbsp;&nbsp;</a>
+                           </span>     
+                       	    <a rel="tooltip" title="理财宝，安全便捷新的投资方式" class="aimg">
+						     <img src="${request.getContextPath()}${theme_dir}/images/lcb.png" border="0" alt="点击查看详情" />
+						      </a>
+                        </li>                                     
+                            <li>
+                            	借款金额：￥<strong><font color="red">${format2(item.account)}元</font></strong>
+                        </li>
+                        <li>
+							天利率：${format2(item.apr)}%
+                        </li>
+                        <li>
+                                                                  借款期限：<#if item.time_limit == 0><strong>不限期</strong><#else><strong>${item.time_limit!}</strong><#if item.time_limit_type == 1>天<#elseif item.time_limit_type == 2>月<#elseif item.time_limit_type == 3>年</#if></#if>
+                        </li>
+                        <li class="clearfix">
+                            <span style="float:left">单人最低投资金额：</span>${format2(item.min_account)}元
+                        </li>
+                        <li class="clearfix">
+                            <div class="float_left">已投资：${format2(item.invest)}元</div>
+                            <div class="float_left">&nbsp;
+                            </div>
+                        </li>
+                        <li>
+                         <#if item.back_type == 0>投资份额赎回<#else>用户资金余额赎回</#if>
+                        </li>
+                    </ul>
+                    <div class="investitem-list-btn">
+                        <a href="${webroot}/treasure/detail.html?id=${item.id?c}" class=""><#if item.account?? &&  item.account != 0 && item.account == item.invest><span class="hasinvest">已满</span><#else><span class="nowinvest">立即投资</span></#if></a>
+                    </div>
+            </div>
+             </#list>
+               </#if>
+               <!--   v1.6.7.2 理财宝显示 zhangyz 2013-12-09 end-->

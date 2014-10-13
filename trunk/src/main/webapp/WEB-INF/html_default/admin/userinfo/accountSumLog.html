@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+<body>
+	<table class="mc">
+		<tr>
+			<td class="mc-l">
+				<!--左侧导航---{-->
+				<div id="navPanelContainer">
+					<div class="system-logo cd"></div>
+					<!--管理员信息---{-->
+					<#include "../adminInfo.html">
+					<!--管理员信息---}-->
+					<div class="nav-wrap"><#include "left.html"></div>
+				</div> <!--左侧导航---}-->
+			</td>
+			<td class="mc-m">
+				<div class="navToggle"></div>
+			</td>
+			<td class="mc-r">
+				<!--顶部导航---{--> 
+				<#include "../topNav.html"> 
+				<!--顶部导航---}--> 
+				<!--面包屑导航---{-->
+				<#assign moduleName="客户信息管理"> 
+				<#include "banner.html"> 
+				<!--面包屑导航---}-->
+
+				<!--工具栏--{-->
+				<div id="toolbar" class="clearfix">
+					<form action="" method="post">
+						<!-- v1.6.7.1 用户资金统计加导出 zza 2013-11-26 start -->
+						<div class="toolbor-module export">
+                        	<input type="button" onclick="exportxls()" value="导出报表" class="input-button export-btn"/>
+						</div>
+						<!-- v1.6.7.1 用户资金统计加导出 zza 2013-11-26 end -->
+						<div class="toolbor-module search">
+							<input type="button" value="搜索" class="input-button" onclick="sousuo();">
+						</div>
+						<div class="toolbor-module search">
+							<input type="text" name="username" id="username" value="请输入用户名" data-value="请输入用户名" class="search-value">
+						</div>
+					</form>
+				</div> <!--工具栏--}-->
+
+				<div id="main" class="clearfix">
+					<!--  V1.6.6.2 zhangyz 2013-10-29 start -->
+					<table class="data-list">
+						<tr class="header">
+							<td>用户ID</td>
+							<td>用户名</td>
+							<td>充值统计</td>
+							<td>已使用充值统计</td>
+							<td>奖励统计</td>
+							<td>已使用奖励统计</td>
+							<td>利息统计</td>
+							<td>已使用利息统计</td>
+							<td>借款入账统计</td>
+							<td>已使用借款统计</td>
+							<td>提现统计</td>
+							<td>提现手续费统计</td>
+							<td>回款统计</td>
+							<td>已使用回款统计</td>
+							<td>利息手续费统计</td>
+							<td>扣费统计</td>
+							<td>已还款统计</td>
+							<td>操作</td>
+						</tr>
+						<#list accountSumList as obj>
+						<tr class="s">
+							<td>${(obj.user_id?c)!"-"}</td>
+							<td>${obj.username!"-"}</td>
+							<td>${obj.recharge!"0"}</td>
+							<td>${obj.used_recharge!"0"}</td>
+							<td>${obj.award!"0"}</td>
+							<td>${obj.used_award!"0"}</td>
+							<td>${obj.interest!"0"}</td>
+							<td>${obj.used_interest!"0"}</td>
+							<td>${obj.borrow_cash!"0"}</td>
+							<td>${obj.used_borrow_cash!"0"}</td>
+							<td>${obj.cash!"0"}</td>
+							<td>${obj.cash_fee!"0"}</td>
+							<td>${obj.huikuan!"0"}</td>
+							<td>${obj.used_huikuan!"0"}</td>
+							<td>${obj.interest_fee!"0"}</td>
+							<td>${obj.deduct!"0"}</td>
+							<td>${obj.repay_cash!"0"}</td>
+							<td><a href="${request.getContextPath()}/admin/userinfo/sumLogDetail.html?user_id=${(obj.user_id?c)!'-'}">查看明细</a>
+							</td>
+						</tr>
+						</#list>
+					</table>
+					<!--  V1.6.6.2 zhangyz 2013-10-29 end -->
+					<!--底部工具栏--{-->
+					<div id="bottomToolbar" class="clearfix">
+						<div class="other-tool">
+							<dl class="refresh-data">
+								<dt class="refresh-data-icon"></dt>
+								<dd>
+									<a href="javascript:void(0);" class="refresh-page">刷新数据</a>
+								</dd>
+							</dl>
+						</div>
+
+						<!--翻页系统--{-->
+						<div class="container">
+						<#import "../../common/page.html" as pager> 
+						<@pager.pagination page=page url="/admin/userinfo/accountSumLog.html" map=params style="style1" /></div>
+						<!--翻页系统--}-->
+					</div>
+					<!--底部工具栏--}-->
+				</div>
+
+			</td>
+		</tr>
+		<tr>
+			<!--尾部--{-->
+			<td colspan="3" class="mc-b"><#include "../foot.html"></td>
+			<!--尾部--}-->
+		</tr>
+		<!-- v1.6.7.1 用户资金统计加导出 zza 2013-11-26 start -->
+		<script>
+			var url = 'accountSumLog.html?search=true';
+			var xlsurl = 'accountSumLog.html?type=export'
+			function sousuo() {
+				var sou = "";
+				var username = $("#username").val();
+				if (username != "" && username != "请输入用户名") {
+					sou += "&username=" + username;
+				}
+				if (sou!=""){
+                    location.href=url+sou;
+                }
+			}
+			function exportxls(){
+                var sou = "";
+                var username = $("#username").val();
+				if (username != "" && username != "请输入用户名") {
+					sou += "&username=" + username;
+				}
+                if (sou!=""){
+                    location.href=xlsurl+sou;
+                }else{
+                    location.href=xlsurl;
+                }
+            }
+		</script>
+		<!-- v1.6.7.1 用户资金统计加导出 zza 2013-11-26 end -->
+	</table>
+
+</body>
+</html>
+<#include "../jsPage.html">

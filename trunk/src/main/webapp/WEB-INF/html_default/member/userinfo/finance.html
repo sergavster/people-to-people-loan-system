@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<#include "../../include/resource.html"> 
+<body>
+<#assign nid="member">
+<#include "../../include/header.html">
+<!--header-end-->
+<!--用户中心的主栏目 开始-->
+<div id="main" class="clearfix" >
+<div class="wrap950 " style="margin-top:0">
+	<!--左边的导航 开始-->
+	<div class="user_left">
+		<#include "../user_menu.html">
+	</div>
+	<!--左边的导航 结束-->
+	
+	<!--右边的内容 开始-->	
+	<div class="user_right">
+		<#if msg?exists>
+		<div id="msg24">
+			<p class="ok"> ${msg} </p>
+		</div>
+		<#else>
+			<#if errormsg?exists>
+				<div id="msg25">
+					<p class="error"> ${errormsg} </p>
+				</div>
+			</#if>
+		</#if>
+		<div class="user_right_menu">
+			<#assign userinfo_type="finance">
+			<#include "userinfo_menu.html"> 
+		</div>
+		
+		<div class="user_right_main">
+			<form action="" name="form1" method="post" >
+			<div class="user_help alert">请填写您财务状况</div>
+			<div class="user_right_border">
+				<div class="e">每月无抵押贷款还款额：</div>
+				<div class="c">
+					<input type="text" size="15" name="finance_repayment" value="<#if info?exists&&info.finance_repayment?exists>${info.finance_repayment}</#if>" /> 元
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="e">自有房产：</div>
+				<div class="c">
+					<#if info?exists&&info.finance_property?exists>
+						<@linkage name="finance_property" id="finance_property" nid="user_finance_property" default=info.finance_property></@linkage>
+					<#else>
+						<@linkage name="finance_property" id="finance_property" nid="user_finance_property"></@linkage>
+					</#if> 
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="e">每月房屋按揭金额：</div>
+				<div class="c">
+					<input type="text" size="15" name="finance_amount" value="<#if info?exists&&info.finance_amount?exists>${info.finance_amount}</#if>" /> 元
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="e">自有汽车：</div>
+				<div class="c">
+					<#if info?exists&&info.finance_property?exists>
+						<@linkage name="finance_car" id="finance_car" nid="user_finance_car" default=info.finance_car></@linkage>
+					<#else>
+						<@linkage name="finance_car" id="finance_car" nid="user_finance_car"></@linkage>
+					</#if> 
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="e">每月汽车按揭金额：</div>
+				<div class="c">
+					<input type="text" size="15" name="finance_caramount" value="<#if info?exists&&info.finance_caramount?exists>${info.finance_caramount}</#if>" /> 元
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="e">每月信用卡还款金额：</div>
+				<div class="c">
+					<input type="text" size="15" name="finance_creditcard" value="<#if info?exists&&info.finance_creditcard?exists>${info.finance_creditcard}</#if>" /> 元
+				</div>
+			</div>
+			 <div class="user_right_border">
+				<div class="e"></div>
+				<div class="c">
+					<input type="submit" class="btn-action"  name="name"  value="确认提交" size="30" /> 
+				</div>
+			</div>
+			<!--财务状况 结束-->
+			
+			<div class="user_right_foot alert">
+			 * 温馨提示：我们将对所有的信息进行保密
+			</div>
+					<input type="hidden" name="type" value="1" />
+			</form>
+		</div>
+ 	 </div>
+	<!--右边的内容 结束-->
+	</div>
+</div>
+<!--用户中心的主栏目 结束-->
+<script src="${request.getContextPath()}${theme_dir}/media/js/modal.js"></script>
+
+<#include "../../include/footer.html"> 
+</body>
+</html>

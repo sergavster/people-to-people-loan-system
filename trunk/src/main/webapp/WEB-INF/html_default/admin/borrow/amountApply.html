@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="借款额度审批" >
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <#if param??&&param.status??>
+                                    <#assign status=(param.get("status"))?number >
+                                        <#else>
+                                            <#assign status=-1>
+                                </#if>
+                                <div class="toolbor-module search">   
+                                    <input type="button" value="搜索"  class="input-button" onclick="sousuo();">
+                                 </div> 
+                                <div class="toolbor-module search">
+                                    <input type="text" name="username" id="username" value="请输入用户名" data-value="请输入用户名" class="search-value">
+								</div>
+                                    <#if borrowType??&&borrowType=="all">
+                                    <div class="toolbor-module search">
+                                        <div class="select-box" id="status">
+                                            <div class="tag-select">全部</div>
+                                            <ul class="tag-options">
+                                                <li data-value="" class="open-selected">全部</li>
+                                                <li data-value="1">已通过</li>
+                                                <li data-value="0">未通过</li>
+                                            </ul>
+                                        </div>
+                                    </div>    
+                                    </#if>
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form action="" method="post">
+                                    <table class="data-list">
+                                        <tr class="header">
+                                            <td>ID</td>
+                                            <td>用户名称</td>
+                                            <td>申请类型</td>
+                                            <td>原来额度</td>
+                                            <td>申请额度</td>
+                                            <td>新额度</td>
+                                            <td>申请时间</td>
+                                            <td>内容</td>
+                                            <td>备注</td>
+                                            <td>状态</td>
+                                            <td>操作</td>
+                                        </tr>
+                                        <#list list as item>
+                                            <tr class="s">
+                                                <td>${item.id!?c}</td>
+                                                <td>
+                                                    <a href="javascript:void(0)" onclick='alertPop("用户详细信息查看","url:get?${request.getContextPath()}/admin/attestation/viewUserInfo.html?username=${item.username!}",500,230,"true","","true","text");'>
+                                                        ${item.username!}
+                                                    </a>
+                                                </td>
+                                                <td>借款信用额度</td>
+                                                <td>${item.account_old}元</td>
+                                                <td>${item.account}元</td>
+                                                <td>${item.account_new}元</td>
+                                                <td>${dateformat(item.addtime)}</td>
+                                                <td>${item.content!}</td>
+                                                <td>${item.remark!}</td>
+                                                <td><font color="#6699CC"><#if item.status==1>审核通过<#else>审核中</#if></font></td>
+                                                <td><a href="${request.getContextPath()}/admin/borrow/viewAmountApply.html?id=${item.id?c}">审核/查看</a></td>
+                                            </tr>
+                                        </#list>
+
+                                    </table>
+                                </form>
+
+                                <!--底部工具栏--{-->
+                                <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+
+                                    <!--翻页系统--{-->
+                                    <div class="container">
+                                        <#import "../../common/page.html" as pager>
+                                            <@pager.pagination page=page url="/admin/borrow/amountApply.html" map=param style="style1" />
+                                    </div>
+                                    <!--翻页系统--}-->
+                                </div>
+                                <!--底部工具栏--}-->
+
+                                <script>
+                                    function sousuo(){
+                                        var url='amountApply.html?search=true';
+                                        var sou='';
+                                        var username = $("#username").val();
+                                        if (username!=""&&username!=null&&username!="undefine"&&username!="请输入用户名"){
+                                            sou += "&username="+username;
+                                        }
+                                        var status = $("#status").find(".open-selected").attr("data-value");
+                                        if (status!=""&&status!=null&&status!="undefine"){
+                                            sou += "&status="+status;
+                                        }
+                                        if (sou!=""){
+                                            location.href=url+sou;
+                                        }
+                                    }
+                                </script>
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

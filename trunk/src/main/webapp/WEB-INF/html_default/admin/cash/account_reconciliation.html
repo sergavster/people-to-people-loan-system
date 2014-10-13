@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="资金对账">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+			<#include "../../common/function.html">
+			 <div id="toolbar" class="clearfix">
+				<div class="toolbor-module export">
+					<input type="button" onclick="exportxls()" value="导出报表" class="input-button export-btn" />
+				</div>
+				<#if param?exists> 
+					<#if param.get("dotime1")?exists><#assign dotime1=param.get("dotime1")></#if> 
+					<#if param.get("dotime2")?exists><#assign dotime2=param.get("dotime2")></#if> 
+					<#if param.get("username")?exists><#assign username=param.get("username")></#if> 
+					<#if param.get("status")?exists><#assign status=param.get("status")></#if> 
+					<#if param.get("account_type")?exists><#assign account_type=param.get("account_type")></#if> 
+					<#if param.get("paymentname")?exists><#assign paymentname=param.get("paymentname")></#if> 
+				</#if>
+				<div class="toolbor-module search">
+					<input type="text" name="username" id="username" value="请输入用户名" class="search-value"> 
+					<!-- v1.6.7.1 RDPROJECT-402 zza 2013-11-07 start -->
+					<input type="text" name="realname" id="realname" value="请输入真实姓名" class="search-value"> 
+                    <!-- v1.6.7.1 RDPROJECT-402 zza 2013-11-07 end -->
+					<input type="button" value="搜索" class="input-button" onclick="sousuo();">
+				</div>
+				</div>
+				<div id="main" class="clearfix">
+				<form action="" method="post">
+				<table class="data-list">
+                   <tr class="header">
+                        <!-- v1.6.5.3 RDPROJECT-175 zza 2013-09-18 start -->
+						<td width="" class="main_td">用户名</td>
+						<!-- v1.6.5.3 RDPROJECT-175 zza 2013-09-18 end -->
+						<!-- v1.6.7.1 RDPROJECT-402 zza 2013-11-07 start -->
+						<td width="" class="main_td">真实姓名</td>
+						<!-- v1.6.7.1 RDPROJECT-402 zza 2013-11-07 end -->
+						<td width="" class="main_td">资金总额</td>
+						<td width="" class="main_td">可用资金</td>
+						<td width="" class="main_td">冻结资金</td>
+						<td width="" class="main_td">待收资金（1）</td>
+			            <td width="" class="main_td">待收资金（2）</td>
+			            <td width="" class="main_td">充值资金（1）</td>
+			            <td width="" class="main_td">充值资金（2）</td>
+			            <td width="" class="main_td">其中：线上</td>
+			            <td width="" class="main_td">其中：线下（1）</td>
+			            <td width="" class="main_td">其中：线下（2）</td>
+			            <td width="" class="main_td">成功提现金额</td>
+			            <td width="" class="main_td">投标奖励金额</td>
+			            <td width="" class="main_td">投标已收利息</td>
+			            <td width="" class="main_td">投标待收利息</td>
+			            <td width="" class="main_td">借款标奖励</td>
+			            <td width="" class="main_td">借款管理费</td>
+			            <td width="" class="main_td">待还利息</td>
+			            <td width="" class="main_td">流转待还利息</td>
+			            <td width="" class="main_td">待还本金</td>
+			            <td width="" class="main_td">流转标待还本金</td>
+			            <td width="" class="main_td">借款已还利息</td>
+			            <td width="" class="main_td">流转表借款已还利息</td>
+			            <td width="" class="main_td">系统扣费</td>
+			            <td width="" class="main_td">推广奖励</td>
+			            <td width="" class="main_td">VIP扣费</td>
+			            <!-- <td width="" class="main_td">逾期支出</td>
+			            <td width="" class="main_td">逾期收入</td> -->
+					</tr>
+					<#list list as item>
+					<tr>
+						<td>${item.username!""}</td>
+						<!-- v1.6.7.1 RDPROJECT-402 zza 2013-11-07 start -->
+						<td>${item.realname!""}</td>
+						<!-- v1.6.7.1 RDPROJECT-402 zza 2013-11-07 end -->
+						<td>${ceil(item.total!0)}</td>
+						<td>${ceil(item.use_money!0)}</td>
+						<td>${ceil(item.no_use_money!0)}</td>
+						<td>${ceil(item.collection!0)}</td>
+						<td>${ceil(item.allcollection!0)}</td>
+						<td>${ceil(item.recharge_money!0)}</td>
+			            <td>${ceil(item.log_recharge_money!0)}</td>
+			            <td>${ceil(item.up_recharge_money!0)}</td>
+			            <td>${ceil(item.down_recharge_money!0)}</td>
+			            <td>${ceil(item.houtai_recharge_money!0)}</td>
+						<td>${ceil(item.cash_money!0)}</td>
+						<td>${ceil(item.invest_award!0)}</td>
+						<td>${ceil(item.invest_yeswait_interest!0)}</td>
+						<td>${ceil(item.wait_interest!0)}</td>
+						<td>${ceil(item.borrow_award!0)}</td>
+						<td>${ceil(item.borrow_fee!0)}</td>
+			            <td>${ceil(item.repayment_interest!0)}</td>
+			            <td>${ceil(item.flow_repayment_interest!0)}</td>
+			            <td>${ceil(item.repayment_principal!0)}</td>
+			            <td>${ceil(item.flow_repayment_principal!0)}</td>
+			            <td>${ceil(item.yes_repayment_interest!0)}</td>
+			            <td>${ceil(item.flow_yes_repayment_interest!0)}</td>
+			            <td>${ceil(item.system_fee!0)}</td>
+						<td>${ceil(item.invite_money!0)}</td>
+						<td>${ceil(item.vip_money!0)}</td>
+			            <td></td>
+			            <td></td>
+					</tr>
+					</#list> 
+					<tr>
+				</table>
+				</form>	
+				 <#if sum??><div style="height:22px;line-height:22px;color:red;margin-left:12px; padding-top:10px;"> 充值总额：${sum}元 </div></#if>
+                 <div id="bottomToolbar" class="clearfix" style="padding-top:5px;">
+                     <div class="other-tool">
+                         <dl class="refresh-data">
+                             <dt class="refresh-data-icon"></dt>
+                             <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                         </dl>
+                     </div>
+                     <!--翻页系统--{-->
+                     <div class="container">
+                     	<#import "../../common/page.html" as pager>  
+						<@pager.pagination page=page url="/admin/cash/accountReconciliationList.html" map=param style="style1" />  
+                     </div>
+                     <!--翻页系统--}-->
+                 </div>
+				<script>
+				var url = 'accountReconciliationList.html?search=true';
+				var xlsurl='accountReconciliationList.html?type=export'
+				
+				function sousuo(){
+					var sou = "";
+					var username = $("#username").val();
+					// v1.6.5.3 RDPROJECT-175 zza 2013-09-18 start
+					if (username!=""&&username!="undefine"&&username!="请输入用户名"){
+						// v1.6.5.3 RDPROJECT-175 zza 2013-09-18 end
+						sou += "&username="+username;
+					}
+					// v1.6.7.1 RDPROJECT-402 zza 2013-11-07 start
+                    var realname = $("#realname").val();
+                    if (realname!=null&&realname!=""&&realname!="undefine"&&realname!="请输入真实姓名"){
+                        sou += "&realname="+realname;
+                    }
+                 	// v1.6.7.1 RDPROJECT-402 zza 2013-11-07 end
+					if (sou!=""){
+						location.href=url+sou;
+					}
+				}
+				function exportxls(){
+					var sou = "";
+					var username = $("#username").val();
+					// v1.6.5.3 RDPROJECT-175 zza 2013-09-18 start
+					if (username!=""&&username!="undefine"&&username!="请输入用户名"){
+						// v1.6.5.3 RDPROJECT-175 zza 2013-09-18 end
+						sou += "&username="+username;
+					}
+					// v1.6.7.1 RDPROJECT-402 zza 2013-11-07 start
+                    var realname = $("#realname").val();
+                    if (realname!=null&&realname!=""&&realname!="undefine"&&realname!="请输入真实姓名"){
+                        sou += "&realname="+realname;
+                    }
+                 	// v1.6.7.1 RDPROJECT-402 zza 2013-11-07 end
+					if (sou!=""){
+						location.href=xlsurl+sou;
+					}else{
+						location.href=xlsurl;
+					}					
+				}
+				</script>
+			</div>
+		 </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

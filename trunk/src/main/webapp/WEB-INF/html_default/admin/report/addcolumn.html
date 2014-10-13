@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="添加列名基础数据">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+                            <div id="main" class="w750 clearfix">
+
+                                <form action="/admin/report/addColumn.html" method="post" name="form1" onsubmit="return check_form()">
+                                    <div class="valBox">
+                                        <div class="top">
+                                            <strong>添加列名基础数据</strong>
+                                        </div>
+                                        <div class="clearfix">
+                                            <ul class="title-v edit">
+                                                <li>
+                                                    <div class="title">报表中文名：</div>
+                                                    <div class="v">
+                                                        <strong><input type="text" name="column.china_name" id="china_name" /></strong>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">报表字段名：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="column.column_name" id="column_name"/>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">状&nbsp;&nbsp;&nbsp; 态：</div>
+                                                    <div class="v">
+                                                        <label><input type="radio" value="0" name="column.status" />不启用</label>
+                                                            <label><input type="radio" value="1" name="column.status" checked="checked" />启用</label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                <div id="bottomToolbar" class="clearfix">
+                                    <input type="hidden" name="actionType"  value="addSite" />
+                                    <input type="submit" class="input-button post" name="submit_ok" value="提交">
+                                    <input type="reset" name="reset" class="input-button reset" value="重置">
+                                </div>
+                                </form>
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<!-- v1.6.7.2 RDPROJECT-569 cx 2013-12-26 start -->
+<html>
+<#include "../../include/resource.html">
+<body>
+	<#assign nid="shop"> 
+	<#include "../../common/function.html"> 
+	<#include "../../include/header.html">
+	 
+	<!-- #main start-->
+	<div id="main" class="clearfix" >
+		<div class="wrap950 ">
+			<!--左边的导航user_left 开始-->
+			<div class="shop_left">
+				<#assign mid="m_shop" >
+				<#include "./left.html">
+			</div>
+			<!--左边的导航user_left 结束-->
+
+			<!--右边的内容user_right 开始-->
+			<div class="shop_right">	
+				<div class="shop_details clearfix">
+				<div class="title">
+            	    商品详情
+                </div>	
+                <div class="con">
+                <div class="shop_details_img">
+                 <ul class="big_img_wrap">
+	                <li>
+	                <img class="big_img" src="${webroot}${goodsModel.pic_url!}" />
+	                </li>
+                	 <#if gpList?exists>
+                	  <#list gpList as bigItem>
+                	 	<li id="big_${bigItem_index}" style="display: none;">
+	                		<img class="big_img" src="${webroot}${bigItem.pic_url!}" />
+	               		 </li>
+	               		 </#list>
+                	 </#if> 
+                </ul>
+                <ul class="small_img_wrap">
+	                <#if gpList?exists>
+		                <#list gpList as smallitem>
+			                <li id="${smallitem_index}" class="small_img">
+			                	<img src="${webroot}${smallitem.compress_pic_url!}">
+			                </li>
+		                </#list>
+	                </#if>
+                </ul>
+                </div>
+                <dl class="shop_details_intro">
+                <dt>${goodsModel.name}</dt>
+                <dd><b>所属类别：</b> ${goodsModel.categoryName!}</dd>
+				<dd><b>所需积分：</b><span>${goodsModel.credit_value!}</span></dd>
+				<dd><b>市场价：</b><span></span>${goodsModel.market_price!}&nbsp;元</span></dd>
+				<dd><b>剩余数量：</b> ${goodsModel.store!}/个</dd>
+				<dd><b>上架日期：</b>${goodsModel.addtime!}</dd>
+				<dd><b>我要兑换：</b><!--  class="piece" -->
+				<#if goodsModel.is_virtual??&&goodsModel.is_virtual!=1>
+				<input  value="-" type="button" class="mui-amount mui-amount-decrease" onclick="javascript:subtractCount()" />
+				<input class="piece" type="text" id="convertTxt" class="tb-text mui-amount-input" size="2" value="1" onkeyup="value=value.replace(/[^0-9.]/g,'')" />
+				  <input  value="+" class="mui-amount mui-amount-increase" type="button" onclick="javascript:addCount();" />
+				 <#else><input class="piece" type="text" id="convertTxt" class="tb-text mui-amount-input" size="2" value="1"  readonly="readonly"/>
+				</#if>
+				  件
+				</dd>
+				<dd><font color="red">如果兑换的商品属于实物请填写完整的收货地址以及联系电话，以便给您发货！！！</font></dd>
+				<dd>
+				<textarea id="content" rows="3" cols="60"></textarea>
+				</dd>
+				<dd>
+				<div id="okDiv" style="float: left;display: none;">
+					<input type="button" value="兑换"  class="btn-action" onclick="javascript:okBtnFun(${goodsModel.id});"/>
+				</div>
+				<div id="noDiv" style="float: left;display: none;">
+					<input type="button" value="积分不够"  class="btn-grey" />
+				</div>	
+				&nbsp;&nbsp;
+				<!--  <input type="button" value="返回" onclick="javascript:history.go(-1);" class="btn-action"/></dd>-->
+                </dl>
+                </div>
+				</div>
+                <div class="shop_content">
+	                <ul id="showDetailList" class="title clearfix">
+	              	  <li class="hover">商品详情</li>
+	              	  <li>商品咨询</li>
+	                </ul>
+	                <ul id="attrConId">
+	                	<li><b>${goodsModel.attribute}</b></li>
+	                </ul>
+	                <ul id="conConId" class="disCon">
+	                 	<li><b>如您在兑换过程中遇到任何问题，请在线商品咨询或拨打售后客服热线：400 855 5056 （ 周一至周五 9：00-17:30）</b></li>
+	                </ul>
+                </div>
+
+			</div>
+			<!--右边的内容user_right 结束-->
+		</div>
+	</div>
+	<!-- #main start-->
+<style>
+.disCon{
+	display: none;
+}
+.smallImgStyle{border:1px solid #ccc;}
+</style>	
+<script type="text/javascript">
+$(function(){
+	$('.shop_content #showDetailList li').css("cursor","pointer");
+	$('.shop_content #showDetailList li:first').click(function(){
+		$('.shop_content #showDetailList li').removeClass("hover");
+		$(this).addClass("hover");
+		$('#attrConId').show();
+		$('#conConId').hide();
+	});
+	$('.shop_content #showDetailList li:last').click(function(){
+		$('.shop_content #showDetailList li').removeClass("hover");
+		$(this).addClass("hover");
+		$('#attrConId').hide();
+		$('#conConId').show();
+	});
+	$('.small_img_wrap li:first').addClass("smallImgStyle");
+	$('.small_img_wrap li').hover(function(){
+		$('.small_img_wrap li').removeClass("smallImgStyle");	
+		$(this).addClass("smallImgStyle");	
+		$('.big_img_wrap li').hide();
+		$('.big_img_wrap #big_'+$(this).attr("id")).show();
+	});
+});
+</script>	
+	<script type="text/javascript">
+		$(function(){
+			var yhCredit='${creditModel.valid_value!}';
+			var spCredit='${goodsModel.credit_value!}';
+			yhCredit=yhCredit.replace(",","");
+			spCredit=spCredit.replace(",","");
+			if(parseFloat(spCredit)>parseFloat(yhCredit)){
+				$('#okDiv').hide();
+				$('#noDiv').show();
+			}else{
+				$('#noDiv').hide();
+				$('#okDiv').show();
+			}
+			
+		});
+		function okBtnFun(goodsId){
+			if(parseInt($('#convertTxt').val())>parseInt('${goodsModel.store!}')){
+				alert("兑换数量不够！");
+				return false;
+			}
+			if($('#convertTxt').val()==''||$('#convertTxt').val()==null||$('#convertTxt').val()=='0'){
+				return false;
+			}
+			var valid_value='${creditModel.valid_value}';
+			valid_value=valid_value.replace(",","");
+			var credit_value='${goodsModel.credit_value!}';
+			credit_value=credit_value.replace(",","");
+			var count=$('#convertTxt').val();
+			if((parseFloat(credit_value)*parseFloat(count))>parseFloat(valid_value)){
+				alert("您的积分不够，请重新选择需要兑换的数量！");
+				return false;
+			}
+			window.location.href="convertGoods.html?goodsId="+goodsId+"&goodsNum="+$('#convertTxt').val()+"&address="+$('#content').val();
+		}
+		function addCount(){
+			$('#convertTxt').val(parseInt($('#convertTxt').val())+1);
+			var total='${goodsModel.store!}';
+			total=total.replace(",","");
+			if(parseInt($('#convertTxt').val())>(parseInt(total))){
+				$('#convertTxt').val(total);
+			}
+		}
+		function subtractCount(){
+			$('#convertTxt').val(parseInt($('#convertTxt').val())-1);
+			if(parseInt($('#convertTxt').val())<0){
+				$('#convertTxt').val(0);
+			}
+		}
+		
+	</script>
+<#include "../../include/footer.html">
+</body>
+</html>
+<!-- v1.6.7.2 RDPROJECT-569 cx 2013-12-26 end -->

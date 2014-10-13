@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+<body>
+<table class="mc">
+    <tr>
+        <td class="mc-l">
+            <!--左侧导航---{-->
+            <div id="navPanelContainer">
+                <div class="system-logo cd"></div>
+                <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                <!--管理员信息---}-->
+                <div class="nav-wrap">
+                    <#include "left.html">
+                </div>
+            </div>
+            <!--左侧导航---}-->
+        </td>
+        <td class="mc-m">
+            <div class="navToggle"></div>
+        </td>
+        <td class="mc-r">
+            <!--顶部导航---{-->
+            <#include "../topNav.html">
+            <!--顶部导航---}-->
+
+            <!--面包屑导航---{-->
+            <#assign moduleName="投资排行榜">
+            <#include "banner.html">
+            <!--面包屑导航---}-->
+
+            <!--工具栏--{-->
+				<div id="toolbar" class="clearfix">
+					<div class="toolbor-module export">
+                        <input type="button" onclick="exportxls()" value="导出报表" class="input-button export-btn"/>
+                    </div>
+					<div class="toolbor-module search">
+						<input type="button" value="搜索" class="input-button" onclick="sousuo();">
+					</div>
+					<div class="toolbor-module search">
+						<div style="height: 22px; line-height: 22px; float: left;">时间：</div>
+						<input class="_search-value js-datetime" name="dotime1" id="dotime1" value="" size="15" />
+						<div style="height: 22px; line-height: 22px; float: left; margin: 0 8px;"> 到 </div>
+						<input class="_search-value js-datetime" name="dotime2" id="dotime2" value="" size="15" />
+					</div>
+				</div> 
+			<!--工具栏--}-->
+            	<div id="main" class="clearfix">
+					<table class="data-list">
+                        <tr class="header">
+                            <td>用户排名</td>
+                            <td>用户ID</td>
+                            <td>用户名称</td>
+                            <td>真实姓名</td>
+                            <td>投资总额</td>
+                        </tr>
+                        <#if (list?exists)&&(list?size>0)>
+                    	<#list list as item>
+                        <tr class="s">
+                        	<td>${item_index+1}</td>
+                            <td>${(item.user_id!)?c}</td>
+                            <td>
+                                <a href="javascript:void(0)" onclick='alertPop("用户详细信息查看","url:get?${request.getContextPath()}/admin/attestation/viewUserInfo.html?username=${item.username!}",500,230,"true","","true","text")'>
+                                    ${item.username!}
+                                </a>
+                            </td>
+                            <td>${item.realname!}
+                            </td>
+                            <td>${(item.tenderMoney!0)?string("##.##")}</td>
+                        </tr>
+                    </#list>
+                    </#if>
+                    </table>
+                    
+                    <!--翻页系统--{-->
+					<div class="container">
+					<#import "../../common/page.html" as pager> <@pager.pagination page=page url=currentUrl map=param style="style1" />
+					</div>
+					<!--翻页系统--}-->
+                    
+					<!--底部工具栏--{-->
+					<div id="bottomToolbar" class="clearfix">
+						<div class="other-tool">
+							<dl class="refresh-data">
+								<dt class="refresh-data-icon"></dt>
+								<dd>
+									<a href="javascript:void(0);" class="refresh-page">刷新数据</a>
+								</dd>
+							</dl>
+						</div>
+
+					</div>
+					<!--底部工具栏--}-->
+
+					<script>
+						var urls = '?search=true';
+						var xlsurl = '?type=export';
+						function sousuo() {
+							var sou = "";
+							var dotime1 = $("#dotime1").val();
+							if (dotime1!=null&&dotime1!=""&&dotime1!="undefine"){
+								sou += "&dotime1="+dotime1;
+							}
+							var dotime2 = $("#dotime2").val();
+							if (dotime2!=null&&dotime2!=""&&dotime2!="undefine"){
+								sou += "&dotime2="+dotime2;
+							}
+							var url = urls + sou
+							location.href = url;
+						}
+						function exportxls(){
+							var sou = "";
+							if (dotime1!=null&&dotime1!=""&&dotime1!="undefine"){
+								sou += "&dotime1="+dotime1;
+							}
+							var dotime2 = $("#dotime2").val();
+							if (dotime2!=null&&dotime2!=""&&dotime2!="undefine"){
+								sou += "&dotime2="+dotime2;
+							}
+							var url = urls + sou
+							if (sou!=""){
+								location.href=xlsurl+sou;
+							}else{
+								location.href=xlsurl;
+							}					
+						}
+					</script>
+				</div>
+		</td>
+    </tr>
+    <tr>
+	    <!--尾部--{-->
+	    <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+	    <!--尾部--}-->
+	</tr>
+</table>
+
+</body>
+</html>
+<#include "../jsPage.html">

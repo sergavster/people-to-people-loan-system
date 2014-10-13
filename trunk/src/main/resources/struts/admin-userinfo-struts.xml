@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="adminuserinfo" namespace="/admin/userinfo"
+		extends="wzd-admin">
+		<action name="index" class="adminUserInfoAction" method="index">
+			<result name="success" type="ftl">/admin/userinfo/index.html
+			</result>
+		</action>
+
+		<action name="userinfolist" class="adminUserInfoAction" method="userinfolist">
+			<result name="success" type="ftl">/admin/userinfo/userinfolist.html
+			</result>
+		</action>
+		<action name="user" class="adminUserInfoAction" method="user">
+			<result name="success" type="ftl">/admin/userinfo/user.html
+			</result>
+		</action>
+
+		<action name="edituserinfo" class="adminUserInfoAction" method="edituserinfo">
+			<result name="success" type="ftl">/admin/userinfo/edituserinfo.html
+			</result>
+		</action>
+
+		<action name="updateuser" class="adminUserInfoAction" method="updateuser">
+			<result name="success" type="ftl">/admin/userinfo/edituserinfo.html
+			</result>
+		</action>
+
+		<action name="adduser" class="adminUserInfoAction" method="adduser">
+			<result name="success" type="ftl">/admin/userinfo/adduser.html
+			</result>
+		</action>
+		<action name="edituser" class="adminUserInfoAction" method="edituser">
+			<result name="success" type="ftl">/admin/userinfo/adduser.html
+			</result>
+		</action>
+			<action name="manageuser" class="userAction" method="updateuser">
+			<result name="success" type="ftl">/admin/userinfo/user.html
+			</result>
+		</action>
+		<action name="userCredit" class="adminUserInfoAction" method="userCredit">
+			<result name="success" type="ftl">/admin/userinfo/userCredit.html
+			</result>
+		</action>
+		<action name="viewUserCreditDetail" class="adminUserInfoAction" method="viewUserCreditDetail">
+			<result name="success" type="ftl">/admin/userinfo/viewCreditDetail.html
+			</result>
+		</action>
+		<action name="editUserCredit" class="adminUserInfoAction" method="editUserCredit">
+			<result name="success" type="ftl">/admin/userinfo/editUserCredit.html
+			</result>
+		</action>
+		
+		<action name="manageuser" class="userAction" method="updateuser">
+			<result name="success" type="ftl">/admin/userinfo/user.html
+			</result>
+		</action>
+		
+		<action name="viewTenderValue" class="adminUserInfoAction" method="viewTenderValue">
+			<result name="success" type="ftl">/admin/userinfo/viewCreditTenderValue.html</result>
+		</action>
+		
+		<action name="editTenderValue" class="adminUserInfoAction" method="editTenderValue">
+			<result name="success" type="ftl">/admin/userinfo/user.html</result>
+		</action>
+		
+		<action name="remindVipBirth" class="adminUserInfoAction" method="remindVipBirth">
+			<result name="success" type="ftl">/admin/userinfo/remindVipBirth.html</result>
+		</action>
+		
+		<action name="onlinekefu" class="adminUserInfoAction" method="onlinekefu">
+			<result name="success" type="ftl">/admin/userinfo/onlinekefu.html</result>
+		</action>
+		<action name="delOnlineKf" class="adminUserInfoAction" method="delOnlineKf">
+			<result name="success" type="ftl">/admin/userinfo/onlinekefu.html</result>
+		</action>
+		<action name="modifyOnlineKf" class="adminUserInfoAction" method="modifyOnlineKf">
+			<result name="success" type="ftl">/admin/userinfo/modifyOnlineKeFu.html</result>
+		</action>
+		<action name="addOnlineKf" class="adminUserInfoAction" method="addOnlineKf">
+			<result name="success" type="ftl">/admin/userinfo/addOnlineKeFu.html</result>
+		</action>
+		<action name="accountSumLog" class="adminUserInfoAction" method="accountSumLogPage">
+			<result name="success" type="ftl">/admin/userinfo/accountSumLog.html</result>
+		</action>
+		<action name="sumLogDetail" class="adminUserInfoAction" method="sumLogDetail">
+			<result name="success" type="ftl">/admin/userinfo/accountSumLogDetail.html</result>
+		</action>
+		
+		<!--    v1.6.6.2  RDPROJECT-315 gc 2013-10-28 start -->
+		<action name="passwordToken" class="adminUserInfoAction" method="passwordToken">
+			<result name="success" type="ftl">/admin/userinfo/passwordToken.html</result>
+		</action>
+		<!--    v1.6.6.2  RDPROJECT-315 gc 2013-10-28 end -->
+		<!-- v1.6.7.1 sj 2013.11.13 start -->
+		<action name="add" class="userAction" method="add">
+			<result name="success" type="ftl">/admin/userinfo/add.html
+			</result>
+		</action>
+		<!-- v1.6.7.1 sj 2013.11.13 end -->
+		<!-- v1.6.7.1RDPROJECT-510 cx 2013-12-09 start -->
+		<action name="invitationUsers" class="adminUserInfoAction" method="invitationUsers">
+			<result name="success" type="ftl">/admin/userinfo/invitationUsers.html</result>
+		</action>
+		<!-- v1.6.7.1RDPROJECT-510 cx 2013-12-09 end -->
+		
+	</package>
+
+</struts>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<#include "../../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "../left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="vip审核">
+                        <#include "../banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+		                         <div class="toolbor-module">
+							        <input type="button" class="input-button return" value="返回" onclick="history.go(-1)">
+							    </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                    <div class="valBox" style="margin-bottom:20px;">
+                                        <div class="top">
+                                         <#if usercaches??>
+                                          <strong>VIP赠送审核查看</strong>
+                                         
+                                         <#else>
+                                            <strong>VIP审核查看</strong>
+                                            </#if>
+                                        </div>
+                                        <div class="fp clearfix">
+                                            <ul>
+                                                <li>
+                                                    <div class="title">用户名：</div>
+                                                    <div class="v">
+                                                    <#if vipinfo??>
+                                                             ${vipinfo.username!}                                             
+                                                  
+                                                    <#else>
+                                                           ${usercaches.username!}        
+                                                    </#if>
+                                                    </div>
+                                                </li>
+                                                
+                                                <li></li>
+                                                <li></li>
+                                            </ul>
+                                        </div>
+                                        </div>
+
+                                    <#if usercaches??>
+                                    <form onsubmit="return check_form();" action="viewvip.html" method="post" name="form1" enctype="multipart/form-data">
+						
+                                        <div id="audit">
+						                    <div class="top">
+						                        <strong>审核</strong>
+						                    </div>
+						                    <div class="v">
+						                     <!-- v1.6.7.1  RDPROJECT-384 wcw 2013-11-05 start -->
+						                     <#if vipinfo.vip_status!=-1&&vipinfo.vip_status!=1&&vipinfo.vip_status!=0>
+						                        <div class="c">
+						                            <div class="choose">
+						                                <label class="mr15">
+						                                	<input name="vip_give_status" type="radio" value="1" class="radio">审核通过
+						                                </label>
+						                                <label>
+						                                	<input name="vip_give_status" type="radio" class="radio" value="3" checked="checked">审核不通过
+						                                </label>
+						                            </div>
+						                            <div class="ce">
+						                            	<div class="l">备注:</div>
+						                                <div class="c">${usercaches.vip_remark!}</div>
+						                            </div>                
+						                            <textarea class="remark" name="vip_verify_remark">输入审核备注...</textarea>
+						                        </div>
+						                       
+						                        <div class="user_right_border" style="padding-top:20px;">
+													<div class="l" style="font-weight:bold; float:left;">验证码：</div>
+													<div class="c" >
+														<input name="validcode" type="text" size="11" maxlength="5" tabindex="3"  style="float:left;"/>&nbsp;<img src="${request.getContextPath()}/validimg.html" alt="点击刷新" onClick="this.src='${request.getContextPath()}/validimg.html?t=' + Math.random();" align="absmiddle" style="cursor:pointer; display:inline-block;zoom:1;*display:inline; *float:none;" />
+													</div>
+												</div>
+						                        <div class="other clearfix">
+													<input type="hidden" value="${(usercaches.user_id!)?c}" name="user_id"> 
+													<input type="hidden" value="${(usercaches.type!)?c}" name="type"> 
+													
+													<input type="submit" value="确定审核" class="input-button confirm"> 
+													<input type="reset" value="重置表单" name="reset" class="input-button confirm">
+													<input type="hidden" name="actionType" value="viewvip" />
+						                        </div>
+						                        <#elseif vipinfo.vip_status==0>
+						                                                                                       未申请
+						                        <#else>
+						                          <label class="mr15">已经审核
+ 						                                </label>
+                                                 </#if>
+						                    </div>
+						                </div>
+                                    
+
+                                </form>
+                                    <#else>
+									<form onsubmit="return check_form();" action="viewvip.html" method="post" name="form1" enctype="multipart/form-data">
+						
+                                        <div id="audit">
+						                    <div class="top">
+						                        <strong>审核</strong>
+						                    </div>
+						                        <#if vipinfo.vip_status!=-1&&vipinfo.vip_status!=1&&vipinfo.vip_status!=000>
+
+						                    <div class="v">
+						                        <div class="c">
+						                            <div class="choose">
+						                                <label class="mr15">
+						                                	<input name="vip_status" type="radio" value="1" class="radio">审核通过
+						                                </label>
+						                                <label>
+						                                	<input name="vip_status" type="radio" class="radio" value="0" checked="checked">审核不通过
+						                                </label>
+						                                <!-- v1.6.7.1 RDPROJECT-100 zza 2013-11-11 start -->
+						                                <label>
+						                                	<input name="vip_status" type="radio" class="radio" value="2">vip免年费续期
+						                                </label>
+						                                <!-- v1.6.7.1 RDPROJECT-100 zza 2013-11-11 end -->
+						                            </div>
+						                            <div class="ce">
+						                            	<div class="l">备注:</div>
+						                                <div class="c">${vipinfo.vip_remark!}</div>
+						                            </div>                
+						                            <textarea class="remark" name="vip_verify_remark">输入审核备注...</textarea>
+						                        </div>
+						                        <div class="user_right_border" style="padding-top:20px;">
+													<div class="l" style="font-weight:bold; float:left;">验证码：</div>
+													<div class="c" >
+														<input name="validcode" type="text" size="11" maxlength="5" tabindex="3"  style="float:left;"/>&nbsp;<img src="${request.getContextPath()}/validimg.html" alt="点击刷新" onClick="this.src='${request.getContextPath()}/validimg.html?t=' + Math.random();" align="absmiddle" style="cursor:pointer; display:inline-block;zoom:1;*display:inline; *float:none;" />
+													</div>
+												</div>
+						                        <div class="other clearfix">
+													<input type="hidden" value="${(vipinfo.user_id!)?c}" name="user_id"> 
+													<input type="submit" value="确定审核" class="input-button confirm"> 
+													<input type="reset" value="重置表单" name="reset" class="input-button confirm">
+													<input type="hidden" name="actionType" value="viewvip" />
+						                        </div>
+						                        <#elseif vipinfo.vip_status==0>
+						                                                                                       未申请
+						                        <#else>
+						                          <label class="mr15">已经审核
+ 						                                </label>
+                                                </#if>
+                                                <!-- v1.6.7.1  RDPROJECT-384 wcw 2013-11-05 end -->
+                                                
+						                    </div>
+						                </div>
+                                    
+
+                                </form>
+</#if>
+                            </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../../jsPage.html">

@@ -1,0 +1,49 @@
+.headbg .head{ width:980px; margin:0 auto; line-height:27px; height: 27px; position:relative;}
+.headbg .head .float_right{ line-height:27px;}
+.headbg .logo{ width:980px; margin:0 auto; height: 62px;padding-top: 10px;padding-bottom: 10px;}
+.headbg .logo img{ display: block; height:60px; }
+.headbg .logo .logoimg{ float: left;}
+.headbg .logo .telimg{ float: right; }/*logo 电话*/
+.navbg{ width:100%; background: url(../bg/navbg.png) repeat-x;}
+.navbg .nav{ width:980px; margin:0 auto; position:relative;}
+.navbg .nav li{ width:121px;margin-right:1px; float: left; text-align: center; font-size: 14px; cursor: pointer; background: url(../bg/navborder.png) no-repeat right 0;}
+.navbg .nav li a{ width:121px; height: 39px; line-height: 39px;display: block; color: #fff; font-weight: bold;}
+.navbg .nav li.hover a{ background:url(../bg/navlihover.png) no-repeat; color: #c60606;}
+.navbg .nav li.hover2 a{ background:url(../bg/navlihover.png) no-repeat; color: #c60606;}
+
+.navbg .navlist{line-height: 30px; padding-left: 40px; color: #bdbdbd;}
+.navbg .navlist a{color: #403b3b;}
+.navbg .navlist a:hover{ text-decoration: underline;}
+
+.hide{display:none;}
+.show{ display:block;}
+
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.clearfix {
+    zoom: 1;
+}
+
+body .ftid a{ color:#333 !important;}
+body .wp{}
+body #hd .fastlg{ padding-top:0;}
+body .wp a{colro:#333;}
+body .xg1, .xg1 a,.psw_w,.fastlg_l { color:#333  !important;}
+body #hd .navwp{ width:100%; padding:0;}
+body .navbgbox{}
+body #hd h2{ padding:0;} 
+body #hd .fastlg .pns{padding-top:5px; padding-right:10px;} 
+body .wp .hdc{ width:980px; margin:0 auto; height:82px; padding-top:0px; position:relative; background:url(../bg/../bg/logobg.jpg) no-repeat;}
+body .wp .hdc a{color:#333;}
+
+body #scbar{ width:980px; margin:0 auto;}
+body #scbar_type_menu{ width:980px; margin:0 auto;}
+body #toptb{ height:27px; line-height:27px;bckground:#fff;}
+body#nv_forum{ background:url(../bg/headbg.png) repeat-x;}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>viewUserDetailInfo.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+
+	<div class="module_add">
+	<div class="module_border">
+		<div class="s">用户名:</div>
+		<div class="h">
+			<#if userInfo??>${userInfo.username!"-"}</#if>
+		 </div>
+		 <div class="s">真实姓名:</div>
+		<div class="h">
+			<#if userInfo??>${userInfo.realname!"-"}</#if>
+		 </div>
+	</div>
+	
+	<div class="module_border">
+		<div class="s">邮箱:</div>
+		<div class="h">
+			<#if userInfo??>${userInfo.email!"-"}</#if>
+		 </div>
+		 <div class="s">性别:</div>
+		<div class="h">
+		<#if userInfo??>
+			<#assign sex = userInfo.sex!"-">
+			<#if sex=="1">男<#else>女</#if>
+		</#if>
+		 </div>
+	</div>
+	
+	<div class="module_border">
+		<div class="s">民族:</div>
+		<div class="h">
+			<#if userInfo??>${Typet(userInfo.nation!"-","name")}</#if>
+		 </div>
+		 <div class="s">生日:</div>
+		<div class="h">
+			<#if userInfo??>${userInfo.birthday!"-"}</#if>
+		 </div>
+	</div>
+	
+	<div class="module_border">
+		<div class="s">籍贯:</div>
+		<div class="h">
+				<#if userInfo??&userInfo.province??>${Typet(userInfo.province,"area")}<#else>-</#if>
+				<#if userInfo??&userInfo.city??>${Typet(userInfo.city,"area")}<#else>-</#if>
+				<#if userInfo??&userInfo.area??>${Typet(userInfo.area,"area")}<#else>-</#if>
+		 </div>
+		 <div class="s">证件:</div>
+		<div class="h">
+				<#if userInfo??>${userInfo.card_id!"-"}</#if>
+		 </div>
+	</div>
+	
+	<div class="module_border">
+		<div class="s">电话:</div>
+		<div class="h">
+				<#if userInfo??>${userInfo.phone!"-"}</#if>
+		  </div>
+		 <div class="s">QQ:</div>
+		<div class="h">
+				<#if userInfo??>${userInfo.qq!"-"}</#if>
+		  </div>
+	</div>
+	
+	<div class="module_border">
+		<div class="s">余额 :</div>
+		<div class="h">
+			<#if userUseMoneyInfo??>${userUseMoneyInfo.use_money!"-"}</#if>
+		  </div>
+		 <div class="s">信用积分:</div>
+		<div class="h">
+			<#if userCreditInfo??>${userCreditInfo.credit_jifen!"-"}</#if>
+		  </div>
+	</div>
+</div>
+
+
+  </body>
+</html>

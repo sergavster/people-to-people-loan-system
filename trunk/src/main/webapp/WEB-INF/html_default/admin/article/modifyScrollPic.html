@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                        	<!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 start -->
+                            <#include "../setting/left.html">
+                            <!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 end -->
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <!-- v1.6.5.3 RDPROJECT-39  zza 2013-09-12 start -->
+                    <#assign moduleName="图片管理">
+                    <!-- v1.6.5.3 RDPROJECT-39  zza 2013-09-12 end -->
+                    	<!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 start -->
+                        <#include "../setting/banner.html">
+                        <!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 end -->
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                    <input type="button" class="input-button return" value="返回" onclick="javascript:location.href='showScrollPic.html'">
+ 
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="w750 clearfix">
+                                <form name="form1" method="post" action="" onsubmit="return check_form();" enctype="multipart/form-data" >
+                                    <div class="valBox">
+                                        <div class="top">
+                                            <strong>修改图片</strong>
+                                        </div>
+                                        <div class="clearfix">
+                                        <ul class="title-v edit">
+                                        <!-- v1.6.5.3 RDPROJECT-39  zza 2013-09-12 start -->
+                                        <li>
+                                            <div class="title">文字说明：</div>
+                                            <div class="v">
+                                                <input type="text" name="name"  class="input_border" value="${scrollPic.name!}" size="30" />
+                                            </div>
+                                        </li>
+                                        <!-- v1.6.5.3 RDPROJECT-39  zza 2013-09-12 end -->
+                                        <li>
+                                            <div class="title">图片：</div>
+                                            <div class="v">
+                                                <!-- <textarea name="content" id="pic" style="width:500px;height:200px;visibility:hidden;"  class="ckeditor">${scrollPic.pic!}</textarea> -->
+                                                <input type="file" name="pic" value="${scrollPic.pic!}"/>
+                                                <#if scrollPic.pic??>
+                                                <!-- v1.6.6.2 图片显示 zza 2013-10-31 start -->
+                                                	<#if !webroot?ends_with("/") && !scrollPic.pic?starts_with("/")>
+                                                		<img src="${webroot}/${scrollPic.pic!}" style="width: 350px;height:150px;"/>
+                                                	<#else>
+                                                		<img src="${webroot}${scrollPic.pic!}" style="width: 350px;height:150px;"/>
+                                                	</#if>
+                                                 <!-- v1.6.6.2 图片显示 zza 2013-10-31 end -->
+                                                </#if>
+                                                <!-- v1.6.6.1 RDPROJECT-172  zza 2013-09-26 start -->
+                                                <#if scrollPic??&&scrollPic.type_id==1>
+                                                	<input type="hidden" name="delPic"/>
+												<#else>
+                                                <div>
+                    								<span id="infoss1" data-content="删除图片">
+	                    								<b class="borrow_module_border_b">删除图片</b>
+	                    								<input type="checkbox" name="delPic" autocomplete="off" value="1" class="check_box"/>
+                    								</span>
+                                                </div>
+												</#if>
+												<!-- v1.6.6.1 RDPROJECT-172  zza 2013-09-26 end -->
+                                            </div>
+                                        </li>  
+										<li>
+											 <div class="title">图片类型：</div>
+                                            <div class="v">
+                                                 <input type="radio" name="type_id" value="1" <#if scrollPic??&&scrollPic.type_id==1>checked="checked"</#if>>首页滚动图片
+                                               <input type="radio" name="type_id" value="2" <#if scrollPic??&&scrollPic.type_id==2>checked="checked"</#if>>合作伙伴
+                                               <input type="radio" name="type_id" value="3" <#if scrollPic??&&scrollPic.type_id==3>checked="checked"</#if>>友情链接
+                                             </div>
+									    </li>   
+                                        <li>
+                                            <div class="title">排序：</div>
+                                            <div class="v">
+                                                <input type="text" name="sort"  class="input_border" value="${scrollPic.sort!0}" size="10" />
+                                            </div>
+                                        </li>
+									    <li>
+                                                    <div class="title">跳转网址：</div>
+                                                    <div class="v">
+                                                    	<!-- v1.6.6.2 RDPROJECT-377 lhm 2013-10-24 start -->
+                                                        <input type="text" name="url"  class="input_border" value="${scrollPic.url!}" size="120" />
+                                                        <!-- v1.6.6.2 RDPROJECT-377 lhm 2013-10-24 end -->
+													</div>
+                                        </li>
+                                        <li>
+											<span style="color: red;">* 首页滚动图片一定要上传图片，如果合作伙伴、友情链接在首页显示的是文字，图片不用上传！</span>
+										</li>
+                                        </ul>
+                                    </div>
+
+                            </div>
+
+                            <div id="bottomToolbar" class="clearfix">
+                                <input type="hidden"  name="actionType" value="modifyScrollPic" />
+                                <input class="input-button post" type="submit"  name="submit" value="提交" />
+                                <input class="input-button post" type="reset"  name="reset" value="重置" />
+                            </div>
+                            </form>
+                            </div>
+                            <script>
+                                KindEditor.ready(function(K) {
+                                    editor = K.create('textarea[name="content"]', {
+                                        uploadJson : '${webroot}/editorUploadImg.html',
+                                        fileManagerJson : '${webroot}/editorUploadImg.html',
+                                        allowFileManager : true,
+                                        items:['source', '|', 'fullscreen', 'undo', 'redo', 'print', 'cut', 'copy', 'paste',
+                                            'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+                                            'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+                                            'superscript', '|', 'selectall', '-',
+                                            'title', 'fontname', 'fontsize', '|', 'textcolor', 'bgcolor', 'bold',
+                                            'italic', 'underline', 'strikethrough', 'removeformat', '|',
+                                            'image','advtable', 'hr', 'emoticons', 'link', 'unlink']
+                                    });
+                                });
+                                function check_form(){
+                                    var frm = document.forms['form1'];
+                                    var name = frm.elements['name'].value;
+                                    var content = frm.elements['content'].value;
+                                    var errorMsg = '';
+                                    if (name.length == 0 ) {
+                                        errorMsg += '标题必须填写' + '\n';
+                                    }
+
+                                    if (errorMsg.length > 0){
+                                        alert(errorMsg); return false;
+                                    } else{
+                                        return true;
+                                    }
+                                }
+
+                                function jump_url(){
+                                    if (document.getElementById('jump_url').style.display == ""){
+                                        document.getElementById('jump_url').style.display = "none";
+                                        document.getElementById('jump_id').style.display = "";
+                                    }else{
+                                        document.getElementById('jump_url').style.display = "";
+                                        document.getElementById('jump_id').style.display = "none";
+                                    }
+                                }
+                            </script>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+   <div class="msgClass">
+       ${rsmsg!""}
+   </div>
+    </body>
+</html>
+<#include "../jsPage.html">

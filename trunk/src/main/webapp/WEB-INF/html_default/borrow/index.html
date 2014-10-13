@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<!--   v1.6.6.2 RDPROJECT-140 yl 2013-10-23 start-->
+<#assign web_title='【贷款】抵押贷款_商业贷款_个人贷款 - ${webname!}'>
+<#assign web_description='${webname!}p2p网络贷款平台，为有资金需求的企业或个人提供提供安全便捷的网络借贷服务，如短期小额贷款、个人信用贷款、抵押贷款或无抵押贷款等，帮助企业实现资金周转。'>
+<#assign meta_keywords="贷款,抵押贷款,商业贷款,个人贷款">
+<!--   v1.6.6.2 RDPROJECT-140 yl 2013-10-23 end-->
+<#include "../include/resource.html">
+<body>
+<#assign nid="borrow" >
+<#include "../include/header.html">
+<#assign webroot=request.getContextPath()>
+<!--<link href="${webroot}${theme_dir}/media/css/borrow_new.css" rel="stylesheet" type="text/css" />
+<link href="${webroot}${theme_dir}/media/css/modal.css" rel="stylesheet" type="text/css" />-->
+<div class="borrow clearfix" id="container">
+ <img src="${webroot}${theme_dir}/images/zx-banner.jpg" alt="" class="mb10">
+    <div class="detail-main clearfix" style="background:#fff;">
+        <div class="left float_left">
+            <div class="borrowlist clearfix">
+                <img src="${webroot}${theme_dir}/images/borrow_fast.jpg" alt="" class="float_left">
+                <ul class="float_left borrowul">
+                    <li><b>推荐指数：</b><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""></li>
+                    <li><b>标种名称：</b>抵押标</li>
+                    <li><b>标种性质：</b>小微企业现场审核抵押发布借款</li>
+                    <li><b>标种简介：</b>抵押（质押）借款标 抵押借款标显示标记“押”，是有资金需求的借款人，
+				                    在办理好资产抵押、质押等手续后发布的借款标。平台对抵押物进行有效监管，抵押标逾期后，
+				                    将由合作企业进行回购并处理后续事宜。</li>
+                    <li class="borrow-btn">
+                        <a href="${webroot}/borrow/loan.html?typeStr=fast"><img src="${webroot}${theme_dir}/images/borrow_fastbtn.jpg" alt=""></a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="borrowlist clearfix">
+                <img src="${webroot}${theme_dir}/images/borrow_xin.jpg" alt="" class="float_left">
+                <ul class="float_left borrowul">
+                    <li><b>推荐指数：</b><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""></li>
+                    <li><b>标种名称：</b>信用标</li>
+                    <li><b>标种性质：</b>网站给予的信用额度内发布借款</li>
+                    <li><b>标种简介：</b>信用借款标显示“信”字标记，是一种免抵押、免担保、纯信用，最高授信
+                        为10万的小额个人信用贷款标，主要面向公务员、医生或教师等机关企事业单位的
+                        在编人员。</li>
+                    <li class="borrow-btn">
+                        <a href="${webroot}/borrow/loan.html?typeStr=month"><img src="${webroot}${theme_dir}/images/borrow_xinbtn.jpg" alt=""></a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="borrowlist clearfix">
+                <img src="${webroot}${theme_dir}/images/borrow_jz.jpg" alt="" class="float_left">
+                <ul class="float_left borrowul">
+                    <li><b>推荐指数：</b><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""></li>
+                    <li><b>标种名称：</b>净值标</li>
+                    <li><b>标种性质：</b>会员用网站留存的净值金额发布借款</li>
+                    <li><b>标种简介：</b>净值借款标显示标记“净”，允许发布的最大金额为净资产，净资产负数
+                        0 、500元以下金额不能发标。他是黄牛标的初始形态，未来招商贷将择机推出净值
+                        借款标手续费。</li>
+                    <li class="borrow-btn">
+                        <a href="${webroot}/borrow/loan.html?typeStr=jin"><img src="${webroot}${theme_dir}/images/borrow_jzbtn.jpg" alt=""></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="borrowlist clearfix">
+                <img src="${webroot}${theme_dir}/images/borrow_flow.jpg" alt="" class="float_left">
+                <ul class="float_left borrowul">
+                    <li><b>推荐指数：</b><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""></li>
+                    <li><b>标种名称：</b>流转标</li>
+                    <li><b>标种性质：</b>流转借资标是指债权人将手中优质的债权转让给其他有投资意愿的投资人，
+                    	  并且承诺在一定期限内回购该债权的投资品种。</li>
+                    <li><b>标种简介：</b>流转借款标显示标记“流转”，是指债权人将优质的债权转让给其他有投资意愿的投资人，
+				                    并且承诺在一定期限内回购该债权的借款类型。在投资人受让债权的期限内，投资人本金及收益的安全由招商贷提供连带担保，
+				                    在投资人受让债权届满时，担保债权人如约回购债权，投资人从而获益。其优势在于，投资人申购后即刻生效，无资金等待期，
+				                    使投资人的资金获得更高的收益。</li>
+                    <li class="borrow-btn">
+                        <a href="${webroot}/borrow/loan.html?typeStr=flow"><img src="${webroot}${theme_dir}/images/borrow_flowbtn.jpg" alt=""></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="borrowlist clearfix">
+                <img src="${webroot}${theme_dir}/images/borrow_mh.jpg" alt="" class="float_left">
+                <ul class="float_left borrowul">
+                    <li><b>推荐指数：</b><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""></li>
+                    <li><b>标种名称：</b>秒还标</li>
+                    <li><b>标种性质：</b>借款成功系统自动还款娱乐反馈标</li>
+                    <li><b>标种简介：</b>秒还标显示标记“秒”，借款者发布秒还标，利息将被冻结，投标满后，
+                        系统自动审核通过。考虑到秒还标，全部是系统自动处理，请招商贷会员谨慎发布秒
+                        还标。</li>
+                    <li class="borrow-btn">
+                        <a href="${webroot}/borrow/loan.html?typeStr=miaobiao"><img src="${webroot}${theme_dir}/images/borrow_mhbtn.jpg" alt=""></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="borrowlist clearfix">
+                <img src="${webroot}${theme_dir}/images/borrow_offvouch.png" alt="" class="float_left" style="width:146px;height:154px;">
+                <ul class="float_left borrowul">
+                    <li><b>推荐指数：</b><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""><img src="${webroot}${theme_dir}/images/borrow_start.jpg" alt=""></li>
+                    <li><b>标种名称：</b>担保标</li>
+                    <li><b>标种性质：</b><!-- 网站给予的担保额度内--></li>
+                    <li><b>标种简介：</b> <!--担保标显示标记“担”，借款者发布担保标，利息将被冻结，投标满后，
+                        系统自动审核通过。考虑到秒还标，全部是系统自动处理，请招商贷会员谨慎发布秒
+                        还标。--></li>
+                    <li class="borrow-btn">
+                        <a href="${webroot}/borrow/loan.html?typeStr=offvouch"><img src="${webroot}${theme_dir}/images/borrow_offvouch.jpg" alt=""></a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="right float_right">
+            <img src="${webroot}${theme_dir}/images/borrow_lc.jpg" alt="">
+            
+        </div>
+    </div>
+</div>
+<!--贷款帮助 结束-->
+<#include "../include/footer.html"> 
+</body>
+</html>

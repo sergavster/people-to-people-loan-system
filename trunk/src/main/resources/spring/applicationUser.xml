@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<bean id="userDao"
+        class="com.p2psys.dao.jdbc.UserDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+    
+    <bean id="userTrackDao"
+        class="com.p2psys.dao.jdbc.UserTrackDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+    
+    <bean id="userCacheDao"
+        class="com.p2psys.dao.jdbc.UserCacheDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+    
+  <bean id="userService"
+        class="com.p2psys.service.impl.UserServiceImpl">
+        <property name="userDao">
+            <ref bean="userDao" />
+        </property>
+        <property name="userTrackDao">
+            <ref bean="userTrackDao" />
+        </property>
+         <property name="userCacheDao">
+            <ref bean="userCacheDao" />
+        </property>
+        <property name="userCreditDao">
+            <ref bean="userCreditDao" />
+        </property>
+        <property name="accountDao">
+            <ref bean="accountDao" />
+        </property>
+         <property name="userAmountDao">
+            <ref bean="userAmountDao" />
+        </property>
+        <property name="accountLogDao">
+            <ref bean="accountLogDao" />
+        </property>
+        <!-- v1.6.6.2 RDPROJECT-235 zza 2013-10-17 start -->
+        <property name="rulePromoteDao">
+            <ref bean="rulePromoteDao" />
+        </property>
+        <!-- v1.6.6.2 RDPROJECT-235 zza 2013-10-17 end -->
+        <!-- v1.6.6.2 短信调用公共接口 lhm 2013-10-25 start -->
+        <property name="smsPortal">
+            <ref bean="smsPortal" />
+        </property>
+        <!-- v1.6.6.2 短信调用公共接口 lhm 2013-10-25 end -->
+        <!-- v1.6.7.2 RDPROJECT-430 lx 2013-12-02 start -->
+        <property name="linkageDao">
+            <ref bean="linkageDao" />
+        </property>
+        <!-- v1.6.7.2 短信调用公共接口 lhm 2013-12-02 end -->
+    </bean>
+  	
+	 <bean id="userLogDao"
+        class="com.p2psys.dao.jdbc.UserLogDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+    
+    <bean id="userLogService"
+        class="com.p2psys.service.impl.UserLogServiceImpl">
+        <property name="userLogDao">
+            <ref bean="userLogDao" />
+        </property>
+    </bean>
+    
+</beans>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+<package name="ManageAward" namespace="/admin/lottery" extends="wzd-admin">
+
+         <action name="userAwardList"  class="ManageAwardAction" method="userAwardList">
+            <result name="success" type="ftl">/admin/lottery/userAwardList.html</result>
+        </action> 
+        <action name="allRule"  class="ManageAwardAction" method="allRule">
+            <result name="success" type="ftl">/admin/lottery/allRule.html</result>
+        </action> 
+        <action name="addRule"  class="ManageAwardAction" method="addRule">
+            <result name="success" type="ftl">/admin/lottery/addRule.html</result>
+        </action> 
+        <action name="modifyRule"  class="ManageAwardAction" method="modifyRule">
+            <result name="success" type="ftl">/admin/lottery/modifyRule.html</result>
+        </action> 
+        <action name="allObject"  class="ManageAwardAction" method="allObject">
+            <result name="success" type="ftl">/admin/lottery/allObject.html</result>
+        </action> 
+        <action name="addObject"  class="ManageAwardAction" method="addObject">
+            <result name="success" type="ftl">/admin/lottery/addObject.html</result>
+        </action> 
+        <action name="modifyObject"  class="ManageAwardAction" method="modifyObject">
+            <result name="success" type="ftl">/admin/lottery/modifyObject.html</result>
+        </action> 
+    </package>
+</struts>

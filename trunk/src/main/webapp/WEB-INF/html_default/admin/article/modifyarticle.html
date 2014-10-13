@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="修改文章">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                    <input type="button" class="input-button return" value="返回" onclick="javascript:location.href='showArticle.html'">
+ 
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="w750 clearfix">
+								<!-- v1.6.6.1 RDPROJECT-159 xx 2013-09-30 start -->
+                                <form name="form1" id="form" method="post" action="" enctype="multipart/form-data" >
+                                <!-- v1.6.6.1 RDPROJECT-159 xx 2013-09-30 end -->
+                                    <div class="valBox">
+                                        <div class="top">
+                                            <strong>修改文章</strong>
+                                        </div>
+                                        <div class="clearfix">
+                                            <ul class="title-v edit">
+                                                <li>
+                                                    <div class="title">标题：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="name" id="name" class="input_border" value="${a.name!}" size="30" />
+                                                        <!-- v1.6.6.1 RDPROJECT-159 xx 2013-09-30 start -->
+                                                        <label><input type="checkbox" name="is_jump" value="1" <#if a??&&a.is_jump??&&a.is_jump=='1'>checked="checked"</#if>/> 跳转</label>
+                                                        <!-- v1.6.6.1 RDPROJECT-159 xx 2013-09-30 end -->
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">栏目英文标识：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="ename"  class="input_border" value="${a.ename!}" size="30" disabled="disabled"/>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">定义属性：</div>
+                                                    <div class="v">
+                                                        <!-- v1.6.5.3 RDPROJECT-159 xx 2013-09-12 start -->
+                                                        <label><input type='checkbox' name='flag' value='t' <#if a.flag!?contains("t")>checked</#if>>推荐</label>
+                                                        <label><input type='checkbox' name='flag' value='h' <#if a.flag!?contains("h")>checked</#if>>头条</label>
+                                                        <label><input type='checkbox' name='flag' value='f' <#if a.flag!?contains("f")>checked</#if>>幻灯片</label>
+                                                    	<!-- v1.6.5.3 RDPROJECT-159 xx 2013-09-12 end -->
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">跳转网址：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="jumpurl"  class="input_border" value="${a.jumpurl!}" size="30" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">所属栏目：</div>
+                                                    <div class="v">
+                                                        <@siteDirect name="site_id" default=a.site_id></@siteDirect>
+                                        </div>
+                                        </li>
+                                        <li>
+                                            <div class="title">文章来源：</div>
+                                            <div class="v">
+                                                <input type="text" name="source"  class="input_border" value="${a.source!}" size="30" />
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="title">作者：</div>
+                                            <div class="v">
+                                                <input type="text" name="author"  class="input_border" value="${a.author!}" size="30" />
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="title">发布时间：</div>
+                                            <div class="v">
+                                                <input type="text" name="publish"  class="input_border" value="${a.publish!}" size="30" onclick="change_picktime('yyyy-MM-dd HH:mm:ss')" readonly=""/>                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="title">状态：</div>
+                                            <div class="v">
+                                                <label><input type="radio" name="status" value="0"  <#if a??&&a.status==0>checked="checked"</#if>/>隐藏</label>
+                                                <label><input type="radio" name="status" value="1"  <#if a??&&a.status==1>checked="checked"</#if>/>显示</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="title">排序：</div>
+                                            <div class="v">
+                                            	<!-- v1.6.6.1 RDPROJECT-159 xx 2013-09-30 start -->
+                                                <input type="text" name="order" id="order" class="input_border" value="${a.order!0}" size="10" maxlength="5" onkeyup="this.value=this.value.replace(/^ +| +$/g,'')"/>
+                                                <!-- v1.6.6.1 RDPROJECT-159 xx 2013-09-30 end -->
+                                            </div>
+                                        </li>
+                                        <!-- v1.6.5.3 RDPROJECT-159 xx 2013-09-13 start -->
+                                        <li>
+                                            <div class="title">置顶：</div>
+                                            <div class="v">
+                                                <label><input type="radio" name="is_top" value="0"  <#if a??&&a.is_top==0>checked="checked"</#if>/>否</label>
+                                                <label><input type="radio" name="is_top" value="1"  <#if a??&&a.is_top==1>checked="checked"</#if>/>是</label>
+                                            </div>
+                                        </li>
+                                        <!-- v1.6.5.3 RDPROJECT-159 xx 2013-09-13 end -->
+                                        <li>
+                                            <div class="title">内容简介：</div>
+                                            <div class="v">
+                                                <textarea name="summary" cols="45" rows="5">${a.summary!}</textarea>
+                                            </div>
+                                        </li>
+ 										<script charset="utf-8" src="${request.getContextPath()}/plugins/editor/kindeditor/kindeditor-min.js"></script>
+										<script charset="utf-8" src="${request.getContextPath()}/plugins/editor/kindeditor/lang/zh_CN.js"></script>
+                                        <li>
+                                            <div class="title">内容：</div>
+                                            <div class="v">
+                                               <!-- 插入百度编辑器  -->
+													<#include "../../common/ueditor.html"> 
+													<@showUeditor width=680 heigth=100 id="content" name="content" content=a.content!"" /> 
+                                            </div>
+                                        </li>
+                                        <#if files??>
+                                            <#list files as item>
+                                        <li>
+                                            <div class="title">附件${item_index+1}：</div>
+                                            <div class="v">
+                                                ${item.files}
+                                            </div>
+                                        </li>
+                                            </#list>
+                                        </#if>
+
+                                        <li>
+                                            <div class="title">上传文件：</div>
+                                            <div class="v">
+                                                <input type='file' name='files' value='' size='20' id='files'>
+                                            </div>
+                                        </li>
+                                        </ul>
+                                    </div>
+
+                            </div>
+
+                            <div id="bottomToolbar" class="clearfix">
+                                <input type="hidden"  name="actionType" value="modifyArticle" />
+                                <!-- v1.6.6.1 RDPROJECT-159 xx 2013-09-30 start -->
+                                <input class="input-button post" type="button" name="button" value="提交" onclick="checkForm();" />
+                                <!-- v1.6.6.1 RDPROJECT-159 xx 2013-09-30 end -->
+                                <input class="input-button post" type="reset" name="reset" value="重置" />
+                            </div>
+                            </form>
+                            </div>
+                            <!-- v1.6.6.1 RDPROJECT-159 xx 2013-09-30 start -->
+                            <script type="text/javascript">
+                            	function checkForm(){
+                            		var name = $("#name").val();
+                            		var order = $("#order").val();
+                            		if(name==null || name.length==0){
+                            			alert("标题不能为空。");
+                            			return false;
+                            		}
+                            		if(isNaN(order)){
+                            			alert("排序只能为数字。");
+                            			return false;
+                            		}
+                            		if(order<0){
+                            			alert("排序不能为负数。");
+                            			return false;
+                            		}
+                            		
+                            		
+                            		$("#form").submit();
+                            	}
+                            	
+                            </script>
+							<!-- v1.6.6.1 RDPROJECT-159 xx 2013-09-30 start -->
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+   <div class="msgClass">
+       ${rsmsg!""}
+   </div>
+    </body>
+</html>
+<#include "../jsPage.html">

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="新增权限">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <div class="toolbor-module search">
+                                    <input type="button" class="input-button return" value="返回" onclick="location.href='allPurview.html'">
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form name="form1" method="post" action="" onsubmit="return check_form();" enctype="multipart/form-data" >
+                                    <div class="valBox w750">
+                                        <div class="top">
+                                            <strong>新增权限</strong>
+                                        </div>
+                                        <div class="val clearfix">
+                                            <ul>
+                                                <li>
+                                                    <div class="title">权限名称：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="name" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">权限名字：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="purview" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">路径：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="url" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">备注：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="remark" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">顺序：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="order" />
+                                                    </div>
+                                                </li>
+                                               
+
+                                            </ul>
+                                            <div class="other">
+                                                <input type="hidden"  name="actionType" value="addpurview" />
+                                                <input type="hidden"  name="pid" value="${pid}" />
+                                                <input type="submit"  name="reset" value="新增" class="input-button confirm"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+<div class="msgClass">
+                                                                    ${rsmsg!""}
+                                                                </div>
+    </body>
+</html>
+<#include "../jsPage.html">

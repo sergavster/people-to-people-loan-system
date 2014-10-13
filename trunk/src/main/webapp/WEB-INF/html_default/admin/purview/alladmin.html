@@ -1,0 +1,100 @@
+<!DOCTYPE>
+<html>
+<#include "../head.html">
+<body>
+	<#include "../top.html">
+	<!-- div.main start  -->
+	<div class="main">
+		<!-- div.main_left start  -->
+		<div class="main_left"><#include "left.html"></div>
+		<!-- div.main_left end  -->
+		<!-- div.main_right start  -->
+		<div class="main_right">
+		<#assign moduleName="管理员模块" >
+			<#include "banner.html">
+			<div class="main_content">
+				<table  border="0"  cellspacing="1" bgcolor="#CCCCCC" width="100%">
+					<tr>
+						<td width="" class="main_td">ID</td>
+						<td width="*" class="main_td">用户名</td>
+						<td width="*" class="main_td">真实姓名</td>
+						<td width="*" class="main_td">性别</td>
+						<td width="*" class="main_td">邮箱</td>
+						<td width="*" class="main_td">QQ</td>
+						<td width="*" class="main_td">手机</td>
+						<td width="*" class="main_td">所在地</td>
+						<td width="*" class="main_td">身份证</td>
+						<th width="" class="main_td">添加时间</th>
+						<th width="" class="main_td">状态</th>
+					<!-- 	<th width="" class="main_td">用户类型</th> -->
+						<td width="" class="main_td">操作</td>
+					</tr>
+					<#if adminList??>
+						<#list adminList as obj>
+					<tr>
+						<td class="main_td1" align="center">${(obj.user_id?c)!"-"}</td>
+						<td class="main_td1" align="center">${obj.username!"-"}</td>
+						<td class="main_td1" align="center">${obj.realname!"-"}</td>
+						<td class="main_td1" align="center"><#if obj.sex??><#if
+							obj.sex=="1">男<#else>女</#if><#else>-</#if></td>
+						<td class="main_td1" align="center">${obj.email!"-"}</td>
+						<td class="main_td1" align="center">${obj.qq!"-"}</td>
+						<td class="main_td1" align="center">${obj.phone!"-"}</td>
+
+
+						<td class="main_td1" align="center"><#if obj.province??>
+							${Typet(obj.province,"area")} - <#else> - </#if> <#if obj.city??>
+							${Typet(obj.city,"area")} - <#else> - </#if> <#if obj.area??>
+							${Typet(obj.area,"area")} <#else> - </#if></td>
+						<td class="main_td1" align="center">${obj.card_id!"-"}</td>
+						<td class="main_td1" align="center"><#if obj.addtime??>${dateformat(obj.addtime)}</#if></td>
+						<td class="main_td1" align="center"><#if obj.status??><#if
+							obj.status==0>关闭<#else>开通</#if><#else>-</#if></td>
+					<!-- 	<td class="main_td1" align="center"><#if obj.type_id??>
+							${Typet(obj.type_id,"usertype")} <#else> - </#if></td> -->
+						<td class="main_td1" align="center"><a
+							href="${request.getContextPath()}/admin/purview/editAdmin.html?user_id=${obj.user_id?c}&&type=1">修改</a>
+							/ <a href="#"
+							onClick="javascript:if(confirm('确定要删除吗?删除后将不可恢复')) location.href='index'">删除</a>
+						</td>
+					</tr>
+					</#list> </#if>
+					
+					<tr>
+						<td colspan="11" class="action">
+							<div class="floatl"></div>
+							<div class="floatr">
+								<form
+									action="${webroot}/admin/"
+									method="post">
+									<input type="hidden" name="types" value="user" /> 用户名：<input
+										type="text" name="username" id="username"
+										value="${params.username!}" /> 邮箱：<input type="text"
+										name="email" id="email" value="${params.email!}" /> 真实姓名：<input
+										type="text" name="realname" id="realname"
+										value="${params.realname!}" /> <input type="submit"
+										value="搜索">
+								</form>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="11" class="page">
+						<#if request.getServletPath()?index_of("search")!=-1><#import
+							"../../common/page.html" as pager> <@pager.pagination page=page
+							url="/admin/purview/search.html" map=params style="style1" /><#else><#import
+							"../../common/page.html" as pager> <@pager.pagination page=page
+							url="/admin/purview/user.html" map=params style="style1" /></#if>					
+						</td>
+					</tr>
+					
+					
+				</table>
+			</div>
+		</div>
+		<!-- div.main_right end  -->
+	</div>
+	<!-- div.main end  -->
+	<#include "../foot.html">
+</body>
+</html>

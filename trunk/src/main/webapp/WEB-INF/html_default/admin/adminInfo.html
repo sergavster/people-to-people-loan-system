@@ -1,0 +1,17 @@
+<div class="time-box cd">
+    <dl><#include "../common/function.html"> 
+        <dt class="user-icon"></dt>
+        <!-- v1.6.7.1 安全优化 sj 2013-11-26 start -->
+        <dd><span class="user-name">${auth_user.username}
+        <br></span>&#32;&#91;<span class="user-name-info"><@displayUserType type_id=auth_user.type_id/></span>&#93;
+        <a href="${webroot}/admin/modifyPwd.html">[修改密码]</a>
+        </dd>
+        <!-- v1.6.7.1 安全优化 sj 2013-11-26 end -->
+    </dl>
+    <dl>
+        <dt class="time-icon"></dt>
+        <dd class="time-date"></dd>
+    </dl>
+   
+    
+</div>

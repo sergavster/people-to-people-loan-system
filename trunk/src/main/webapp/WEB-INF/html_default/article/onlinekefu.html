@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<!--   v1.6.6.2 RDPROJECT-140 yl 2013-10-23 start-->
+<#assign web_title='p2p贷款、借款问题在线咨询 - 和信贷'>
+<#assign web_description='p2p贷款，借款问题在线咨询，和信贷p2p网贷平台'>
+<!--   v1.6.6.2 RDPROJECT-140 yl 2013-10-23 end-->
+<#include "../include/resource.html"> 
+<body>
+<#include "../include/header.html">
+<link href="${request.getContextPath()}/themes/soonmes/media/css/about.css" rel="stylesheet" type="text/css" />
+
+<div class="clearfix" id="container">
+    <img src="${webroot}${theme_dir}/images/zx-banner.jpg" alt="" class="mb15"> 
+    <div class="consult-nav float_left">
+        <div class="consult-nav-title"></div>
+        <div class="consult-nav-main">
+            <!--<a href="#" class="cur">媒体报道</a>
+            <a href="#">最新公告</a>-->
+            <#list sublist as item>
+                <#if item??&&item.url??&&((item.url)?length gt 0)>
+            	<!-- V1.6.6.2 RDPROJECT-352 ljd 2013-10-18 start -->
+                <a id="item${item_index+1}" class="consult-item" href="${webroot}${item.url!}?nid=${item.nid!}" rel="${item.site_id}">${item.name}</a>
+                <!-- V1.6.6.2 RDPROJECT-352 ljd 2013-10-18 end -->
+                <#elseif item.status==1>
+                <a id="item${item_index+1}" class="page" href="${webroot}/article/list.html?catalog=${item.site_id}" rel="${item.site_id}" >${item.name}</a>
+                </#if>
+            </#list>
+        </div>
+        
+        <a href="${webroot}/service/onlinekefu.html">
+            <img src="${webroot}${theme_dir}/images/zx-left-kf.jpg" alt="" class="zx-kefuimg" usemap="#Map1">
+        </a>
+    </div>
+
+    <div class="consult-content float_right">
+        <div class="consult-content-title clearfix">
+            <img src="${webroot}${theme_dir}/images/zx-rightli.jpg" alt="" class="ml10 float_left"><span class="float_left">当前位置：
+			<a id="ctl00_content_NavigationLink1_main" href="/" style=" color:#333; text-decoration:none;">${webname}</a> 
+			 &gt;<#--${psite.name!"网站栏目"}&gt;-->
+			<a href="${request.getContextPath()}/service/onlinekefu.html" style="color:#333; text-decoration:none;">在线客服</a></span>
+		</div>
+		<div  class="box_name">
+				<a href="#" class="btn-action" style="margin-top:8px;text-decoration:none;color:#fff;"  >
+				在线客服
+				</a>
+		</div>
+        <div class="consult-content-text">
+			<div class="info" id="lxjs">
+			<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#666666">
+				<tr>
+					<td colspan="6" bgcolor="#FFFFFF">
+						<#if kflist??>
+						<#list kflist as item>
+							<div style="width: 260px;height:200px; float: left; margin: 0 10px 0 10px"><br>
+								<div class="floatl" style="width: 120px">
+								<img src="${request.getContextPath()}/imgurl.html?userid=${item.user_id?c}&size=middle"
+										style="width: 100px; height: 100px; float: right;" />
+								</div>
+								<div style="margin-left: 10px;">
+									<ul class="kefu_li"
+										style="float: left; padding: 0px 0px 0px 10px;">
+										<li style="padding-bottom: 5px;">${item.username}</li>
+										<li style="padding-bottom: 5px;">姓名：${item.realname?default("")}</li>
+										<li style="padding-bottom: 5px;">电话:${item.tel?default("")}</li>
+										<li style="padding-bottom: 5px;"><a target="_blank"
+											href="http://wpa.qq.com/msgrd?v=3&uin=${item.qq!}&site=qq&menu=yes">
+												<img border="0"
+												src="http://wpa.qq.com/pa?p=2:${item.qq!}:41"
+												alt="点击这里给我发消息" title="点击这里给我发消息">
+										</a></li>
+										<!--<li></li>-->
+									</ul>
+								</div>
+							</div>
+						</#list>
+						</#if>
+					</td>
+				</tr>
+			</table>
+			</div><!--info-->
+		</div><!--myTabContent-->
+	</div><!--right-->
+</div><!--cor_divtop-->
+<script type="text/javascript">
+	$(function(){
+		var site_id = parseInt("${site.site_id}");
+		var oA = $(".consult-nav-main a");
+		var oArel = "";
+		oA.each(function(){
+			 var index = oA.index(this);
+			 oArel = parseInt($(oA[index]).attr("rel"));
+			 if(site_id == oArel)
+			 {
+				$(oA[index]).addClass("pagehover");
+			 }	
+		})
+	})
+</script>
+<script src="${request.getContextPath()}/themes/soonmes/media/js/modal.js"></script>
+<#include "../include/footer.html"> 

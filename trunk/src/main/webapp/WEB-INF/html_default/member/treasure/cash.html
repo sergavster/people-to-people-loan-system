@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html>
+<#include "../../include/resource.html">
+<#include "../../common/function.html"> 
+<body>
+<#assign nid="member">
+<#include "../../include/header.html">
+<form action="${webroot}/treasure/invest.html" method="post" onSubmit="return check_form_1()" name="form1">
+<div class="container">
+
+
+<#if errormsg?exists&&errormsg!="">
+	<div id="msg25">
+		<p class="error"> ${errormsg} </p>
+	</div>
+<#elseif msg?exists&&msg!="">
+	<div id="msg24">
+		<p class="ok"> ${msg} <a title="${item.name!"-"}" href="/treasure/cash.html?id=${item.id!0?c}"><font color="red">返回上一页，继续投资。</font></a></p>
+	</div>
+<#else>
+  <div class="balance_confirm">
+    <div class="title"> 确认申购 </div>
+    <table class="balance_msg">
+      <caption>
+      【理财宝】信息
+      </caption>
+      <tr>
+        <td> 名称： </td>
+        <td> 理财宝 </td>
+        </tr>
+      <tr>
+         <td> 天收益率： </td>
+        <td> ${item.apr}% </td>
+      </tr>
+      <tr>
+        <td> 赎回期限： </td>
+        <td> <#if item.back_time == 0>随时提取<#else>${item.back_time?c}天以上</#if></td>
+        </tr>
+      <tr>
+        <td>赎回方式：</td>
+        <td><#if item.back_type == 0>投资份额赎回<#else>用户资金余额赎回</#if></td>
+        </tr>
+      <tr>
+        <td>单笔最低投资额度：</td>
+        <td><#if item.min_account == 0>无限制<#else>${item.min_account?c}元</#if></td>
+      </tr>
+    </table>
+    
+    <table class="subscribe_msg">
+      <caption>
+      申购信息
+      </caption>
+      <tr>
+        <td>可用余额：</td>
+        <td>
+        	<#if account??>
+        	${ceil(account.use_money!0)}元 
+        	</#if>
+        	<input id="use_money" type="hidden" value="${account.use_money?c}"/><a href="${webroot}/member/account/newrecharge.html">我要充值 </a>
+        	<input type="hidden" id="max_account" value="${item.max_account?c}"/>
+        	<input type="hidden" id="min_account" value="${item.min_account?c}"/>
+        	<input type="hidden" name="rechargeItem.treasure_id" value="${item.id!0?c}"/>
+        	</td>
+      </tr>
+      <tr>
+        <td>用户理财宝余额：</td>
+        <td><#if treasureUser??>${ceil(treasureUser.use_moeny!0)}元 </#if></td>
+      </tr>
+      <tr>
+        <td>理财宝总额：</td>
+        <td><#if treasureUser??>${ceil(item.account!0)}元 </#if></td>
+      </tr>
+      <tr>
+        <td>已投资总额：</td>
+        <td><#if treasureUser??>${ceil(item.invest!0)}元 </#if></td>
+      </tr>
+      <tr>
+        <td> 申购金额： </td>
+        <td><input name="rechargeItem.money" id="money" value="${money?c}"/><a href="javascript:void(0);" onclick="tender_moent();">自动填入金额</a></td>
+      </tr>
+      <tr>
+        <td> 支付密码： </td>
+        <td> <#if session_user.paypassword?exists>
+				<input type="password" name="paypassword" />
+			<#else>
+				<a href="${request.getContextPath()}/memberSecurity/paypwd.html"><font color="#FF0000">请先设置一个支付密码</font></a>
+			</#if>	
+		</td>
+      </tr>
+       <tr>
+        <td> 验&nbsp;证&nbsp;码&nbsp;： </td>
+        <td><label for=""></label><input class="code" name="valicode" type="text" maxlength="5" style="  *margin-left:3px;" />&nbsp;<img src="${request.getContextPath()}/validimg.html" alt="点击刷新" onClick="this.src='${request.getContextPath()}/validimg.html?t=' + Math.random();" align="absmiddle" style="cursor:pointer; display:inline-block;zoom:1;*display:inline; *float:none;" /></td>
+      </tr>
+    </table>
+    <div class="subscribe_btn clearfix">
+    <input type="submit" class="btn-action"  name="name"  value="确认申购" size="30" />
+    <input  class="btn-action"  onclick="history.go(-1)"  value="返回" size="30" />
+    </div>
+  </div>
+</#if>
+</div>
+
+<script>
+function check_form_1(){
+	var use_money = $("#use_money").val();
+	var max_account = $("#max_account").val();
+	var min_account = $("#min_account").val();
+	var frm = document.forms['form1'];
+	var paypassword = frm.elements['paypassword'].value;
+	var money = frm.elements['money'].value;
+	var valicode = frm.elements['valicode'].value;
+	var errorMsg = '';
+	  if (paypassword.length == 0 ) {
+		errorMsg += '请输入您的交易密码' + '。\n';
+	  }
+	  if (money.length == 0 ) {
+		errorMsg += '请输入你的申购金额' + '。\n';
+	  }
+	  if (money > parseFloat(use_money)) {
+		errorMsg += '您的申购金额大于现有的可用余额' + '。\n';
+	  }
+	  if (parseFloat(min_account) > 0 && money < parseFloat(min_account)) {
+		errorMsg += '您好，申购金额单笔最少'+min_account+'元。\n';
+	  }
+	  if (parseFloat(max_account) > 0 && money > parseFloat(max_account)) {
+		errorMsg += '您好，申购金额金额单笔最高'+max_account+'元。\n';
+	  }
+	  if(valicode == null || valicode.length == 0){
+		  errorMsg += '您好，验证码不能为空。\n';
+	  }
+	  if (errorMsg.length > 0){
+		{alert(errorMsg); return false;}
+	  } else{  
+		return true;
+	  }
+}
+
+function tender_moent(){
+	var use_money_ = $("#use_money").val();
+	var use_money = parseFloat(use_money_)
+	$("#money").val(use_money);
+}
+
+</script>
+</form>
+<#include "../../include/footer.html">
+</body>
+</html>

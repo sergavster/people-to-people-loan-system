@@ -1,0 +1,256 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" href="${webroot}${theme_dir}/media/css/base-style.css">
+<link rel="stylesheet" href="${webroot}${theme_dir}/media/css/style.css">
+<title>积分抽奖</title>
+</head>
+
+<body class="award-wrap">
+<div class="award-head">
+	<div class="award-headinfo clearfix">
+    	<a href="/" class="float_left"><img src="${webroot}${theme_dir}/images/award-logo.jpg" alt="顶尖级返回首页"></a>
+        <img src="${webroot}${theme_dir}/images/award-telphone.jpg" class="float_right">
+    </div>
+</div>	
+<div id="award-container">
+	<div class="award-content clearfix">
+    	<div class="lottery-left">
+        	<ul class="lottery-left-text">
+            	<li>登录后点击“开始抽奖”即可参与抽奖</li>
+                <li>抽奖一次将会消耗用户的一定积分</li>
+            </ul>
+            <#if session_user?exists>
+            <span class="award-logintext">${session_user.username!}，您已经成功登录<br/>请点击抽奖　<a href="${webroot}/user/logout.html">[退出]</a></span>
+            <#else>
+           	<span class="award-logintext">点击登录即可抽奖</span>
+            <a href="${webroot}/user/login.html" class="award-loginbtn">　</a>
+            </#if>
+        </div>
+        <div class="lottery-right">
+        	<div class="lottery-box">
+            	<div class="ly-plate">
+                    <div class="rotate-bg"></div>
+                    <div class="lottery-star"><img src="${weburl}${theme_dir}/images/rotate-static.png" id="lotteryBtn" data-val="0"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="prize prize-luxury">
+    	<div class="prize-box">
+        	<ul class="clearfix" id="prize_name_box_luxury">
+            </ul>
+        </div>
+    </div>
+    <div class="prize">
+    	<div class="prize-box">
+        	<ul class="clearfix" id="prize_name_box">
+            </ul>
+        </div>
+    </div>
+    <div class="active-rule">
+    	<div class="active-rule-title">
+        
+        </div>
+        <div class="active-rule-text">
+        	<div class="active-rule-text-div">
+        	<#if rule??>
+        		 ${rule.content!}
+        		 </#if>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="lottery-bottom">
+</div>
+<form action="">
+<input type="hidden"  name="id" value="<#if rule??>${(rule.id!0)?c}</#if>" id="id" />
+</form>
+</body>
+</html>
+<script src="${webroot}${theme_dir}/media/js/jquery-1.7.2.min.js"></script>
+<script src="${webroot}${theme_dir}/media/js/jQueryRotate.2.2.js"></script>
+<script src="${webroot}${theme_dir}/media/js/jquery.easing.min.js"></script>
+
+<script>
+$(function(){
+	var dataVal = $("#lotteryBtn").attr("data-val");
+	var timeOut = function(){  //超时函数
+		$("#lotteryBtn").rotate({
+			angle:0, 
+			duration: 10000, 
+			animateTo: 2160, //这里是设置请求超时后返回的角度，所以应该还是回到最原始的位置，2160是因为我要让它转6圈，就是360*6得来的
+			callback:function(){
+				alert('网络超时')
+			}
+		}); 
+	}; 
+	var rotateFunc = function(awards,angle,text){  //awards:奖项，angle:奖项对应的角度
+		$('#lotteryBtn').stopRotate();
+		$("#lotteryBtn").rotate({
+			angle:0, 
+			duration: 5000, 
+			animateTo: angle+2160, //angle是图片上各奖项对应的角度，1440是我要让指针旋转4圈。所以最后的结束的角度就是这样子^^
+			callback:function(){
+				alert(text);
+				dataVal=0;
+			}
+		}); 
+	};
+	$("#lotteryBtn").rotate({ 
+	   bind: 
+		 { 
+			click: function(){	
+				var ruleId = $("#id").val();
+				var ruleUrl = "/award/award.html?id="+ruleId+"&randID="+ escape(new Date());
+				if(dataVal==1)
+				{
+					return false;	
+				}			
+				$.ajax({
+					url:ruleUrl,
+					dataType:"json",
+					data:"data",
+					error:function(){
+						timeOut();
+					},
+					success:function(result){
+						var levelNo = "";
+						var prizeName = "";
+						var status = result.data.is_success;
+						if(status=="T")
+						{
+							levelNo = result.data.level_no;
+							prizeName = result.data.name;
+							prize_num(levelNo,prizeName);
+						}
+						else if(status =="F")
+						{
+							
+							errorMsg = result.data.error;
+							if(errorMsg=="RESULT_NO_REGISTER")
+							{
+								alert("没有登录");//参数错误
+								dataVal = 0;	
+							}	
+							else if(errorMsg=="RESULT_PARAMETER_ERROR")
+							{
+								rotateFunc(0,22,'很遗憾，这次您未抽中奖');// 参数错误
+								dataVal = 1;
+								//alert("未中奖")	
+							}
+							else if(errorMsg=="RESULT_INVALID_RULE_ID")
+							{
+								rotateFunc(0,22,'很遗憾，这次您未抽中奖');//规则ID不存在
+								dataVal = 1;
+								//alert("规则ID不存在")	
+							}
+							else if(errorMsg=="RESULT_BEFORE_START_TIME")
+							{
+								alert("活动还没开始");
+								dataVal = 0;
+							}
+							else if(errorMsg=="RESULT_AFTER_END_TIME")
+							{
+								alert("活动已经结束");
+								dataVal = 0;
+							}
+							else if(errorMsg=="RESULT_POINT_LIMIT")
+							{
+								alert("你的积分不足咯");
+								dataVal = 0;
+							}
+							else if(errorMsg=="RESULT_TIME_LIMIT")
+							{
+								rotateFunc(0,0,"抽奖次数用完啦");
+								dataVal = 1;
+							}
+							else if(errorMsg=="RESULT_NO_AWARD")
+							{
+								rotateFunc(0,22,'很遗憾，这次您未抽中奖');
+								dataVal = 1;
+								//alert("未中奖")	
+							}
+							else if(errorMsg=="RESULT_NO_AWARD_OBJ")
+							{
+								rotateFunc(0,22,'很遗憾，这次您未抽中奖');
+								dataVal = 1;
+								//alert("未中奖")	
+							}
+							else if(errorMsg=="RESULT_MONEY_LIMIT")
+							{
+								rotateFunc(0,22,'很遗憾，这次您未抽中奖');
+								dataVal = 1;
+							}
+						}
+					}		
+				});//ajax进行数据交互
+				function prize_num(data,prizeName){
+					if(data==1){
+						return rotateFunc(1,157,'恭喜您抽中的'+prizeName);//一等奖
+					}
+					if(data==2){
+						return rotateFunc(2,202,'恭喜您抽中的'+prizeName)//二等奖
+					}
+					if(data==3){
+						return rotateFunc(3,337,'恭喜您抽中的'+prizeName)//三等奖
+					}
+					if(data==4){
+						return rotateFunc(4,292,'恭喜您抽中的'+prizeName)
+					}
+					if(data==5){
+						return rotateFunc(5,67,'恭喜您抽中的'+prizeName)
+					}
+					if(data==6){
+						return rotateFunc(4,247,'恭喜您抽中的'+prizeName)
+					}
+				}
+				dataVal=1;
+				
+			}
+		 } 
+	   
+	});
+})
+</script>
+<script>
+	$(function(){
+		function refreshPrize(id,typeVal){
+			var box = $(id);
+			var ruleId = $("#id").val();
+			var ruleUrl = "";
+			if(typeVal == 1)
+			{
+				ruleUrl = "/award/getAwardList.html?id="+ruleId+"&randID="+ escape(new Date());
+			}
+			else if(typeVal == 2){
+				ruleUrl = "/award/getAwardList.html?id="+ruleId+"&randID="+ escape(new Date())+"&level=level";
+			}
+			var str="";
+			$.ajax({
+				url:ruleUrl,
+				error:function(){
+					
+				},
+				success:function(data){
+					var prize = data.data;
+					var len = prize.length;
+					for( var i = 0 ; i<len ; i++)
+					{
+						str+="<li class='clearfix'><b>"+prize[i].name+"</b><b class='time'>"+prize[i].time+"</b><b class='award'>"+prize[i].award+"</b></li>";
+					}
+					box.html(str);
+				}	
+			})
+		}
+		refreshPrize("#prize_name_box_luxury",2);//2是豪华
+		refreshPrize("#prize_name_box",1);//1是普通
+		var Timer;
+		Timer = setInterval(function(){
+			refreshPrize("#prize_name_box_luxury",2);//2是豪华
+			refreshPrize("#prize_name_box",1);//1是普通
+		},3000)//3s刷新一次3000
+	})
+</script>

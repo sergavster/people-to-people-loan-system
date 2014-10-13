@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<#include "include/resource.html"> 
+<body>
+<#assign nid="member">
+<#include "include/header.html">
+	<form action="${request.getContextPath()}/user/register.html" method="post" name="formUser"
+		onSubmit="userReg();" id="reg_sub">
+		<div class="clearfix content">
+			<div class="box">
+				<div class="reg-boxbg clearfix">
+					<div class="reg-header">
+					</div>
+					<ul class="reg-table reg-zr float_left">
+						<li>
+							<div class="reg-l-title">用户名：</div>
+							<div class="reg-l-input">
+								<input id="username" name="username" type="text" size="22"
+									maxlength="60" value="" onFocus="this.className='biankuang1';"
+									onBlur="this.className='biankuang2';checkUsername(this.value);">
+							</div>
+							<div class="reg-l-tips" id="username_notice">
+								<span>*</span> 请输入4-15位字符.英文,数字
+							</div>
+                        </li>
+						<li>
+							<div class="reg-l-title">密码：</div>
+							<div class="reg-l-input">
+								<input id="password" name="password" type="password" size="22"
+									maxlength="60" value="" onFocus="this.className='biankuang1';"
+									onBlur="this.className='biankuang2';checkPassword(this.value);">
+							</div>
+							<div class="reg-l-tips" id="password_notice">
+								<span>*</span> 请输入6到16位密码
+							</div>
+                        </li>
+						<li>
+							<div class="reg-l-title">确认密码：</div>
+							<div class="reg-l-input">
+								<input id="conform_password" name="confirm_password"
+									type="password" size="22" maxlength="60" value=""
+									onFocus="this.className='biankuang1';"
+									onBlur="this.className='biankuang2';checkConformPassword(this.value);">
+							</div>
+							<div class="reg-l-tips" id="conform_password_notice">
+								<span>*</span> 请重复输入上面的密码
+							</div>
+                        </li>
+						<li>
+							<div class="reg-l-title">Email：</div>
+							<div class="reg-l-input">
+								<input id="email" name="email" type="text" size="22"
+									maxlength="60" value="" onFocus="this.className='biankuang1';"
+									onBlur="this.className='biankuang2';checkEmail(this.value);">
+							</div>
+							<div class="reg-l-tips" id="email_notice">
+								<span>*</span> 请输入您常用的邮箱地址,会邮箱认证
+							</div>
+                        </li>
+						<li>
+							<div class="reg-l-title">真实姓名：</div>
+							<div class="reg-l-input">
+								<input id="realname" name="realname" type="text" size="22"
+									maxlength="60" value="" onFocus="this.className='biankuang1';"
+									onBlur="this.className='biankuang2';checkRealname(this.value);">
+							</div>
+							<div class="reg-l-tips" id="realname_notice">
+								<span>*</span> 请填写你的真实姓名
+							</div>
+                        </li>
+						<li>
+							<div class="reg-l-title">介绍人：</div>
+							<div class="reg-l-input">
+								<input id="invite_username" name="invite_username" type="text"
+									size="22" maxlength="60" value="<#if inviteUser?exists&&inviteUser.username?exists>${inviteUser.username}</#if>"
+									onFocus="this.className='biankuang1';"
+									onBlur="this.className='biankuang2';checkInviteUser(this.value);">
+							</div>
+							
+							<div class="reg-l-tips" id="invite_username_notice">
+								<span>*</span> (此处可不填)如填写介绍人的本站用户名(非真实姓名)，对方将获得奖励收入，详细请查看<a
+									href="#">邀请规则</a>
+							</div>
+                        </li>
+						<li class="reg-li">
+                        <span class="float_left" style="padding-top:6px;"><input type="checkbox" id="dianji" checked="checked" style="position:relative; top:3px; margin-right:5px;">我已阅读并且同意协议</span>
+                      <a href="javascript:void(0)" class="reg-btn2" id="reg_btn" onclick="">立即注册</a>
+							<input type="hidden" name="actionType"  value="register" />
+						</li>
+						<input type="hidden" value="register" />
+
+					</ul>
+                    <div class="reg-rightbg float_right">
+                        <p>
+                            已有温州贷帐号？
+                        </p>
+                        <p>
+                            <a href="${webroot}/user/login.html" class="reg-btn2">立即登录</a>
+                        </p>
+                        <p>
+                            在温州贷您能做什么？
+                        </p>
+                        <p class="color_red">
+                            你可以投资理财，帮助他人解决资金困难。
+                        </p>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<script type="text/javascript">
+		jQuery('#reg_btn').click(function() {
+	    if($('#dianji').attr("checked")){
+			jQuery('#reg_sub').submit();
+			}
+		else{
+			alert("请勾选我已阅读并且同意协议")
+			}	
+		});
+
+		
+	</script>
+	<script type="text/javascript" src="${request.getContextPath()}${theme_dir}/media/js/user2.js"></script>
+<#include "include/footer.html"> 
+</body>
+</html>

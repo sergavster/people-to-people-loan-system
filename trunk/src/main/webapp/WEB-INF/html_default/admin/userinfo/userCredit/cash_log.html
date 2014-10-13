@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<#include "../../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "../left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="用户管理">
+                        <#include "../banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <form action="" method="post">
+                                <div class="toolbor-module search">
+                                    <input type="button" value="搜索"  class="input-button" onclick="sousuo();">
+                                </div>
+                                <div class="toolbor-module search">    
+                                    <input type="text" name="username" id="username" value="请输入用户名" data-value="请输入用户名" class="search-value">
+                                </div>
+                                <!-- v1.6.7.2 RDPROJECT-560 zza 2013-12-16 start -->
+                                <#if param??&&param.status??>
+				                    <#assign status=(param.get("status"))?number >
+				                <#else>
+				                    <#assign status=-1>
+				                </#if>
+                                 <!--  V1.6.7.1 zhangyz 2013-11-20 start -->
+                                 <div class="toolbor-module search">    
+                                    <div class="select-box" id="status">
+                                        <div class="tag-select" >全部</div>
+                                        <ul class="tag-options">
+	                                 		<li data-value="" <#if status==-1 >data-selected="selected"</#if> class="open-selected">全部</li>
+	                                        <li data-value="0" <#if status==0 >data-selected="selected"</#if> >待审核</li>
+	                                        <li data-value="1" <#if status==1 >data-selected="selected"</#if>>审核通过</li>
+	                                        <li data-value="2" <#if status==2 >data-selected="selected"</#if>>审核未通过</li>
+	                                        <li data-value="3" <#if status==3 >data-selected="selected"</#if>>无用数据</li>
+                                        </ul>
+                                    </div>
+								 </div>
+								 <!-- v1.6.7.2 RDPROJECT-560 zza 2013-12-16 end -->
+								 <!--  V1.6.7.1 zhangyz 2013-11-20 end -->
+                                </form> 
+                                </div>
+                                
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                             <!--  V1.6.7.1 zhangyz 2013-11-20 start -->
+                                <form action="" method="post">
+                                    <table class="data-list">
+                                        <tr class="header">
+                                         	<td>用户名</td>
+                                            <td>积分兑换状态</td>
+                                            <td>积分兑换类型</td>
+											<td>兑换数</td>
+											<td>兑换积分</td>
+											<td>兑换金额</td>
+											<td>申请备注</td>
+											<td>记录时间</td>
+											<td>审核人</td>
+											<td>审核时间</td>
+											<td>操作</td>
+                                        </tr>
+                                        <#if convertList??> <#list convertList as item>
+                                            <tr class="s">
+                                            	<td>${item.username!}</td>
+                                                <td><#if item.status == 0 >待审核<#elseif item.status == 1>审核通过<#elseif item.status == 2>审核未通过<#else>无用数据</#if></td>
+												<td><#if item.type?? && item.type == 'integral_convert' >积分兑换现金<#elseif item.type?? && item.type == 'integral_vip' >积分兑换VIP<#else>积分兑换</#if></td>
+												<td><#if item.type?? && item.type == 'integral_convert' >${item.convert_num}份<#elseif item.type?? && item.type == 'integral_vip' >${item.convert_num}月<#else>${item.convert_num}份</#if></td>
+												<td>${item.credit_value}</td>
+												<td>${item.money}</td>
+												<td width="30%" >${item.remark}</td>
+												<td>${dateformat(item.addtime)}</td>
+												<td>${item.verify_user!"-"}</td>
+												<td><#if item.verify_time?? >${dateformat(item.verify_time!"0")}</#if></td>
+												<td><#if item.status == 0 && item.type == 'integral_convert' ><a href="${request.getContextPath()}/admin/credit/auditDetail.html?id=${item.id?c}"><font color="#FF0000">审核</font></a>
+												<#elseif item.status == 0 && item.type == 'integral_vip' ><a href="${request.getContextPath()}/admin/credit/auditVipInit.html?id=${item.id?c}"><font color="#FF0000">审核</font></a><#else>已处理</#if></td>
+                                            </tr>
+                                        </#list> <#else> 暂无 </#if>
+                                    </table>
+                                </form>
+ 								<!--  V1.6.7.1 zhangyz 2013-11-20 end -->
+                                <!--底部工具栏--{-->
+                                <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+
+                                    <!--翻页系统--{-->
+                                    <div class="container">
+                                        <#import "../../../common/page.html" as pager>
+                                            <@pager.pagination page=page url="/admin/credit/cashLog.html" map=params style="style1" />
+                                    </div>
+                                    <!--翻页系统--}-->
+                                </div>
+                                <!--底部工具栏--}-->
+
+                                <script type="text/javascript">
+                                    var xlsurl = 'cashLog.html?type=export';
+                                    var url='cashLog.html?search=true';
+                                    function sousuo(){
+                    					var sou = "";
+                    					var username = $("#username").val();
+                    					if (username!=""&&username!="请输入用户名"){
+                    						sou += "&username="+username;
+                    					}
+                    					var status = $("#status").find(".open-selected").attr("data-value");
+                    					if(status!=""){
+                    						sou += "&status="+status;
+                    					}
+                    					if (sou!=""){
+                    							location.href=url+sou;
+                    						}
+                    					}
+                                </script>
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../../jsPage.html">

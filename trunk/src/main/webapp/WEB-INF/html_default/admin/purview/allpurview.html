@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="所有权限">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <div class="toolbor-module search">
+                                    <a href="addPurview.html?pid=${pid}" class="input-button" style="line-height:24px;">+新增权限</a>
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form action="" method="post">
+                                    <table class="data-list">
+                                        <tr class="header">
+                                            <td>ID</td>
+                                            <td>权限名称</td>
+                                            <td>权限名字</td>
+                                            <td>路径</td>
+                                            <td>父编码</td>
+                                            <td>级别</td>
+                                            <td>备注</td>
+                                            <td>操作</td>
+                                        </tr>
+                                        <#list list as item>
+                                            <tr class="s">
+                                                <td>${item.id!0}</td>
+                                                <td><#if item.level??&&item.level lt 3><a href="allPurview.html?pid=${item.id!0}">${item.name!""}</a><#else>${item.name!""}</#if></td>
+                                                <td>${item.purview!0}</td>
+                                                <td>${item.url!0}</td>
+                                                <td>${item.pid!0}</td>
+                                                <td>${item.level!0}</td>
+                                                <td>${item.remark!0}</td>
+                                                <td>
+                                                    <a class="un" href="modifyPurview.html?id=${item.id!0}">修改</a>
+                                                    &nbsp;<a class="un" href="#" onclick="javascript:if(confirm( '警告：删除此权限将造成部分功能无法操作，确定？')) href= 'delPurview.html?id=${item.id!0}'; else return;">删除</a>
+                                                </td>
+                                            </tr>
+                                        </#list>
+                                    </table>
+                                </form>
+
+                                <!--底部工具栏--{-->
+                                <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                                <!--底部工具栏--}-->
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

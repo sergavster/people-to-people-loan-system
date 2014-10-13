@@ -1,0 +1,39 @@
+<div class="nav-oneself">
+    <div class="nav-visitors-item">
+        <div class="bl hidden"></div>
+        <div class="vg">栏目管理</div>
+    </div>
+    <ul class="visitors-block new-menu hidden">
+        <#if tree??&&tree.hasChild()>
+
+            <#list tree.child as item>
+                <li>
+            <div class="v"><a class="c" href="javascript:void(0);">${item.model.name!}</a></div>
+                <#if item??>
+                 <ul class="secondary-menu">
+                 <li><a class="b" href="showSite.html?site_id=${item.model.site_id!}" data-nav="showSite.html?site_id=${item.model.site_id!}"><span>&#183;</span>根目录：${item.model.name!}</a></li>
+                    <#if item.hasChild()>
+                    <#list item.child as subitem>
+                    <li><a class="b" href="showSite.html?site_id=${subitem.model.site_id?c}" data-nav="showSite.html?site_id=${subitem.model.site_id?c}"><span>&#183;</span>${subitem.model.name}</a></li>
+                    </#list>
+                </#if>
+                </ul>
+                </#if>
+        </li>
+            </#list>
+
+        </#if>
+    </ul>
+</div>
+
+<div class="nav-oneself">
+    <div class="nav-visitors-item">
+        <div class="bl hidden"></div>
+        <div class="vg">文章管理</div>
+    </div>
+    <ul class="visitors-block hidden">
+        <li><a class="v" href="showArticle.html" data-nav="showArticle.html">文章列表</a></li>
+        <li><a class="v" href="addArticle.html" data-nav="addArticle.html">新增文章</a></li>
+    </ul>
+</div>
+

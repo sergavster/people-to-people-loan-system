@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<!-- v1.6.7.2 RDPROJECT-26 sj 2013-12-24 新增页面-->
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="链接信息管理">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+							<script>
+							var url = 'showLinkage.html?search=true&type=1';
+							function sousuo() {
+								var sou = "";
+								var name = $("#name").val();
+								var type_id = $("#type_id").val();
+								if (name != "" && name != "请输入名称") {
+									sou += "&name=" + name;
+								}
+								if (type_id != "" && type_id != "请输入类型ID") {
+									sou += "&type_id=" + type_id;
+								}
+							
+								location.href = url + sou;
+								
+							}
+							</script>
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                            	<div class="toolbor-module">
+									<a class="input-button" style="line-height:24px;" href="addLinkage.html">新增</a>
+								</div>
+                                <form action="" method="post">
+	                                <div class="toolbor-module search">
+	                                    <input type="button" value="搜索"  class="input-button" onclick="sousuo();">
+	                                </div>
+	                                <div class="toolbor-module search">    
+	                                    <input type="text" name="name" id="name" value="请输入名称" data-value="请输入名称" class="search-value" 
+	                                    maxlength="10" />
+	                                </div>
+	                                <div class="toolbor-module search">    
+	                                    <input type="text" name="type_id" id="type_id" value="请输入类型ID" data-value="请输入类型ID" class="search-value"
+	                                      maxlength="3" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" />
+	                                </div>
+                                </form>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                            <form action="" method="post">
+                                <table class="data-list">
+                                        <tr class="header">
+                                            <td>ID</td>
+                                            <td>状态</td>
+                                            <td>排序</td>
+                                            <td>类型ID</td>
+                                            <td>PID</td>
+                                            <td>名称</td>
+                                            <td>名称值</td>
+                                            <td>添加时间</td>
+                                            <td>添加IP</td>
+                                            <td>操作</td>
+                                        </tr>
+                                    <#if list??>
+                                    <#list list as obj>
+                                        <tr class="s">
+                                            <td>${obj.id}</td>
+                                            <td>${obj.status!"-"}</td>
+                                            <td>${obj.order!"-"}</td>
+                                            <td>${obj.type_id!"-"}</td>
+                                            <td>${obj.pid!"-"}</td>
+                                            <td>${obj.name!"-"}</td>
+                                            <td>${obj.value!"-"}</td>
+                                            <td>${obj.addtime!"-"}</td>
+                                            <td>${obj.addip!"-"}</td>
+                                            <td><a class="un" href="${request.getContextPath()}/admin/linkage/modifyLinkage.html?id=${obj.id?c}">修改</a></td>
+                                        </tr>
+                                    </#list> <#else> 暂无 </#if>
+                                    </table>
+                           </form>        
+
+                                <!--底部工具栏--{-->
+                                <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+
+                                    <!--翻页系统--{-->
+                                    <div class="container">
+                                        <#import "../../common/page.html" as pager>
+                                            <@pager.pagination page=page url="/admin/linkage/showLinkage.html" map=param style="style1" />
+                                    </div>
+                                    <!--翻页系统--}-->
+                                </div>
+                                <!--底部工具栏--}-->
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

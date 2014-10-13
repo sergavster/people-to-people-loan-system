@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<#include "../../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "../left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="积分兑换VIP审核">
+                        <#include "../banner.html">
+                            <!--面包屑导航---}-->
+                            <div id="toolbar" class="clearfix">
+		                         <div class="toolbor-module">
+							        <input type="button" class="input-button return" value="返回" onclick="history.go(-1)">
+							    </div>
+                            </div>
+
+                            <div id="main" class="w750 clearfix">
+                                <form name="form1" method="post" action="${request.getContextPath()}/admin/credit/auditVip.html" onsubmit="return check_form();" enctype="multipart/form-data" >
+                                    <div class="valBox">
+                                        <div class="top">
+                                            <strong>积分兑换VIP审核</strong>
+                                        </div>
+                                        <div class="clearfix">
+                                        <ul class="title-v edit">
+                                        <li>
+                                            <div class="title">用户名：</div>
+                                            <div class="v">${creditConvert.username!}</div>
+                                        </li>     
+                                        <li>
+                                            <div class="title">兑换积分：</div>
+                                            <div class="v">${creditConvert.credit_value!}</div>
+                                        </li>
+                                        <li>
+                                            <div class="title">兑换VIP时间：</div>
+                                            <div class="v">${vip_time!}月</div>
+                                        </li>
+                                        <li>
+                                            <div class="title">积分兑换备注：</div>
+                                            <div class="v">${creditConvert.remark!}</div>
+                                        </li>
+                                        <li>
+                                            <div class="title">审核状态：</div>
+                                            <div class="v">
+												<label><input type="radio" checked="checked" value="1" name="status">审核通过</label>
+												<label><input type="radio" value="2" name="status">审核不通过</label>
+                                            </div>
+                                        </li>
+                                        </ul>
+                                    </div>
+
+                            </div>
+
+                            <div id="bottomToolbar" class="clearfix">
+                                <input type="hidden"  name="id" value="${creditConvert.id!}" />
+                                <input class="input-button post" type="submit"  name="submit" value="提交" />
+                            </div>
+                            </form>
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+   <div class="msgClass">
+       ${rsmsg!""}
+   </div>
+    </body>
+</html>
+<#include "../../jsPage.html">

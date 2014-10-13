@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="黑名单信息">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+		                         <div class="toolbor-module">
+							        <input type="button" class="input-button return" value="返回" onclick="history.go(-1)">
+							    </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                    <div class="valBox" style="margin-bottom:20px;">
+                                        <div class="top">
+                                            <strong>黑名单查看</strong>
+                                        </div>
+                                        <div class="w349 fp clearfix">
+                                            <table class="data-list">
+                        <tr class="header">
+                            <td>ID</td>
+                            <td>数据来源平台</td>
+                            <td>姓名</td>
+                            <td>身份证号</td>
+                            <td>手机号</td>
+                            <td>email</td>
+                            <td>qq</td>
+                            <td>所在地</td>
+                            <td>贷款总额</td>
+                            <td>贷款笔数</td>
+                            <td>最近一笔逾期时间</td>
+                            <td>逾期笔数</td>
+                            <td>逾期总金额</td>
+                            <td>逾期天数</td>
+                            <td>添加时间</td>
+                            <td>上传</td>
+                        </tr>
+                        <#import "../../common/function.html" as func>
+                        <#if list??>
+	                        <#list list as item>
+	                            <tr class="s">
+	                            	<td>
+	                            	${item.id?c}
+	                            	</td>
+	                                <td>
+	                                ${item.platfrom!}
+	                                </td>
+	                                <td>
+	                                ${item.username!}
+	                                </td>
+	                                <td>
+	                              	 ${item.identity!}
+	                                </td>
+	                                <td>
+	                                ${item.mobile!}
+	                                </td>
+	                                <td>
+	                                ${item.email!}
+	                                </td>
+	                                <td>
+	                                ${item.qq!}
+	                                </td>
+	                                <td>
+	                                ${item.location!}
+	                                </td>
+	                                <td>
+	                            	${item.loan_count?c}
+	                            	</td>
+	                                <td>
+	                                ${item.loan_number?c}
+	                                </td>
+	                                <td>
+	                                ${dateformat(item.last_overdue_date?c)}
+	                                </td>
+	                                <td>
+	                                ${item.overdue_number?c}
+	                                </td>
+	                                <td>
+	                                ${item.overdue_money?c}
+	                                </td>
+	                                <td>
+	                                ${item.overdue_days?c}
+	                                </td>
+	                                <td>
+	                                ${dateformat(item.addtime?c)}
+	                                </td>
+	                                <td>
+	                                <#if item.is_upload == 1 >
+									已上传
+	                                <#else>
+									<a href="javascript:;" class="un" onClick="javascript:if(confirm('确定要上传吗?')) location.href=''"><font color="#006600">上传</font></a>
+	                                </#if>
+	                                </td>
+	                            </tr>
+	                        </#list>
+                        </#if>
+                    </table>
+                                               </div>
+                                    </div>
+                            </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+<div class="msgClass">
+      ${rsmsg!""}
+ </div>
+    </body>
+</html>
+<#include "../jsPage.html">
+<script>
+			function check_form(){
+				 var frm = document.forms['form1'];
+				 var verify_remark = frm.elements['verify_remark'].value;
+				 var errorMsg = '';
+				  if (verify_remark.length == 0 ) {
+					errorMsg += '备注必须填写' + '\n';
+				  }
+				  
+				  if (errorMsg.length > 0){
+					alert(errorMsg); return false;
+				  } else{  
+					return true;
+				  }
+			}
+			</script>

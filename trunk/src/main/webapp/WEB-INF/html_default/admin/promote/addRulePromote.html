@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "../setting/left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                <!--顶部导航---}-->
+
+                <!--面包屑导航---{-->
+                <#assign moduleName="新增推广奖励规则">
+                <#include "../setting/banner.html">
+                <!--面包屑导航---}-->
+
+                <!--工具栏--{-->
+                <div id="toolbar" class="clearfix">
+                    <div class="toolbor-module search">
+                        <input type="button" class="input-button return" value="返回" onclick="location.href='showAllRulePromote.html'">
+                    </div>
+                </div>
+                <!--工具栏--}-->
+
+                <div id="main" class="clearfix">
+                    <form name="form1" method="post" action="" onsubmit="return check_form();" enctype="multipart/form-data" >
+                        <div class="valBox w750">
+                            <div class="top">
+                                <strong>新增推广奖励规则</strong>
+                            </div>
+                            <div class="val clearfix">
+                                <ul>
+                                   <li>
+                                        <div class="title">规则名称：</div>
+                                        <div class="v">
+                                            <input type="text" name="name" />
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title">状态：</div>
+                                        <div class="v">
+                                            <label><input type="radio" name="status" value="0" checked="checked" size="10"/>不启用</label>
+                                            <label><input type="radio" name="status" value="1" checked="checked"/>启用</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title">成功邀请人数：</div>
+                                        <div class="v">
+                                            <input type="text" name="count_up" onKeyUp="value=value.replace(/[^0-9]/g,'')"/> ~
+                                            <input type="text" name="count_down" onKeyUp="value=value.replace(/[^0-9]/g,'')"/>
+                                            <label>*等级的界限</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title">获得奖励百分比：</div>
+                                        <div class="v">
+                                            <input type="text" name="award_percent" /><label>*奖励从利息管理费抽取多少百分比。</label>
+                                        </div>
+                                    </li>
+                                    <li style="height:auto;">
+                                        <div class="title">备注：</div>
+                                        <div class="c">
+											<textarea rows="6" cols="55" name="remark"></textarea>
+										</div>
+                                    </li>
+                                </ul>
+                                <div class="other">
+                                    <input type="hidden" name="actionType" value="add" />
+                                    <input type="submit" name="reset" value="新增" class="input-button confirm"/>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+    <script>
+	   	var iput=$("input[name='award_percent']");
+	   	function reg(){
+	   		var i_val1 = (iput.val()).replace(/[^0-9\.]/g,'');
+	   		var i_val2 = (i_val1).replace(/\.{2,}/g,'.');
+	   		iput.val(i_val2)
+	   		var i_val3;
+	   		if((/\.\d+\.+/).test(i_val2))
+	   		{
+	   			i_val3=i_val2.replace(/\.+$/g,'');
+	   			iput.val(i_val3)
+	           }
+	       }
+	      iput.keyup(function(){
+	   	   	reg();
+	      });
+   </script>
+    </body>
+</html>
+<#include "../jsPage.html">

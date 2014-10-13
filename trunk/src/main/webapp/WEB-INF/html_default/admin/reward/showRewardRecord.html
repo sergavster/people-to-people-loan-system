@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <style>
+        .account_type{float:left;margin-top: 3px;}
+    </style>
+<body>
+<table class="mc">
+<tr>
+<td class="mc-l">
+    <!--左侧导航---{-->
+    <div id="navPanelContainer">
+        <div class="system-logo cd"></div>
+        <!--管理员信息---{-->
+        <#include "../adminInfo.html">
+            <!--管理员信息---}-->
+            <div class="nav-wrap">
+            	<!-- v1.6.6.2 RDPROJECT-238 zza 2013-10-21 start -->
+                <#include "../report/left.html">
+                <!-- v1.6.6.2 RDPROJECT-238 zza 2013-10-21 end -->
+            </div>
+    </div>
+    <!--左侧导航---}-->
+</td>
+<td class="mc-m">
+    <div class="navToggle"></div>
+</td>
+<td class="mc-r">
+<!--顶部导航---{-->
+<#include "../topNav.html">
+    <!--顶部导航---}-->
+
+    <!--面包屑导航---{-->
+    <#assign moduleName="奖励记录">
+        <#include "banner.html">
+            <!--面包屑导航---}-->
+
+            <!--工具栏--{-->
+            <div id="toolbar" class="clearfix">
+                <div class="toolbor-module export">
+                    <input type="button" onclick="exportxls()" value="导出报表" class="input-button export-btn"/>
+                </div>
+                <#if param?exists>
+                    <#if param.get("dotime1")?exists><#assign dotime1=param.get("dotime1")></#if>
+                    <#if param.get("dotime2")?exists><#assign dotime2=param.get("dotime2")></#if>
+                    <#if param.get("username")?exists><#assign username=param.get("username")></#if>
+                    <#if param.get("awardType")?exists><#assign awardType=param.get("awardType")></#if> 
+                </#if>
+                <div class="toolbor-module search">    
+                    <input type="button" value="搜索"  class="input-button" onclick="sousuo();">
+                </div>
+                <!-- <div class="toolbor-module search">
+                    <input type="text" name="passive_username" id="passive_username" value="请输入奖励提供者" data-value="请输入奖励提供者" class="search-value">
+                </div> -->
+                <div class="toolbor-module search">
+                    <input type="text" name="username" id="username" value="请输入获得者" data-value="请输入获得者" class="search-value">
+                </div>
+				<input type="hidden" name="search" value="select"> 
+                <div class="toolbor-module search">
+                	<div style="height:22px;line-height:22px;float:left;">奖励类型：</div>
+					<div class="select-box" id="type" >
+						<div class="tag-select" >全部</div>
+						<ul class="tag-options" >
+							<li data-value="-1">全部</li>
+							<li data-value="1">线下充值奖励 </li>
+							<li data-value="4">投标奖励</li>
+							<li data-value="5">回款续投奖励</li>
+							<li data-value="9">还款奖励</li>
+						</ul>
+					</div>
+					</div>
+					<div class="toolbor-module search">
+						<div style="height: 22px; line-height: 22px; float: left;">时间：</div>
+						<input class="_search-value js-datetime" type="text"
+							name="dotime1" id="dotime1" value="${dotime1!}" />
+						<div
+							style="height: 22px; line-height: 22px; float: left; margin: 0 8px;">
+							到</div>
+						<input class="_search-value js-datetime" type="text"
+							name="dotime2" value="${dotime2!}" id="dotime2" />
+					</div>
+				</div>
+            <!--工具栏--}-->
+
+            <div id="main" class="clearfix">
+                <form action="" method="post">
+                    <table class="data-list">
+                        <tr class="header">
+                            <td>ID</td>
+                            <td>类型</td>
+                            <td>外键ID</td>
+                            <td>获得者</td>
+                            <td>奖励提供者</td>
+                            <td>奖励金额</td>
+                            <td>奖励时间</td>
+                        </tr>
+                        <#import "../../common/function.html" as func>
+                        <#if list??>
+	                        <#list list as item>
+	                            <tr class="s">
+	                            	<td>${item.id?c}</td>
+	                                <td>
+	                                <@func.rewardType type_id = item.type />
+	                                </td>
+	                                <td>${item.fk_id?c}</td>
+	                                <td>${item.username!}</td>
+	                                <td>
+	                                <#if item.type == 4 || item.type == 9 >
+	                                ${item.passive_username!}
+	                                <#else>平台</#if>
+	                                </td>
+	                                <td>${item.reward_account!}</td>
+	                                <td>${dateformat(item.addtime?c)}</td>
+	                            </tr>
+	                        </#list>
+                        </#if>
+                    </table>
+                </form>
+
+                <!--底部工具栏--{-->
+                <div id="bottomToolbar" class="clearfix">
+                    <div class="other-tool">
+                        <dl class="refresh-data">
+                            <dt class="refresh-data-icon"></dt>
+                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                        </dl>
+                    </div>
+
+                    <!--翻页系统--{-->
+                    <div class="container">
+                        <#import "../../common/page.html" as pager>
+                            <@pager.pagination page=page url="/admin/reward/showRewardRecord.html" map=param style="style1"  />
+                    </div>
+                    <!--翻页系统--}-->
+                </div>
+                <!--底部工具栏--}-->
+
+                <script>
+                    var url = 'showRewardRecord.html?search=true';
+                    var xlsurl = 'showRewardRecord.html?choiceType=export';
+
+                    function sousuo(){
+                        var sou = "";
+                        var username = $("#username").val();
+                        if (username!=""&&username!="请输入获得者"){
+                            sou += "&username="+username;
+                        }
+                       /*  var passive_username = $("#passive_username").val();
+                        if (passive_username!=""&&passive_username!="请输入奖励提供者"){
+                            sou += "&passive_username="+passive_username;
+                        } */
+                        var dotime1 = $("#dotime1").val();
+                        var dotime2 = $("#dotime2").val();
+                        if (dotime1!=null){
+                            sou += "&dotime1="+dotime1;
+                        }
+                        if (dotime2!=null){
+                            sou += "&dotime2="+dotime2;
+                        }
+                        var type = $("#type").find(".open-selected").attr("data-value");
+                        if (type!="" && type!=null && type!=-1){
+            				sou += "&type="+type;
+            			}
+                        if (sou!=""){
+                            location.href=url+sou;
+                        }
+                    }
+                    function exportxls(){
+                        var sou = "";
+                        var username = $("#username").val();
+                        if (username!=""&&username!="请输入获得者"){
+                            sou += "&username="+username;
+                        }
+                       /*  var passive_username = $("#passive_username").val();
+                        if (passive_username!=""&&passive_username!="请输入奖励提供者"){
+                            sou += "&passive_username="+passive_username;
+                        } */
+                        var dotime1 = $("#dotime1").val();
+                        var dotime2 = $("#dotime2").val();
+
+                        if (dotime1!=null){
+                            sou += "&dotime1="+dotime1;
+                        }
+                        if (dotime2!=null){
+                            sou += "&dotime2="+dotime2;
+                        }
+                        var type = $("#type").find(".open-selected").attr("data-value");
+                        if (type!="" && type!=null && type!=-1){
+            				sou += "&type="+type;
+            			}
+                        if (sou!=""){
+                            location.href=xlsurl+sou;
+                        }else{
+                            location.href=xlsurl;
+                        }
+                    }
+                </script>
+            </div>
+
+</td>
+</tr>
+<tr>
+    <!--尾部--{-->
+    <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+    <!--尾部--}-->
+</tr>
+</table>
+
+</body>
+</html>
+<#include "../jsPage.html">

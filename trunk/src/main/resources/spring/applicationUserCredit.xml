@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<!-- 用户积分DAO -->
+	<bean id="userCreditDao" class="com.p2psys.dao.jdbc.UserCreditDaoImpl">
+        <property name="dataSource"><ref bean="dataSource"/></property>
+    </bean>
+    
+    <!-- 用户积分兑换DAO -->
+	<bean id="creditConvertDao" class="com.p2psys.credit.dao.jdbc.CreditConvertDaoImpl">
+        <property name="dataSource"><ref bean="dataSource"/></property>
+    </bean>
+    
+    <!-- 用户积分兑换Service -->
+    <bean id="creditConvertService" class="com.p2psys.credit.service.impl.CreditConvertServiceImpl">
+    	<property name="creditConvertDao"><ref bean="creditConvertDao" /></property>
+    	<property name="userCreditDao"><ref bean="userCreditDao" /></property>
+    	<property name="accountDao"><ref bean="accountDao" /></property>
+    	<property name="userCacheDao"><ref bean="userCacheDao" /></property>
+    </bean>
+    
+    <bean id="userCreditService" class="com.p2psys.service.impl.UserCreditServiceImpl">
+        <property name="userCreditDao"><ref bean="userCreditDao" /></property>
+        <property name="ruleDao"><ref bean="ruleDao"/></property>
+        <property name="creditConvertDao"><ref bean="creditConvertDao"/></property>
+        <property name="userDao"><ref bean="userDao"/></property>
+    </bean>
+    
+</beans>

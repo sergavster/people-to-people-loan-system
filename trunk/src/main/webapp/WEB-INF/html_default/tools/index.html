@@ -1,0 +1,265 @@
+<!doctype html>
+<html>
+<!--   v1.6.6.2 RDPROJECT-140 yl 2013-10-23 start-->
+<#assign web_title='等额本息还款计算器_贷款利率计算器 - ${webname!}p2p网贷平台'>
+<#assign web_description='等额本息还款法指借款者每月以相等的金额偿还贷款本息。等额本息还款法是一种被广泛采用的还款方式，也是银行房贷等计算贷款利率的方法。${webname!}为您提供：贷款利率计算器,等额本息还款计算器,贷款利息计算器等服务'>
+<#assign meta_keywords="贷款利率计算器,等额本息还款计算器,贷款利息计算器">
+<!--   v1.6.6.2 RDPROJECT-140 yl 2013-10-23 end-->
+<#include "../include/resource.html"> 
+<body>
+<#include "../common/function.html"> 
+<#include "../include/header.html">
+	<!--header-end-->
+	<link href="${request.getContextPath()}${theme_dir}/media/css/modal.css" rel="stylesheet"
+		type="text/css" />
+	<div id="main">
+		<!--子栏目 开始-->
+		<!--<div class="wrap950 header_site_sub">		<a href="/lixi/index.html">利息计算</a>		<a href="/phone/index.html">手机号码查询</a>		<a href="/ip/index.html">ip地址查询</a>	</div>-->
+		<!--子栏目 结束-->
+
+		<div class="wrap950 list_li_3">
+			<div class="m_l_bor" style="padding:10px; display: blcok;">
+				<div class="alert">
+					<font color="#FF0000">利息计算器,采用银行房贷等通用的"等额本息还款法"改编而来。</font>
+				</div>
+				<br />
+				<div class="well">
+					<#if type=="">
+						<div style="margin-top:10px">
+						<b>网贷计算器：</b>
+						<form action="${request.getContextPath()}/tools/interest.html" method="get" onSubmit="return checkfrm()">
+						<ul class="net_load clearfix">
+								<li><span>投资金额：</span><input type="text" name="account" size="10" value=""  id="account" onKeyUp="value=value.replace(/[^0-9.]/g,'')" />元 </li>
+								<li><span>利　　率：</span> <input type="text" name="lilv" size="10" value="<#if (lilv?exists)&&(lilv&gt;0)>${lilv?c}</#if>"  id="lilv" onKeyUp="value=value.replace(/[^0-9.]/g,'')"/> % 
+								 <input type="radio" name="is_APR" value="1" checked="checked">年
+                                        <input type="radio" name="is_APR" value="0">天</li>
+								<li><span>还款方式：</span><select name="type">
+								          	<option value="monthEqual" selected="selected"> 按月还款</option>
+											 <option value="monthEndInterest" >到期全额还款</option>
+										 <option value="monthInterest" >每月还息到期还本</option>
+								          </select> 
+								          </li>
+								<li><span>利息管理费：</span><input type="text" name="manage_fee_percentage" size="10" value=""  id="lilv" onKeyUp="value=value.replace(/[^0-9.]/g,'')"/> % </li>
+								<li><span>借款期限：</span><input type="text" name="times" size="10" value="" id="times" onKeyUp="value=value.replace(/[^0-9]/g,'')"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       <input type="radio" name="is_month" value="1" checked="checked">月
+                                        <input type="radio" name="is_month" value="0">天</li>
+								<li><span>投标奖励：</span><input type="text" name="tender_award_percentage" size="10" value=""  id="lilv" onKeyUp="value=value.replace(/[^0-9.]/g,'')"/> % </li>
+								
+								<li><span>线下/续投奖励：</span><input type="text" name="offline_award_percentage" size="10" value=""  id="lilv" onKeyUp="value=value.replace(/[^0-9.]/g,'')"/> % </li>
+								<li><span>投标时间：</span><input class="_search-value js-datetime" name="tender_time" id="tender_time" value="" onKeyUp="value=value.replace(/[^0-9.-]/g,'')"/></li>
+								<li class="net_load_btn"><input type="submit" class="btn-action" value="开始计算" /></li>
+							</ul>
+						</form>
+					</div>
+				
+					
+					<#else>
+					 
+						  	<div style="margin-top:10px">
+						<b>网贷计算器：</b>
+							<form action="${request.getContextPath()}/tools/interest.html" method="get" onSubmit="return checkfrm()">
+							<ul class="net_load clearfix">
+								<li><span>投标金额：</span><input type="text" name="account" size="10" value="<#if (account?exists)&&(account&gt;0)>${account?c}</#if>" id="account"  onKeyUp="value=value.replace(/[^0-9.]/g,'')"/> 元</li>
+								<li><span>利　　率： </span><input type="text" name="lilv" size="10" value="<#if (lilv?exists)&&(lilv&gt;0)>${lilv?c}</#if>"  id="lilv" onKeyUp="value=value.replace(/[^0-9.]/g,'')"/> % 
+								 <input type="radio" name="is_APR" value="1" <#if is_APR??&&is_APR==1>checked="checked"</#if>>年
+                                        <input type="radio" name="is_APR" value="0" <#if is_APR??&&is_APR==0>checked="checked"</#if>>天</li>
+								
+								<li><span>还款方式：</span><select name="type">
+								          	<option value="monthEqual" <#if type??&&type=="monthEqual">selected="selected"</#if>> 按月还款</option>
+											 <option value="monthEndInterest" <#if type??&&type=="monthEndInterest">selected="selected"</#if>>到期全额还款</option>
+										 <option value="monthInterest" <#if type??&&type=="monthInterest">selected="selected"</#if>>每月还息到期还本</option>
+								          </select> </li>
+								
+								<li><span> 利息管理费：</span><input type="text" name="manage_fee_percentage" size="10" value="<#if (manage_fee_percentage?exists)&&(manage_fee_percentage&gt;0)>${manage_fee_percentage?c}</#if>"  id="lilv" onKeyUp="value=value.replace(/[^0-9.]/g,'')"/> % </li>
+								<li><span>借款期限：</span><input type="text" name="times" size="10" value="<#if (times?exists)&&(times&gt;0)>${times?c}</#if>"  id="times" onKeyUp="value=value.replace(/[^0-9]/g,'')"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                      <input type="radio" name="is_month" value="1" <#if is_month??&&is_month==1>checked="checked"</#if>>月
+                                        <input type="radio" name="is_month" value="0" <#if is_month??&&is_month==0>checked="checked"</#if>>天 </li>
+								<li><span>投标奖励：</span><input type="text" name="tender_award_percentage" size="10" value="<#if (tender_award_percentage?exists)&&(tender_award_percentage&gt;0)>${tender_award_percentage?c}</#if>"  id="lilv" onKeyUp="value=value.replace(/[^0-9.]/g,'')"/> % </li>
+								
+								<li><span>线下/续投奖励：</span><input type="text" name="offline_award_percentage" size="10" value="<#if (offline_award_percentage?exists)&&(offline_award_percentage&gt;0)>${offline_award_percentage?c}</#if>"  id="lilv" onKeyUp="value=value.replace(/[^0-9.]/g,'')"/> %</li> 
+								<li><span>投标时间：</span><input class="_search-value js-datetime" name="tender_time" id="tender_time" value="${tender_time!}" onKeyUp="value=value.replace(/[^0-9.-]/g,'')"/>
+								<li class="net_load_btn"><input type="submit" class="btn-action" value="开始计算" /></li>
+								</ul>
+							</form>
+							</div>
+					</#if>
+				</div>
+			</div>
+          <!--   <div class="m_l_bor" style="padding:10px; display: none;">
+                <div class="alert">
+                    <font color="#FF0000">手机号码查询</font>
+                </div>
+                <br />
+                <div class="well">
+                    <#if !type?exists>
+                        <div style="margin-top:10px">
+                         <b>网贷计算器：</b>
+                            <form action="${request.getContextPath()}/tools/interest.html" method="get" onSubmit="return checkfrm()">
+                                借款金额：<input type="text" name="account" size="10" value="" id="account"  />
+                                年利率： <input type="text" name="lilv" size="10" value="" id="lilv" /> %
+                                借款期限：<input type="text" name="times" size="10" value="" id="times"  />个月
+                                还款方式：<select name="type">
+                                <option value="month"> 按月还款</option>
+								 <option value="monthEndInterest">到期全额还款</option>
+										 <option value="monthInterest">每月还息到期还本</option>
+                            </select>
+                                <input type="submit" class="btn-action" value="开始计算" />
+                            </form>
+                        </div>
+                        <#else>
+                                <div style="margin-top:10px">
+                                   <b>网贷计算器：</b>
+                                    <form action="${request.getContextPath()}/tools/interest.html" method="get" onSubmit="return checkfrm()">
+                                        借款金额：<input type="text" name="account" size="10" value="<#if (account?exists)&&(account&gt;0)>${account?c}</#if>" id="account"  />
+                                        年利率： <input type="text" name="lilv" size="10" value="<#if (lilv?exists)&&(lilv&gt;0)>${lilv?c}</#if>" id="lilv" /> %
+                                        借款期限：<input type="text" name="times" size="10" value="<#if (times?exists)&&(times&gt;0)>${times?c}</#if>" id="times"  />个月
+                                        还款方式：<select name="type">
+                                        <option value="month"> 按月还款</option>
+                                    </select>
+                                        <input type="submit" class="btn-action" value="开始计算" />
+                                    </form>
+                                </div>
+                    </#if>
+                </div>
+            </div>
+            <div class="m_l_bor" style="padding:10px; display: none;">
+                <div class="alert">
+                    <font color="#FF0000">地址查询</font>
+                </div>
+                <br />
+                <div class="well">
+                    <#if !type?exists>
+                        <div style="margin-top:10px">
+                           <b>网贷计算器：</b>
+                            <form action="${request.getContextPath()}/tools/interest.html" method="get" onSubmit="return checkfrm()">
+                                借款金额：<input type="text" name="account" size="10" value=""  id="account" />
+                                年利率： <input type="text" name="lilv" size="10" value="" id="lilv" /> %
+                                借款期限：<input type="text" name="times" size="10" value=""  id="times" />个月
+                                还款方式：<select name="type">
+                                <option value="month"> 按月还款</option>
+								  <option value="monthEndInterest">到期全额还款</option>
+										 <option value="monthInterest">每月还息到期还本</option>
+                            </select>
+                                <input type="submit" class="btn-action" value="开始计算" />
+                            </form>
+                        </div>
+                        <#else>
+                                <div style="margin-top:10px">
+                                   <b>网贷计算器：</b>
+                                    <form action="${request.getContextPath()}/tools/interest.html" method="get" onSubmit="return checkfrm()">
+                                        借款金额：<input type="text" name="account" size="10" value="<#if (account?exists)&&(account&gt;0)>${account?c}</#if>"  id="account" />
+                                        年利率： <input type="text" name="lilv" size="10" value="<#if (lilv?exists)&&(lilv&gt;0)>${lilv?c}</#if>" id="lilv" /> %
+                                        借款期限：<input type="text" name="times" size="10" value="<#if (times?exists)&&(times&gt;0)>${times?c}</#if>" id="times"  />个月
+                                        还款方式：<select name="type">
+                                        <option value="month">按月还款</option>
+										 <option value="monthEndInterest">到期全额还款</option>
+										 <option value="monthInterest">每月还息到期还本</option>
+                                    </select>
+                                        <input type="submit" class="btn-action" value="开始计算" />
+                                    </form>
+                                </div>
+                    </#if>
+                </div>
+            </div>
+		</div> -->
+		<#if (type?exists)&&(ic?exists)>
+		<!-- wrap950 list_1 start -->
+		<div class="wrap950 list_1">
+			<ul id="tab" class="list-tab clearfix">
+				<li class="active"><a href="#jkxq" data-toggle="tab">贷款概述</a>
+				</li>
+			</ul>
+			<div id="myTabContent" class="tab-content">
+				<div class="list-tab-con tab-pane fade in active" id="jkxq">
+					
+					您选择的是<input type="text" style="width:100px "size="10" value="<#if (type?exists)&&(type='monthEqual')>按月分期还款<#elseif (type?exists)&&(type='monthInterest')>每月还息到期还本<#else>到期全额还款</#if>"  />。如果投入：<input type="text"  size="10" value="<#if (account?exists)&&(account&gt;0)>${ceil((account?c!0)?number)}</#if>"  />元，
+					每月回款额为：<input type="text"  size="10" value="<#if (type?exists)&&(type='monthInterest')>(无需本数据)<#else>${ceil((ic.moneyPerMonth?c!0)?number)}</#if>"   />元；
+					可得收益总计：<input type="text" size="10" value="${ceil((ic.earn_total?c!0)?number)}"   />元
+					（即利息：<input type="text"  size="10" value="${ceil((ic.total_interest?c!0)?number)}"   />元、
+					投标奖励：<input type="text"  size="10" value="${ceil((ic.tender_award?c!0)?number)}"  />元）
+					和续投/线下奖励：<input type="text" size="10" value="${ceil((ic.offline_award?c!0)?number)}"  />元）
+					；扣除<input type="text"  style="width:30px " size="10" value="${(ic.manage_fee_percentage*100)?c}"  />%利息手续费(：<input type="text"  size="10" value="${ceil((ic.manage_fee?c!0)?number)}"  />元)后
+					，实际可获得收益：<input type="text" size="10" value="${ceil((ic.net_earn_total?c!0)?number)}"  />元。
+					</div>
+			</div>
+		</div>
+		<!-- wrap950 list_1 end -->
+		<!-- wrap950 list_1 start -->
+
+		<div class="wrap950 list_1">
+			<ul id="tab" class="list-tab clearfix">
+				<li class="active"><a href="#hksj" data-toggle="tab">还款计划时间表</a>
+				</li>
+			</ul>
+			<div id="myTabContent" class="tab-content">
+				<div class="list-tab-con tab-pane fade in active" id="hksj">
+					<table class="table table-striped  table-condensed">
+						<tr>
+							<td><strong>期数</strong>
+							</td>
+							<td><strong>月收款本息</strong>
+							</td>
+							<td><strong>月收款本金</strong>
+							</td>
+							<td><strong>利息</strong>
+							</td>
+							<td><strong>余额</strong>
+							</td>
+							<td><strong>净利息</strong>
+							</td>
+							<td><strong>净待收</strong>
+							</td>
+							<td><strong>到期时间</strong>
+							</td>
+						</tr>
+						<#list ic.monthList as item>
+						<tr>
+							<td>${item_index+1}</td>
+							<td>${ceil(((item.accountPerMon+item.interest)?c!0)?number)}</td>
+							<td>${ceil((item.accountPerMon?c!0)?number)}</td>
+							<td>${ceil((item.interest?c!0)?number)}</td>
+							<td>${ceil((item.totalRemain?c!0)?number)}</td>
+							<td>${ceil((item.netInterest?c!0)?number)}</td>
+							<td>${ceil((item.netCollection?c!0)?number)}</td>
+							<td>${dateformat(item.expire_time!)}</td>
+						</tr>
+						</#list>
+					</table>
+				</div>
+			</div>
+		</div>
+		<!-- wrap950 list_1 end -->
+					</#if>
+	</div>
+   <#include "../include/footer.html">
+   
+ 	<script type="text/javascript">
+        function checkfrm(){
+            var account=document.getElementById("account").value;
+            var lilv=document.getElementById("lilv").value;
+            var times=document.getElementById("times").value;
+            if(account==""){
+            alert("金额不能为空！");
+            document.getElementById("account").focus();
+            return false;
+                }
+            if(lilv==""){
+            alert("利率不能为空！");
+            document.getElementById("lilv").focus();
+            return false;
+            }
+            if(times==""){
+            alert("期限不能为空！");
+            document.getElementById("times").focus();
+            return false;
+            }
+        }
+        function useFloatNumberKey(){
+            if( ( (event.keyCode < 48) || (event.keyCode > 57) ) && (event.keyCode != 46) ) {
+                event.returnValue = false;
+            }
+        }
+    </script>
+
+</body>
+</html>

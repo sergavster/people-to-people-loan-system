@@ -1,0 +1,362 @@
+﻿<!DOCTYPE HTML>
+<html>
+<#assign nid="index" >
+<#include "include/resource.html"> 
+
+<#include "include/header.html">
+<!--导航--> 
+<div  id="container"> 
+	<div class="clearfix" id="banner">
+        <div class="banner-slide clearfix">
+        	<script src="${webroot}${theme_dir}/media/js/jquery.slider.min.js"></script>
+            <div id="slide">
+                <div class="slideul">
+                    <#if (scrollPic?exists)&&(scrollPic?size>0)>
+                        <#list scrollPic as item>
+                            <div>
+                                <a href="${item.url}" target="_blank">
+                                	<!-- v1.6.6.2 图片显示 zza 2013-10-31 start -->
+                                	<#if !request.getContextPath()?ends_with("/") && !item.pic?starts_with("/")>
+				                   		<img src="${request.getContextPath()}/${item.pic!}"/>
+				                   	<#else>
+				                   		<img src="${request.getContextPath()}${item.pic!}"/>
+				                   	</#if>
+				                   	<!-- v1.6.6.2 图片显示 zza 2013-10-31 end -->
+                                </a>
+                            </div>
+                        </#list>
+                    </#if>
+                </div>
+            </div>
+        </div>
+		<script>
+			 jQuery(document).ready(function($) {
+				$(".slideul").slideshow({
+					width      : 741,
+					height     : 222,
+					transition : 'fade',
+					timer:false	    
+				});
+			});
+		</script>
+        <div id="loginbox">
+                <#include "common/macro_index_login.html">
+                    <#if session_user??>
+                        <@userLogin session_user=session_user />
+                    <#else>
+                        <div class="loginbox-content">
+                            <div class="loginbox-title">
+                                <span class="userlogin-box-title-text">用户登录</span>
+                            </div>
+                            <!-- v1.6.7.1 RDPROJECT-104 xx 2013-11-11 start -->
+                            <form action="${request.getContextPath()}/user/login.html" method="post" name="login" id="loginForm" >
+                           	<!-- v1.6.7.1 RDPROJECT-104 xx 2013-11-11 end -->
+                                <ul class="loginbox-main">
+                                    <li>
+                                        <label for="">帐号：</label><input type="text"  id="username" name="username" class="txt">
+                                        <span class="formicon"></span>
+                                    </li>
+                                    <li>
+                                        <label for="">密码：</label>
+                                        <!-- v1.6.7.1 RDPROJECT-104 xx 2013-11-11 start -->
+                            			<#if rsaFormEncrypt?? && rsaFormEncrypt.status?? && rsaFormEncrypt.status==1>
+                                        	<input type="password" id="password" class="txt">
+                                        	<input type="hidden" name="password" id="password_hid">
+                                        	<input type="hidden" name="encrypt" id="encrypt">
+                                        <#else>
+                                        	<input type="password" name="password" id="password" class="txt">
+                                        </#if>
+                                        <!-- v1.6.7.1 RDPROJECT-104 xx 2013-11-11 end -->
+                                        <span class="formicon"></span>
+                                    </li>
+                                     <!--  V1.6.6.2 RDPROJECT-365 yl 2013-10-22 start -->
+                                     <#if loginRule??>
+									<li class="loginlastli">
+									<label for="">验证码：</label>
+									<input class="code" name="valicode" type="text" maxlength="5" style=" width:50px; *margin-left:3px;" />&nbsp;<img src="${request.getContextPath()}/validimg.html" alt="点击刷新" onClick="this.src='${request.getContextPath()}/validimg.html?t=' + Math.random();" align="absmiddle" style="cursor:pointer; display:inline-block;zoom:1;*display:inline; *float:none;" />
+									</li>
+									</#if>
+									<!--  V1.6.6.2 RDPROJECT-365 yl 2013-10-22 end -->
+                                    <li class="checkboxs">
+                                        <input type="checkbox">记住用户名 <a href="${webroot}/user/getpwd.html">忘记密码?</a>
+                                    </li>
+                                    <li class="loginlastli">
+                                        <input type="hidden" name="source" value="index" />
+                                        <input type="hidden" name="actionType"  value="login" />
+                                        <!-- v1.6.7.1 RDPROJECT-104 xx 2013-11-11 start -->
+                                        <input type="button" onclick="doLogin();" value="" class="denglu float_left">　　<a href="${webroot}/user/register.html" class="zhuce">　</a>
+										<!-- v1.6.7.1 RDPROJECT-104 xx 2013-11-11 end -->
+                                    </li>
+                                </ul>
+                            </form>
+                            <!-- v1.6.7.1 RDPROJECT-104 xx 2013-11-11 start -->
+						    <script type="text/javascript" src="${webroot}/plugins/rsa/RSA.js"></script>
+						    <script type="text/javascript" src="${webroot}/plugins/rsa/BigInt.js"></script>
+						    <script type="text/javascript" src="${webroot}/plugins/rsa/Barrett.js"></script>
+							<script type="text/javascript">  
+								<#if rsaFormEncrypt?? && rsaFormEncrypt.status?? && rsaFormEncrypt.status==1>
+									var key ;
+									function bodyRSA(){
+									    setMaxDigits(130);
+									    <#if e?? && m??>
+									    	key = new RSAKeyPair("${e}","","${m}");
+									    </#if>
+									}
+								</#if>
+								
+								function doLogin() {
+									<#if rsaFormEncrypt?? && rsaFormEncrypt.status?? && rsaFormEncrypt.status==1>
+										bodyRSA();
+										var result = $("#password").val();
+										<#if e?? && m??>
+											result = encryptedString(key, encodeURIComponent(result));
+										</#if>
+										$("#password_hid").attr("value", result);
+										$("#encrypt").attr("value",1);
+									</#if>
+									$("#loginForm").submit();
+								}
+							</script>
+							<!-- v1.6.7.1 RDPROJECT-104 xx 2013-11-11 end -->
+            			</div>
+                </#if>
+        </div>
+    </div>
+
+  <!--  正常率：${normal_rate}&nbsp;&nbsp;逾期率：${overdue_rate}&nbsp;&nbsp;坏账率：${bad_rate} <span>申请借入总额：${totalTenderAccount!}</span>&nbsp;&nbsp;<span>申请借入笔数：${applyBorrowCount!}</span> -->
+    <!-- v1.6.7.1 RDPROJECT-439 zza 2013-11-12 start -->
+    <style>
+    	.scrol_left{height:30px;line-height:30px;width:740px;overflow:hidden}
+    	.scrol_left ul li{float:left;width:180px;}
+    </style>
+    <div class="scrol_left">
+    	<#include "common/function.html"> 
+	    <ul class="clearfix">
+	    	<li>投资总金额：${format2(tenderCount!0)}</li> 
+	    	<li>待收总金额：${format2(collectionCount!0)}</li>
+	    	<li>逾期垫付金额：${format2(laterCount!0)}</li> 
+	    	<li>逾期收回金额：${format2(laterBackCount!0)}</li>
+	    </ul>
+	</div>
+    <!-- v1.6.7.1 RDPROJECT-439 zza 2013-11-12 end -->
+    <div class="clearfix" id="content">
+        <div id="main">
+            <div class="index-notice clearfix">
+                <h3><img src="${webroot}${theme_dir}/media/bg/siteNote.gif">公告：</h3>
+                <ul>
+                	<#if (notice?exists)&&(notice?size>0)>
+                         <#list notice as item>
+                            <li>
+                                <a href="${webroot}/article/detail.html?catalog=22&id=${item.id}" target="_blank" class="new"><#if item.name?length lt 15>${item.name}<#else>${item.name[0..14]}</#if></a>
+                            </li>
+                        </#list>
+                    </#if>
+                </ul>
+                <p><a href="/article/list.html?catalog=59">媒体报道</a> | <a href="/article/list.html?catalog=22">最新公告</a> | <a href="/article/list.html?catalog=57">网站资费</a></p>
+            </div>
+            <div id="investitem-title">
+            <!--  V1.6.6.2 RDPROJECT-215 yl 2013-10-24 start -->
+                 <span>正在招标<a href="${webroot}/invest/index.html">更多>></a></span>
+            <!--  V1.6.6.2 RDPROJECT-215 yl 2013-10-24 end -->
+            </div><!--正在招标的标题-->
+            
+            <div id="investitem">
+               <#include "common/function.html"> 
+               <#include "common/macro_index.html">
+               <#if borrowList?exists>
+               <#list borrowList as item> 			   
+               <@indexListItem item=item /> 
+               </#list>
+               </#if><!--借款标--> 
+               <!--   v1.6.7.2 理财宝显示 zhangyz 2013-12-09 start-->   
+               <#include "common/treasure_index.html"> 
+               <!--   v1.6.7.2 理财宝显示 zhangyz 2013-12-09 end-->
+             </div>
+        </div>
+
+        <div id="slidebar">
+            <div class=" slidebar-box">
+                <div class=" slidebar-title">
+                    <span class="float_left">网站公告</span><a href="${webroot}/article/list.html?catalog=22" class="float_right">[更多]</a>
+                </div>
+                <ul class="articleul slidebar-list">
+                    <#if (notice?exists)&&(notice?size>0)>
+                        <#list notice as item>
+                            <li>
+                                <a href="${webroot}/article/detail.html?nid=notice&id=${item.id}"><#if item.name?length lt 15>${item.name}<#else>${item.name[0..14]}</#if></a>
+                            </li>
+                        </#list>
+                    </#if>
+                 </ul>
+            </div>
+            <div class=" slidebar-box">
+                <div class=" slidebar-title">
+                    <span class="float_left">成功贷款</span><a href="${webroot}/invest/index.html?status=12" class="float_right">[更多]</a>
+                </div>
+                 <div class="sucbox slidebar-successed">
+                    <ul class="articleul slidebar-list">
+                      <#if (successList?exists)&&(successList?size>0)>
+                       <#list successList as item>
+                        <li class="clearfix">
+                            <dl class="slidebar-successed-dl">
+                                <dt><a href="${webroot}/invest/detail.html?borrowid=${item.id?c}"><#if item.name??&&item.name?length lt 15>${item.name!}<#else>${item.name[0..12]}..</#if></a></dt>
+                                <dd>金额：<b>￥${item.account}元</b></dd>
+                                <dd>
+                                	期限： <#if item.isday??&&item.isday==1>${item.time_limit_day!0}天
+                            		<#else>${(item.time_limit)?default("0")}个月</#if>
+                                </dd>
+                            </dl>
+                        </li>
+                        </#list>	
+                    </#if> 
+                    </ul>
+                </div>
+            </div><!--成功贷款-->
+            <div class=" slidebar-box">
+                <div class=" slidebar-title">
+                    <span class="float_left">发标预告</span><a href="${webroot}/article/list.html?catalog=132" class="float_right">[更多]</a>
+                </div>
+                <ul class="articleul slidebar-list">
+                    <#if (ygList?exists)&&(ygList?size>0)>
+                        <#list ygList as item>
+                            <li>
+                                <a href="${webroot}/article/detail.html?catalog=22&id=${item.id}"><#if item.name?length lt 15>${item.name}<#else>${item.name[0..14]}</#if></a>
+                            </li>
+                        </#list>
+                    </#if>
+                 </ul>
+            </div>
+            
+            <div class=" slidebar-box">
+                <div class=" slidebar-title">
+                    <span class="float_left">媒体报道</span><a href="${webroot}/article/list.html?catalog=59" class="float_right">[更多]</a>
+                </div>
+                <ul class="articleul slidebar-list">
+                        <#if bdList??>
+                            <#list bdList as item>
+                        <li>
+                            <a href="${webroot}/article/detail.html?catalog=59&id=${item.id}"><#if item.name?length lt 15>${item.name}<#else>${item.name[0..14]}</#if></a>
+                        </li>
+                            </#list>
+                        </#if>
+                 </ul>
+            </div>
+            <div class=" slidebar-box" style="margin-bottom: 0;">
+                <div class=" slidebar-title">
+                    <span class="float_left">常见问题</span><a href="${webroot}/article/list.html?catalog=98" class="float_right">[更多]</a>
+                </div>
+                <ul class="articleul slidebar-list">
+                        <#if cjList??>
+                            <#list cjList as item>
+                        <li>
+                            <a href="${webroot}/article/detail.html?catalog=98&id=${item.id}"><#if item.name?length lt 15>${item.name}<#else>${item.name[0..14]}</#if></a>
+                        </li>
+                            </#list>
+                        </#if>
+                 </ul>
+            </div>
+			  <div class="slidebar-box" style="margin-bottom: 0;">
+                <div class="slidebar-title">
+                    <span class="float_left">投资排行榜</span>
+                </div>
+               	<span class="tabspan clearfix"><b class="b1">排名</b><b class="b2">用户名</b><b class="b3" style="color:#225592;">投资金额</b></span>
+                <ul class="articleul slidebar-list">
+                	<!-- v1.6.7.2 RDPROJECT-567 zza 2013-12-18 start -->
+                  	<#if (totalRankList?exists)&&(totalRankList?size>0)>
+                    <#list totalRankList as tList>
+                    <!-- v1.6.7.2 RDPROJECT-567 zza 2013-12-18 end -->
+                        <#if tList_index lt 10>
+                        <li>
+                            <b class="b1">${tList_index+1}</b>
+                            <b class="b2"><#if (tList.username?length) gt 1>*${tList.username[1..]!}<#else>*</#if></b>
+                            <!--<b class="b2">${tList.username!}</b>-->
+                            <b class="b3">￥${((tList.tenderMoney?c!)?number)?string("#")}</b>
+                        </li>    
+                        </#if>
+                    </#list>    
+                   	</#if> 
+                </ul>
+            </div>
+            <#--
+            <div class="rightbox box mt10" style=" margin-bottom:0;">
+                <div class="title">
+                    <span class="float_left">投资排行榜</span><a  href ="${webroot}/moreRank.html?rankNum=100" class="float_right">更多 >></a>
+                </div>
+                <div class="article-list">
+            		<div class="ranking">
+                    	<ul class="clearfix">
+    						<li class="current">总</li>
+                            <li>月</li>
+                            <li>周</li>
+                            <li>天</li>
+                        </ul>
+    				    <div style="display:block"> 
+                        	<span class="tabspan clearfix"><b class="b1">排名</b><b class="b2">用户名</b><b class="b3">投资金额</b></span>
+                            <ul class="clearfix down1">
+	                          	<#if (totalRankList?exists)&&(totalRankList?size>0)>
+	                        	<#list totalRankList as tList>
+	                                <li>
+	                                    <b class="b1">${tList_index+1}</b>
+	                                    <b class="b2">${tList.username!}</b>
+	                                    <b class="b3">${(tList.tenderMoney!0)?string("###,###.##")}</b>
+	                                </li>                  
+	                            </#list>	
+	                           	</#if> 
+                            </ul>
+                        </div>
+                        <div> 
+                        	<span class="tabspan clearfix"><b class="b1">排名</b><b class="b2">用户名</b><b class="b3">投资金额</b></span>
+                            <ul class="clearfix down1">
+	                          	<#if (monthRankList?exists)&&(monthRankList?size>0)>
+	                        	<#list monthRankList as mrList>
+	                                <li>
+	                                    <b class="b1">${mrList_index+1}</b>
+	                                    <b class="b2">${mrList.username!}</b>
+	                                    <b class="b3">${(mrList.tenderMoney!0)?string("###,###.##")}</b>
+	                                </li>                  
+	                            </#list>	
+	                           	</#if> 
+                            </ul>
+                        </div>
+
+                        <div> 
+                        	<span class="tabspan clearfix"><b class="b1">排名</b><b class="b2">用户名</b><b class="b3">投资金额</b></span>
+                            <ul class="clearfix down2">
+                           <#if (weekRankList?exists)&&(weekRankList?size>0)>
+                        	<#list weekRankList as wrList>
+                                <li>
+                                    <b class="b1">${wrList_index+1}</b>
+                                    <b class="b2">${wrList.username!}</b>
+                                    <b class="b3">${(wrList.tenderMoney!0)?string("###,###.##")}</b>
+                                </li>                  
+                            </#list>	
+                           </#if> 
+                            </ul>
+                        </div>
+                        <div> 
+                        	<span class="tabspan clearfix"><b class="b1">排名</b><b class="b2">用户名</b><b class="b3">投资金额</b></span>
+                            <ul class="clearfix down3">
+	    					  	<#if (dayRankList?exists)&&(dayRankList?size>0)>
+	                        	<#list dayRankList as drList>
+	                                <li>
+	                                    <b class="b1">${drList_index+1}</b>
+	                                    <b class="b2">${drList.username!}</b>
+	                                    <b class="b3">${(drList.tenderMoney!0)?string("###,###.##")}</b>
+	                                </li>                  
+	                            </#list>	
+	                           	</#if> 
+                            </ul>
+                        </div>
+                    </div>
+    			</div>
+			</div>
+            -->
+        </div>
+	</div>
+
+
+</div><!--右侧-->
+
+<#include "include/footer.html"> 
+</body>
+</html>

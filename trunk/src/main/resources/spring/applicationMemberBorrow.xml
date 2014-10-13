@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<bean id="memberBorrowDao"
+        class="com.p2psys.dao.jdbc.MemberBorrowDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+ 
+    
+    <bean id="repaymentDao"
+        class="com.p2psys.dao.jdbc.RepaymentDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+     <bean id="collectionDao"
+        class="com.p2psys.dao.jdbc.CollectionDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+
+
+  <bean id="memberBorrowService"
+        class="com.p2psys.service.impl.MemberBorrowServiceImpl">
+        <property name="memberBorrowDao">
+            <ref bean="memberBorrowDao" />
+        </property>
+        <property name="repaymentDao">
+            <ref bean="repaymentDao" />
+        </property>
+         <property name="collectionDao">
+            <ref bean="collectionDao" />
+        </property>
+        <property name="tenderDao">
+            <ref bean="tenderDao" />
+        </property>
+        <property name="accountDao">
+            <ref bean="accountDao" />
+        </property>
+        <property name="accountLogDao">
+            <ref bean="accountLogDao" />
+        </property>
+        <property name="borrowDao">
+            <ref bean="borrowDao" />
+        </property>
+       
+    </bean>
+</beans>

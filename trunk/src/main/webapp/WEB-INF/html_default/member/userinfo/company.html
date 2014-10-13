@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<#include "../../include/resource.html"> 
+<body>
+<#assign nid="member">
+<#include "../../include/header.html">
+<!--header-end-->
+<!--用户中心的主栏目 开始-->
+<div id="main" class="clearfix" >
+<div class="wrap950 " style="margin-top:0">
+	<!--左边的导航 开始-->
+	<div class="user_left">
+		<#include "../user_menu.html">
+	</div>
+	<!--左边的导航 结束-->
+	
+	<!--右边的内容 开始-->	
+	<div class="user_right">
+		<#if msg?exists>
+		<div id="msg24">
+			<p class="ok"> ${msg} </p>
+		</div>
+		<#else>
+			<#if errormsg?exists>
+				<div id="msg25">
+					<p class="error"> ${errormsg} </p>
+				</div>
+			</#if>
+		</#if>
+		<div class="user_right_menu">
+			<#assign userinfo_type="company" >
+			<#include "userinfo_menu.html"> 
+		</div>
+		
+		<div class="user_right_main">
+			<form action="" name="form1" method="post" >
+					<div class="user_help alert">请填写你个人的最近的单位资料</div>
+			<div class="user_right_border">
+				<div class="l">单位名称：</div>
+				<div class="c">
+					<input type="text" size="25" name="company_name" value="<#if info?exists&&info.company_name?exists>${info.company_name}</#if>" /> 
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">单位性质：</div>
+				<div class="c">
+					<#if info?exists&&info.company_type?exists>
+						<@linkage name="company_type" id="company_type" nid="user_company_type" default=info.company_type></@linkage>
+					<#else>
+						<@linkage name="company_type" id="company_type" nid="user_company_type"></@linkage>
+					</#if>
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">单位行业：</div>
+				<div class="c">
+					<#if info?exists&&info.company_industry?exists>
+						<@linkage name="company_industry" id="company_industry" nid="user_company_industry" default=info.company_industry></@linkage>
+					<#else>
+						<@linkage name="company_industry" id="company_industry" nid="user_company_industry"></@linkage>
+					</#if>
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">工作级别：</div>
+				<div class="c">
+					<#if info?exists&&info.company_jibie?exists>
+						<@linkage name="company_jibie" id="company_jibie" nid="user_company_jibie" default=info.company_jibie></@linkage>
+					<#else>
+						<@linkage name="company_jibie" id="company_jibie" nid="user_company_jibie"></@linkage>
+					</#if>
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">职 位：</div>
+				<div class="c">
+					<#if info?exists&&info.company_office?exists>
+						<@linkage name="company_office" id="company_office" nid="user_company_office" default=info.company_office></@linkage>
+					<#else>
+						<@linkage name="company_office" id="company_office" nid="user_company_office"></@linkage>
+					</#if>
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">服务时间：</div>
+				<div class="c">
+					<input type="text" size="25" name="company_worktime1" value="<#if info?exists&&info.company_worktime1?exists>${info.company_worktime1}</#if>" onclick="change_picktime()" />  
+					到 <input type="text" size="25" name="company_worktime2" value="<#if info?exists&&info.company_worktime2?exists>${info.company_worktime2}</#if>" onclick="change_picktime()" /> 
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">工作年限：</div>
+				<div class="c">
+					<#if info?exists&&info.company_workyear?exists>
+						<@linkage name="company_workyear" id="company_workyear" nid="user_company_workyear" default=info.company_workyear></@linkage>
+					<#else>
+						<@linkage name="company_workyear" id="company_workyear" nid="user_company_workyear"></@linkage>
+					</#if>
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">工作电话：</div>
+				<div class="c">
+					<input type="text" size="25" name="company_tel" value="<#if info?exists&&info.company_tel?exists>${info.company_tel}</#if>" /> 
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">公司地址：</div>
+				<div class="c">
+					<input type="text" size="25" name="company_address" value="<#if info?exists&&info.company_address?exists>${info.company_address}</#if>" /> 
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">公司网站：</div>
+				<div class="c">
+					<input type="text" size="25" name="company_weburl" value="<#if info?exists&&info.company_weburl?exists>${info.company_weburl}</#if>" /> 
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">备注说明：</div>
+				<div class="c">
+					<textarea  cols="50" rows="6"name="company_reamrk"><#if info?exists&&info.company_reamrk?exists>${info.company_reamrk}</#if></textarea>
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l"></div>
+				<div class="c">
+					<input type="submit" class="btn-action"  name="name"  value="确认提交" size="30" /> 
+				</div>
+			</div>
+			
+			
+			<div class="user_right_foot alert">
+			* 温馨提示：我们将对所有的信息进行保密
+			</div>
+			
+			<!--单位资料 结束-->
+			
+			
+			
+			<!--私营业主资料  开始-->
+					<input type="hidden" name="type" value="1" />
+			</form>
+		</div>
+ 	 </div>
+	<!--右边的内容 结束-->
+	</div>
+</div>
+<!--用户中心的主栏目 结束-->
+<script src="${request.getContextPath()}${theme_dir}/media/js/modal.js"></script>
+
+<#include "../../include/footer.html"> 
+</body>
+</html>

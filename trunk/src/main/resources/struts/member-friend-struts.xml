@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="memberFriend" namespace="/member/friend" extends="wzd-default">
+
+		<action name="invite" class="memberFriendAction" method="invite">
+			<result name="success" type="ftl">/member/friend/invite.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="request" class="memberFriendAction" method="request">
+			<result name="success" type="ftl">/member/friend/request.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="myfriend" class="memberFriendAction" method="myfriend">
+			<result name="success" type="ftl">/member/friend/myfriend.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="black" class="memberFriendAction" method="black">
+			<result name="success" type="ftl">/member/friend/black.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="tc" class="memberFriendAction" method="tc">
+			<result name="success" type="ftl">/member/friend/tc.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="addfriendrequest" class="memberFriendAction" method="addfriendrequest">
+			<result name="success" type="ftl">/msg.html</result>
+			<result name="fail" type="ftl">/msg.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		
+		<action name="addfriend" class="memberFriendAction" method="addfriend">
+			<result name="success" type="ftl">/msg.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		
+		<action name="blackfriend" class="memberFriendAction" method="blackfriend">
+			<result name="msg" type="ftl">/msg.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		
+		<action name="delfriend" class="memberFriendAction" method="delfriend">
+			<result name="msg" type="ftl">/msg.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		
+		<action name="readdfriend" class="memberFriendAction" method="readdfriend">
+			<result name="msg" type="ftl">/msg.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		
+		
+		
+	</package>
+</struts>

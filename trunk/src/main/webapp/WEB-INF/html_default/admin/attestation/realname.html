@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="实名认证">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                            
+                                <div class="toolbor-module export">
+                                    <input type="button" onClick="exportxls()" value="导出报表" class="input-button export-btn"/>
+                                </div>
+                                <!-- v1.6.7.1 RDPROJECT-354 wcw 2013-11-21 start -->
+                                <#if param?exists>
+                                	<#if param.get("status")?exists><#assign status=param.get("status")></#if>
+				                    <#if param.get("username")?exists><#assign username=param.get("username")></#if>
+				                    <#if param.get("realname")?exists><#assign realname=param.get("realname")></#if>
+				                    <#if param.get("card_id")?exists><#assign card_id=param.get("card_id")></#if>
+  				                    <#if param.get("verify_type")?exists><#assign verify_type=param.get("verify_type")?number><#else><#assign verify_type=0></#if>
+  				                    <#if param.get("verify_start_time")?exists><#assign verify_start_time=param.get("verify_start_time")></#if>
+  				                    <#if param.get("verify_end_time")?exists><#assign verify_end_time=param.get("verify_end_time")></#if>
+				                </#if>    
+				                <!-- v1.6.7.1 RDPROJECT-354 wcw 2013-11-21 end -->                          
+                                <form action="verifyRealname.html" method="post">
+                                	<div class="toolbor-module search">   
+                                        <input type="button" value="搜索" onclick="sousuo();"  class="input-button" >
+                                     </div>  	
+                                    <div class="toolbor-module search">
+                                        <input type="text" name="username" id="username" value="请输入用户名" data-value="请输入用户名" class="search-value">
+                                    </div>
+                                    <div class="toolbor-module search">    
+                                        <input type="text" name="realname" id="realname" value="请输入真实姓名" data-value="请输入真实姓名" class="search-value">
+                                    </div>
+                                    <div class="toolbor-module search">    
+                                        <input type="text" name="card_id" id="card_id" value="请输入证件号" data-value="请输入证件号" class="search-value">
+                                    </div>
+                                    <!-- v1.6.7.1 RDPROJECT-354 wcw 2013-11-21 start -->
+                                    <div class="toolbor-module search">    
+                                        <div class="select-box" id="status">
+                                            <div class="tag-select">全部</div>
+                                            <ul class="tag-options">
+                                                <li data-value="0" <#if status=="0" >data-selected="selected"</#if>>全部</li>
+                                                <li data-value="1" <#if status=="1" >data-selected="selected"</#if>>审核通过</li>
+                                                <li data-value="-1" <#if status=="-1" >data-selected="selected"</#if>>审核未通过</li>
+                                                <li data-value="2" <#if status=="2" >data-selected="selected"</#if>>待审核</li>
+                                            </ul>
+                                        </div>
+                                     </div>
+                                       <div class="toolbor-module search">
+	                                    <div style="height:22px;line-height:22px;float:left;">审核时间：</div>
+	                                    <input class="_search-value js-datetime" name="verify_start_time" id="verify_start_time" value="${verify_start_time!}"/>
+	                                    <div style="height:22px;line-height:22px;float:left;margin:0 8px;"> 到 </div>
+	                                    <input class="_search-value js-datetime" name="verify_end_time" value="${verify_end_time!}" id="verify_end_time"/>
+	                                   </div>
+	                                   <!-- v1.6.7.1 RDPROJECT-354 wcw 2013-11-21 end -->
+                                    </div>
+                                </form>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form action="" method="post">
+                                    <table class="data-list">
+                                        <tr class="header">
+                                            <td>用户名称</td>
+                                            <!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 start -->
+                                            <td>类型</td>
+                                            <td>真实姓名(或公司名)</td>
+                                            <!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 end -->
+                                            <td>性别</td>
+                                            <td>民族</td>
+                                            <!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 start -->
+                                            <td>生日(或注册日期)</td>
+                                            <!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 end -->
+                                            <td>证件类型</td>
+                                            <td>证件号码</td>
+                                            <!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 start -->
+                                            <td>籍贯(或所在地)</td>
+                                            
+                                            <!-- v1.6.7.2 sj 2013-12-23 start -->
+											<#if show_pic?exists>
+                                            	<td>身份证图片(或证件图片)</td>
+                                            </#if>
+											<!-- v1.6.7.2 sj 2013-12-23 end -->
+                                            
+                                            <!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 end -->
+                                            <!-- v1.6.7.1  RDPROJECT-354 wcw 2013-11-05 start -->
+                                            <td>审核时间</td>
+                                            <!-- v1.6.7.1  RDPROJECT-354 wcw 2013-11-05 end -->
+                                            <td>状态</td>
+                                            <!-- v1.6.7.2 RDPROJECT-571 sj 2013-12-11 start -->
+                                            <td>自动审核</td>
+                                            <!-- v1.6.7.2 RDPROJECT-571 sj 2013-12-11 end -->
+                                            <td>操作</td>
+                                        </tr>
+
+                                        <#if list??> <#list list as obj>
+                                            <td><a onclick='alertPop("用户详细信息查看","url:get?viewUserInfo.html?username=${obj.username}",500,230,"true","","true","text");'
+                                                    href="javascript:void(0)">${obj.username!"-"} </a></td>
+                                            <!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 start -->
+                                            <td><#if obj.nature?? && obj.nature==2>公司法人<#else>自然人</#if></td>
+                                            <!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 end -->
+                                            <td>${obj.realname!"-"}</td>
+                                            <!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 start -->
+                                            <td><#if obj.nature?? && obj.nature==1><#if obj.sex??&& obj.sex=="1">男<#else>女</#if><#else>-</#if></td>
+                                            <!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 end -->
+                                            <td><#if obj.nation??>${Typet(obj.nation,"name")}<#else>-</#if></td>
+                                            <td>${obj.birthday!"-"}</td>
+                                            <!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 start -->
+                                            <td><#if obj.nature?? && obj.nature==1 && obj.card_type??>${Typet(obj.card_type,"name")}<#elseif obj.nature?? && obj.nature==2>组织机构证</#if></td>
+                                            <!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 end -->
+                                            <td>${obj.card_id!"-"}</td>
+                                            <td>${obj.provincetext!"-"}-${obj.citytext!"-"}-${obj.areatext!"-"}</td>
+                                            
+                                            <!-- v1.6.7.2 sj 2013-12-23 start -->
+											<#if show_pic?exists>
+	                                            <td>
+	                                                <a target="_blank" href="${webroot}/${obj.card_pic1!}">正面</a>| <a target="_blank"
+													href="${webroot}/${obj.card_pic2!}">背面</a></td>
+	                                            </td>
+                                            </#if>
+											<!-- v1.6.7.2 sj 2013-12-23 end -->
+                                            
+                                            <!-- v1.6.7.1  RDPROJECT-354 wcw 2013-11-05 start -->
+                                            <td><#if obj.realname_verify_time??>${dateformat(obj.realname_verify_time)}</#if></td>
+                                            <!-- v1.6.7.1  RDPROJECT-354 wcw 2013-11-05 end -->
+                                            <!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 start -->
+                                            <td>
+                                                <#if obj.real_status??&&obj.real_status==1>
+                                                	<font color="#009900">审核通过</font>
+                                                <#elseif obj.real_status??&&obj.real_status==-1>
+                                                	<font color="#cccccc">申请没通过</font>
+                                                <#else>
+                                                	<font color="#f00">等待审核</font>
+                                                </#if>
+                                            </td>
+                                            <!-- v1.6.7.2 RDPROJECT-571 sj 2013-12-11 start -->
+											<td><a href="autoVerifyRealname.html?user_id=${obj.user_id?c}&card_id=${obj.card_id!''}&realname=${obj.realname}" onclick="return confirm('确定自动审核该用户实名申请？')">自动审核</a></td>
+											<!-- v1.6.7.2 RDPROJECT-571 sj 2013-12-11 end -->
+                                            <td>
+                                                <#if obj.real_status??&&(obj.real_status==1 || obj.real_status==-1) > 
+                                                 <!--  v1.6.6.2 RDPROJECT-195 yl 2013-10-24 start -->
+                                                <a href="/admin/attestation/cancelUserAttestation.html?user_id=${obj.user_id?c}&type=cancelRealname"  
+                                                onclick="return confirm('警告：您确定撤消该用户实名认证？')"><font color="red">撤回审核</font></a>
+                                                 <!--  v1.6.6.2 RDPROJECT-195 yl 2013-10-24 end-->
+                                                 <!--  v1.6.7.1 RDPROJECT-289 sj 2013.11.8 start -->
+                                                 <#else><a onclick='alertPop("实名认证审核","url:get?viewAudit.html?user_id=${obj.user_id?c}&type=realname&card_id=${obj.card_id!''}&isNotice=${isNotice?if_exists}",600,350,"true","","true","text");'
+                                                        href="javascript:void(0)">审核</a></#if>
+                                                  <!--  v1.6.7.1 RDPROJECT-289 sj 2013.11.8 end -->
+                                            </td>
+                                            <!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 end -->
+                                            </tr>
+                                        </#list> </#if>
+                                    </table>
+                                </form>
+
+                                <!--底部工具栏--{-->
+                                <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+
+                                    <!--翻页系统--{-->
+                                    <div class="container">
+                                        <#import "../../common/page.html" as pager >
+                                            <@pager.pagination page=page url="/admin/attestation/verifyRealname.html" map=param style="style1"/>
+                                    </div>
+                                    <!--翻页系统--}-->
+                                </div>
+                                <!--底部工具栏--}-->
+								<!--底部工具栏--}-->
+
+                <script>
+                    var urls = 'verifyRealname.html?search=true';
+                    var xlsurl = 'verifyRealname.html?type=export';
+                    var verify_type=2;
+                    function sousuo(){
+                        var sou = "";
+                        var username = $("#username").val();
+                        if (username!=null&&username!=""&&username!="undefine"&&username!="请输入用户名"){
+                            sou += "&username="+username;
+                        }
+                        var realname = $("#realname").val();
+                        if (realname!=null&&realname!=""&&realname!="undefine"&&realname!="请输入真实姓名"){
+                            sou += "&realname="+realname;
+                        }
+                        var card_id = $("#card_id").val();
+                        if (card_id!=null&&card_id!=""&&card_id!="undefine"&&card_id!="请输入证件号"){
+                            sou += "&card_id="+card_id;
+                        }
+                        var status = $("#status").find(".open-selected").attr("data-value");
+                        if (status!=null&&status!=""&&status!="undefine"){
+                            sou += "&status="+status;
+                        }
+                        <!-- v1.6.7.1 RDPROJECT-354 wcw 2013-11-21 start -->
+                        var verify_start_time = $("#verify_start_time").val();
+                        var verify_end_time = $("#verify_end_time").val();
+                        if (verify_start_time!=null){
+                            sou += "&verify_start_time="+verify_start_time;
+                        }
+                        if (verify_end_time!=null){
+                            sou += "&verify_end_time="+verify_end_time;
+                        }
+                        if(verify_type==2){
+                        	sou+="&verify_type="+verify_type;
+                        }
+                        <!-- v1.6.7.1 RDPROJECT-354 wcw 2013-11-21 end -->
+                        var url=urls+sou
+                        location.href=url;
+                    }
+                    function exportxls(){
+                    	var sou = "";
+                        var username = $("#username").val();
+                        if (username!=null&&username!=""&&username!="undefine"&&username!="请输入用户名"){
+                            sou += "&username="+username;
+                        }
+                        var realname = $("#realname").val();
+                        if (realname!=null&&realname!=""&&realname!="undefine"&&realname!="请输入真实姓名"){
+                            sou += "&realname="+realname;
+                        }
+                        var card_id = $("#card_id").val();
+                        if (card_id!=null&&card_id!=""&&card_id!="undefine"&&card_id!="请输入证件号"){
+                            sou += "&card_id="+card_id;
+                        }
+                        var status = $("#status").find(".open-selected").attr("data-value");
+                        if (status!=null&&status!=""&&status!="undefine"){
+                            sou += "&status="+status;
+                        }
+                        <!-- v1.6.7.1 RDPROJECT-354 wcw 2013-11-21 start -->
+                        var verify_start_time = $("#verify_start_time").val();
+                        var verify_end_time = $("#verify_end_time").val();
+                        if (verify_start_time!=null){
+                            sou += "&verify_start_time="+verify_start_time;
+                        }
+                        if (verify_end_time!=null){
+                            sou += "&verify_end_time="+verify_end_time;
+                        }
+                        if(verify_type==2){
+                        	sou+="&verify_type="+verify_type;
+                        }
+                        <!-- v1.6.7.1 RDPROJECT-354 wcw 2013-11-21 end -->
+                        if (sou!=""){
+                            location.href=xlsurl+sou;
+                        }else{
+                            location.href=xlsurl;
+                        }
+                    }
+                </script>
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

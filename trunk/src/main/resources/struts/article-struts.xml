@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="article" namespace="/article" extends="wzd-default">
+		<action name="list" class="articleAction" method="list">
+			<result name="list" type="ftl">/article/list.html</result>
+		</action>
+
+		<action name="detail" class="articleAction" method="detail">
+			<result name="detail" type="ftl">/article/detail.html</result>
+		</action>
+		
+		<action name="onlinekefu" class="articleAction" method="onlinekefu">
+			<result name="success" type="ftl">/article/onlinekefu.html</result>
+		</action>
+		
+		<action name="security" class="articleAction" method="security">
+			<result name="success" type="ftl">/article/security.html</result>
+		</action>
+	</package>
+	<package name="service" namespace="/service" extends="wzd-default">
+	
+	<action name="onlinekefu" class="articleAction" method="onlinekefu">
+			<result name="success" type="ftl">/article/onlinekefu.html</result>
+		</action>
+		<action name="jin_culture" class="articleAction" method="jin_culture">
+			<result name="success" type="ftl">/article/jin_culture.html</result>
+		</action>
+		<action name="jinContent" class="articleAction" method="jin_culture_content">
+			<result name="success" type="ftl">/article/jin_culture_content.html</result>
+		</action>
+		<action name="pledge_introduction" class="articleAction" method="pledge_introduction">
+			<result name="success" type="ftl">/article/pledge_introduction.html</result>
+		</action>
+		<action name="pledgeContent" class="articleAction" method="pledge_introduction_content">
+			<result name="success" type="ftl">/article/pledge_introduction_content.html</result>
+		</action>
+		<action name="guolin_special" class="articleAction" method="guolin_special">
+			<result name="success" type="ftl">/article/onlinekefu1.html</result>
+		</action>
+	</package>
+</struts>

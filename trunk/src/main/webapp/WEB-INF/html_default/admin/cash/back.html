@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="扣款">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form name="form1" method="post" action="" onsubmit="return check_form();" enctype="multipart/form-data">
+                                    <div class="valBox w750">
+                                        <div class="top">
+                                            <strong>添加扣款</strong>
+                                        </div>
+                                        <div class="val clearfix">
+                                            <ul>
+                                                <li>
+                                                    <div class="title">用户名：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="username" class="val-text"/>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">类型：</div>
+                                                    <div class="v">
+                                                        账户扣款<input type="hidden" name="type" class="val-text"/>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">金额：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="money" class="val-text"/>
+                                                        *目前仅支持8位数（千万级别）的扣款
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">备注：</div> 
+                                                    <div class="v">
+                                                        <input type="text" name="remark" class="val-text"/>
+                                                    </div>
+                                                </li>
+                                                
+                                            </ul>
+                                            <div class="other">
+                                                <input type="hidden" name="actionType" value="back" />
+                                                <input type="submit" name="reset" value="确认扣款" class="input-button confirm"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+<div class="msgClass">
+                                                        ${rsmsg!""}
+                                                    </div>
+    </body>
+</html>
+<#include "../jsPage.html">

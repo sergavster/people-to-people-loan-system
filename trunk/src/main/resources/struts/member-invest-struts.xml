@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="memberInvest" namespace="/member/invest" extends="wzd-default">
+		<action name="list" class="memberInvestAction" method="list">
+			<result name="success" type="ftl">/member/invest/list.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="collect" class="memberInvestAction" method="collect">
+			<result name="success" type="ftl">/member/invest/collect.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="tender" class="memberInvestAction" method="tender">
+			<result name="success" type="ftl">/member/invest/tender.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="bid" class="memberInvestAction" method="bid">
+			<result name="success" type="ftl">/member/invest/bid.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="auto" class="borrowAutoAction" method="auto">
+			<result name="success" type="ftl">/member/invest/auto.html</result>
+			<result name="query" type="ftl">/member/invest/auto_query.html</result>
+			<interceptor-ref name="mydefault" />	
+		</action>
+		<action name="autoTenderOrder" class="borrowAutoAction" method="autoTenderOrder">
+			<result name="success" type="ftl">/member/invest/autoTenderOrder.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+	</package>
+</struts>

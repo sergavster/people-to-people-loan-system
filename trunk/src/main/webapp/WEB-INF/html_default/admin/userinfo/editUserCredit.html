@@ -1,0 +1,53 @@
+<!DOCTYPE>
+<html>
+<#include "../head.html">
+<body>
+	<#include "../top.html">
+	<!-- div.main start  -->
+	<div class="main">
+		<!-- div.main_left start  -->
+		<div class="main_left"><#include "left.html"></div>
+		<!-- div.main_left end  -->
+		<!-- div.main_right start  -->
+		<div class="main_right">
+
+			<div class="main_site">
+				<ul>
+					<#include "bar.html">
+					<li class="title">用户管理 <span>/ 积分管理</span></li>
+				</ul>
+			</div>
+			<div class="main_content">
+
+				<!--模块列表 开始-->
+				<table border="0" cellspacing="1" bgcolor="#CCCCCC" width="100%">
+					<tr>
+						<td width="" class="main_td">ID</td>
+						<td width="*" class="main_td">用户名</td>
+						<td width="*" class="main_td">真实姓名</td>
+						<td width="*" class="main_td">认证名称</td>
+						<th width="" class="main_td">认证积分</th>
+						<th width="" class="main_td">备注</th>
+						<td width="" class="main_td">审核时间</td>
+					</tr>
+					<#if userCredit??> <#list userCredit as obj>
+					<tr>
+						<td class="main_td1" align="center">${(obj.id?c)!"-"}</td>
+						<td class="main_td1" align="center">${obj.userName!"-"}</td>
+						<td class="main_td1" align="center">${obj.realname!"-"}</td>
+						<td class="main_td1" align="center">${obj.creditTypeName!"-"}</td>
+						<td class="main_td1" align="center"></td>		
+						<td class="main_td1" align="center"></td>
+						<td class="main_td1" align="center"></td>
+					</tr>
+					</#list> <#else> 暂无 </#if>
+				
+				</table>
+			</div>
+		</div>
+		<!-- div.main_right end  -->
+	</div>
+	<!-- div.main end  -->
+	<#include "../foot.html">
+</body>
+</html>

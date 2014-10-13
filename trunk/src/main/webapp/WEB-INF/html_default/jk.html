@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="utf-8"> 
+<#assign nid="index" >
+<#include "include/resource.html"> 
+<#include "include/header.html">
+<style type="text/css">body { margin: 0; _height: 100%; }
+.frames { width: 956px; border: solid 1px #dedede; margin: 0 auto; text-align: left; padding-bottom: 10px; overflow: hidden; }
+.frames p { padding: 0px; margin: 0px; margin-top: 14px; margin-left: 10px; }
+.feedbar { background: url(/Style/H/images/feedbar.jpg); width: 458px; height: 9px; margin-top: 10px; }
+.feed_note { width: 564px; line-height: 25px; color: #666666; padding-left: 5px; margin-top: 10px; }
+span.colrad { color: #b4050c; }
+ul.feedlist { margin: 0px; padding: 0px; list-style: none; overflow: hidden; line-height: 23px; width: 564px; margin-top: 8px; }
+ul.feedlist li { float: left; text-align: right; padding-left: 5px; }
+ul.feedlist li .inttext { border: solid 1px #acadb2; height: 20px; width: 193px; }
+ul.feedlist li .inttext1 { border: solid 1px #acadb2; height: 25px; width: 262px; }
+ul.feedlist li .tear { width: 400px; height: 130px; border: solid 1px #acadb2; }
+.sendBtn { background: url(${webroot}${theme_dir}/images/send.jpg); width: 82px; height: 28px; border: 0px; }
+.sendBtn1 { background: url(/Style/H/images/repeat.jpg); width: 82px; height: 28px; border: 0px; }
+.dv_r_6 li{line-height:30px;}
+</style>
+<script type="text/javascript"> 
+        $(function() {
+            $("#btn_send").click(
+            function() {
+				if(parseInt($("#money").val())>500000 ){
+				
+				}else{
+                    setErr("借款金额错误，最少借款 50万 才能通过此通道借款！");
+                    return false;
+				}
+                if ($("#sel_type").val() < 1) {
+                    setErr("请选择类别！");
+                    return false;
+                }
+                if ($("#txt_callName").val().length < 1) {
+                    setErr("请填写您的称呼！");
+                    return false;
+                }
+                if ($("#txt_emailAddress").val().length < 1) {
+                    setErr("请填写您的联系方式！");
+                    return false;
+                }
+                if ($("#txt_check").val().length < 1) {
+                    setErr("请填写验证码！");
+                    return false;
+                }
+                return true;
+            });
+        });
+
+        function setErr(msg) {
+            $.jBox.tip(msg,'tip');
+        } 
+        
+        <script src="${webroot}${theme_dir}/media/js/modal.js"></script>
+    </script><!--中部开始-->
+    <div class="dv_i_1"><div class="frames"><form name="feedback" method="post" action="${webroot}/addjk.html"><div style="padding-left: 32px; padding-top: 20px; width: 600px;"><div style="width: 400px; color: #005B9F; text-align: left; padding-bottom: 14px;
+                margin-left: 0px; font-size: 14px; font-family: 宋体; height: 20px; line-height: 20px;
+                font-weight: bold;">                快速借款通道</div>
+                <div class="feedbar"></div><div class="feed_note">急需钱，我帮您！美贷网助您轻松获取！门槛低，到账快！10秒就能完成网上预约， 赶快行动吧！
+            </div>
+            <div style="margin-top: 10px; overflow: hidden;">
+            <ul class="feedlist">
+            <li style="width: 100px;">
+            <span class="colrad">*</span>
+            所需资金：</li>
+            <li><input type="text" class="inttext" name="money" id="money" value="" />
+            <input type="hidden" name="type" id="sel_type" value="7" />请填纯数字
+            </li>
+            </ul>
+            <ul class="feedlist">
+            <li style="width: 100px;"><span class="colrad">*</span>怎么称呼您：
+            </li>
+            <li><input type="text" class="inttext" id="txt_callName" name="username">
+            </li>
+            </ul>
+            <ul class="feedlist">
+            <li style="width: 100px;"><span class="colrad">*</span>您的联系方式：
+            </li>
+            <li><input type="text" class="inttext" id="txt_emailAddress" name="tel">
+            </li></ul>
+            <ul class="feedlist"><li style="width: 100px;">简单说明：</li>
+            <li><textarea maxlength="2000" class="tear" cols="1" rows="6" id="txt_content" name="description"></textarea>
+            </li>
+            </ul>
+            <ul class="feedlist">
+            <li style="width: 100px;"><span class="colrad">*</span>验证码：
+            </li>
+            <li><input name="validcode" type="text" size="11" maxlength="5"  tabindex="3"  style="float:left;"/>&nbsp;<img src="${request.getContextPath()}/validimg.html" alt="点击刷新" onClick="this.src='${request.getContextPath()}/validimg.html?t=' + Math.random();" align="absmiddle" style="cursor:pointer; display:inline-block;zoom:1;*display:inline; *float:none;" />
+
+            </li>
+            </ul>
+            <ul class="feedlist">
+            <li style="width: 100px;">&nbsp;
+            </li>
+            <li><input type="submit" value="发  送" class="btn-action"  />
+            </li>
+            </ul>
+            </div></div>
+            <div style="margin-top: 20px;" id="content2B1"></div>
+     
+<#include "include/footer.html"> 
+</body>
+</html>

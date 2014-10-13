@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>userCertifyAudit.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+  <div class="module_add">
+	<form name="form1" method="post" action="verifyUserCertify.html" onsubmit="return check_form();" enctype="multipart/form-data" >
+	
+	<div class="module_border">
+		<div class="l">状态:</div>
+		<div class="c">
+		 <input type="radio" name="status" value="1" checked="checked"/>审核通过 <input type="radio" name="status" value="2" />审核不通过 </div>
+	</div>
+	
+	<div class="module_border" >
+		<div class="l">通过审核获得积分:</div>
+		<div class="c">
+			<input type="text" name="jifen" value="${jifen}" size="5"> 分
+		</div>
+	</div>
+	
+	<div class="module_border" >
+		<div class="l">验证码:</div>
+		<div class="c">
+			<input name="validcode" type="text" size="11" maxlength="5"  tabindex="3"/>&nbsp;<img src="${webroot}/validimg.html" alt="点击刷新" onClick="this.src='${webroot}/validimg.html?t=' + Math.random();" align="absmiddle" style="cursor:pointer" />
+		</div>
+	</div>
+		<!--
+	<div class="module_border" >
+		<div class="l">相关图片1:</div>
+		<div class="c">
+			<input type="file" name="pic[]" > 
+		</div>
+	</div>
+	
+
+	<div class="module_border" >
+		<div class="l">相关图片2:</div>
+		<div class="c">
+			<input type="file" name="pic[]" > 
+		</div>
+	</div>
+	
+	
+	<div class="module_border" >
+		<div class="l">相关图片3:</div>
+		<div class="c">
+			<input type="file" name="pic[]" > 
+		</div>
+	</div>
+	-->
+	<div class="module_border" >
+		<div class="l">审核备注:</div>
+		<div class="c">
+			<textarea name="verify_remark" cols="35" rows="5"></textarea>
+		</div>
+	</div>
+
+	<div class="module_submit" >
+		<input type="hidden" name="user_id"  value="${user_id?c}" />
+		<input type="hidden" name="type" value="${type}" />
+		<input type="hidden" name="pid"  value="${pid}" />
+		<input type="hidden" name="type_name" value="${type_name}" />
+ 		<input type="hidden" name="actionType" value="verifyUserCertify" />
+		<input type="submit"  name="reset" value="确认提交" />
+	</div>
+	</form>
+</div>
+
+  </body>
+</html>

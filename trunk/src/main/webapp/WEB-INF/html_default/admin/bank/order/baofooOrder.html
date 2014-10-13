@@ -1,0 +1,161 @@
+<!-- v1.6.6.2 RDPROJECT-28 wcw 2013-10-17 start-->
+<!DOCTYPE html>
+<html>
+<#include "../../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "../../setting/left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="充值记录">
+                        <#include "../banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+
+                               <!--  <div class="toolbor-module export">
+                                    <input type="button" onClick="exportxls()" value="导出报表" class="input-button export-btn"/>
+                                </div> -->
+
+                               
+								<div class="toolbor-module search">    
+                                    <input type="button" value="搜索"  class="input-button" onClick="sousuo();">
+                                </div>
+                                <div class="toolbor-module search">
+                                    <input type="text" name="TransID" id="TransID" value="请输入订单号" data-value="请输入订单号" class="search-value">
+                                </div>
+                              
+                                
+
+
+
+                                <div class="toolbor-module search">
+                                    <div style="height:22px;line-height:22px;float:left;">时间：</div>
+                                    <input class="_search-value js-datetime" name="dotime1" id="dotime1" value="${dotime1!}"/>
+                                    <div style="height:22px;line-height:22px;float:left;margin:0 8px;"> 到 </div>
+                                    <input class="_search-value js-datetime" name="dotime2" value="${dotime2!}" id="dotime2"/>
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form action="" method="post">
+                                    <table class="data-list">
+                                        <tr class="header">
+                                            <td>实际成功金额</td>
+                                            <td>支付完成时间</td>
+                                            <td>交易的订单号</td>
+                                            <td>支付结果</td>
+                                        </tr>
+                                        <#if baofooOrder??>
+                                            <tr class="s">
+                                                <td >${baofooOrder.factMoney!}元</td>
+                                                <td>${baofooOrder.succTime!}</td>
+                                                <td>${baofooOrder.transID!}</td>
+                                                <td><#if baofooOrder.checkResult=="Y">成功<#elseif baofooOrder.checkResult=="N">没有订单<#elseif baofooOrder.checkResult=="P">处理中<#elseif baofooOrder.checkResult=="N">没有订单<#else>失败</#if></td>
+                                            </tr>
+                                            </#if>
+                                    </table>
+                                </form>
+								<style>
+									.page_num{ width:15px; height:15px; border:1px solid #333; margin-right:5px;display:inline-block;*zoom:1;*display:inlinel;line-height:15px;text-align:center;
+												}
+								</style>
+                                <!--底部工具栏--{-->
+                                <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+                               
+                                    
+                                    
+                                </div>
+                                <!--底部工具栏--}-->
+
+                                <script>
+                                    $(function(){
+                                    	 
+                                    });
+                                    var url = 'baofooOrder.html?search=true';
+                                    var xlsurl = 'baofooOrder.html?type=export';
+
+                                    function sousuo(){
+                                        var sou = "";
+                                        var dotime1 = $("#dotime1").val();
+                                        var dotime2 = $("#dotime2").val();
+                                        var TransID = $("#TransID").val();
+
+                                        if (dotime1!=null){
+                                            sou += "&dotime1="+dotime1;
+                                        }
+                                        if (dotime2!=null){
+                                            sou += "&dotime2="+dotime2;
+                                        }
+                                        if (TransID!=""&&TransID!="请输入订单号"){
+                                            sou += "&TransID="+TransID;
+                                        }
+                                        if (sou!=""){
+                                            location.href=url+sou;
+                                        }
+                                    }
+                                    function exportxls(){
+                                        var sou = "";
+                                        var dotime1 = $("#dotime1").val();
+                                        var dotime2 = $("#dotime2").val();
+                                        var orderNumber = $("#orderNumber").val();
+                                        if (dotime1!=null){
+                                            sou += "&dotime1="+dotime1;
+                                        }
+                                        if (dotime2!=null){
+                                            sou += "&dotime2="+dotime2;
+                                        }
+                                        if (orderNumber!=""&&orderNumber!="请输入订单号"){
+                                            sou += "&orderNumber="+orderNumber;
+                                        }
+                                        if (sou!=""){
+                                            location.href=xlsurl+sou;
+                                        }else{
+                                            location.href=xlsurl;
+                                        }
+                                    }
+                                </script>
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../../jsPage.html">
+<!-- v1.6.6.2 RDPROJECT-28 wcw 2013-10-17 end-->
+

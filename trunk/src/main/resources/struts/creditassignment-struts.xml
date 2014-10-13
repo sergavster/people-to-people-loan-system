@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="adminCa" namespace="/admin/ca" extends="wzd-admin">
+		<action name="verify" class="manageCaAction" method="verifyCa">
+			<result name="success" type="ftl">/admin/notice/noticeTypeList.html</result>
+		</action>
+		<action name="full" class="manageCaAction" method="fullVerifyCa">
+			<result name="success" type="ftl">/admin/notice/noticeTypeList.html</result>
+		</action>
+	</package>
+	
+	<package name="memberCa" namespace="/member/ca" extends="wzd-default">
+		<action name="buy" class="memberCaAction" method="buy">
+			<result name="success" type="ftl">/msg.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="view" class="memberCaAction" method="view">
+			<result name="success" type="ftl">/member/creditassignment/view.html</result>
+			<result name="error" type="ftl">/msg.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="publish" class="memberCaAction" method="publish">
+			<result name="success" type="ftl">/member/creditassignment/publish.html</result>
+			<result name="error" type="ftl">/msg.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="add" class="memberCaAction" method="add">
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="listCas" class="memberCaAction" method="listCas">
+			<result name="success" type="ftl">/member/creditassignment/listCas.html</result>
+			<result name="error" type="ftl">/msg.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+	</package>
+</struts>

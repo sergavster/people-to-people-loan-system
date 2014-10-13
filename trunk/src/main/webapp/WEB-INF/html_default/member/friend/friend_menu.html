@@ -1,0 +1,9 @@
+					<ul id="tab" class="list-tab clearfix">
+						<li <#if query_type=="invite">class="active"</#if>><a href="${request.getContextPath()}/member/friend/invite.html">邀请好友</a></li> 
+						<li <#if query_type=="request">class="active"</#if>><a href="${request.getContextPath()}/member/friend/request.html">好友请求</a></li> 
+						<li <#if query_type=="myfriend">class="active"</#if>><a href="${request.getContextPath()}/member/friend/myfriend.html">我的好友</a></li>
+						<li <#if query_type=="black">class="active"</#if>><a href="${request.getContextPath()}/member/friend/black.html">黑名单</a>
+						</li>
+						<li <#if query_type=="tc">class="active"</#if>><a href="${request.getContextPath()}/member/friend/tc.html">好友提成</a>
+						</li>
+					</ul>

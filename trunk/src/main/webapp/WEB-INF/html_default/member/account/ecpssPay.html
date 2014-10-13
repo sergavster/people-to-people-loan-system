@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>汇潮支付跳转中...</title>
+</head>
+<body onLoad="document.E_FORM.submit();">
+ <div>汇潮支付充值跳转中,请您不要关闭浏览器......</div>
+ <form action="https://pay.ecpss.cn/sslpayment" method="post" name="E_FORM">
+  <table align="center">
+    
+    <tr>
+      <td></td>
+      <td><input type="hidden" name="MerNo" value="${ecpssPay.merNo}"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input type="hidden" name="BillNo" value="${ecpssPay.billNo}"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input type="hidden" name="Amount" value="${ecpssPay.amount}"></td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td><input type="hidden" name="ReturnURL" value="${ecpssPay.returnUrl}" ></td>
+    </tr>
+    
+	 <tr>
+      <td></td>
+      <td><input type="hidden" name="AdviceURL" value="${ecpssPay.adviceUrl}" ></td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td><input type="hidden" name="MD5info" value="${ecpssPay.md5Info}"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input type="hidden" name="Remark" value="${ecpssPay.products}"></td>
+    </tr>
+	 <tr>
+      <td></td>
+      <td><input type="hidden" name="defaultBankNumber" value="${ecpssPay.defaultBankNumber}"></td>
+    </tr>
+	 <tr>
+      <td></td>
+      <td><input type="hidden" name="orderTime" value="${ecpssPay.orderTime}"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input type="hidden" name="products" value="${ecpssPay.products}"></td>
+    </tr>
+  </table>
+ 
+</form>
+ 
+</body>
+</html>

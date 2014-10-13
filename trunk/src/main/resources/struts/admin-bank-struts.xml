@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="manageBank" namespace="/admin/bank"
+		extends="wzd-admin">
+		<action name="deletePaymentInterface" class="manageBankAction" method="deletePaymentInterface">
+			<result name="success" type="ftl">/admin/bank/payInterfaceList.html
+			</result>
+		</action>
+		<action name="deleteDownLineBank" class="manageBankAction" method="deleteDownLineBank">
+			<result name="success" type="ftl">/admin/bank/downLineBankList.html
+			</result>
+		</action>
+		<!-- v1.6.6.2 RDPROJECT-28 wcw 2013-10-17 start-->
+		<action name="ecpssPayOrderlist" class="manageOrderAction" method="ecpssPayOrderList">
+			<result name="success" type="ftl">/admin/bank/order/ecpssPayOrderList.html</result>
+		</action>
+		<!-- v1.6.6.2 RDPROJECT-28 wcw 2013-10-17 end-->
+			<!-- v1.6.7.1 RDPROJECT-368 wcw 2013-11-08 start-->
+		<action name="baofooOrder" class="manageOrderAction" method="baofooOrder">
+			<result name="success" type="ftl">/admin/bank/order/baofooOrder.html</result>
+		</action>
+		<!-- v1.6.7.1 RDPROJECT-368 wcw 2013-11-08  end-->
+		<!-- v1.6.7.1 RDPROJECT-368 wcw 2013-11-11 start-->
+		<action name="ipsOrder" class="manageOrderAction" method="ipsOrder">
+			<result name="success" type="ftl">/admin/bank/order/ipsOrder.html</result>
+		</action>
+		
+		<action name="ebatongOrder" class="manageOrderAction" method="ebatongOrder">
+			<result name="success" type="ftl">/admin/bank/order/ebatongOrder.html</result>
+		</action>
+		<!-- v1.6.7.1 RDPROJECT-368 wcw 2013-11-11 end-->
+		<action name="addDownLineBank" class="manageBankAction" method="addRechargeDownLineBank">
+			<result name="success" type="ftl">/admin/bank/addDownLineBank.html
+			</result>
+		</action>
+		<action name="updateDownLineBank" class="manageBankAction" method="updateRechargeDownLineBank">
+			<result name="success" type="ftl">/admin/bank/updateDownLineBank.html
+			</result>
+		</action>
+		<action name="downLineBankList" class="manageBankAction" method="rechargeDownLineBankList">
+			<result name="success" type="ftl">/admin/bank/downLineBankList.html
+			</result>
+		</action>
+		<action name="addPayInterface" class="manageBankAction" method="addPayInterface">
+			<result name="success" type="ftl">/admin/bank/addPayInterface.html
+			</result>
+		</action>
+			<action name="updatePayInterface" class="manageBankAction" method="updatePayInterface">
+			<result name="success" type="ftl">/admin/bank/updatePayInterface.html
+			</result>
+		</action>
+		<action name="payInterfaceList" class="manageBankAction" method="payInterfaceList">
+			<result name="success" type="ftl">/admin/bank/payInterfaceList.html
+			</result>
+		</action>
+	</package>
+</struts>

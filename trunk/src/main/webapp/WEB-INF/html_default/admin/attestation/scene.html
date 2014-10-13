@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+
+                    	<#assign moduleName="现场认证">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                             <div class="toolbor-module export">
+                                    <input type="button" onClick="exportxls()" value="导出报表" class="input-button export-btn"/>
+                                </div>
+									<div class="toolbor-module search">    
+                                        <input type="button" value="搜索"  class="input-button" onclick="sousuo();">
+                                    </div>   
+                                  <#if param?exists>
+                                   <#if param.get("status")?exists><#assign status=param.get("status")></#if>  		                   
+  				                    <#if param.get("verify_type")?exists><#assign verify_type=param.get("verify_type")?number><#else><#assign verify_type=0></#if>
+  				                    <#if param.get("verify_start_time")?exists><#assign verify_start_time=param.get("verify_start_time")></#if>
+  				                    <#if param.get("verify_end_time")?exists><#assign verify_end_time=param.get("verify_end_time")></#if>
+				                  </#if>   
+                                    <div class="toolbor-module search">    
+                                        <input type="text" name="username" id="username" value="请输入用户名"  data-value="请输入用户名"class="search-value">
+                                    </div>
+                                    <div class="toolbor-module search">    
+                                        <!--  v1.6.6.2 RDPROJECT-195 yl 2013-10-24 start -->
+                                        <div class="select-box" id="status">
+                                            <div class="tag-select">全部</div>
+                                            <ul class="tag-options">
+                                                 <li data-value="0" <#if status=="0" >data-selected="selected"</#if>>全部</li>
+                                                <li data-value="2" <#if status=="2" >data-selected="selected"</#if> >等待审核</li> 
+                                                <li data-value="1" <#if status=="1" >data-selected="selected"</#if>>审核通过</li>
+                                                <li data-value="-1" <#if status=="-1" >data-selected="selected"</#if>>审核未通过</li>
+                                            </ul>
+                                        </div>
+                                        <!--  v1.6.6.2 RDPROJECT-195 yl 2013-10-24 end -->
+                                    </div>
+                                     <div class="toolbor-module search">
+	                                    <div style="height:22px;line-height:22px;float:left;">审核时间：</div>
+	                                    <input class="_search-value js-datetime" name="verify_start_time" id="verify_start_time" value="${verify_start_time!}"/>
+	                                    <div style="height:22px;line-height:22px;float:left;margin:0 8px;"> 到 </div>
+	                                    <input class="_search-value js-datetime" name="verify_end_time" value="${verify_end_time!}" id="verify_end_time"/>
+	                                   </div>
+                                    </div>
+
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                    <table class="data-list">
+                                        <tr class="header">
+                                            <td>用户名称</td>
+                                            <td>真实姓名</td>
+                                            <td>现场认证</td>
+                                            <td>审核时间</td>
+                                        </tr>
+
+                                        <#if list??>
+                                            <#list list as obj>
+                                                <tr class="s">
+                                                    <td><a onclick='alertPop("用户详细信息查看","url:get?viewUserInfo.html?username=${obj.username}",500,230,"true","","true","text");'
+                                                            href="javascript:void(0)">${obj.username!}</a></td>
+                                                    <td>${obj.realname!}</td>
+                                                    <td>
+                                                        <#if obj.scene_status??&&obj.scene_status==1> <font color="#009900">审核通过</font>
+                                                         <!--  v1.6.6.2 RDPROJECT-195 yl 2013-10-24 start -->
+                                                        | <a href="/admin/attestation/cancelUserAttestation.html?user_id=${obj.user_id?c}&type=cancelScene"
+                                                                onclick="return confirm('警告：您确定撤消该用户现场认证？')"><font color="red">撤回审核</a></font>
+                                                         <!--  v1.6.6.2 RDPROJECT-195 yl 2013-10-24 end -->      
+                                                            <#elseif obj.scene_status??&&obj.scene_status==2><a
+                                                                    onclick='alertPop("现场审核","url:get?viewAudit.html?user_id=${obj.user_id?c}&type=scene",500,230,"true","","true","text");'
+                                                                    href="javascript:void(0)"><font color="#FF0000">等待审核</font></a>
+                                                                <#elseif obj.scene_status??&&obj.scene_status==-1>
+                                                                	<font color="#cccccc">申请没通过</font>
+                                                                <#else> <font color="#cccccc">没有申请</font> </#if>
+                                                    </td>
+                                                     <td><#if obj.scene_verify_time??>${dateformat(obj.scene_verify_time)}</#if></td>                                                </tr>
+                                                </tr>
+                                            </#list>
+                                        </#if>
+
+                                    </table>
+
+                                <!--底部工具栏--{-->
+                                <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+
+                                    <!--翻页系统--{-->
+                                    <div class="container">  
+                                         <#assign url="/admin/attestation/verifyScene.html" >                  
+                                        <#import "../../common/page.html" as pager>
+                                            <@pager.pagination page=page url=url map=param style="style1" />
+                                    </div>
+                                    <!--翻页系统--}-->
+                                </div>
+                                <!--底部工具栏--}-->
+
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+    <script>
+    var urls = 'verifyScene.html?search=true';
+    var xlsurl = 'verifyScene.html?type=export';
+    var verify_type=4;
+        function sousuo(){
+            var sou = "";
+            var phone = $("#phone").val();
+            if (phone!=""&&phone!="请输入手机号"){
+                sou += "&phone="+phone;
+            }
+            var username = $("#username").val();
+            if (username!=""&&username!="请输入用户名"){
+                sou += "&username="+username;
+            }
+            var status = $("#status").find(".open-selected").attr("data-value");
+            if (status!=null&&status!=""&&status!="undefine"){
+                sou += "&status="+status;
+            }
+            var verify_start_time = $("#verify_start_time").val();
+            var verify_end_time = $("#verify_end_time").val();
+            if (verify_start_time!=null){
+                sou += "&verify_start_time="+verify_start_time;
+            }
+            if (verify_end_time!=null){
+                sou += "&verify_end_time="+verify_end_time;
+            }
+            if(verify_type==4){
+            	sou+="&verify_type="+verify_type;
+            }
+            location.href=urls+sou;
+
+        }
+        function exportxls(){
+        	var sou = "";
+            var phone = $("#phone").val();
+            if (phone!=""&&phone!="请输入手机号"){
+                sou += "&phone="+phone;
+            }
+            var username = $("#username").val();
+            if (username!=""&&username!="请输入用户名"){
+                sou += "&username="+username;
+            }
+            var status = $("#status").find(".open-selected").attr("data-value");
+            if (status!=null&&status!=""&&status!="undefine"){
+                sou += "&status="+status;
+            }
+            var verify_start_time = $("#verify_start_time").val();
+            var verify_end_time = $("#verify_end_time").val();
+            if (verify_start_time!=null){
+                sou += "&verify_start_time="+verify_start_time;
+            }
+            if (verify_end_time!=null){
+                sou += "&verify_end_time="+verify_end_time;
+            }
+            if(verify_type==4){
+            	sou+="&verify_type="+verify_type;
+            }
+            if (sou!=""){
+                location.href=xlsurl+sou;
+            }else{
+                location.href=xlsurl;
+            }
+        }
+    </script>
+    </body>
+</html>
+<#include "../jsPage.html">

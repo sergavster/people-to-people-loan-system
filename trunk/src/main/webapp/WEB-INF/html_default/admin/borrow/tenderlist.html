@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="投标列表">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <div class="toolbor-module export">
+                                    <input type="button" onclick="exportxls()" value="导出报表" class="input-button export-btn"/>
+                                    <!-- V1.6.6.2 RDPROJECT-168  wfl 2013-10-23 start -->
+                                    <input type="button" class="input-button return" value="返回" onClick="javascript:location.href='showAllBorrow.html'">
+                                    <!-- V1.6.6.2 RDPROJECT-168  wfl 2013-10-23 end -->
+                                    <#if param??&&param.status??>
+                                        <#assign status=(param.get("status"))?number >
+                                            <#else>
+                                                <#assign status=-1>
+                                    </#if>
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form action="" method="post">
+                                    <table class="data-list">
+                                        <tr class="header">
+                                            <td>ID</td>
+                                            <td>投标人</td>
+                                            <td>投标金额</td>
+                                            <td>有效投标金额</td>
+                                            <td>奖励</td>
+                                            <!-- V1.6.6.2 RDPROJECT-353 ljd 2013-10-23 start -->
+                                            <td>回收本息</td>
+                                            <!-- V1.6.6.2 RDPROJECT-353 ljd 2013-10-23 end -->
+                                            <!-- v1.6.6.1 RDPROJECT-197 zza 2013-09-26 start -->
+                                            <td>投标类型</td>
+                                            <!-- v1.6.6.1 RDPROJECT-197 zza 2013-09-26 end -->
+                                            <td>投标时间</td>
+                                            <!-- V1.6.6.2 RDPROJECT-353 ljd 2013-10-21 start -->
+                                            <#if (borrow.type??)&&borrow.type==110>
+												<td>预期还款时间</td>
+												<td>实际还款时间</td>
+											</#if>
+											<!-- V1.6.6.2 RDPROJECT-353 ljd 2013-10-21 end -->
+                                        </tr>
+                                        <#import "../../common/function.html" as func>
+                                            <#list list as item>
+                                                <tr class="s">
+                                                    <td>${(page.currentPage-1)*page.pernum+item_index+1}</td>
+                                                    <td>
+                                                        ${item.username}
+                                                    </td>
+                                                    <td>￥${func.format2(item.money!"0")}</td>
+                                                    <td>
+                                                       	 ￥${func.format2(item.account!"0")}
+                                                    </td>
+                                                    <td>
+                                                    	<!-- V1.6.6.2 RDPROJECT-380 lhm 2013-10-21 start-->
+                                                        <#if borrow.award??&&borrow.award==0>	
+                                                        	没有
+                                                        <#elseif borrow.award??&&borrow.award==1>
+                                                       		${(borrow.part_account)!0}%
+                                                        <#elseif borrow.award??&&borrow.award==2>
+                                                          	￥${(item.award)!0}
+                                                        <#else>
+                                                        </#if>
+                                                      	 <!-- V1.6.6.2 RDPROJECT-380 lhm 2013-10-21 end-->
+                                                    </td>
+                                                    <!-- V1.6.6.2 RDPROJECT-353 ljd 2013-10-23 start -->
+                                                    <td>￥${func.format2(item.repay_account!"0")}</td>
+                                                    <!-- V1.6.6.2 RDPROJECT-353 ljd 2013-10-23 end -->
+                                                    <!-- v1.6.6.1 RDPROJECT-197 zza 2013-09-26 start -->
+                                                    <td>
+														<#if item.is_auto_tender??&&item.is_auto_tender==1>
+															自动投标
+														<#elseif item.is_auto_tender==2>
+															手机投标
+														<#else>
+															网站投标
+														</#if>
+													</td>
+													<!-- v1.6.6.1 RDPROJECT-197 zza 2013-09-26 end -->
+                                                    <td>${dateformat(item.addtime)}</td>
+                                                    <!-- V1.6.6.2 RDPROJECT-353 ljd 2013-10-21 start -->
+                                                    <#if (borrow.type??)&&borrow.type==110>
+														<td><#if (item.repay_time??)>${dateformat(item.repay_time)}<#else>-</#if></td>
+														<td><#if (item.repay_yestime??)>${dateformat(item.repay_yestime)}<#else>-</#if></td>
+													</#if>
+													<!-- V1.6.6.2 RDPROJECT-353 ljd 2013-10-21 end -->
+                                                </tr>
+                                            </#list>
+                                    </table>
+                                </form>
+
+                                <!--底部工具栏--{-->
+                                <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+
+                                    <!--翻页系统--{-->
+                                    <div class="container">
+                                        <#import "../../common/page.html" as pager>
+                                            <@pager.pagination page=page url="/admin/borrow/tenderlist.html?borrow_id=${borrow.id?c}" map=param style="style1" />
+                                    </div>
+                                    <!--翻页系统--}-->
+                                </div>
+                                <!--底部工具栏--}-->
+
+                                <script>
+                                    var urls = '?borrow_id=${borrow.id?c}&search=true';
+                                    var xlsurl='?borrow_id=${borrow.id?c}&type=export';
+                                    function sousuo(){
+                                        var sou = "";
+                                        var username = $("#username").val();
+                                        if (username!=null&&username!=""&&username!="undefine"&&username!="请输入用户名"){
+                                            sou += "&username="+username;
+                                        }
+                                        var status = $("#status").val();
+                                        if (status!=null&&status!=""&&status!="undefine"){
+                                            sou += "&status="+status;
+                                        }
+                                        var url=urls+sou
+                                        location.href=url;
+                                    }
+                                    function exportxls(){
+                                        var sou = "";
+                                        var username = $("#username").val();
+                                        if (username!=null&&username!=""&&username!="undefine"&&username!="请输入用户名"){
+                                            sou += "&username="+username;
+                                        }
+                                        var status = $("#status").val();
+                                        if (status!=null&&status!=""&&status!="undefine"){
+                                            sou += "&status="+status;
+                                        }
+                                        var url=xlsurl+sou
+                                        location.href=url;
+                                    }
+                                </script>
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

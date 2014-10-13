@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="${webroot}${theme_dir}/media/js/jquery_1.9.1.js"></script>
+<script src="${webroot}${theme_dir}/media/js/mobile.js"></script>
+<link href="${webroot}${theme_dir}/media/css/mobile.css" rel="stylesheet" />
+<link href="${webroot}${theme_dir}/media/css/mobile_base.css" rel="stylesheet" />
+
+<title>${webname}</title>
+
+</head>
+
+<body>
+<div data-role="page" id="bodybox">
+    <div data-role="header" >
+   		<a data-ajax="false" href="account.html" data-ajax="false"  style="float:left;color:#fff;text-decoration:none;position:absolute;left:10px;">账户中心</a>
+		<h1> <#if status?string=="1">
+		招标中的借款标
+	<#elseif status?string=="3">
+		复审通过的借款标 
+	<#elseif status?string=="10">
+		还款中的借款标 
+	<#elseif status?string=="12">
+		完成的借款标 
+    </#if></h1>
+		<a data-ajax="false" href="logout.html" style="float:right;color:#fff;text-decoration:none;position:absolute;right:10px;">退出登录</a>
+	</div>
+
+    <div data-role="content">
+    	<ul data-role="listview" data-inset="true">
+<#include "../common/function.html"> 
+ <#if borrowList?exists>
+    <#list borrowList as item>
+			<li class="locationhref" data-url="/wx/investdetail.html?borrowid=${item.id?c}#invest_detail">
+                <a style='padding-right:0' href="/wx/investdetail.html?borrowid=${item.id?c}#invest_detail">
+                    <img style='padding-top:18px;padding-left:0px;padding-right:0;margin:0; width:80px;' src="${webroot}/imgurl.html?userid=${item.user_id?c}&size=middle">
+                    <div style="line-height:20px;float:left;"><#if item.name?length lt 5>${item.name}<#else>${item.name[0..3]}...</#if>
+                        <span class="ico2"><em style="width:<#if ((item.scales*100)?string("##.######"))?number -99.99 lt 0.01 && ((item.scales*100)?string("##.######"))?number -99.99 gt 0>
+						99.99%
+						<#else>
+						${(item.scales*100)?string("##.##")}%
+						</#if>"></em></span><span class='sp4'>
+                        <#if ((item.scales*100)?string("##.######"))?number -99.99 lt 0.01 && ((item.scales*100)?string("##.######"))?number -99.99 gt 0>
+						99.99%
+						<#else>
+						${(item.scales*100)?string("##.##")}%
+						</#if></span>
+                        <p style='padding-top:10px'>发布者：${item.username!}</p>
+                        <p>￥${format2(item.account)}元</p>
+                        <p>招标期限：<#if item.isday??&&item.isday==1>
+                        				${item.time_limit_day!0}天
+                        			 <#elseif item.type==101>
+                        				满标即还
+                            		<#else>${(item.time_limit)?default("0")}个月
+                            		</#if></p>
+                    </div>
+                    <div style='float:right;margin-top:10px;margin-right:5px;width:130px;height:36px;background:url(../images/ico91.jpg) no-repeat;text-align:center;padding-top:7px;'>
+                        <span data-role="button" class="invest_btn">
+							<@showIndexTenderButton item/>
+                        </span>      
+                    </div>
+                </a>
+            </li>
+        </#list>
+        <#import "../common/page.html" as pager>  
+           <@pager.pagination page=p url="/wx/invest.html?search=select&status="+status! map=map style="style1" />
+ <#else>
+ 	暂无借款列表，谢谢！
+ </#if>
+		</ul>
+    </div>
+    <div data-role="footer" data-position="fixed">
+    <div data-role="navbar">
+        <ul>
+            <li><a href="${webroot}/wx/invest.html?status=1&order=-1">招标中借款</a></li>
+            <li><a href="${webroot}/wx/invest.html?status=10&order=-1">还款中借款</a></li>
+            <li><a href="${webroot}/wx/invest.html?status=12&order=-1">完成的借款</a></li>
+        </ul>
+    </div><!-- /navbar -->
+</div><!-- /footer -->
+<script>
+	$(function(){
+		var oDiv = $(".locationhref");
+		oDiv.each(function(){
+			var that = $(this);
+			var href_val = that.attr("data-url");
+			that.click(function(){
+				window.location.href = 	href_val;
+			})	
+		})	
+	})
+</script>
+<#macro showIndexTenderButton borrow>
+	<#if borrow.status==0>
+	等待初审
+	<#elseif borrow.status==1 && ((borrow.account_yes) lt (borrow.account)) > 
+	立即投标
+	<#elseif borrow.status==1&&((borrow.account_yes) gt (borrow.account) || (borrow.account_yes)==(borrow.account)) >
+	<#if borrow.type=110>流转中<#else> 等待复审</#if>
+	<#elseif borrow.status==2> 
+	初审失败
+	<#elseif borrow.status==3> 
+	复审通过
+	<#elseif borrow.status==5||borrow.status==59> 
+	用户取消
+	<#elseif borrow.status==4||borrow.status==49> 
+	复审失败
+	<#elseif borrow.status==6> 
+	还款中
+	<#elseif borrow.status==7> 
+	还款中
+	<#elseif borrow.status==8>
+	 <#if borrow.type==110>停止流转<#else>已还款</#if>
+	<#else> 
+	用户取消
+	</#if>  
+</#macro>
+
+<script>
+	function invest_shadow(type){
+		$("body").append("<div class='boxshadow'></div>");
+		if(type=="rel")
+		{
+			$("body").append("<div class='alertbox'>为了更方便您享受服务，<br />请先通过<a href='${webroot}/member/identify/realname.html' data-ajax='false'>平台网站</a>进行实名认证和手机认证,方便后续操作</div>");	
+		}
+		if(type=="phone")
+		{
+			$("body").append("<div class='alertbox'>为了更方便您享受服务，<br />请先通过<a href='${webroot}/member/identify/phone.html' data-ajax='false'>平台网站</a>进行实名认证和手机认证,方便后续操作</div>");	
+		}
+		var b_width = $("#bodybox").width();
+		var b_height = $("#bodybox").height()+300;
+		var alertBox = $(".alertbox")
+		var alert_w = alertBox.width();
+		var alert_h = alertBox.height();
+		var position_l = (b_width-alert_w)/2;
+		var position_t = ($("body").height()-alertBox.height())/2;
+		$(".boxshadow").css({"width":b_width+"px","height":b_height+"px","zIndex":"99999"});
+		function showalert(){
+			alertBox.css({"left":position_l+"px","top":position_t+"px","zIndex":"999999"});
+		}
+		showalert();
+		$(window).resize(function(){
+			showalert();	
+		})
+		/*$(".closed").click(function(){
+			<span class='closed'></span>
+			$(".boxshadow").remove();	
+			alertBox.remove();
+		})	*/
+	}
+<#if session_user??&&session_user.real_status!='1'>invest_shadow("rel");<#else>已实名认证</#if>
+<#if session_user??&&session_user.phone_status!='1'>invest_shadow("phone");<#else>已手机认证</#if>
+	
+	
+</script>
+</div>
+</body>
+</html>

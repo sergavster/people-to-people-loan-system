@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${webname}</title>
+<script src="${webroot}${theme_dir}/media/js/jquery_1.9.1.js"></script>
+<script src="${webroot}${theme_dir}/media/js/mobile.js"></script>
+<link href="${webroot}${theme_dir}/media/css/mobile.css" rel="stylesheet" />
+<link href="${webroot}${theme_dir}/media/css/mobile_base.css" rel="stylesheet" />
+
+</head>
+
+<body>
+<#include "../common/function.html"> 
+<div data-role="page" id="account">
+  <div data-role="header"> <a href="${webroot}/wx/account.html"  data-ajax="false"  style="float:left;color:#fff;text-decoration:none;position:absolute;left:10px;">账户中心</a>
+    <h1>交易密码修改</h1>
+    <a data-ajax="false" href="${webroot}/wx/logout.html" style="float:right;color:#fff;text-decoration:none;position:absolute;right:10px;">退出登录</a> </div>
+  <div data-role="content">
+    <div class="content_main">
+    <form action="${webroot}/wx/paypwd.html" name="form1" method="post" onsubmit="return check_setPwd()" data-ajax="false">
+      <table width="100%" cellspacing="0" cellpadding="0">
+        <tbody>
+          	<tr>
+            	<td width="115" align="right">原始交易密码：</td><td><input type="password" name="oldpassword" id="oldpassword"  /></td>
+            </tr>
+            <tr>
+            	<td width="115" align="right">新交易密码：</td><td><input type="password" name="newpassword" id="password" /><span class="firstpwdb"></span></td>
+            </tr>
+            <tr>
+            	<td width="115" align="right">确认交易密码：</td><td><input type="password" name="newpassword1"  id="confirm_password" /><span class="checkpwdb"></span></td>
+            </tr>
+            <tr>
+            	<td width="115" align="right">验证码：</td><td>
+                   <div class="valicodebox">
+                    <div data-role="fieldcontain" class="valicode">
+                        <input name="valicode" id="valicode" placeholder="验证码" class="required" value=""  type="text">
+                    </div>
+                    <img src="${request.getContextPath()}/validimg.html" alt="点击刷新" onClick="this.src='${request.getContextPath()}/validimg.html?t=' + Math.random();" align="absmiddle" class="valicode_img" />
+                </div>
+                </td>
+            </tr>
+            <tr>
+            	<td colspan="2"><input type="submit" value="确认提价" /></td>
+            </tr>
+        </tbody>
+      </table>
+      </form>
+    </div>
+  </div>
+<script>
+var status_pwd = "";
+var status_ck = "";
+function ckPwd(){
+	var oldpwd = $("#oldpassword")
+	var pwdBox = $("#password");
+	var firstMes = $(".firstpwdb");
+	var checkBox = $("#confirm_password");
+	var checkMes = $(".checkpwdb");
+	var status_pwd = 0;
+	var status_ck = 0;
+	var checkStr = "";
+	var value = "";
+	pwdBox.focus(function(){
+		firstMes.text("");
+		passwordTest();
+		
+	}).blur(function(){
+		value = pwdBox.val();
+		oldVal = oldpwd.val();
+		var pwdtestVal = getResult(value);
+		var str_len = value.length;
+		if((str_len>7)&&(str_len<17)){
+			if(pwdtestVal<2)
+			{
+				firstMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>请输入8至16位，数字加字母的密码");
+				status_pwd = 0;
+			}
+			else{
+				if(value!=oldVal){
+					firstMes.html("<img src='${webroot}${theme_dir}/images/tipimg-g.png'>密码强度合适");
+					status_pwd = 1;
+				}else{
+					firstMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>新密码不能和原始密码一样");
+					status_pwd = 0;	
+				}
+			}
+		}else{
+			firstMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>请输入8到16位密码");
+			status_pwd = 0;
+		}
+		paswdStatus = status_pwd+status_ck;
+		return paswdStatus;
+	}).keyup(function(){
+		checkStr = checkBox.val();
+		value = pwdBox.val();
+		if(checkStr=="")
+		{
+			checkMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>请输入和上面一致的密码");
+			status_ck = 0;	
+		}
+		else if(value!=checkStr)
+		{
+			checkMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>两次输入的密码不一致");
+			status_ck = 0;
+		}else{
+			checkMes.html("<img src='${webroot}${theme_dir}/images/tipimg-g.png'>上下密码一致");
+			status_ck = 1
+		}	
+	});
+	checkBox.focus(function(){
+		checkMes.text("");
+	}).blur(function(){
+		value = pwdBox.val();
+		checkStr = checkBox.val();
+		if(checkStr=="")
+		{
+			checkMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>请输入和上面一致的密码");
+			status_ck = 0;
+		}
+		else if(checkStr!=value){
+			checkMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>两次输入的密码不一致");
+			status_ck = 0;
+		}
+		else{
+			checkMes.html("<img src='${webroot}${theme_dir}/images/tipimg-g.png'>上下密码一致");
+			status_ck = 1
+		}
+		paswdStatus = status_pwd+status_ck;
+		return paswdStatus;
+	});
+
+	function passwordTest() {
+		var pwdBox = $("#password");
+		var firstMes = $(".firstpwdb");
+		pwdBox.keyup(function(){
+			var value = pwdBox.val();
+			var str_len = value.length;
+			if((str_len>7)&&(str_len<17)){
+				var result = getResult(value);
+				check(result);
+				pwdBox.attr("value",value);
+				//判断密码强弱程度
+			}
+			else{
+				firstMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>请输入8到16位密码，数字加字母的密码");
+			}
+		})
+	}
+	function getResult(value){
+		var str_len = value.length;
+		var i = 0;
+		if(value.match(/[a-z]/ig)) {
+			i++;
+		}
+		if(value.match(/[0-9]/ig)) {
+			i++;
+		}
+		if(value.match(/(.[^a-z0-9])/ig)) {
+			i++;
+		}
+		if(value.length < 8 && i > 0) {
+			i--;
+		}
+		return i;
+	}
+	function check(num) {
+		if(num == 0) {
+			firstMes.html("<span style='color:#f00'>　密码太短了</span>");
+		} else if (num == 1) {
+			firstMes.html("<span class='hover'>弱</span><span>中</span><span>强</span>");
+		} else if (num == 2) {
+			firstMes.html("<span class='hover'>弱</span><span class='hover'>中</span><span>强</span>");
+		} else if (num == 3) {
+			firstMes.html("<span class='hover'>弱</span><span class='hover'>中</span><span class='hover'>强</span>");
+		} else {
+			firstMes.html("未知错误");
+		}
+	}
+	
+	
+}
+ckPwd();	
+paswdStatus = ckPwd();
+function check_setPwd(){
+	if(paswdStatus==2){
+		return true;	
+	}else{
+		return false;
+	}	
+	
+}
+</script>  
+</div>
+</body>
+</html>

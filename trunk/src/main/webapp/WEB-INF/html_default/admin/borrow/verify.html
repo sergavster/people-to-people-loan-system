@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="审核借款标">
+                              
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+
+                                <div class="toolbor-module">
+                                                
+                                    <input type="button" class="input-button return" value="返回" onclick="javascript:location.href='showTrialBorrow.html'">
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+<!--                                 <form name="form1" method="post" action="" onsubmit="return check_form();" enctype="multipart/form-data">
+ -->                             <!-- v1.6.6.2 RDPROJECT-295 xx 2013-10-11 start -->
+                                <form name="form1" method="post" action="" onsubmit="return checkForm();" enctype="multipart/form-data">
+								<!-- v1.6.6.2 RDPROJECT-295 xx 2013-10-11 end -->
+                                    <div class="valBox mb15">
+                                        <div class="top">
+                                            <strong>审核借款标</strong>
+                                        </div>
+                                        <div class="fp w349 clearfix">
+                                            <ul>
+                                                <li>
+                                                    <div class="title">借款人：</div>
+                                                    <div class="v"><a href="javascript:void(0)" onclick='alertPop("用户详细信息查看","url:get?index.php?wzd888&q=module/user/view&user_id=2694&type=scene",500,230,"true","","true","text");'>${b.username!}</a></div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">状态：</div>
+                                                    <div class="v">
+                                                       <#import "../../common/function.html" as func>
+                                                       <!-- v1.6.6.1 zza 2013-10-11 start -->
+                                                       <@func.statusTypeName status=b.status item=b/>
+                                                       <!-- v1.6.6.1 zza 2013-10-11 end -->
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">借款用途：</div>
+                                                    <div class="v">
+                                                        <@linkage plantext=true default=b.use></@linkage>
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">借款期限：</div>
+                                                    <div class="v">
+                                                    	<!-- v1.6.6.1 RDPROJECT-198  zza 2013-09-26 start -->
+                                                    	<#if b.isday==1>${b.time_limit_day!"-"}天<#else>${b.time_limit!"-"}个月</#if>
+                                                    	<!-- v1.6.6.1 RDPROJECT-198  zza 2013-09-26 end -->
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">还款方式：</div>
+                                                    <div class="v">
+                                                        <!-- v1.6.7.2 RDPROJECT-526 xx 2013-12-10 start -->
+														<@func.borrowStyle type = b.type isday = b.isday style = b.style/>
+														<!-- v1.6.7.2 RDPROJECT-526 xx 2013-12-10 end --> 
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">借贷总金额：</div>
+                                                    <div class="v">
+                                                        ${b.account!}
+                                                                <input type="hidden" name="account" value="50000" /> 元
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">年利率：</div>
+                                                    <div class="v">
+                                                        ${b.apr!} %
+                                                    </div>
+                                                </li>
+                                                <!-- v1.6.6.2 RDPROJECT-333 wcw 2013-10-24 start -->
+                                                <!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 start -->
+                                                <#if b.type!=110>
+                                                <!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 end -->
+                                                <li class="color">
+                                                    <div class="title">最低投标金额：</div>
+                                                    <div class="v">
+                                                        <#if b.lowest_account??&&b.lowest_account?c?number gt 0>${b.lowest_account}元<#else>无限制</#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">最多投标总额：</div>
+                                                    <div class="v">
+                                                        <#if b.most_account??&&b.most_account?c?number gt 0>${b.most_account}元<#else>无限制</#if>
+                                                    </div>
+                                                </li>
+                                                </#if>
+                                                <!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 start -->
+                                                <#if b.type==110>
+                                                <!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 end -->
+                                                 <li class="color">
+								                    <div class="title">单笔最低投标金额：</div>
+								                    <div class="v">
+								                        <#if b.lowest_single_limit??&&(b.lowest_single_limit?c)?number gt 0>${b.lowest_single_limit}元<#else>无限制</#if>
+								                    </div>
+								                </li>
+								                </#if>
+								                <li class="color">
+								                    <div class="title">单笔最多投标总额：</div>
+								                    <div class="v">
+								                        <#if b.most_single_limit??&&(b.most_single_limit?c)?number gt 0>${b.most_single_limit}元<#else>无限制</#if>
+								                    </div>
+								                </li>
+								               <!-- v1.6.6.2 RDPROJECT-333 wcw 2013-10-24 end -->
+								                
+                                                <li>
+                                                    <div class="title">有效时间：</div>
+                                                    <div class="v">
+                                                        <!-- v1.6.5.3 RDPROJECT-107  zza 2013-09-11 start -->
+                                                        <@linkage plantext=true default=b.valid_time nid="borrow_valid_time"></@linkage>
+                                                   		<!-- v1.6.5.3 RDPROJECT-107  zza 2013-09-11 end -->
+                                                    </div>
+                                                </li>
+                                                <#if b.extension_day??&&b.extension_day!=0>
+                                                <!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 start -->
+                                                <#if b.type!=110>
+                                                <!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 start -->
+									                  <li>
+									                    <div class="title">展期天数：</div>
+									                    <div class="v">
+									                        ${b.extension_day}天
+									                    </div>
+									                </li>
+									                </#if>
+									                <#if b.extension_apr??&&b.extension_apr!=0.0>
+								               
+								                  <li>
+								                    <div class="title">展期利率：</div>
+								                    <div class="v">
+								                        ${b.extension_apr*100}%
+								                    </div>
+								                </li>
+								               </#if>
+									               </#if>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                        <div class="valBox mb15">
+                                            <div class="top">
+                                                <strong>设置奖励</strong>
+                                            </div>
+                                            <div class="ri clearfix">
+                                                <ul>
+                                                    <li>
+                                                            <#assign award=b.award!0 >
+                                                            <div class="title"><label><input name="award" value="0" type="radio" class="radio" <#if award==0 > checked="checked"</#if>  disabled="disabled">不设置奖励：</label></div>
+                                                            <div class="v">如果您设置了奖励金额，将会冻结您帐户中相应的账户余额。如果要设置奖励，请确保您的帐户有足够 的账户余额。</div>
+                                                        </li>
+                                                        <li class="color">
+                                                            <div class="title"><label><input name="award" value="2" type="radio" class="radio" <#if award==2 > checked="checked"</#if>  disabled="disabled">按固定金额分摊奖励：</label></div>
+                                                            <div class="v"><input type="text" name="funds" value="${b.funds!}" disabled="disabled">元  不能低于5元,不能高于总标的金额的2%，且请保留到“元”为单位。这里设置本次标的要奖励给所有投标用户的总金额。</div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="title"><label><input name="award" value="1" type="radio" class="radio" <#if award==1 > checked="checked"</#if>  disabled="disabled">按投标金额比例奖励：</label></div>
+                                                            <div class="v"><input type="text" name="part_account" value="${b.part_account!}" disabled="disabled">% 范围：0.1%~2% ，这里设置本次标的要奖励给所有投标用户的奖励比例。</div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="title"><label>还款结束时按投标金额比例奖励：</label></div>
+                                                            <div class="v"><input type="text" name="late_award" value="${b.late_award!}" disabled="disabled">% 范围：0.1%~2% ，这里设置本次标的要奖励给所有投标用户的奖励比例，还款结束时发放。</div>
+                                                        </li>
+                                                        <li class="color">
+                                                            <div class="title"><label><input type="checkbox" name="is_false" value="1" <#if b.is_false?exists&&b.is_false=="1" > checked="checked"</#if>   disabled="disabled">标的失败时也同样奖励：</label></div>
+                                                            <div class="v">如果您勾选了此选项，到期未满标或复审失败时同样会奖励给投标用户。如果没有勾选，标的失败时会把奖励金额解冻回账户余额。</div>
+                                                        </li>
+                                                </ul>
+                                            </div>
+                                        </div>     
+
+                                        <div class="valBox mb15">
+                                            <div class="top">
+                                                <strong>帐户信息公开</strong>
+                                            </div>
+                                            <div class="ri clearfix">
+                                                <ul>
+                                                    <!-- v1.6.5.3 RDPROJECT-107  zza 2013-09-11 start -->
+                                                    <li>
+                                                        <div class="title"><label><input type="checkbox" name="open_account" value="1" <#if b.open_account?exists&&b.open_account=="1" > checked="checked"</#if>  disabled="disabled">公开我的帐户资金情况：</label></div>
+                                                        <div class="v">如果您勾上此选项，将会实时公开您帐户的：账户总额、可用余额、冻结总额。</div>
+                                                    </li>
+                                                    <li class="color">
+                                                        <div class="title"><label><input type="checkbox" name="open_borrow" value="1" <#if b.open_borrow?exists&&b.open_borrow=="1" > checked="checked"</#if> disabled="disabled">公开我的借款资金情况：</label></div>
+                                                        <div class="v">如果您勾上此选项，将会实时公开您帐户的：借款总额、已还款总额、未还款总额、迟还总额、逾期总额。</div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="title"><label><input type="checkbox" name="open_tender" value="1" <#if b.open_tender?exists&&b.open_tender=="1" > checked="checked"</#if>  disabled="disabled"/>按投标金额比例奖励：</label></div>
+                                                        <div class="v">如果您勾上此选项，将会实时公开您帐户的：投标总额、已收回总额、待收回总额。</div>
+                                                    </li>
+                                                    <li class="color">
+                                                        <div class="title"><label><input type="checkbox" name="open_credit" value="1" <#if b.open_credit?exists&&b.open_credit=="1" > checked="checked" </#if>   disabled="disabled"/>标的失败时也同样奖励：</label></div>
+                                                        <div class="v">如果您勾上此选项，将会实时公开您帐户的：最低信用额度、最高信用额度。</div>
+                                                    </li>
+                                                <!-- v1.6.5.3 RDPROJECT-107  zza 2013-09-11 end -->
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                    <div class="add-time">
+                                        <span class="mr25"><strong>添加时间：</strong>${dateformat(b.addtime)}</span>
+                                        <span><strong>IP：</strong>${b.addip!}</span>
+                                    </div>
+
+                                    <div id="audit">
+                                        <div class="top">
+                                            <strong>审核此借款</strong>
+                                        </div>
+                                        <div class="v">
+                                            <div class="c">
+                                                <div class="choose">
+                                                    <label class="mr15"><input name="status" value="1" type="radio" class="radio">审核通过</label>
+                                                    <label><input name="status" type="radio" value="2" class="radio" checked="checked">审核不通过</label>
+                                                  <!-- v1.6.6.2 RDPROJECT-295 xx 2013-10-11 start -->
+                                                  <!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 start -->
+	                                                <#if b.type==110>
+	                                                <!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 end -->
+	                                                	<br/>设置流转标流转次数&nbsp;&nbsp;
+	                                                	<input type="text" id="flow_time" name="flow_time" value="<#if b.flow_time?? && b.flow_time!=0>${b.flow_time}<#else>无限制</#if>" size="5" maxlength="3" onkeyup="this.value=this.value.replace(/^ +| +$/g,'')"/>次
+	                                                </#if>
+	                                                <!-- v1.6.6.2 RDPROJECT-295 xx 2013-10-11 end -->
+	                                                 <!-- v1.6.6.2 RDPROJECT-294 wcw 2013-10-14 start -->
+	                                                 <!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 start -->
+	                                                 <#if b.type!=110>
+	                                                 <!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 start -->
+                                               <br/>设置展期利率：&nbsp;&nbsp;
+	                                                <input type="text" name="extension_apr" value="<#if b.extension_apr??>${b.extension_apr}</#if>" onKeyUp="clearNoNum(this)">
+	                                               </#if>
+	                                                <!-- v1.6.6.2 RDPROJECT-294 wcw 2013-10-14 end -->
+	                                                
+	                                                <!-- v1.6.7.2 RDPROJECT-473 sj 2013-12-19 start -->
+	                                                <#if convestCollection??>
+		                                                <br/><label>待收金额：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		                                                <input type="text" name="convest_collection" value="<#if b?exists>${b.convest_collection?c}</#if>" onkeyup="value=value.replace(/[^\d]/g,'')" /></label>
+		                                            </#if>
+		                                            <#if mostTenderTimes??>   
+		                                                <br/>最大投标次数：&nbsp;&nbsp;
+		                                                <input type="text" name="most_tender_times" value="<#if b?exists>${b.most_tender_times}</#if>" onkeyup="value=value.replace(/[^\d]/g,'')" />
+		                                            </#if>    
+		                                            <#if tenderDays??>    
+		                                                <br/>投标天数：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		                                                <input type="text" name="tender_days" value="<#if b?exists>${b.tender_days?c}</#if>" onkeyup="value=value.replace(/[^\d]/g,'')" />
+	                                                </#if>
+	                                                <!-- v1.6.7.2 RDPROJECT-473 sj 2013-12-19 end -->
+	                                                
+	                                                <!-- V1.6.7.1 RDPROJECT-406 liukun 2013-11-06 start -->
+	                                                <br/>
+	                                                <label><input type="checkbox" name="vip_tender_limit" value="1" <#if b.vip_tender_limit?exists&&b.vip_tender_limit==1 > checked="checked"</#if>  >仅限VIP会员投标</label>
+	                                                	<br/>限制仅VIP可投标时，VIP的最小生效天数：&nbsp;&nbsp;
+	                                                <input type="text" name="vip_tender_limit_days" value="<#if b.vip_tender_limit_days??>${b.vip_tender_limit_days}<#else>1</#if>" onKeyUp="clearNoNum(this)">（注：VIP限制生效时这个值才会被使用，为0表示只要是VIP即可）
+	                                                <!-- V1.6.7.1 RDPROJECT-406 liukun 2013-11-06 end -->
+                                                </div>
+                                                <textarea  name="verify_remark" class="remark">输入审核备注...</textarea>
+                                                                                                     
+                                                        
+                                                     
+                                            </div>
+                                            <div class="other clearfix">
+                                                <input type="hidden" name="id" value="${(b.id!0)?c}" />
+                                                <input type="hidden" name="user_id" value="${(b.user_id!0)?c}" />
+                                                <input type="hidden" name="actionType" value="verify" />
+                                                <input type="submit"  name="reset" value="审核此借款标" class="input-button confirm"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+                 <!-- v1.6.6.2 RDPROJECT-294 wcw 2013-10-14 start -->
+					<script language="JavaScript" type="text/javascript"> 
+						function clearNoNum(obj) 
+						{ 
+							obj.value = obj.value.replace(/[^\d.]/g,""); 
+	                        obj.value = obj.value.replace(/^\./g,"");
+							obj.value = obj.value.replace(/\.{2,}/g,"."); 
+							obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$","."); 
+						} 
+					</script>
+					  <!-- v1.6.6.2 RDPROJECT-294 wcw 2013-10-14 end -->
+					<script>
+                            <!-- v1.6.6.2 RDPROJECT-295 xx 2013-10-11 start -->
+                            function checkForm(){
+                                var frm = document.forms['form1'];
+                                var verify_remark = frm.elements['verify_remark'].value;
+                                var errorMsg = '';
+                                if (verify_remark.length == 0 ) {
+                                    errorMsg += '备注必须填写' + '\n';
+                                }
+                                <!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 start -->
+                                <#if b.type==110>
+                                <!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 end -->
+                                    var flow_time = $("#flow_time").val();
+                                    if(flow_time!='无限制'){
+	                                    if(isNaN(flow_time)){
+	                            			alert("流转次数只能为数字。");
+	                            			return false;
+	                            		}
+	                            		if(flow_time<0){
+	                            			alert("流转次数不能为负数。");
+	                            			return false;
+	                            		}
+                                    }
+                        		</#if>
+                                
+                                if (errorMsg.length > 0){
+                                    alert(errorMsg); return false;
+                                } else{
+                                	<!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 start -->
+                                	<#if b.type==110>
+                                	<!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 end -->
+                                    	var flow_time = $("#flow_time").val();
+                                    	if(flow_time=='无限制'){
+                                    		$("#flow_time").val('');
+                                    	}
+                                    </#if>
+                                    return true;
+                                }
+                            }
+                            <!-- v1.6.6.2 RDPROJECT-295 xx 2013-10-11 end -->
+                            </script>
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+<div class="msgClass">
+                                                              ${rsmsg!""}
+                                                          </div>
+    </body>
+</html>
+<#include "../jsPage.html">

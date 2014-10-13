@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="admin-attestation" namespace="/admin/attestation"
+		extends="wzd-admin">
+
+		<action name="typelist" class="attestationAction" method="typelist">
+			<result name="success" type="ftl">/admin/attestation/component/type_list.html
+			</result>
+		</action>
+
+		<action name="type" class="attestationAction" method="typeaddoredit">
+			<result name="success" type="redirect">/admin/attestation/typelist.html
+			</result>
+		</action>
+		
+		<action name="viewUserInfo" class="attestationAction" method="viewUserInfo">
+			<result name="success" type="ftl">//admin/attestation/viewUserDetailInfo.html
+			</result>
+			<result name="viewType" type="ftl">//admin/attestation/viewCard.html
+			</result>
+		</action>
+		
+		<action name="viewAudit" class="attestationAction" method="viewAudit">
+			<result name="success" type="ftl">/admin/attestation/viewInfoAudit.html
+			</result>
+		</action>
+		
+		<action name="AuditUserInfo" class="attestationAction" method="AuditUserInfo">
+			<result name="success" type="ftl">/admin/attestation/viewAuditInfo.html
+			</result>
+		</action>
+		
+		<action name="typeadd" class="attestationAction" method="typeadd">
+			<result name="success" type="ftl">/admin/attestation/component/typeadd.html
+			</result>
+		</action>
+		
+		<action name="index" class="attestationAction" method="index">
+			<result name="success" type="ftl">/admin/attestation/index.html
+			</result>
+		</action>
+		<action name="verifyRealname" class="attestationAction" method="verifyRealname">
+			<result name="success" type="ftl">/admin/attestation/realname.html
+			</result>
+		</action>
+		<action name="vip" class="attestationAction" method="vip">
+			<result name="success" type="ftl">/admin/attestation/vip.html
+			</result>
+		</action>
+		<!-- v1.6.7.1  RDPROJECT-354 wcw 2013-11-05 start -->
+		<action name="verifyVideo" class="attestationAction" method="verifyVideo">
+			<result name="success" type="ftl">/admin/attestation/video.html
+			</result>
+		</action>
+		<action name="verifyPhone" class="attestationAction" method="verifyPhone">
+			<result name="success" type="ftl">/admin/attestation/phone.html
+			</result>
+		</action>
+		<action name="verifyScene" class="attestationAction" method="verifyScene">
+			<result name="success" type="ftl">/admin/attestation/scene.html
+			</result>
+		</action>
+		<!-- v1.6.7.1  RDPROJECT-354 wcw 2013-11-05 end -->
+
+		<action name="viewvip" class="attestationAction" method="viewvip">
+			<result name="success" type="ftl">/admin/attestation/component/viewvip.html
+			</result>
+		</action>
+
+		<action name="userAttestation" class="adminUserInfoAction"
+			method="userAttestation">
+			<result name="success" type="ftl">/admin/attestation/userAttestation.html
+			</result>
+		</action>
+		<action name="viewuserAttestation" class="adminUserInfoAction"
+			method="viewuserAttestation">
+			<result name="success" type="ftl">/admin/attestation/viewUserAttestation.html
+			</result>
+		</action>
+
+		<action name="userCertifyAudit" class="attestationAction" method="userCertifyAudit">
+			<result name="success" type="ftl">/admin/attestation/userCertifyAudit.html
+			</result>
+		</action>
+		
+		<action name="userCertify" class="adminUserInfoAction" method="userCertify">
+			<result name="success" type="ftl">/admin/attestation/userCertify.html
+			</result>
+		</action>
+		<action name="verifyUserCertify" class="adminUserInfoAction" method="verifyUserCertify">
+			<result name="success" type="ftl">/admin/attestation/userCertify.html
+			</result>
+		</action>
+		<!--  v1.6.6.2 RDPROJECT-195 yl 2013-10-24 start -->
+		<action name="cancelUserAttestation" class="attestationAction"
+			method="CancelUserAttestation">
+			<result name="adminmsg" type="ftl">/admin/msg.html</result>
+		</action>
+		<!--  v1.6.6.2 RDPROJECT-195 yl 2013-10-24 end -->
+		<!-- v1.6.7.2 RDPROJECT-571 sj 2013-12-11 start -->
+		<action name="autoVerifyRealname" class="attestationAction"
+			method="autoVerifyRealname">
+			<result name="success" type="ftl">/admin/msg.html</result>
+		</action>
+		<!-- v1.6.7.2 RDPROJECT-571 sj 2013-12-11 end -->
+	</package>
+</struts>

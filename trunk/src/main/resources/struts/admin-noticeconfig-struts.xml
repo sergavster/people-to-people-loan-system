@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="noticeconfig" namespace="/admin/notice"
+		extends="wzd-admin">
+		<action name="noticeConfigList" class="noticeConfigAction" method="noticeConfigList">
+			<result name="success" type="ftl">/admin/notice/noticeConfigList.html
+			</result>
+		</action>
+		<action name="update" class="noticeConfigAction" method="update">
+			<result name="success" type="ftl">/admin/system/index.html
+			</result>
+		</action>
+
+		<action name="addNoticeConfig" class="noticeConfigAction" method="addNoticeConfig">
+			<result name="success" type="ftl">/admin/notice/addNoticeConfig.html
+			</result>
+		</action>
+		<!-- v1.6.5.3 RDPROJECT-147 xx 2013.09.11 start -->
+		<action name="sms" class="noticeConfigAction" method="sms">
+			<result name="success" type="ftl">/admin/notice/sms.html</result>
+		</action>
+		<!-- v1.6.5.3 RDPROJECT-147 xx 2013.09.11 end -->
+	</package>
+</struts>

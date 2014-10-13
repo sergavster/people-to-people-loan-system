@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <style>
+        .account_type{float:left;margin-top: 3px;}
+    </style>
+<body>
+<table class="mc">
+<tr>
+<td class="mc-l">
+    <!--左侧导航---{-->
+    <div id="navPanelContainer">
+        <div class="system-logo cd"></div>
+        <!--管理员信息---{-->
+        <#include "../adminInfo.html">
+            <!--管理员信息---}-->
+            <div class="nav-wrap">
+            	<!-- v1.6.6.2 RDPROJECT-238 zza 2013-10-21 start -->
+                <#include "../report/left.html">
+                <!-- v1.6.6.2 RDPROJECT-238 zza 2013-10-21 end -->
+            </div>
+    </div>
+    <!--左侧导航---}-->
+</td>
+<td class="mc-m">
+    <div class="navToggle"></div>
+</td>
+<td class="mc-r">
+<!--顶部导航---{-->
+<#include "../topNav.html">
+    <!--顶部导航---}-->
+
+    <!--面包屑导航---{-->
+    <#assign moduleName="报表导出列表">
+        <#include "banner.html">
+            <!--面包屑导航---}-->
+
+            <!--工具栏--{-->
+            <div id="toolbar" class="clearfix">
+                <div class="toolbor-module export">
+                    <input type="button" onclick="exportxls()" value="导出报表" class="input-button export-btn"/>
+                </div>
+				<div class="toolbor-module search">
+					<input type="button" value="搜索" class="input-button" onclick="sousuo();">
+				</div>
+				<div class="toolbor-module search">
+					<input type="text" name="username" id="username" value="请输入用户名" data-value="请输入用户名" class="search-value">
+				</div>
+				<div class="toolbor-module search">
+	                   	<div style="height:22px;line-height:22px;float:left;">会员注册时间：</div>
+	                    <input class="_search-value" name="dotime1" id="dotime1" size="15" onclick="change_picktime()"/>
+	                    <div style="height:22px;line-height:22px;float:left;margin:0 8px;"> 到 </div>
+	                    <input class="_search-value" name="dotime2" id="dotime2" size="15" onclick="change_picktime()"/>
+                	</div>
+			</div>
+            <!--工具栏--}-->
+
+            <div id="main" class="clearfix">
+                <form action="" method="post">
+                    <table class="data-list">
+                        <tr class="header">
+                        
+                        <td>会员ID</td>
+						<td>会员名</td>
+						<td>会员真实姓名</td>
+						<td>生日</td>
+						<td>实名认证状态</td>
+						<td>邮箱</td>
+						<td>邮箱认证状态</td>
+						<td>电话</td>
+						<td>电话认证状态</td>
+						<td>是否VIP</td>
+						<td>VIP申请时间</td>
+						<td>会员注册时间</td>
+						<td>会员地域</td>
+						<td>会员投标次数</td>
+						<td>会员投标金额合计</td>
+                        </tr>
+                        <#import "../../common/function.html" as func>
+                        <!-- v1.6.6.2 zza 2013-10-21 start -->
+                        <#if list??>
+	                        <#list list as obj>
+	                            <tr class="s">
+	                                <td>${(obj.user_id?c)!"-"}</td>
+                                    <td>${obj.username!"-"}</td>
+                                    <td>${obj.realname!"-"}</td>
+                                    <td>${obj.birthday!"-"}</td>
+                                    <!-- v1.6.7.2 cx 2013-12-10 start -->
+                                    <td><#if obj.real_status??><#if obj.real_status=='1'>认证<#else>未认证</#if><#else>未认证</#if></td>
+                                    <td>${obj.email!"-"}</td>
+                                    <td><#if obj.email_status??><#if obj.email_status=='1'>认证<#else>未认证</#if><#else>未认证</#if></td>
+                                    <td>${obj.phone!"-"}</td>
+                                    <td><#if obj.phone_status??><#if obj.phone_status=='1'>认证<#else>未认证</#if><#else>未认证</#if></td>
+                                   	 <!-- v1.6.7.2 cx 2013-12-10 start -->
+                                    <td><#if obj.vip_status??&&obj.vip_status==1>Vip会员<#else>普通会员</#if></td>
+                                    <td><#if obj.vip_verify_time??>${dateformat(obj.vip_verify_time)!"-"}</#if></td>
+                                    <td><#if obj.addtime??>${dateformat(obj.addtime)!"-"}</#if></td>
+                                    <td>${obj.address!"-"}</td>
+                                    <td>${(obj.tender_num?c)!"-"}</td>
+                                    <td>${(obj.tender_sum!0)!"-"}</td>
+	                            </tr>
+	                        </#list>
+                        <#else>暂无 </#if>
+                        <!-- v1.6.6.2 zza 2013-10-21 start -->
+                    </table>
+                </form>
+
+                <!--底部工具栏--{-->
+                <div id="bottomToolbar" class="clearfix">
+                    <div class="other-tool">
+                        <dl class="refresh-data">
+                            <dt class="refresh-data-icon"></dt>
+                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                        </dl>
+                    </div>
+
+                    <!--翻页系统--{-->
+                    <div class="container">
+                       <#import "../../common/page.html" as pager>
+                       <@pager.pagination page=page url="/admin/report/userStatistics.html" map=param style="style1" />
+                    </div>
+                    <!--翻页系统--}-->
+                </div>
+                <!--底部工具栏--}-->
+
+                <script>
+                    var url = '/admin/report/userStatistics.html?search=true';
+                    var xlsurl = '/admin/report/userStatistics.html?actionType=export';
+
+                    function sousuo(){
+                        var sou = "";
+                        var dotime1 = $("#dotime1").val();
+                        var dotime2 = $("#dotime2").val();
+                        if (dotime1!=null){
+                            sou += "&dotime1="+dotime1;
+                        }
+                        if (dotime2!=null){
+                            sou += "&dotime2="+dotime2;
+                        }
+                        var username = $("#username").val();
+                        if (username!=null&&username!=""&&username!="undefine"&&username!="请输入用户名"){
+                            sou += "&username="+username;
+                        }
+                        if (sou!=""){
+                            location.href=url+sou;
+                        }else location.href=url;
+                    }
+                    function exportxls(){
+                        var sou = "";
+                        var dotime1 = $("#dotime1").val();
+                        var dotime2 = $("#dotime2").val();
+                        if (dotime1!=null){
+                            sou += "&dotime1="+dotime1;
+                        }
+                        if (dotime2!=null){
+                            sou += "&dotime2="+dotime2;
+                        }
+                        var username = $("#username").val();
+                        if (username!=null&&username!=""&&username!="undefine"&&username!="请输入用户名"){
+                            sou += "&username="+username;
+                        }
+                        if (sou!=""){
+                            location.href=xlsurl+sou;
+                        }else{
+                            location.href=xlsurl;
+                        }
+                    }
+                </script>
+            </div>
+
+</td>
+</tr>
+<tr>
+    <!--尾部--{-->
+    <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+    <!--尾部--}-->
+</tr>
+</table>
+
+</body>
+</html>
+<#include "../jsPage.html">

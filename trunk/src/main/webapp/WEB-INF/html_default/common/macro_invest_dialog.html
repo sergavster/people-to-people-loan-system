@@ -1,0 +1,109 @@
+<#macro investDialog account borrow user>
+	<#assign borrow_process=0 > 
+    <#assign borrow_remain=borrow.account?c?number > 
+    <#if borrow.account_yes?exists> 
+      <#assign borrow_process=(borrow.account_yes?c?number/borrow.account?c?number*100)> 
+      <#assign borrow_remain=(borrow.account?c?number-borrow.account_yes?c?number) >
+    </#if>
+    <div id="modal_dialog" style="display: none" title="${borrow.name}">
+        <div class="pop-tb-con clearfix" style="background:#fff;">
+            <div class="pop-tb-l">
+                <ul>
+                    <li>借款人：${user.username}</li>
+                    <li>借款金额：<strong>￥${borrow.account} 元</strong></li>
+                    <li>借款年利率: ${borrow.apr} %</li>
+                    <li>已经完成：${(borrow_process)?number?string("##.##")} %</li>
+                    <li>还需借款: ￥${borrow_remain?c}</li>
+                    <li>借款期限: <#if
+                    borrow.isday??&&borrow.isday==1>${borrow.time_limit_day!0}天<#else>${(borrow.time_limit)?default("0")}月</#if></li>
+                    <li>还款方式: 
+                    	<!-- v1.6.7.2 RDPROJECT-526 xx 2013-12-10 start -->
+						<#import "function.html" as func>
+						<@func.borrowStyle type = borrow.type isday = borrow.isday style = borrow.style/>
+						<!-- v1.6.7.2 RDPROJECT-526 xx 2013-12-10 end -->
+                    </li>
+                </ul>
+            </div>
+            <#if userAccount??>
+                <#assign use_money=(((ceil((userAccount.use_money)!0))?number)?c) >
+            <#else>
+                <#assign use_money=0 >
+            </#if>
+            <div class="pop-tb-r">
+                <form action="${request.getContextPath()}/borrow/tender.html" name="form1" method="post" >
+                    <ul>
+                        <li>您的可用余额：${use_money}元 <a
+                            href="${request.getContextPath()}/member/account/newrecharge.html" class="btn">我要充值</a>
+                        </li>
+                        <#if borrow.type==110>
+	                        <li>最小流转单位：${borrow.flow_money} 元
+	                        <li>已认购：${(borrow.account_yes?c!0)?number/borrow.flow_money} 份&nbsp;&nbsp;
+	                        还剩：<b>${((borrow.account?c!0)?number-(borrow.account_yes?c!0)?number)/borrow.flow_money}</b> 份</li>
+	                        <!-- v1.6.6.2 RDPROJECT-333 wcw 2013-10-24 start -->
+	                        <li>单次最多能投：<#if borrow.most_single_limit?? && borrow.most_single_limit gt 0><b>${((((borrow.most_single_limit?c)?number)/borrow.flow_money)?int)?c}</b>份<#else>无限制</#if></li>
+	                        <!-- v1.6.6.2 RDPROJECT-333 wcw 2013-10-24 end -->
+	                        <!-- v1.6.7.2 RDPROJECT-496 xx 2013-11-29 start -->
+	                        <li>
+	                        	最多能投：<#if borrow.most_account?? && borrow.most_account gt 0><b>${((((borrow.most_account?c)?number)/borrow.flow_money)?int)?c}</b> 份<#else>无限制</#if>&nbsp;&nbsp;
+	                        	您已认购：<b><#if hasTender?? && hasTender gt 0>${((((hasTender?c)?number)/borrow.flow_money)?int)?c}<#else>0</#if></b> 份
+	                        </li>
+	                        <!-- v1.6.7.2 RDPROJECT-496 xx 2013-11-29 end -->
+	                        <li id="flow_num">购买份数：
+	                            <input class="less" value="-" type="button">
+	                            <!-- v1.6.6.2 RDPROJECT-333 wcw 2013-10-24 start -->
+	                            <input type="text"  class="nums" id="flow_count" name="flow_count" value="1" size="5">
+	                            <!-- v1.6.6.2 RDPROJECT-333 wcw 2013-10-24 end -->
+	                            <!-- v1.6.7.2 RDPROJECT-496 xx 2013-11-29 start -->
+	                            <#assign tender_acc=userAccount.use_money?c/>
+	                            <#assign overplus_acc=(borrow.account?c?number - borrow.account_yes?c?number)?c />
+	                            <#assign my_overplus_acc=(borrow.most_account?c?number - hasTender?c?number)?c />
+	                            
+	                            <#if tender_acc?number gt overplus_acc?number>
+	                            	<#assign tender_acc=overplus_acc />
+	                            </#if>
+	                            <#if tender_acc?number gt my_overplus_acc?number && borrow.most_account?c?number gt 0>
+	                            	<#assign tender_acc=my_overplus_acc />
+	                            </#if>
+	                            <input class="add" value="+" type="button">
+	                            <span class=""> 最多可以认购<b class="max">${((tender_acc?number/borrow.flow_money?c?number)?int)?c}</b> 份</span>
+	                            <!-- v1.6.7.2 RDPROJECT-496 xx 2013-11-29 end -->
+	                        </li>
+                        <#else>
+	                        <li>最多投标总额：<#if borrow.most_account??&&borrow.most_account?number gt 0>${borrow.most_account}<#else>无限制</#if></li>
+	                        <li>投标金额: <input type="text" id="money" name="money"
+	                            size="11" onKeyUp="value=value.replace(/[^0-9.]/g,'')">元
+	                            <input type="button" class="btn" onClick="inputAll(${borrow.lowest_account!0},${borrow.most_account!0},${use_money!0});" style="height:30px;"
+	                            value="自动填入全部金额" /></li>
+                        </#if>
+                        <li>支付密码:<#if !session_user?exists> <a
+                            href="${request.getContextPath()}/user/login.html"
+                            target="_blank"> <font color="red">请先登陆</font> </a> <#elseif
+                            session_user.paypassword?exists> <input type="password"
+                            name="paypassword" size="11" tabindex="2" /> <#else> <a
+                            href="${request.getContextPath()}/memberSecurity/paypwd.html"
+                            target="_blank"> <font color="red">请先设一个支付交易密码</font> </a>
+                            </#if>
+                         </li>
+                         <#if borrow.pwd??&&borrow.pwd!=""><li>定向标密码：<input type="text" size="11" name="pwd" id="pwd"></li></#if>
+                    </ul>
+                    <p class="mar20">
+                        <#if borrow.type==110>
+                            <input type="submit" class="btn" value="确认投标" style="height:30px;">
+                        <#else>
+                        	<!-- v1.6.7.2 RDPROJECT-612 sj 2013-12-20 start -->
+                            <a class="btn" onClick="check_form(${borrow.lowest_account?c},<#if borrow.most_account??&&borrow.most_account?number gt 0>${borrow.most_account}<#else>0</#if>,${use_money})" style="cursor:pointer; line-height:28px; height:25px;">确认投标</a>
+                        	<!-- v1.6.7.2 RDPROJECT-612 sj 2013-12-20 end -->
+                        </#if>
+                    <p>
+                    <p>
+                        <input type="hidden" name="id" value="${((borrow.id)?default(0))?c}" />注意：点击按钮表示您将确认投标金额并同意支付.
+                        <input type="hidden" name="borrow_token"  value="${borrow_token}" />
+						<input type="checkbox" name="auto_repurchase" value="1" checked="checked" style="display: none;" />
+
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+</#macro>

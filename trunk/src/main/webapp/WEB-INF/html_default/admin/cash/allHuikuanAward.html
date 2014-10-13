@@ -1,0 +1,124 @@
+<!DOCTYPE>
+<html>
+<#include "../head.html">
+<body>
+	<#include "../top.html">
+	<!-- div.main start  -->
+	<div class="main">
+		<!-- div.main_left start  -->
+		<div class="main_left"><#include "left.html"></div>
+		<!-- div.main_left end  -->
+		<!-- div.main_right start  -->
+		<div class="main_right">
+			<#include "banner.html">
+			<div class="main_content">  
+			  <!--模块列表 开始-->
+			<div class="module_add">	
+			  <form action="" method="post">
+			  <table  border="0"  cellspacing="1" bgcolor="#CCCCCC" width="100%">
+				<tr >
+					<td width="" class="main_td">ID</td>
+		            <td width="*" class="main_td">用户名</td>
+		            <td width="" class="main_td">奖励类型</td>
+					<td width="*" class="main_td">回款奖励金额</td>
+					<td width="" class="main_td">添加时间</td>
+					<td width="" class="main_td">备注</td>
+					<td width="" class="main_td">状态</td>
+					<td width="" class="main_td">操作</td>
+				</tr>
+				<#list list as item>
+				<tr>
+					<td>${(item.id!0)?c}</td>
+					<td><a href="${webroot}/user/show.html?user_id=${item.user_id?c}">${item.username!}</a></td>
+					<td>${item.typename!}</td>
+					<td>${(item.money!0)?string("###,###.##")}</td>
+                    <td>${dateformat(item.addtime!"")}</td>
+					<td>${item.remark!}元</td>
+					<!-- v1.6.6.2 zhangyz start -->
+					<td><font color="#6699CC"><#if item.status==1>成功<#elseif item.status==0>未审核<#elseif item.status==5>撤回<#else>审核失败</#if></font></td>
+					<!-- v1.6.6.2 zhangyz end -->
+					<td ><a href="verifyHuikuanAward.html?id=${item.id?c}">审核/查看</a></td>
+				</tr>
+				</#list>
+				<tr>
+				<td colspan="10" class="action">
+				<div class="floatl">
+			         <a href="#" onclick="exportxls()">导出报表</a>
+					</div>
+			
+				<div class="floatr">
+				</div>
+				</td>
+			</tr>
+				<tr>
+					<td colspan="11" class="page">
+					 	<#import "../../common/page.html" as pager>  
+			         	<@pager.pagination page=page url="/admin/cash/showAllHuikuan.html" map=param style="style1"  />  
+					</td>
+				</tr>
+			</table>
+		</form>	
+		<!--充值记录列表 结束-->
+		<!--提现审核 开始-->
+		<script>
+		var url = 'rechargelist.html?search=true';
+		var xlsurl = 'rechargelist.html?type=export';
+		
+		function sousuo(){
+			var sou = "";
+			var username = $("#username").val();
+			if (username!=""){
+				sou += "&username="+username;
+			}
+			var status = $("#status").val();
+			if (status!="" && status!=null){
+				sou += "&status="+status;
+			}
+			var dotime1 = $("#dotime1").val();
+			var dotime2 = $("#dotime2").val();
+			var type = $("#type").val();
+			if (dotime1!=null){
+				 sou += "&dotime1="+dotime1;
+			}
+			if (dotime2!=null){
+				 sou += "&dotime2="+dotime2;
+			}
+				if (sou!=""){
+				location.href=url+sou;
+				}
+			}
+		function exportxls(){
+			var sou = "";
+			var username = $("#username").val();
+			if (username!=""){
+				sou += "&username="+username;
+			}
+			var status = $("#status").val();
+			if (status!="" && status!=null){
+				sou += "&status="+status;
+			}
+			var dotime1 = $("#dotime1").val();
+			var dotime2 = $("#dotime2").val();
+			var type = $("#type").val();
+			if (dotime1!=null){
+				 sou += "&dotime1="+dotime1;
+			}
+			if (dotime2!=null){
+				 sou += "&dotime2="+dotime2;
+			}
+			if (sou!=""){
+				location.href=xlsurl+sou;
+			}else{
+				location.href=xlsurl;
+			}
+		}
+		</script>
+			  
+			</div>
+		</div>
+		<!-- div.main_right end  -->
+	</div>
+	<!-- div.main end  -->
+	<#include "../foot.html">
+</body>
+</html>

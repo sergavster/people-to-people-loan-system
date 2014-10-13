@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "../setting/left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    	<#assign moduleName="第三方接口修改">  
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+</div>
+                            <div id="main" class="clearfix"> 
+                                	<form name="form1" method="post" action="">
+						<div class="module_title">
+							<strong>第三方支付接口管理</strong>
+						</div>
+						<div class="module_border">
+							<div class="l">接口名称：</div>
+							<div class="c">
+								<input type="text" name="name" value="<#if paymentInterface??&&paymentInterface.name??>${paymentInterface.name!""}</#if>">
+							</div>
+						</div>
+						<div class="module_border">
+							<div class="l">是否启用直连：</div>
+							<div class="c">
+								<input type="radio" name='is_enable_single' value='1' <#if paymentInterface??&&paymentInterface.is_enable_single==1>checked="checked"</#if>>启用
+								<input type="radio" name='is_enable_single' value='0' <#if paymentInterface??&&paymentInterface.is_enable_single==0>checked="checked"</#if>>不启用
+							</div>
+						</div>
+						<div class="module_border">
+							<div class="l">是否启用间连：</div>
+							<div class="c">
+								<input type="radio" name='is_enable_unsingle' value='1' <#if paymentInterface??&&paymentInterface.is_enable_unsingle==1>checked="checked"</#if>>启用
+								<input type="radio" name='is_enable_unsingle' value='0' <#if paymentInterface??&&paymentInterface.is_enable_unsingle==0>checked="checked"</#if>>不启用
+							</div>
+						</div>
+						<!-- v1.6.7.1 RDPROJECT-417 wcw 2013-11-14 start -->
+						<div class="module_border">
+							<div class="l">网关url：</div>
+							<div class="c">
+								<input type="text" name="gatewayUrl" value="<#if paymentInterface??&&paymentInterface.gatewayUrl??>${paymentInterface.gatewayUrl!""}</#if>">
+							</div>
+						</div>
+						<!-- v1.6.7.1 RDPROJECT-417 wcw 2013-11-14 end -->
+						<!-- v1.6.7.2 RDPROJECT-417 wcw 2013-12-02 start -->
+						<div class="module_border">
+							<div class="l">订单查询地址：</div>
+							<div class="c">
+								<input type="text" name="orderInquireUrl" value="<#if paymentInterface??&&paymentInterface.orderInquireUrl??>${paymentInterface.orderInquireUrl}</#if>"  />
+							</div>
+						</div>
+						<!-- v1.6.7.2 RDPROJECT-417 wcw 2013-12-02 end -->
+						<div class="module_border">
+							<div class="l">商户号：</div>
+							<div class="c">
+								<input type="text" name="merchant_id" value="<#if paymentInterface??&&paymentInterface.merchant_id??>${paymentInterface.merchant_id}</#if>"  />
+							</div>
+						</div>
+						<div class="module_border">
+							<div class="l">商户key：</div>
+							<div class="c">
+								<input type="text" name="key" value="<#if paymentInterface??&&paymentInterface.key??>${paymentInterface.key!}</#if>"  />
+							</div>
+						</div>
+						<div class="module_border">
+							<div class="l">充值费率：</div>
+							<div class="c">
+								<input type="text" name="recharge_fee" value="<#if paymentInterface??&&paymentInterface.recharge_fee??>${paymentInterface.recharge_fee}</#if>"  />
+							</div>
+						</div>
+						 <!-- v1.6.7.2 RDPROJECT-512 wcw 2013-12-03 start -->
+						<div class="module_border">
+							<div class="l">同步通知地址（页面返回:return_url）：</div>
+							<div class="c">
+								<input type="text" name="return_url" value="<#if paymentInterface??&&paymentInterface.return_url??>${paymentInterface.return_url}</#if>"  />
+							</div>
+						</div>
+						<div class="module_border">
+							<div class="l">异步通知地址（后台返回:notify_url）：</div>
+							<div class="c">
+								<input type="text" name="notice_url" value="<#if paymentInterface??&&paymentInterface.notice_url??>${paymentInterface.notice_url!}</#if>"  />
+							</div>
+						</div>
+						 <!-- v1.6.7.2 RDPROJECT-512 wcw 2013-12-03 end -->
+						<div class="module_border">
+							<div class="l">编码：</div>
+							<div class="c">
+								<input type="text" name="chartset" value="<#if paymentInterface??&&paymentInterface.chartset??>${paymentInterface.chartset!}</#if>"  />
+							</div>
+						</div>
+						<div class="module_border">
+							<div class="l">加密方式：</div>
+							<div class="c">
+								<input type="text" name="signType" value="<#if paymentInterface??&&paymentInterface.signType??>${paymentInterface.signType!}</#if>"  />
+							</div>
+						</div>
+						<div class="module_border">
+							<div class="l">支付方式：</div>
+							<div class="c">
+								<input type="text" name="pay_style" value="<#if paymentInterface??&&paymentInterface.pay_style??>${paymentInterface.pay_style!}</#if>"  />
+							</div>
+						</div>
+						<div class="module_border">
+							<div class="l">卖家email：</div>
+							<div class="c">
+								<input type="text" name="seller_email" value="<#if paymentInterface??&&paymentInterface.seller_email??>${paymentInterface.seller_email!}</#if>"  />
+							</div>
+						</div>
+						<div class="module_border">
+							<div class="l">访问模式：</div>
+							<div class="c">
+								<input type="text" name="transport" value="<#if paymentInterface??&&paymentInterface.transport??>${paymentInterface.transport!}</#if>"  />
+							</div>
+						</div>
+						<div class="module_border">
+							<div class="l">商品描述：</div>
+							<div class="c">
+								<input type="text" name="order_description" value="<#if paymentInterface??&&paymentInterface.order_description??>${paymentInterface.order_description!}</#if>"  />
+							</div>
+						</div>
+						<div class="module_border">
+							<div class="l">接口转入账号：</div>
+							<div class="c">
+								<input type="text" name="interface_Into_account" value="<#if paymentInterface??&&paymentInterface.interface_Into_account??>${paymentInterface.interface_Into_account}</#if>"  />
+							</div>
+						</div>
+						<!-- v1.6.7.2 RDPROJECT-417 wcw 2013-12-02 start -->
+						<div class="module_border">
+							<div class="l">证书存入路径：</div>
+							<div class="c">
+								<input type="text" name="cert_position" value="<#if paymentInterface??&&paymentInterface.cert_position??>${paymentInterface.cert_position}</#if>"  />
+							</div>
+						</div>
+						<!-- v1.6.7.2 RDPROJECT-417 wcw 2013-12-02 end -->
+						<div class="module_border">
+							<div class="l">排序：</div>
+							<div class="c">
+								<input type="text" name="order" value="<#if paymentInterface??&&paymentInterface.order??>${paymentInterface.order}</#if>"  />
+							</div>
+						</div>
+						<div class="module_border">
+							<div class="l">接口代表值：</div>
+							<div class="c">
+                           <select name="interface_value">
+							<#if paymentList??>
+							<#list paymentList as item>
+							  <option value="${item.nid}" <#if item.nid==paymentInterface.interface_value>selected="selected"</#if> >${item.nid}(${item.name})</option>
+							  </#list>
+							  </#if>
+							</select>							</div>
+						</div>
+						<div class="module_submit">
+						<input type="hidden" value="add" name="type">
+						<input type="hidden" value="<#if paymentInterface??&&paymentInterface.id??>${paymentInterface.id}</#if>" name="id">
+						<input type="submit" name="submit" value="确认修改" />
+						</div>
+					</form>
+                                <!--底部工具栏--{-->
+                                 <#if sum??><div style="height:22px;line-height:22px;color:red;margin-left:12px; padding-top:10px;"> 充值总额：${sum}元 </div></#if>
+                                <div id="bottomToolbar" class="clearfix" style="padding-top:5px;">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+
+                                    <!--翻页系统--{-->
+                                    <div class="container">
+                                        
+                                    </div>
+                                    <!--翻页系统--}-->
+                                </div>
+                                <!--底部工具栏--}-->
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

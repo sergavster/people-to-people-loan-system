@@ -1,0 +1,379 @@
+﻿<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <!-- V1.6.5.3 RDPROJECT-142 liukun 2013-09-11 start -->
+                    <!-- 
+                  <#if param??&&param.status??>
+                    <#assign status=(param.get("status"))?number >
+                    <#if status==0>
+                    	<#assign moduleName="待审核提现">
+                    <#elseif status==1>
+                    	<#assign moduleName="提现成功">
+                    <#elseif status==3>
+                    	<#assign moduleName="提现失败">
+                    <#elseif status==4>
+                    	<#assign moduleName="用户取消">
+                    <#else>
+                    	<#assign moduleName="提现失败">
+                    </#if>
+                  </#if>
+                     -->
+                  <!-- v1.6.5.3 RDPROJECT-186 xx 2013-09-18 start -->
+	              <#if verifyStep??>
+	              	<#if verifyStep=="kefuVerify">
+	              		<#assign moduleName="客服初审">
+	              	<#elseif verifyStep=="caiwuVerify">
+	              		<#assign moduleName="财务初审">
+	              	<#elseif verifyStep=="chunaVerify">
+	              		<#assign moduleName="财务复审">
+	              	</#if>
+              	<#elseif searchType??>	
+                  	<#if searchType=="success">
+                  		<#assign moduleName="提现成功">
+                  	<#elseif searchType=="fail">
+                  		<#assign moduleName="审核未通过">
+                  	<#elseif searchType=="cancle">
+                  		<#assign moduleName="用户取消">
+                  	</#if>
+				</#if>
+                  <!-- v1.6.5.3 RDPROJECT-186 xx 2013-09-18 end -->
+                  <!-- V1.6.5.3 RDPROJECT-142 liukun 2013-09-11 end -->
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+
+                                <div class="toolbor-module export">
+                                    <input type="button" onclick="exportxls()" value="导出报表" class="input-button export-btn"/>
+                                </div>
+
+                                <#if param?exists>
+                                    <#if param.get("dotime1")?exists><#assign dotime1=param.get("dotime1")></#if>
+                                    <#if param.get("dotime2")?exists><#assign dotime2=param.get("dotime2")></#if>
+                                    <#if param.get("bank_id")?exists><#assign bank_id=param.get("bank_id")></#if>
+                                </#if>
+	                            
+                                <div class="toolbor-module search">
+                                     <input type="text" name="username" id="username" value="请输入用户名" class="search-value"> 
+                                     <!-- v1.6.7.1 RDPROJECT-402 zza 2013-11-07 start -->
+                                     <input type="text" name="realname" id="realname" value="请输入真实姓名" class="search-value"> 
+                                     <!-- v1.6.7.1 RDPROJECT-402 zza 2013-11-07 end -->
+                                    
+                                    <!-- v1.6.5.3 RDPROJECT-186 xx 2013-09-18 start -->
+                                    <#if searchType?? && searchType?contains("fail")>
+	                                    <div class="select-box" id="searchTypeSel" style="width:120px;">
+	                                        <div style="width:120px;" class="tag-select">全部</div>
+	                                        <ul style="width:120px;" class="tag-options">
+	                                            <li style="width:120px;" data-value="fail" <#if searchType=="fail" >data-selected="selected"</#if> class="open-selected">全部</li>
+	                                            <!-- 客服初审 -->
+	                                            <li style="width:120px;" data-value="fail6" <#if searchType=="fail6" >data-selected="selected"</#if>>客服初审未通过</li>
+	                                            <!-- 财务初审 -->
+	                                            <!-- <li style="width:120px;" data-value="fail8" <#if searchType=="fail8" >data-selected="selected"</#if>>财务初审未通过</li> -->
+	                                            <!-- 财务复审 -->
+	                                            <li style="width:120px;" data-value="fail3" <#if searchType=="fail3" >data-selected="selected"</#if>>财务复审未通过</li>
+	                                        </ul>
+	                                    </div>
+                                    </#if>
+                                    <!-- v1.6.5.3 RDPROJECT-186 xx 2013-09-18 end -->
+                                    <input type="button" value="搜索"  class="input-button" onclick="sousuo();">
+                                </div>
+  <!-- V1.6.6.2 RDPROJECT-286 wcw 2013-10-15 start  -->
+                                 <div class="toolbor-module search">
+                                    <div style="height:22px;line-height:22px;float:left;">查询方式：</div>
+                                    <div class="select-box" id="select_type">
+                                        <div class="tag-select">模糊查询</div>
+                                        <ul class="tag-options">
+                                            <li data-value="0" <#if select_type??&&select_type==0>data-selected="selected"</#if>>模糊查询</li>
+                                            <li data-value="1" <#if select_type??&&select_type==1>data-selected="selected"</#if>>精确查询</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- V1.6.6.2 RDPROJECT-286 wcw 2013-10-15 end  -->
+                                <div class="toolbor-module search">
+                                    <div style="height:22px;line-height:22px;float:left;">时间：</div>
+                                    <input class="_search-value js-datetime" name="dotime1" id="dotime1" value="${dotime1!}" onclick="change_picktime()"/>
+                                    <div style="height:22px;line-height:22px;float:left;margin:0 8px;"> 到 </div>
+                                    <input class="_search-value js-datetime" name="dotime2" value="${dotime2!}" id="dotime2" onclick="change_picktime()"/>
+                                </div>
+                                <!-- V1.6.6.2 RDPROJECT-286 wcw 2013-10-15 start  -->
+                                 <div class="toolbor-module search">
+                                    <div style="height:22px;line-height:22px;float:left;">银行：</div>
+                                    <div class="select-box" id="bank_id">
+                                        <div class="tag-select">全部</div>
+                                        <ul class="tag-options">
+                                            <li data-value="0" class="open-selected">全部</li>
+                                        <#list bankList as item>
+                                            <li data-value="${item.id}" <#if item??&&bank_id??&&bank_id==item.name>data-selected="selected"</#if>>${item.name}</li>
+                                       </#list>
+                                        </ul>
+                                    </div>
+                                </div>
+                                  <!-- V1.6.6.2 RDPROJECT-286 wcw 2013-10-15 end  -->
+                                
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form action="" method="post">
+                                    <table class="data-list">
+                                        <tr class="header">
+                                            <td>ID</td>
+                                            <td>用户名称</td>
+                                            <td>真实姓名</td>
+                                            <td>提现账号</td>
+                                            <td>提现银行</td>
+                                            <td>支行</td>
+                                            <td>提现总额</td>
+                                            <td>到账金额</td>
+                                            <td>手续费</td>
+                                            <!--<td>红包抵扣</td>-->
+                                            <td>提现时间</td>
+                                            <td>状态</td>
+                                            <td>审核人</td>
+                                            <td>操作</td>
+                                        </tr>
+                                        <#include "../../common/function.html">
+                                            <#list list as item>
+                                                <tr class="s">
+                                                    <td>${(item.id!0)?c}</td>
+                                                    <td><#if item??&&item.username??><a onclick='alertPop("用户详细信息查看","url:get?${request.getContextPath()}/admin/attestation/viewUserInfo.html?username=${item.username!}",500,230,"true","","true","text");'
+                                                                                        href="javascript:void(0)">${item.username!}</a><#else>-</#if></td>
+                                                    <td><#if item??&&item.realname??>${item.realname!}<#else>-</#if></td>
+                                                    <td><#if item??&&item.account??>${item.account!}<#else>-</#if></td>
+                                                    <td><#if item??&&item.bankname??>${item.bankname!}<#else>-</#if></td>
+                                                    <td><#if item??&&item.branch??>${item.branch!}<#else>-</#if></td>
+                                                    <td><#if item??&&item.total??>${format2((item.total!"0"))}<#else>-</#if></td>
+                                                    <td><#if item??&&item.credited??>${format2((item.credited!"0"))}<#else>-</#if></td>
+                                                    <td><#if item??&&item.fee??>${format2((item.fee!"0"))}<#else>-</#if></td>
+                                                    <!--  <td><#if item??&&item.hongbao??>${item.hongbao!0}<#else>-</#if></td>-->
+                                                    <td><#if item??&&item.addtime??>${dateformat(item.addtime)}<#else>-</#if></td>
+                                                    <!-- V1.6.5.3 RDPROJECT-142 liukun 2013-09-11 start -->
+                                                    <!-- 
+                                                    <td><#if item.status==0||item.status==2>审核中<#elseif item.status==1>成功<#elseif item.status==4>用户取消<#else>审核失败</#if></td>
+                                                    <#if item.status==0>
+                                                    <td>-</td>
+                                                    <#else>
+                                                    <td>${item.verify_username!}</td>
+                                                    </#if>
+                                                    <td><#if item.status==0||item.status==2><a href="viewCash.html?id=${item.id?c}">审核/查看</a><#else>-</#if></td>
+                                                     -->
+                                                     <td><#if item.status==0||item.status=5||item.status=7>审核中<#elseif item.status==1>成功<#elseif item.status==4>用户取消<#elseif item.status==3>提现申请，财务复审未通过<#elseif item.status==6>提现申请，客服初审未通过<#elseif item.status==8>提现申请，财务初审未通过<#else>审核失败</#if></td>
+                                                    <#if item.status==0>
+                                                    <td>-</td>
+                                                    <#else>
+                                                    <td>${item.verify_username!}</td>
+                                                    </#if>
+                                                    <td>
+                                                    <#if preStatus?exists>
+                                                    <#if item.status == preStatus>
+                                                    <a href="viewCash.html?id=${item.id?c}&verify_step=${verifyStep}">审核/查看</a>
+                                                    <#else>
+                                                    --
+                                                    </#if>
+                                                    <#else>
+                                                    --
+                                                    </#if>
+                                                    </td>
+                                                    <!-- V1.6.5.3 RDPROJECT-142 liukun 2013-09-11 end -->
+                                                </tr>
+                                            </#list>
+
+
+                                    </table>
+                                </form>
+
+                                <!--底部工具栏--{-->
+                                <div style="height:22px;line-height:22px;color:red;margin-left:12px; padding-top:10px;">提现总额${((totalSum)!0)?string("##.##")}元 ，提现到账总额${((creditSum)!0)?string("##.##")}元 ，手续费总额${((feeSum)!0)?string("##.##")}元 </div>
+                                <div id="bottomToolbar" class="clearfix" style="padding-top:2px;">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+
+                                    <!--翻页系统--{-->
+                                    <div class="container">
+                                        <#import "../../common/page.html" as pager>
+	                                    <!-- v1.6.5.3 RDPROJECT-186 xx 2013-09-18 start -->
+	                                    <#if verifyStep?? && verifyStep=="kefuVerify">
+	                                    	<@pager.pagination page=page url="showFirstVerifyCash.html?verify_step=kefuVerify" map=param style="style1" />
+	                                    <#elseif verifyStep?? && verifyStep=="caiwuVerify">
+	                                    	<@pager.pagination page=page url="showSecondVerifyCash.html?verify_step=caiwuVerify" map=param style="style1" />
+	                                	<#elseif verifyStep?? && verifyStep=="chunaVerify">
+	                                    	<@pager.pagination page=page url="showThirdVerifyCash.html?verify_step=chunaVerify" map=param style="style1" />
+	                                    <#else>
+	                                    	<@pager.pagination page=page url="/admin/cash/showCash.html?searchType=${searchType}" map=param style="style1" />
+	                                    </#if>
+	                                    <!-- v1.6.5.3 RDPROJECT-186 xx 2013-09-18 end -->
+                                    </div>
+                                    <!--翻页系统--}-->
+                                    
+                                </div>
+                                <!--底部工具栏--}-->
+
+                                <script>
+                                	<!-- v1.6.5.3 RDPROJECT-186 xx 2013-09-18 start -->
+                                    var url = 'showCash.html?search=true';
+                                    var xlsurl = 'showCash.html?type=export';
+                                    <#if verifyStep?? && verifyStep=="kefuVerify">
+                                    	url = 'showFirstVerifyCash.html?verify_step=kefuVerify';
+                                    	xlsurl = url+"&type=export";
+                                    <#elseif verifyStep?? && verifyStep=="caiwuVerify">
+                                    	url = 'showSecondVerifyCash.html?verify_step=caiwuVerify';
+                                		xlsurl = url+"&type=export";
+                                	<#elseif verifyStep?? && verifyStep=="chunaVerify">
+                                    	url = 'showThirdVerifyCash.html?verify_step=chunaVerify';
+                                		xlsurl = url+"&type=export";
+                                    </#if>
+                                    <!-- v1.6.5.3 RDPROJECT-186 xx 2013-09-18 end -->
+                                    var sou="";
+                                    function sousuo(){
+                                        var username = $("#username").val();
+                                        if (username!=""&&username!="请输入用户名"){
+                                        	<!-- V1.6.6.2 RDPROJECT-286 wcw 2013-10-15 start  -->
+                                        	var select_type=$("#select_type").find(".open-selected").attr("data-value");
+                                        	if(select_type==undefined){
+                                        		select_type=0;
+                                        	}
+                                                sou += "&username="+username+"&select_type="+select_type;
+                                            <!-- V1.6.6.2 RDPROJECT-286 wcw 2013-10-15 end  -->
+                                        }
+                                     	// v1.6.7.1 RDPROJECT-402 zza 2013-11-07 start
+                                        var realname = $("#realname").val();
+                                        if (realname!=null&&realname!=""&&realname!="undefine"&&realname!="请输入真实姓名"){
+                                            sou += "&realname="+realname;
+                                        }
+                                     	// v1.6.7.1 RDPROJECT-402 zza 2013-11-07 end
+                                        <!-- v1.6.5.3 RDPROJECT-186 xx 2013-09-18 start -->
+                                        <#if searchType?? && searchType?contains("fail")>
+	                                        var searchTypeSel = $("#searchTypeSel").find(".open-selected").attr("data-value");
+	                                        if (searchTypeSel!=""){
+	                                            sou += "&searchType="+searchTypeSel;
+	                                        }
+                                        <#else>
+	                                        <#if searchType??>
+		                                        sou += "&searchType=${searchType}";
+		                                    </#if>
+                                        </#if>
+                                        <!-- v1.6.5.3 RDPROJECT-186 xx 2013-09-18 end -->
+	                                    var dotime1 = $("#dotime1").val();
+                                        var dotime2 = $("#dotime2").val();
+                                        if (dotime1!=null){
+                                            sou += "&dotime1="+dotime1;
+                                        }
+                                        if (dotime2!=null){
+                                            sou += "&dotime2="+dotime2;
+                                        }
+                                        <!-- V1.6.6.2 RDPROJECT-286 wcw 2013-10-15 start  -->
+                                        var bank_id=$("#bank_id").find(".open-selected").attr("data-value");
+                                        if(bank_id!=0){
+                                        	sou+="&bank_id="+bank_id;
+                                        }
+                                        
+                                        if(bank_id!=0){
+                                        	sou+="&select_type="+select_type;
+                                        }
+                                        <!-- V1.6.6.2 RDPROJECT-286 wcw 2013-10-15 end  -->
+
+                                        if (sou!=""){
+                                            location.href=url+sou;
+                                        }
+                                    }
+                                    function exportxls(){
+                                        var username = $("#username").val();
+                                        if (username!=""&&username!="请输入用户名"){
+                                        	<!-- V1.6.6.2 RDPROJECT-286 wcw 2013-10-15 start  -->
+                                        	var select_type=$("#select_type").find(".open-selected").attr("data-value");
+                                        	alert(select_type);
+                                        	if(select_type==undefined){
+                                        		select_type=0;
+                                        	}
+                                            sou += "&username="+username+"&select_type="+select_type;
+
+                                            <!-- V1.6.6.2 RDPROJECT-286 wcw 2013-10-15 end  -->
+                                        }
+                                    	 // v1.6.7.1 RDPROJECT-402 zza 2013-11-07 start
+                                        var realname = $("#realname").val();
+                                        if (realname!=null&&realname!=""&&realname!="undefine"&&realname!="请输入真实姓名"){
+                                            sou += "&realname="+realname;
+                                        }
+                                     	// v1.6.7.1 RDPROJECT-402 zza 2013-11-07 end
+                                        <!-- v1.6.5.3 RDPROJECT-186 xx 2013-09-18 start -->
+                                        <#if searchType?? && searchType?contains("fail")>
+	                                        var searchTypeSel = $("#searchTypeSel").find(".open-selected").attr("data-value");
+	                                        if (searchTypeSel!=""){
+	                                            sou += "&searchType="+searchTypeSel;
+	                                        }
+	                                    <#else>
+	                                        <#if searchType??>
+		                                        sou += "&searchType=${searchType}";
+		                                    </#if>
+	                                    </#if>
+	                                    <!-- v1.6.5.3 RDPROJECT-186 xx 2013-09-18 end -->
+                                        var dotime1 = $("#dotime1").val();
+                                        var dotime2 = $("#dotime2").val();
+
+                                        if (dotime1!=null){
+                                            sou += "&dotime1="+dotime1;
+                                        }
+                                        if (dotime2!=null){
+                                            sou += "&dotime2="+dotime2;
+                                        }
+                                        <!-- V1.6.6.2 RDPROJECT-286 wcw 2013-10-15 start  -->
+                                        var bank_id=$("#bank_id").find(".open-selected").attr("data-value");
+                                        if(bank_id!=0){
+                                        	sou+="&bank_id="+bank_id;
+                                        }
+                                        
+                                        if(bank_id!=0){
+                                        	sou+="&select_type="+select_type;
+                                        }
+                                        <!-- V1.6.6.2 RDPROJECT-286 wcw 2013-10-15 end  -->
+                                        if (sou!=""){
+                                            location.href=xlsurl+sou;
+                                        }else{
+                                            location.href=xlsurl;
+                                        }
+                                    }
+                                </script>
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

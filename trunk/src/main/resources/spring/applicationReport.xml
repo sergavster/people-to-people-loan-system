@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<!-- v1.6.7.1 zhangyz 2013-11-06 start -->
+	<bean id="columnDao" class="com.p2psys.report.dao.jdbc.ColumnDaoImpl">
+        <property name="dataSource"><ref bean="dataSource" /></property>
+    </bean>
+    <bean id="reportColumnDao" class="com.p2psys.report.dao.jdbc.ReportColumnDaoImpl">
+        <property name="dataSource"><ref bean="dataSource" /></property>
+    </bean>
+    <bean id="reportDao" class="com.p2psys.report.dao.jdbc.ReportDaoImpl">
+        <property name="dataSource"><ref bean="dataSource" /></property>
+    </bean>
+
+  	<bean id="columnService" class="com.p2psys.report.service.impl.ColumnServiceImpl">
+        <property name="columnDao"><ref bean="columnDao" /></property>
+        <property name="reportColumnDao"><ref bean="reportColumnDao" /></property>
+    </bean>
+	<bean id="reportColumnService" class="com.p2psys.report.service.impl.ReportColumnServiceImpl">
+        <property name="reportColumnDao"><ref bean="reportColumnDao" /></property>
+    </bean>
+	<bean id="reportService" class="com.p2psys.report.service.impl.ReportServiceImpl">
+        <property name="reportColumnDao"><ref bean="reportColumnDao" /></property>
+        <property name="reportDao"><ref bean="reportDao" /></property>
+    </bean>
+	
+	
+	
+	<bean id="reportAction" class="com.p2psys.report.web.action.admin.ReportAction" scope="prototype">
+		<property name="reportService"><ref bean="reportService" /></property>
+		<property name="columnService"><ref bean="columnService" /></property>
+		<property name="reportColumnService"><ref bean="reportColumnService" /></property>
+	</bean>
+	<bean id="reportTenderAction" class="com.p2psys.report.web.action.admin.ReportTenderAction" scope="prototype">
+	</bean>
+	<bean id="reportUserAction" class="com.p2psys.report.web.action.admin.ReportUserAction" scope="prototype">
+	</bean>
+	<!-- v1.6.7.1 zhangyz 2013-11-06 end --> 
+</beans>

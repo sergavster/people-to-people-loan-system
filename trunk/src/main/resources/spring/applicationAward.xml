@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<bean id="awardDao" class="com.p2psys.dao.jdbc.AwardDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+	<bean id="userCreditDao" class="com.p2psys.dao.jdbc.UserCreditDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+	<bean id="accountDao" class="com.p2psys.dao.jdbc.AccountDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+	<bean id="accountLogDao" class="com.p2psys.dao.jdbc.AccountLogDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+	
+	<bean id="awardService" class="com.p2psys.service.impl.AwardServiceImpl">
+		<property name="awardDao">
+			<ref bean="awardDao" />
+		</property>
+		<property name="userCreditDao">
+			<ref bean="userCreditDao" />
+		</property>	
+		<property name="accountDao">
+			<ref bean="accountDao" />
+		</property>	
+		<property name="accountLogDao">
+			<ref bean="accountLogDao" />
+		</property>		
+	</bean>
+
+</beans>

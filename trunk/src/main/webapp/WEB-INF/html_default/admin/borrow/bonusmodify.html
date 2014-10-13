@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+<body>
+	<#include "../top.html">
+	<!-- div.main start  -->
+	<div class="main">
+		<!-- div.main_left start  -->
+		<div class="main_left"><#include "left.html"></div>
+		<!-- div.main_left end  -->
+		<!-- div.main_right start  -->
+		<div class="main_right">
+			<#assign moduleName="分红利息修改" >
+			<#include "banner.html">
+			<div class="main_content">
+				<form action="" method="post">
+				<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<span style="font-size:14px">
+				项目:${borrow.name!}&nbsp;&nbsp;&nbsp;
+				借款期限:${borrow.time_limit!0}月&nbsp;&nbsp;&nbsp;
+				借款金额:${borrow.account!}元&nbsp;&nbsp;&nbsp;
+				保障利息:${borrow.apr}%.</span>
+				<table  border="0"  cellspacing="1" bgcolor="#CCCCCC" width="100%">
+					<tr>
+						<td width="33%" class="main_td">期数</td>
+						<td width="33%" class="main_td">利息</td>
+						<td width="34%" class="main_td">操作</td>
+					</tr>
+					<#list list as item>
+					<tr>
+						<td width="33%" align="left">${item.order+1}</td>
+						<td width="33%" align="left">
+							<div id="value_apr${item.id?c}" style="float:left;display:none;">${item.apr!}</div>
+							<input type="text" value="${item.apr*100}" id="input_apr${item.id?c}" style="float:left">%
+							</td>
+						<td width="34%" align="left"><a href="#" onclick="modifyBonusApr('value_apr${item.id?c}','input_apr${item.id?c}',${item.id?c})">修改</a></td>
+					</tr>
+					</#list>
+				</table>
+				<script type="text/javascript">
+				function modifyBonusApr(idDiv,aprDiv,val){
+					var idVal= $("#"+idDiv);
+					var aprVal= jQuery("#"+aprDiv);
+					alert(val);
+					jQuery.ajax({
+						url:"bonusmodify.html",
+						dataType:'json', 
+						data:{id:val,apr:aprVal.val(),type:'json'},
+						success:function(json){
+							alert("修改成功!");
+						},
+						error:function(XMLHttpRequest, textStatus, errorThrown){
+							alert(textStatus);
+						}
+						
+					});	
+				}
+				</script>
+				</form>	
+			</div>
+		</div>
+		<!-- div.main_right end  -->
+	</div>
+	<!-- div.main end  -->
+	<#include "../foot.html">
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+<package name="account" namespace="/member/account" extends="wzd-default">
+
+        <action name="list"  class="memberAccountAction" method="list">
+            <result name="success" type="ftl">/member/account/list.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="bank"  class="memberAccountAction" method="bank">
+            <result name="success" type="ftl">/member/account/bank.html</result>
+              <result name="error" type="ftl">/msg.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="addbank"  class="memberAccountAction" method="addbank">
+            <result name="success" type="ftl">/member/account/bank.html</result>
+              <result name="error" type="ftl">/msg.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="log"  class="memberAccountAction" method="log">
+            <result name="success" type="ftl">/member/account/log.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="cash"  class="memberAccountAction" method="cash">
+            <result name="success" type="ftl">/member/account/cash.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="cancelcash"  class="memberAccountAction" method="cancelcash">
+            <result name="success" type="ftl">/member/account/cash.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="newcash"  class="memberAccountAction" method="newcash">
+            <result name="success" type="ftl">/member/account/newcash.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+         <action name="recharge"  class="memberAccountAction" method="recharge">
+            <result name="success" type="ftl">/member/account/recharge.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <!-- V1.6.6.1 RDPROJECT-300 wcw  2013-10-10 start-->
+        <action name="specificKefu"  class="memberAccountAction" method="specificKefu">
+            <result name="success" type="ftl">/member/account/specificKefu.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <!-- V1.6.6.1 RDPROJECT-300 wcw  2013-10-10 end-->
+        <action name="newrecharge"  class="memberAccountAction" method="newrecharge">
+			<result name="success" type="ftl">/member/account/newrecharge.html</result>
+			<result name="ips" type="ftl">/member/account/ips.html</result>
+			<result name="xsp" type="ftl">/member/account/xsp.html</result>
+			<result name="ybp" type="ftl">/member/account/ybp.html</result>
+			<result name="baofoo" type="ftl">/member/account/baofoo.html</result>
+			<result name="allinpay" type="ftl">/member/account/allinpay.html</result>
+			<result name="dinpay" type="ftl">/member/account/dinpay.html</result>
+			<result name="ecpssPay" type="ftl">/member/account/ecpssPay.html</result>
+			<result name="tenpay" type="ftl">/member/account/tenpay.html</result>
+			<result name="cbpay" type="ftl">/member/account/chinaBankPay.html</result>
+			<result name="shengpay" type="ftl">/member/account/shengpay.html</result>
+			<result name="rongpay" type="ftl">/member/account/rongpay.html</result>
+			<result name="ecpssPayFast" type="ftl">/member/account/ecpssPay.html</result>
+			<!-- v1.6.5.5 RDPROJECT-148 xx 2013-09-23 start -->
+			<result name="yishengpay" type="ftl">/member/account/yishengpay.html</result>
+			<!-- v1.6.5.5 RDPROJECT-148 xx 2013-09-23 end -->
+			<!-- v1.6.6.2 RDPROJECT-283 lhm 2013-10-21 start -->
+			<result name="epay" type="ftl">/member/account/95epay.html</result>
+			<!-- v1.6.6.2 RDPROJECT-283 lhm 2013-10-21 end -->
+            <!-- v1.6.7.1 RDPROJECT-410 wcw 2013-11-07 start -->
+            <result name="unspay" type="ftl">/member/account/unspay.html</result>
+            <!-- v1.6.7.1 RDPROJECT-410 wcw 2013-11-07 end -->
+			
+            <interceptor-ref name="mydefault" />
+        </action>
+        <action name="huikuan"  class="memberAccountAction" method="huikuan">
+            <result name="success" type="ftl">/member/account/huikuan.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="getAvailableCashMoney"  class="memberAccountAction" method="getAvailableCashMoney">
+            <interceptor-ref name="mydefault" /> 
+        </action>
+         <action name="hongbao"  class="memberAccountAction" method="hongBaoList">
+            <result name="success" type="ftl">/member/account/hongbao.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+         <action name="mobileaccess"  class="memberAccountAction" method="mobileaccess"> </action>
+		<action name="phoneSms"  class="memberAccountAction" method="phoneSms"></action>
+		
+		<action name="extract"  class="accountCashAction" method="accountCash">
+            <result name="success" type="ftl">/member/account/newcash.html</result>
+            <interceptor-ref name="mydefault" />
+        </action>
+		<action name="getAvailableCash"  class="accountCashAction" method="getAvailableCashMoney">
+            <interceptor-ref name="mydefault" /> 
+        </action> 
+        
+    </package>
+</struts>

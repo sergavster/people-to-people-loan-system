@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+<body>
+<table class="mc">
+    <tr>
+        <td class="mc-l">
+            <!--左侧导航---{-->
+            <div id="navPanelContainer">
+                <div class="system-logo cd"></div>
+                <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                <!--管理员信息---}-->
+                <div class="nav-wrap">
+                    <#include "left.html">
+                </div>
+            </div>
+            <!--左侧导航---}-->
+        </td>
+        <td class="mc-m">
+            <div class="navToggle"></div>
+        </td>
+        <td class="mc-r">
+            <!--顶部导航---{-->
+            <#include "../topNav.html">
+            <!--顶部导航---}-->
+
+            <!--面包屑导航---{-->
+            <#if borrowType??&&borrowType=="trial">
+            	<#assign moduleName="发标待审">
+            <#elseif borrowType=="notTrial">
+             	<#assign moduleName="发标待审未通过">
+            <#elseif borrowType=="all">
+             	<#assign moduleName="所有借款">
+            <#elseif borrowType=="borrowing">
+             	<#assign moduleName="正在招标款">
+            <#elseif borrowType=="cancel">
+             	<#assign moduleName="撤回">
+            <#elseif borrowType=="full">
+             	<#assign moduleName="满标审核通过">
+            <#elseif borrowType=="notFull">
+             	<#assign moduleName="满标审核未通过">
+            <#else>
+             	<#assign moduleName="我要贷款">
+            </#if>
+            <#include "banner.html">
+            <!--面包屑导航---}-->
+
+            <!--工具栏--{-->
+            <div id="toolbar" class="clearfix">
+            <#if borrowType??&&borrowType=="full"||borrowType=="all"||borrowType=="notFull">
+            <input type="button" onclick="exportxls()" value="导出报表" class="input-button export-btn"/>
+            </#if>
+            	<div class="toolbor-module search">
+                   <input type="button" value="搜索"  class="input-button" onclick="sousuo();">
+                </div>
+                <#if param??&&param.status??>
+                    <#assign status=(param.get("status"))?number >
+                        <#else>
+                            <#assign status=-1>
+                </#if>
+                <#if borrowType??&&borrowType=="all">
+                <div class="toolbor-module search">
+                        <div class="select-box" id="status">
+                            <div class="tag-select">全部</div>
+                            <ul class="tag-options">
+                                <li data-value="" <#if status==-1 >data-selected="selected"</#if> class="open-selected">全部</li>
+                                <li data-value="0" <#if status==0 >data-selected="selected"</#if>>等待初审</li>
+                                <li data-value="1" <#if status==1 >data-selected="selected"</#if>>初审通过</li>
+                                <li data-value="2" <#if status==2 >data-selected="selected"</#if>>等待复审</li>
+                                <li data-value="3" <#if status==3 >data-selected="selected"</#if>>复审通过</li>
+                                <!-- v1.6.6.1 RDPROJECT-64 zza 2013-09-25 start -->
+                                <li data-value="49" <#if status==4 || status==49>data-selected="selected"</#if>>复审未通过</li>
+                                <li data-value="59" <#if status==5 || status==59>data-selected="selected"</#if>>用户取消</li>
+                                <!-- v1.6.6.1 RDPROJECT-64 zza 2013-09-25 end -->
+                                <li data-value="6" <#if status==6 >data-selected="selected"</#if>>放款成功</li>
+                                <li data-value="7" <#if status==7 >data-selected="selected"</#if>>部分还款</li>
+                                <li data-value="8" <#if status==8 >data-selected="selected"</#if>>还款成功</li>
+                            </ul>
+                    	</div>
+                    </div>
+                    </#if>
+                    <div class="toolbor-module search">
+                        <div style="height:22px;line-height:22px;float:left;">类型：</div>
+                       <div class="select-box" id="type">
+                            <div class="tag-select">全部</div>
+                            <ul class="tag-options">
+                            <!-- v1.6.6.1 RDPROJECT-64 zza 2013-09-25 start -->
+                               <li data-value="100" <#if type==100 >data-selected="selected"</#if> class="open-selected">全部</li>
+                               <li data-value="101" <#if type==101 >data-selected="selected"</#if>>秒还标</li>
+                               <li data-value="102" <#if type==102 >data-selected="selected"</#if>>信用标</li>
+                               <li data-value="103" <#if type==103 >data-selected="selected"</#if>>抵押标</li>
+                               <li data-value="104" <#if type==104 >data-selected="selected"</#if>>净值标</li>
+                               <li data-value="112" <#if type==112 >data-selected="selected"</#if>>担保标</li>
+                               <li data-value="110" <#if type==110 >data-selected="selected"</#if>>流转标</li>
+                            <!-- v1.6.6.1 RDPROJECT-64 zza 2013-09-25 end -->
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="toolbor-module search">
+                        <div style="height:22px;line-height:22px;float:left;">复审时间：</div>
+                        <input class="_search-value js-datetime" name="fullVerifytime1" id="fullVerifytime1" value="" size="15"/>
+                        <div style="height:22px;line-height:22px;float:left;margin:0 8px;"> 到 </div>
+                        <input class="_search-value js-datetime" name="fullVerifytime2" id="fullVerifytime2"  value=""  size="15"/>
+                    </div>
+                    <div class="toolbor-module search">
+                        <div style="height:22px;line-height:22px;float:left;">发布时间：</div>
+                        <input class="_search-value js-datetime" name="dotime1" id="dotime1" value="" size="15"/>
+                        <div style="height:22px;line-height:22px;float:left;margin:0 8px;"> 到 </div>
+                        <input class="_search-value js-datetime" name="dotime2" id="dotime2"  value=""  size="15"/>
+                    </div>
+                    <div class="toolbor-module search">
+                        <input type="text" name="username" id="username" value="请输入用户名" data-value="请输入用户名" class="search-value">
+                	</div>
+                   
+                </div>
+                
+            <!--工具栏--}-->
+
+            <div id="main" class="clearfix">
+                <form action="" method="post">
+                    <table class="data-list">
+                        <tr class="header">
+                            <td>ID</td>
+                            <td>用户名称</td>
+                            <td>用户积分</td>
+                            <td>借款标题</td>
+                            <td>借款金额</td>
+                            <td>最小认购单位</td>
+                            <td>利率</td>
+                            <td>借款期限</td>
+                            <td>发布时间</td>
+                            <td>投标记录</td>
+                            <td>复审时间</td>
+                            <td>已还款金额</td>
+                            <td>剩余还款金额</td>
+                            <td>状态</td>
+                            <td>操作</td>
+                        </tr>
+                        <#import "../../common/function.html" as func>
+                            <#list list as item>
+                                <tr class="s">
+                                    <td>${(item.id!)?c}</td>
+                                    <td>
+                                        <a href="javascript:void(0)" onclick='alertPop("用户详细信息查看","url:get?${request.getContextPath()}/admin/attestation/viewUserInfo.html?username=${item.username!}",500,230,"true","","true","text")'>
+                                            ${item.username!}
+                                        </a>
+                                    </td>
+                                    <td>${item.credit_jifen!0}分</td>
+                                    <td title="${item.name}" class="tal">
+                                        <span style="color:#FF0000">【<@func.borrowTypeName item=item /> 】</span>
+                                        <a href="${request.getContextPath()}/invest/detail.html?borrowid=${item.id?c}" target="_blank">${item.name!}</a>
+                                    </td>
+                                    <td>${item.account!0}元</td>
+                                    <!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 start -->
+                                    <#if item.type==110>
+                                    <!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 end -->
+                                        <td>${item.flow_money!0}元</td>
+                                        <#else><td>-</td>
+                                    </#if>
+  
+                                    <td>${item.apr!}%</td>
+                                    <td><#if item.isday==1>${item.time_limit_day!"-"}天<#else>${item.time_limit!"-"}个月</#if></td>
+                                    <td>${dateformat(item.addtime!)}</td>
+                                    <td><a href="${webroot}/admin/borrow/tenderlist.html?borrow_id=${item.id?c}">查看</a></td>
+                                    <td>${dateformat(item.full_verifytime!)}</td>
+                                    <!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 start -->
+                                    <td>${((item.repayment_yesaccount)!0)}元</td>
+                                    <td>${item.repayment_account!0-item.repayment_yesaccount!0}元</td>
+                                    <!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 end -->
+                                    <#assign status=item.status!(-1)>
+                                    	<!-- v1.6.6.1 zza 2013-10-11 start -->
+                                        <td><@func.statusTypeName status=item.status item=item/></td>
+                                        <!-- v1.6.6.1 zza 2013-10-11 end -->
+                                        <td>
+                                        	<!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 start -->
+                                            <#if item.type==110>
+                                            <!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 end -->
+                                                <#if status==0>
+                                                    <a class="un" href="${request.getContextPath()}/admin/borrow/verifyBorrow.html?id=${item.id?c}">审核</a>
+                                                    <#elseif status==8>
+                                                        <#else>
+                                                        <!-- v1.6.7.2 RDPROJECT-618 lx 2013-12-23 start -->
+                                            			<a href="javascript:;" class="un" onClick="javascript:if(confirm('确定要停止流转吗?')) location.href='${request.getContextPath()}/admin/borrow/stopflow.html?borrow_id=${item.id?c}'">停止流转</a>
+                                                        <!-- <a class="un" href="${request.getContextPath()}/admin/borrow/stopflow.html?borrow_id=${item.id?c}">停止流转</a> -->
+                                            			<!-- v1.6.7.2 RDPROJECT-618 lx 2013-12-23 end -->
+                                                </#if>
+                                                <!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 start -->
+                                                <#elseif item.type!=110>
+                                                <!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 end -->
+                                                	<!-- v1.6.7.1 RDPROJECT-475 zza 2013-11-22 start -->
+                                                    <#if status==0 || (status==1 && item.account?c == item.account_yes?c)>
+                                                    <!-- v1.6.7.1 RDPROJECT-475 zza 2013-11-22 end -->
+                                                        <a class="un" href="${request.getContextPath()}/admin/borrow/verifyBorrow.html?id=${item.id?c}">审核</a></#if>
+                                            </#if>
+											<!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 start -->
+                                            <#if item.type!=110>
+                                            <!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 end -->
+                                            	<!-- v1.6.7.1 RDPROJECT-475 zza 2013-11-22 start -->
+                                                <#if status==2||status==4||status==0||(status==1 && item.account?c == item.account_yes?c)>
+                                                <!-- v1.6.7.1 RDPROJECT-475 zza 2013-11-22 end -->
+                                                    <a href="javascript:;" class="un" onClick="javascript:if(confirm('确定要删除吗?删除后将不可恢复')) location.href='cancelBorrow.html?id=${item.id?c}'">撤回</a>
+                                                 </#if></#if>
+                                            <a class="un" href="${request.getContextPath()}/admin/borrow/viewBorrow.html?id=${item.id?c}" >查看</a>
+                                         	<#if item.is_recommend==1>
+                                            <a class="un orgColor">已推荐</a>
+                                            <#else>
+                                            <!-- v1.6.7.2 RDPROJECT-618 lx 2013-12-23 start -->
+                                            <a href="javascript:;" class="un" onClick="javascript:if(confirm('确定要推荐吗?')) location.href='${request.getContextPath()}/admin/borrow/recommend.html?id=${item.id?c}'">未推荐</a>
+                                            <!--<a class="un orgColor" href="${request.getContextPath()}/admin/borrow/recommend.html?id=${item.id?c}" >未推荐</a> -->
+                                            <!-- v1.6.7.2 RDPROJECT-618 lx 2013-12-23 end -->
+                                            </#if>
+                                            <!-- v1.6.6.1 RDPROJECT-180 xx 2013-09-29 start -->
+                                            <!-- 流转标禁止修改标额度 -->
+                                            <!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 start -->
+                                            <#if (status=0||status==1) && item.type!=110>
+                                            <!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 end -->
+                                            <!-- v1.6.6.1 RDPROJECT-180 xx 2013-09-29 start -->
+                                            <a class="un" href="${request.getContextPath()}/admin/borrow/viewBorrowLimit.html?id=${item.id?c}" >标额度</a>
+                                            </#if>
+                                            <!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 start -->
+                                            <#if status==1 && (item.account > item.account_yes) && ( item.account_yes > 0)>
+                                            <!-- v1.6.6.7 RDPROJECT-428 lhm 2013-11-06 end -->
+                                           	<!-- v1.6.7.2 RDPROJECT-618 lx 2013-12-23 start -->
+                                            <a href="javascript:;" class="un" onClick="javascript:if(confirm('确定要截标吗?')) location.href='${request.getContextPath()}/admin/borrow/stopTender.html?borrow_id=${item.id?c}'">截标</a>
+                                            <!-- <a class="un" href="${request.getContextPath()}/admin/borrow/stopTender.html?borrow_id=${item.id?c}" >截标</a> -->
+                                            <!-- v1.6.7.2 RDPROJECT-618 lx 2013-12-23 end -->
+                                            </#if>
+                                        </td>
+                                </tr>
+                            </#list>
+                    </table>
+                    <input type="hidden" id="borrowType" value="${borrowType}">
+                </form>
+
+                <!--底部工具栏--{-->
+                <!-- v1.6.7.2 RDPROJECT-557 sj 2013-12-10 start  -->
+               <#if ignoreMoney??>
+               <#else>
+               	<div style="height:22px;line-height:22px;color:red;margin-left:12px; padding-top:10px;"><#if borrow_total??>借款总额：${borrow_total}元</#if> <#if repayYesTotal??>已还款总额：${repayYesTotal}元</#if><#if unRepayTotal??>未还款总额：${unRepayTotal}元 </#if></div>
+               </#if>
+               <!-- v1.6.7.2 RDPROJECT-557 sj 2013-12-10 end  -->
+                <div id="bottomToolbar" class="clearfix">
+                    <div class="other-tool">
+                        <dl class="refresh-data">
+                            <dt class="refresh-data-icon"></dt>
+                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                        </dl>
+                    </div>
+
+                    <!--翻页系统--{-->
+                    <div class="container">
+                        <#import "../../common/page.html" as pager>
+                            <@pager.pagination page=page url=currentUrl map=param style="style1" />
+                    </div>
+                    <!--翻页系统--}-->
+                </div>
+                <!--底部工具栏--}-->
+
+                <script>
+                    var urls = '?search=true';
+                    var t = $("#borrowType").val();
+                    // v1.6.6.1 RDPROJECT-64 zza 2013-09-25 start
+                    if(t == "full"){
+                    	 var xlsurl = 'showIsFullBorrow.html?actionType=export';
+                    }else if(t == "all"){
+                    	 var xlsurl = 'showAllBorrow.html?actionType=export';
+                    }else if(t == "notFull"){
+                    	 var xlsurl = 'showNotFullBorrow.html?actionType=export';
+                    }
+                 // v1.6.6.1 RDPROJECT-64 zza 2013-09-25 end
+                    function sousuo(){
+                        var sou = "";
+                        var username = $("#username").val();
+                        if (username!=null&&username!=""&&username!="undefine"&&username!="请输入用户名"){
+                            sou += "&username="+username;
+                        }
+                        var status = $("#status").find(".open-selected").attr("data-value");
+                        if (status!=null&&status!=""&&status!="undefine"){
+                            sou += "&status="+status;
+                        }
+                     	// v1.6.6.1 RDPROJECT-64 zza 2013-09-25 start
+                        var type = $("#type").find(".open-selected").attr("data-value");
+                        if (type!=null&&type!=""&&type!="undefine"){
+                            sou += "&type="+type;
+                        }
+                     	// v1.6.6.1 RDPROJECT-64 zza 2013-09-25 end
+                        var dotime1 = $("#dotime1").val();
+    					if (dotime1!=null&&dotime1!=""&&dotime1!="undefine"){
+    						sou += "&dotime1="+dotime1;
+    					}
+    					var dotime2 = $("#dotime2").val();
+    					if (dotime2!=null&&dotime2!=""&&dotime2!="undefine"){
+    						sou += "&dotime2="+dotime2;
+    					}
+    					var fullVerifytime1 = $("#fullVerifytime1").val();
+    					if (fullVerifytime1!=null&&fullVerifytime1!=""&&fullVerifytime1!="undefine"){
+    						sou += "&fullVerifytime1="+fullVerifytime1;
+    					}
+    					var fullVerifytime2 = $("#fullVerifytime2").val();
+    					if (fullVerifytime2!=null&&fullVerifytime2!=""&&fullVerifytime2!="undefine"){
+    						sou += "&fullVerifytime2="+fullVerifytime2;
+    					}
+                        var url=urls+sou
+                        location.href=url;
+                    }
+                    function exportxls(){
+                   		var sou = "";
+                        var username = $("#username").val();
+                        if (username!=null&&username!=""&&username!="undefine"&&username!="请输入用户名"){
+                            sou += "&username="+username;
+                        }
+                        var status = $("#status").find(".open-selected").attr("data-value");
+                        if (status!=null&&status!=""&&status!="undefine"){
+                            sou += "&status="+status;
+                        }
+                      	// v1.6.6.1 RDPROJECT-64 zza 2013-09-25 start
+                        var type = $("#type").find(".open-selected").attr("data-value");
+                        if (type!=null&&type!=""&&type!="undefine"){
+                            sou += "&type="+type;
+                        }
+                      	// v1.6.6.1 RDPROJECT-64 zza 2013-09-25 end
+                        var dotime1 = $("#dotime1").val();
+     					if (dotime1!=null&&dotime1!=""&&dotime1!="undefine"){
+     						sou += "&dotime1="+dotime1;
+     					}
+     					var dotime2 = $("#dotime2").val();
+     					if (dotime2!=null&&dotime2!=""&&dotime2!="undefine"){
+     						sou += "&dotime2="+dotime2;
+     					}
+     					var fullVerifytime1 = $("#fullVerifytime1").val();
+     					if (fullVerifytime1!=null&&fullVerifytime1!=""&&fullVerifytime1!="undefine"){
+     						sou += "&fullVerifytime1="+fullVerifytime1;
+     					}
+     					var fullVerifytime2 = $("#fullVerifytime2").val();
+     					if (fullVerifytime2!=null&&fullVerifytime2!=""&&fullVerifytime2!="undefine"){
+     						sou += "&fullVerifytime2="+fullVerifytime2;
+     					}
+     					if (sou!=""){
+                            location.href=xlsurl+sou;
+                        }else{
+                            location.href=xlsurl;
+                        }
+                    }
+                </script>
+            </div>
+
+        </td>
+    </tr>
+    <tr>
+        <!--尾部--{-->
+        <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+        <!--尾部--}-->
+    </tr>
+</table>
+
+</body>
+</html>
+<#include "../jsPage.html">

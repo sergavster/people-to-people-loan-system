@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<#include "../../include/resource.html"> 
+<body>
+<#assign nid="member">
+<#include "../../include/header.html">
+<!--header-end-->
+<link href="${request.getContextPath()}/media/css/modal.css" rel="stylesheet" type="text/css" />
+<!--用户中心的主栏目 开始-->
+<div id="main" class="clearfix" >
+<div class="wrap950 clearfix" style="margin-top:0">
+	<!--左边的导航 开始-->
+	<div class="user_left">
+    	<#assign mid="m_info" >
+		<#include "../user_menu.html">
+	</div>
+	<!--左边的导航 结束-->
+	
+	<!--右边的内容 开始-->	
+	<div class="user_right">
+		<div class="alert alert-info"> <a class="close" data-dismiss="alert">x</a>
+			<#if !errormsg?exists>
+				如果要送管理员发送信息，请输入发件人admin
+			<#else>
+				<span style="color:red">${errormsg}</span>
+			</#if>
+		</div> 
+		<div class="user_right_menu">
+			<#include "msg_menu.html"> 
+		</div>
+		<div class="user_right_main">
+			<form method="post" action="" >
+				<div class="user_right_border">
+					<div class="l">发件人：</div>
+					<div class="c">${session_user.username}</div>
+				</div>
+				
+				<div class="user_right_border">
+					<div class="l">收件人：</div>
+					<div class="c"><input type="text" name="receive_username" <#if sendType?exists&&sendType=="report">value="admin" readonly<#else>value=""</#if>  /></div>
+				</div>
+				<#if sendType?exists&&sendType=="forward">
+					<#assign title="[转发]:">
+				<#elseif sendType?exists&&sendType=="report">
+					<#assign title="[举报]:">
+				<#else>
+					<#assign title="">
+				</#if>
+				<div class="user_right_border">
+					<div class="l">标题：</div>
+					<div class="c"><input type="text" name="name" value="${title?default("")} <#if msg?exists>${msg.sent_username!}</#if>" /></div>
+				</div>
+				<div class="user_right_border">
+					<div class="l">内容：</div>
+					<div class="c">
+						<textarea name="content" rows="7" cols="50"><#if msg?exists>${msg.content?default("")}[以上是原短信内容]</#if></textarea>
+					</div>
+				</div>
+				<div class="user_right_border">
+					<div class="l">验证码：</div>
+					<div class="c">
+						<input name="valicode" type="text" size="11" maxlength="5"  tabindex="3"/>&nbsp;<img src="${request.getContextPath()}/validimg.html" alt="点击刷新" 
+						onClick="this.src='${request.getContextPath()}/validimg.html?t=' + Math.random();" 
+						align="absmiddle" style="cursor:pointer" />
+						
+					</div>
+				</div>
+				<div class="user_right_border">
+					<div class="l"></div>
+					<div class="c"><input name="sented" type="checkbox" value="1" /></div><div class="c">保存到发件箱</div>
+				</div>
+				<div class="user_right_border">
+					<div class="l"></div>
+					<div class="c">
+						<input type="submit"  class="btn-action"   value="确认提交" size="30" /> 
+						<input type="hidden"  name="type" value="add"  /> 
+					</div>
+				</div>
+			</form>
+		</div>
+ 	 </div>
+	<!--右边的内容 结束-->
+	</div>
+</div>
+<!--用户中心的主栏目 结束-->
+<script src="${request.getContextPath()}${theme_dir}/media/js/modal.js"></script>
+
+<#include "../../include/footer.html"> 
+</body>
+</html>

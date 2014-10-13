@@ -1,0 +1,106 @@
+
+/*首页基础样式*/
+div,h2,h1,h3,table,tr,td,ul,li,a,form {margin: 0px auto ; padding:0; list-style:none;font-family:Arial}
+body {margin:0;padding:0;text-align:left;color:#404040; font-size:12px}
+table {font-size:12px;}
+ol,ul {list-style:none;}
+a {text-decoration:none;color: #333333;}
+a:hover{text-decoration:underline;color:#F50;}
+img {border:0;}
+em {font-style:normal;}
+div {overflow:hidden}
+.clear {clear:both;}
+.floatl {float: left;}
+.floatr {float: right;}
+.hide { display:none}
+.show { display:;}
+.main {width:100%;height:auto; overflow:hidden}
+.main_left {width:221px; height:auto; float:left; border-right:1px solid #549FC7; overflow:hidden; padding:10px 0 0}
+.main_right {  width:auto; *float:left;  padding: 5px 2px 0 5px;  }
+.top { width:100%; background:url(images/admin_top_bg.jpg); float: left}
+.logo { height:81px; width:400px; float: left; }
+
+.user_ajax{  border:1px solid #CCCCCC; height: auto; overflow:hidden; text-align:left; line-height:23px;}
+.user_ajax .tr2 td{ border-bottom:1px dashed #CCCCCC; padding:3px 0 4px 0}
+.user_ajax_title { background:url(images/tablethbg.gif); background-color:#CCCCCC; line-height:27px; text-align:left}
+
+.banner { height:81px; width:auto; overflow:hidden}
+.banner_top {color:#fff;text-align:right; margin:10px 10px 0 0;*margin:11px 10px 0 0; height:45px;* height:43px; width:auto; overflow:hidden}
+.banner_top  a {color:#fff;margin:0 10px 0 10px ;}
+.banner_site { margin-left:40px; height:36px;*margin-left:35px;}
+.banner_site  a {margin:0 10px 0 10px ;}
+.banner_position { height:100%; width:auto; overflow:hidden;height: 37px;line-height: 43px;}
+.banner_position span  { float:right; margin-right:20px;}
+.aNavContent{height:37px;}
+.aNavContent li{height:37px;line-height:37px;float:left; padding: 0 6px;width: 80px;}
+.aNavContent li a{height:35px;line-height:35px;float:left;margin: 0 auto;text-align: center; width: 80px;}
+.aNavContent li a:hover{background-color:#0f74aa; color:#fff;text-decoration:none;}
+
+.fenlan { margin:0 auto; width:auto; height:auto; margin-bottom:10px;}
+.fenlan_title { width:205px; height:21px;*height:20px;background:url(images/fenlan_bg.gif); padding-top:7px;*padding-top:8px; padding-left:10px; }
+.fenlan_title span{ float:right; margin-right:10px; font-size:18px; font-weight:bold; margin-top:-5px;}
+.fenlan_title a { color:#FFFFFF}
+.fenlan_content { line-height:27px;*line-height:28px; }
+.fenlan_content li { margin-right:15px; height:28px; background:url(images/fenlan_li_bg.gif) no-repeat 2px; padding-left:23px;font-size:12px; }
+
+.fenlan_content li.sub { margin-right:15px; height:28px; background:; padding-left:23px;font-size:13px; border-bottom:1px dashed #EEEEEE }
+.fenlan_content li span {  font-size:12px;}
+
+.main_site {background:url(images/site_bg.jpg); height:24px; width:auto; padding:9px 0 0 0;  } 
+.main_site strong { margin-left:10px; font-size:15px; color:#444D81; float:;left}
+.main_site li { float:left}
+.main_site .title { margin-left:10px;*margin-left:5px; font-size:15px; color:#444D81; float:;left; font-weight:bold; margin-right:50px;}
+.main_site  .title span{ font-weight:normal; font-size:13px;}
+.main_site .site_sub { float:right; margin-right:10px;}
+.main_site .sousuo { margin-top:-3px;}
+.main_content { border:1px solid #CCCCCC; margin:0;}
+.main_right_content{ border-top:2px solid #0099FF; width:745px; margin-top:8px; line-height:28px; text-align:center}
+.main_tr { border:none; height:30px; border-bottom:1px solid #CCCCCC }
+.main_td {background:url(images/main_menu_bg.gif); font-weight:bold; color:#FFFFFF}
+.main_td1 { background-color:#FFFFFF; padding-left:5px;font-size:12px;}
+.main_td2 {background:url("menu_bg.gif");font-size:12px;}
+.main_title {float:left; margin-left:5px; font-weight:bold;}
+.main_content { margin-bottom:10px;  overflow: auto;}
+.main_content table{ border:none; background-color:#FFFFFF; border:2px; text-align:center; }
+.main_content tr { height:26px; border:none; border-bottom:1px solid #999999}
+.main_content .tr1 td{ height:26px; border:none; border-bottom:1px dashed #999999}
+.main_content .tr2 { background-color: #CCCCCC}
+.main_content .tr2 td { background-color: #F5F5F5}
+.main_content td { height:26px; border:none; border-right:1px solid #FFFFFF;}
+.main_content .page{ border-top:1px dashed #CCCCCC;}
+.main_content .submit { border-top:1px solid #CCCCCC; height:30px;}
+.main_content .search{ border-bottom:1px solid #CCCCCC}
+.main_content .action { border-top:1px solid #CCCCCC; height:30px; padding:0 10px 0 10px}
+/*模块*/
+.module_add {}
+.module_title { text-align:left;padding:0 5px 0 5px; border-bottom:1px solid #CCCCCC; line-height:26px;  background:url(images/main_menu_bg.gif); color:#FFFFFF}
+.module_title a{color:#FFFFFF}
+.module_title span { float:right; font-size:12px;}
+.module_title span a { margin-left:5px;}
+.module_title span .current{background-color:#FFFFFF; color:#000000; padding:4px 6px 2px 6px; font-weight:bold;font-size:12px;}
+.module_border { line-height:27px; height:auto; width:100%; border-bottom:1px solid #CCCCCC; text-align:left;}
+.module_border .l {  float:left; width:120px;padding:4px 5px 0 0px; text-align:right }
+.module_border .s {  float:left; width:70px;padding:4px 5px 0 0px; text-align:right }
+.module_border .w {  float:left; width:200px;padding:4px 5px 0 0px; text-align:right }
+.module_border .d {  float:left; width:320px;padding:4px 5px 0 0px; text-align:right }
+.module_border .e {  float:left; width:220px;padding:4px 5px 0 0px; text-align:right }
+.module_border .c {  padding:4px 5px 3px 10px; float:left; }
+.module_border .h {  padding:4px 0px 3px 0px; float:left; width:160px; }
+.module_border .hb {  padding:4px 0px 3px 0px; float:left; width:80%; border:1px dashed #CCCCCC; margin:10px; padding:5px }
+.module_border .r {  padding:4px 5px 3px 10px; float:left; width:240px }
+.module_border .label{ border:1px solid #CCCCCC; padding:3px 18px 2px 5px ; font-size:12px; background:url(images/arrow_down.gif)  repeat-y right; cursor:pointer; line-height:17px; }
+.module_border b { color:#FF0000; font-weight:normal; margin-left:5px;}
+.module_border span { font-size:12px;}
+.module_submit { text-align:center; margin-top:6px; height:30px;border-bottom:1px solid #CCCCCC}
+.border_b{ border-bottom:1px solid #CCCCCC}
+.foot { border-top:1px solid #549FC7; text-align:center; width:auto; line-height:30px} 
+
+/*上传图片*/
+.imagesload { text-align:left; float:left; width:500px; margin-top:5px;}
+.imagesload li { border:1px solid #CCCCCC; width:88px; padding:5px 0 0 0; float:left; margin-right:10px; margin-bottom:10px; height:84px; color: #999999; text-align:center; overflow:hidden}
+.imagesload li div { background-color:#EEEEF0; font-size:12px; text-align:center }
+.imagesload .pic {height:66px; overflow:hidden; background-color:#FFFFFF}
+
+.fuwu{ border:1px solid #CCCCCC;}
+.fuwu li { float:left; width:70px; text-align:center}
+.fuwu .time { width:70px;} 

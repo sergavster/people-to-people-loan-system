@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<#include "../include/resource.html">
+<body>
+	<#assign nid="member"> 
+	<#include "../include/header.html">
+	<!--header-end-->
+	<!--用户中心的主栏目 开始-->
+	<div id="main" class="clearfix">
+		<div class="wrap950 " style="margin-top: 0">
+			<!--左边的导航 开始-->
+			<div class="user_left">
+				<#assign mid="m_security" > 
+				<#include "user_menu.html">
+			</div>
+			<!--左边的导航 结束-->
+
+			<!--右边的内容 开始-->
+			<div class="user_right">
+				<#if msg?exists>
+				<div id="msg24">
+					<p class="ok">${msg}</p>
+				</div>
+				<#else> 
+					<#if errormsg?exists>
+						<div id="msg25">
+							<p class="error">${errormsg}</p>
+						</div>
+					</#if> 
+				</#if> 
+				<#if !query_type?exists> 
+					<#assign query_type="">
+				</#if>
+				<div class="user_right_menu">
+					<ul id="tab" class="list-tab clearfix">
+						<li <#if query_type=="userpwd">class="active"</#if>><a href="${request.getContextPath()}/memberSecurity/passwordTokenPwd.html">登录密码</a></li>
+						<li <#if query_type=="paypwd">class="active"</#if>><a href="${request.getContextPath()}/memberSecurity/passwordTokenPayPwd.html">交易密码</a></li> 
+					</ul>
+				</div>
+				<div class="user_right_main">
+					<div class="user_help alert alert">* 温馨提示：请回答您的密保问题后再修改密码！（至少要回答对一个）</div>
+					<#if query_type == 'userpwd'>
+						<form action="" method="post" name="formUser" class="js-formdata">
+							<#if (tokenList?exists)&&(tokenList?size>0)> 
+							<#list tokenList as item>
+							<div class="user_right_border">
+								<div class="e">问题：</div>
+								<div class="c">
+									${item.question} 
+									<input type="hidden" name="question" value="${item.question}" />
+								</div>
+							</div>
+							<div class="user_right_border">
+								<div class="e">答案：</div>
+								<div class="c">
+									<input type="text" name="answer${item_index?if_exists+1}" />
+								</div>
+							</div>
+							</#list> 
+							</#if>
+							<div class="user_right_border">
+								<div class="e"></div>
+								<div class="c">
+									<input type="hidden" name="pwdType" value="tokenPwd" size="30" />
+									<input type="submit" name="name" class="btn-action" value="确认提交" size="30"/> 
+								</div>
+							</div>
+						</form>
+					<#elseif query_type=="paypwd">
+						<form action="" method="post" name="formUser" class="js-formdata">
+							<#if (tokenList?exists)&&(tokenList?size>0)> 
+							<#list tokenList as item>
+							<div class="user_right_border">
+								<div class="e">问题：</div>
+								<div class="c">
+									${item.question} 
+									<input type="hidden" name="question" value="${item.question}" />
+								</div>
+							</div>
+							<div class="user_right_border">
+								<div class="e">答案：</div>
+								<div class="c">
+									<input type="text" name="answer${item_index?if_exists+1}" />
+								</div>
+							</div>
+							</#list> 
+							</#if>
+							<div class="user_right_border">
+								<div class="e"></div>
+								<div class="c">
+									<input type="hidden" name="pwdType" value="tokenPwd" size="30" />
+									<input type="submit" name="name" class="btn-action" value="确认提交" size="30"/> 
+								</div>
+							</div>
+						</form>
+					</#if>
+				</div>
+				<!--右边的内容 结束-->
+			</div>
+		</div>
+	</div>
+	<!--用户中心的主栏目 结束-->
+	<script src="${request.getContextPath()}${theme_dir}/media/js/modal.js"></script>
+
+	<#include "../include/footer.html">
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<!--v1.6.7.2 RDPROJECT-510 cx 2013-12-10 start  -->
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "../report/left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="各借款期限成交金额统计">
+                        <#include "banner.html">
+                 <!--面包屑导航---}-->
+                     <!--工具栏--}-->
+                      <!--工具栏--{-->
+			            <div id="toolbar" class="clearfix">
+			            		<div class="toolbor-module export">
+			            		 <input type="button" onclick="exportxls()" value="导出报表" class="input-button export-btn"/>
+			            		 </div>
+			            		<div class="toolbor-module search">
+			                  	 	<input type="button" value="搜索"  class="input-button" onclick="search();">
+			                	</div>
+			                    <div class="toolbor-module search">
+			                        <div style="height:22px;line-height:22px;float:left;">发标时间：</div>
+			                        <input class="_search-value js-datetime" name="dotime1" id="dotime1" value="" size="15"/>
+			                        <div style="height:22px;line-height:22px;float:left;margin:0 8px;"> 到 </div>
+			                        <input class="_search-value js-datetime" name="dotime2" id="dotime2"  value=""  size="15"/>
+			                    </div>
+			                     <div class="toolbor-module search">
+			                      <div style="height:22px;line-height:22px;float:left;">标种：</div>
+			                          <select id="isday" name="isday" >
+			                           	<option value="0" selected="selected">月标</option>
+			                           	<option value="1">天标</option>
+			                           </select>
+			                     </div>
+			               </div>
+                         <div id="main" class="clearfix">
+			                <font color="red">默认显示当天数据！</font>
+                            <form action="" method="post">
+                                    <table class="data-list">
+                                        <tr class="header">
+                                         	<td>借款期限</td>
+                                            <td>投标金额（万）</td>
+                                            <td>发标笔数</td>
+                                            <td>投标笔数</td>
+                                            <td>投标人数</td>
+                                        </tr>
+                                          <#list borrowList as item>
+                                           <tr class="s">
+                                                <td>${item.limitDay!}</td>
+                                                <td>${item.allTBMoney!0}</td>
+                                                <td>${item.countFB!0}</td>
+                                                <td>${item.countTB!0}</td>
+                                                <td>${item.countRS!0}</td>
+                                            </tr>
+                                           </#list>
+                                    </table>
+                                <!--底部工具栏--}-->
+                                </form>
+                    	  	 <div id="bottomToolbar" class="clearfix">
+	                   		 <div class="other-tool">
+	                         <dl class="refresh-data">
+	                            <dt class="refresh-data-icon"></dt>
+	                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+	                         </dl>
+	                         </div>
+	                         <div class="container">
+	             			   <#import "../../common/page.html" as pager>  
+	         			     </div> 
+	                     </div>
+	                 </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+<script type="text/javascript">
+	$('#isday').val('${isday}');
+	$('#dotime1').val('${startDate}');
+	$('#dotime2').val('${endDate}');
+		var urls=window.location.href;
+		var index=urls.indexOf("?");
+		if(index>0){
+		  urls=urls.substring(0,index);
+		 }
+		var xlsurl=urls+"?actionType=export";
+	function search(){
+		var search="";
+		if($('#isday').val()!=null){
+			search+="&isday="+$('#isday').val();
+		}
+		if($('#dotime1').val()!=null){
+			search+="&dotime1="+$('#dotime1').val();
+		}
+		if($('#dotime2').val()!=null){
+			search+="&dotime2="+$('#dotime2').val();
+		}
+		location.href=urls+"?search=true"+search;
+	}
+	
+	function exportxls(){
+		var search="";
+		if($('#isday').val()!=null){
+			search+="&isday="+$('#isday').val();
+		}
+		if($('#dotime1').val()!=null){
+			search+="&dotime1="+$('#dotime1').val();
+		}
+		if($('#dotime2').val()!=null){
+			search+="&dotime2="+$('#dotime2').val();
+		}
+        location.href=xlsurl+search;
+    }
+</script>
+    </body>
+</html>
+<#include "../jsPage.html">
+<!--v1.6.7.2 RDPROJECT-510 cx 2013-12-10 end  -->

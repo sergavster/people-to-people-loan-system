@@ -1,0 +1,81 @@
+<!DOCTYPE>
+<html>
+<#include "../head.html">
+<body>
+	<#include "../top.html">
+	<!-- div.main start  -->
+	<div class="main">
+		<!-- div.main_left start  -->
+		<div class="main_left"><#include "left.html"></div>
+		<!-- div.main_left end  -->
+		<!-- div.main_right start  -->
+		<div class="main_right">
+			<#include "banner.html">
+			<div class="main_content">  
+				<form name="form1" method="post" action="verifyHuikuanAward.html" onsubmit="return check_form();" enctype="multipart/form-data" >
+				<div class="module_title"><strong>回款查看</strong></div>
+				<div class="module_border">
+					<div class="l">用户名：</div>
+					<div class="c">
+						<a href="javascript:void(0)" onclick='tipsWindown("用户详细信息查看","url:get?index.php?admin&q=module/user/view&user_id=2675&type=scene",500,230,"true","","true","text");'>${award.username}</a>
+					</div>
+				</div>
+				<div class="module_border">
+					<div class="l">奖励类型：</div>
+					<div class="c">${award.typename}</div>
+				</div>
+				<div class="module_border">
+					<div class="l">回款奖励：</div>
+					<div class="c">${award.money!}元</div>
+				</div>
+				
+				<div class="module_border">
+					<div class="l">用户备注：</div>
+					<div class="c">${award.remark!}</div>
+				</div>
+
+				<div class="module_border">
+					<div class="l">状态：</div>
+					<!-- v1.6.6.2 zhangyz start -->
+					<div class="c"><#if award.status==1>成功<#elseif award.status==0>未审核<#elseif award.status==0>撤回<#else>审核失败</#if></div>
+					<!-- v1.6.6.2 zhangyz end -->
+				</div>
+				<!-- v1.6.6.2 zhangyz start -->
+				<#if award?? && award.status?? && (huikuan.status=="1"||huikuan.status=="4" || huikuan.status=="5") >
+				<!-- v1.6.6.2 zhangyz end -->
+				<#else>
+				<div class="module_title"><strong>审核此回款信息</strong></div>
+				<div class="module_border">
+				<div class="l">状态:</div>
+				<div class="c">
+					<input type="radio" name="status" value="1"/>回款奖励成功  
+					<input type="radio" name="status" value="4" checked="checked"/>回款奖励失败
+					<!-- v1.6.6.2 zhangyz start -->
+					<input type="radio" name="status" value="5">回款撤回 </div>
+					<!-- v1.6.6.2 zhangyz end -->
+				</div>
+				<div class="module_submit" >
+					<input type="hidden" name="id" value="${award.id?c}" />
+					<input type="hidden" name="user_id" value="${award.user_id?c}" />
+					<input type="hidden" name="actionType" value="actionType" />
+					<input type="submit"  name="reset" value="审核此充值信息" />
+				</div>
+				</#if>
+				</form>
+			</div>
+			
+			<script>
+			function check_form(){
+				return true;
+			}
+			</script>
+
+			  
+			</div>
+		</div>
+		<!-- div.main_right end  -->
+	</div>
+	<!-- div.main end  -->
+	<#include "../foot.html">
+</body>
+</html>

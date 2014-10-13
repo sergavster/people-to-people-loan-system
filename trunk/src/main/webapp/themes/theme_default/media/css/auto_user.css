@@ -1,0 +1,39 @@
+/***用户专题***/
+.home { width:950px; height:auto; overflow:hidden; margin:0 auto; color:#999999}
+.home_left { width:220px; float:left; height:auto; overflow:hidden;}
+.home_avatar { width:204px; height:auto;  text-align:center;line-height:30px; border: 1px solid #CCCCCC; padding:5px;}
+.home_banner { width:210px; height:auto; border: 1px solid #CCCCCC; margin-top:10px;padding:2px; }
+.home_banner .title { height:30px; background:url("../images/home_bg1.gif"); padding:6px 0 0 10px;overflow:hidden; }
+.home_banner .content li { background: no-repeat url("../images/home_menu.gif") ; line-height:30px;; padding:0px 0 0 30px; height:40px; font-size:12px;}
+
+.home_center { width:500px; float:left; margin-left:20px; overflow:hidden;}
+.home_center .title {  border-bottom:1px solid #CCCCCC; height:22px; color:#6699FF; font-weight:bold; padding-top:8px;overflow:hidden;}
+.home_info { margin-top:10px;overflow:hidden;}
+.home_info ul li { float:left; width:250px; line-height:30px; font-size:12px;}
+.home_info .li{ width:100%;}
+.home_inlist { margin-top:5px; border:0px solid #CCCCCC}
+.home_inlist ul li{ width:97% ; border-bottom:1px dashed #CCCCCC; line-height:30px; margin:2px; background: no-repeat 0px 10px url("../images/ico_1.gif"); padding-left:12px;  }
+.home_inlist ul li span { float:right; font-size:12px;}
+
+.home_inlist table { width:100%}
+.home_inlist td { height:30px; border-bottom:1px dashed #CCCCCC; text-align:center;overflow:hidden;}
+.home_inlist .tr{ background-color: #F7F7F7; line-height:30px; text-align:center; font-weight:bold;}
+.home_inlist .tr td{ border-bottom:1px solid #CCCCCC}
+.home_inlist .page { border-bottom:1px solid #CCCCCC; line-height:30px; text-align:center}
+
+.home_right { float:right; width:190px; overflow:hidden}
+.home_right .title { height:22px; padding-top:8px;color:#6699FF; font-weight:bold;  overflow:hidden}
+.home_right .box .top { background:url("../images/home_box_top.gif"); width:190px; height:6px; overflow:hidden}
+.home_right .box .center { background:url("../images/home_box_center.gif"); width:185px; height:auto; overflow:hidden; text-align:center; padding-left:5px;}
+.home_right .box .center li { float:left; width:90px; height:110px; overflow:hidden; line-height:30px;}
+.home_right .box .bottom { background:url("../images/home_box_bottom.gif"); width:190px; height:6px; overflow:hidden}
+
+.home_lists { width:710px; float:right; text-align:left;}
+.home_lists .title { line-height:30px; border-bottom:1px solid #CCCCCC; height:20px; color:#6699FF; font-weight:bold; padding-top:8px;}
+.home_lists .title span { float:right; font-size:12px; font-weight:normal}
+
+.user_right_title { background-color: #EFF1EF; border:#3300FF; width:760px; overflow:hidden; color: #0000FF } 
+.red2 { color:#FF0000}
+
+.user_right_title{border-bottom:0 none}
+.set_table{padding-left:5px}

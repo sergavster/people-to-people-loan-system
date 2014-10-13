@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.locale" value="zh_CN" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.freemarker.manager.classname" value="com.p2psys.freemarker.CustomFreemarkerManager" />
+	<constant name="struts.multipart.maxSize" value="1000000000"/>
+	<constant name="struts.mapper.alwaysSelectFullNamespace" value="true" />
+	
+
+	<include file="struts/article-struts.xml" />
+	<include file="struts/base-struts.xml" />
+	<include file="struts/borrow-struts.xml" />
+	<include file="struts/index-struts.xml" />
+	<include file="struts/invest-struts.xml" />
+	<include file="struts/member-account-struts.xml" />
+	<include file="struts/member-borrow-struts.xml" />
+	<include file="struts/member-friend-struts.xml" />
+	<include file="struts/member-identify-struts.xml" />
+	<include file="struts/member-invest-struts.xml" />
+	<include file="struts/member-message-struts.xml" />
+	<include file="struts/member-payment-struts.xml" />
+	<include file="struts/member-security-struts.xml" />
+	<include file="struts/member-struts.xml" />
+	<include file="struts/member-userinfo-struts.xml" />
+	<include file="struts/tools-struts.xml" />
+	<include file="struts/user-struts.xml" />
+	<include file="struts/public-struts.xml" />
+	<include file="struts/comments-struts.xml" />
+	<include file="struts/admin-index-struts.xml" />
+	<include file="struts/admin-userinfo-struts.xml" />
+	<include file="struts/admin-systemsetting-struts.xml" />
+	<include file="struts/admin-attestation-struts.xml" />
+	<include file="struts/admin-borrow-struts.xml" />
+	<include file="struts/admin-cash-struts.xml" />
+	<!-- v1.6.6.2 RDPROJECT-173 wcw 2013-10-25 start -->
+	<include file="struts/admin-bank-struts.xml" />
+	<!-- v1.6.6.2 RDPROJECT-173 wcw 2013-10-25 end -->
+	<include file="struts/admin-article-struts.xml" />
+	<include file="struts/admin-purview-struts.xml" />
+	<include file="struts/admin-comment-struts.xml"/>
+	<include file="struts/points-struts.xml"/>
+	<include file="struts/donation-struts.xml"/>
+	<include file="struts/protocol-struts.xml"/>
+	<include file="struts/admin-protocol-struts.xml"/>
+	<include file="struts/admin-noticeconfig-struts.xml"/>
+	<include file="struts/member-passwordtoken-struts.xml"/>
+	<include file="struts/admin-lottery-struts.xml"/>
+	<include file="struts/cooperation-qq-struts.xml"></include>
+	<include file="struts/admin-reward-struts.xml" />
+	<include file="struts/user-credit.xml"/>
+	<include file="struts/admin-user-credit.xml"/>
+	<include file="struts/admin-troublefund-struts.xml" />
+	<include file="struts/member-troublefund-struts.xml" />
+	<include file="struts/award-struts.xml" />
+	<include file="struts/admin-report-struts.xml" />
+	<!-- 投友宝 -->
+	<include file="struts/touyoubao/touyoubao-struts.xml"/>
+	<!-- 掌贷宝 -->
+    <include file="struts/zdbaoapi-struts.xml"/>
+    <!-- （网贷之家，融通网等第三方）数据接口-->
+	<include file="struts/wdaiapi-struts.xml"/>
+    <!-- v1.6.7.1 RDPROJECT-314 liukun 2013-11-19 start -->
+	<!-- 通知类型配置-->
+    <include file="struts/admin-notice-struts.xml"/>
+    <!-- v1.6.7.1 RDPROJECT-314 liukun 2013-11-19 end -->
+	<!-- 通知接收配置-->
+    <include file="struts/member-noticeconfig-struts.xml"/>
+    <include file="struts/admin-error-struts.xml" />
+    <!-- v1.6.6.2 RDPROJECT-235 zza 2013-10-21 start -->
+    <!-- 推广规则配置 -->
+    <include file="struts/admin-promote-struts.xml" />
+    <!-- v1.6.6.2 RDPROJECT-235 zza 2013-10-21 end -->
+    <!-- v1.6.6.2 RDPROJECT-277 xx 2013-10-22 start -->
+    <include file="struts/admin-fund-struts.xml" />
+    <include file="struts/fund-struts.xml" />
+    <!-- v1.6.6.2 RDPROJECT-277 xx 2013-10-22 end -->
+    <!-- v1.6.7.1 RDPROJECT-284 xx 2013-11-04 start -->
+    <include file="struts/admin-freeze-struts.xml" />
+    <!-- v1.6.7.1 RDPROJECT-284 xx 2013-11-04 end -->
+    <!-- v1.6.7.1 RDPROJECT-424 lhm 2013-11-04 start -->
+    <include file="struts/wechat-struts.xml" />
+    <!-- v1.6.7.1 RDPROJECT-424 lhm 2013-11-04 end -->
+    
+    <!-- v1.6.7.1 规则重加载 cx 2013-11-25 start -->
+    <include file="struts/admin-rule-struts.xml"/>
+    <!-- v1.6.7.1 规则重加载 cx 2013-11-25 end -->
+    <include file="struts/treasure-struts.xml"/>
+    
+    <!-- v1.6.7.1 RDPROJECT-510 cx 2013-11-25 start -->
+    <include file="struts/admin-newreport-struts.xml"></include>
+    <!-- v1.6.7.1 RDPROJECT-510 cx 2013-11-25 end -->
+    
+    <!--v1.6.7.2 RDPROJECT-86 liukun 2013-12-17 start -->
+    <include file="struts/creditassignment-struts.xml"/>
+    <!--v1.6.7.2 RDPROJECT-86 liukun 2013-12-17 end -->
+    
+    <!-- v1.6.7.2 RDPROJECT-26 sj 2013-12-24 start -->
+    <include file="struts/admin-linkagetype-struts.xml"/>
+    <include file="struts/admin-linkage-struts.xml"/> 
+    <!-- v1.6.7.2 RDPROJECT-26 sj 2013-12-24 end -->
+    
+    <!--v1.6.7.2 RDPROJECT-622 lx 2013-12-24 start -->
+    <include file="struts/admin-loanblack-struts.xml"/>
+    <!--v1.6.7.2 RDPROJECT-622 lx 2013-12-24 end -->
+</struts>

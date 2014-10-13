@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="manageCash" namespace="/admin/cash"
+		extends="wzd-admin">
+
+		<action name="showAllAccount" class="manageCashAction" method="showAllAccount">
+			<result name="success" type="ftl">/admin/cash/allaccount.html
+			</result>
+		</action>
+		<!-- v1.6.6.2 dw_account_tj表删除 lhm 2013-10-22 start-->
+		<!--  <action name="showOneDayAccount" class="manageCashAction" method="showOneDayAccount">
+			<result name="success" type="ftl">/admin/cash/onedayaccount.html
+			</result>
+		</action>-->
+		<!-- v1.6.6.2 dw_account_tj表删除 lhm 2013-10-22 end-->
+		<action name="addbank" class="manageCashAction" method="addbank">
+			<result name="success" type="ftl">/admin/cash/addbank.html
+			</result>
+		</action>
+		<action name="showTiChengAccount" class="manageCashAction" method="showTiChengAccount">
+			<result name="success" type="ftl">/admin/cash/ticheng.html
+			</result>
+		</action>
+		<action name="showFriendTiChengAccount" class="manageCashAction" method="showFriendTiChengAccount">
+			<result name="success" type="ftl">/admin/cash/ticheng.html
+			</result>
+		</action>
+		
+		<action name="showCash" class="manageCashAction" method="showCash">
+			<result name="success" type="ftl">/admin/cash/cash.html
+			</result>
+		</action>
+		
+		<action name="viewCash" class="manageCashAction" method="viewCash">
+			<result name="success" type="ftl">/admin/cash/viewcash.html
+			</result>
+		</action>
+		
+		<action name="verifyCash" class="manageCashAction" method="verifyCash">
+			<result name="success" type="ftl">/admin/cash/verifycash.html
+			</result>
+		</action>
+		
+		<action name="recharge" class="manageCashAction" method="recharge">
+			<result name="success" type="ftl">/admin/cash/recharge.html
+			</result>
+		</action>
+		
+		<action name="rechargelist" class="manageCashAction" method="rechargelist">
+			<result name="success" type="ftl">/admin/cash/rechargelist.html
+			</result>
+		</action>
+		
+		<action name="viewRecharge" class="manageCashAction" method="viewRecharge">
+			<result name="success" type="ftl">/admin/cash/viewrecharge.html
+			</result>
+		</action>
+		
+		<action name="verifyRecharge" class="manageCashAction" method="verifyRecharge">
+			<result name="success" type="ftl">/admin/cash/viewrecharge.html
+			</result>
+		</action>
+		
+		<action name="log" class="manageCashAction" method="log">
+			<result name="success" type="ftl">/admin/cash/log.html
+			</result>
+		</action>
+		
+		<action name="tenderLog" class="manageCashAction" method="tenderLog">
+			<result name="success" type="ftl">/admin/cash/tenderLog.html
+			</result>
+		</action>
+		
+		<action name="viptc" class="manageCashAction" method="viptc">
+			<result name="success" type="ftl">/admin/cash/viptc.html
+			</result>
+		</action>
+		
+		<action name="vipstatistic" class="manageCashAction" method="vipstatistic">
+			<result name="success" type="ftl">/admin/cash/vipstatistic.html
+			</result>
+		</action>
+		
+		<action name="back" class="manageCashAction" method="back">
+			<result name="success" type="ftl">/admin/cash/back.html
+			</result>
+		</action>
+		<action name="viewBack" class="manageCashAction" method="viewBack">
+			<result name="success" type="ftl">/admin/cash/viewback.html
+			</result>
+		</action>
+		
+		<action name="verifyBack" class="manageCashAction" method="verifyBack">
+			<result name="success" type="ftl">/admin/cash/viewback.html
+			</result>
+		</action>
+		
+				
+		<action name="cashbank" class="manageCashAction" method="manageUserCashBank">
+			<result name="success" type="ftl">/admin/cash/allbank.html</result>
+			<result name="show" type="ftl">/admin/cash/cashbank.html</result>
+		</action>
+		<action name="showAllHuikuan" class="manageCashAction" method="showAllHuikuan">
+			<result name="success" type="ftl">/admin/cash/allhuikuan.html
+			</result>
+		</action>
+		<action name="viewHuikuan" class="manageCashAction" method="viewHuikuan">
+			<result name="success" type="ftl">/admin/cash/viewhuikuan.html
+			</result>
+		</action>
+		<action name="verifyHuikuan" class="manageCashAction" method="verifyHuikuan">
+			<result name="success" type="ftl">/admin/cash/viewhuikuan.html
+			</result>
+		</action>
+		<!-- v1.6.5.3 RDPROJECT-10 zza 2013-09-12 start -->
+		<action name="excelRecharge" class="manageCashAction" method="excelRecharge">
+			<result name="success" type="ftl">/admin/cash/excelRecharge.html</result>
+		</action>
+		<action name="showAllUpfiles" class="manageCashAction" method="showAllUpfiles">
+			<result name="success" type="ftl">/admin/cash/showAllUpfiles.html</result>
+		</action>
+		<action name="viewUpfiles" class="manageCashAction" method="viewUpfiles">
+			<result name="success" type="ftl">/admin/cash/viewUpfiles.html</result>
+		</action>
+		<action name="saveExcel" class="manageCashAction" method="saveExcel">
+			<result name="success" type="ftl">/admin/cash/saveUpfiles.html</result>
+		</action>
+		<action name="verifyExcel" class="manageCashAction" method="verifyExcel">
+			<result name="success" type="ftl">/admin/cash/viewUpfiles.html</result>
+		</action>
+		<action name="delUpfiles" class="manageCashAction" method="delUpfiles">
+			<result name="success" type="ftl">/admin/cash/showAllUpfiles.html</result>
+		</action>
+		<action name="checkUsername"  class="manageCashAction" method="checkUsername">
+        	<result name="input" type="ftl">/admin/cash/saveUpfiles.html</result>
+        </action>
+        <!-- v1.6.5.3 RDPROJECT-10 zza 2013-09-12 end -->
+		<action name="backlist" class="manageCashAction" method="backlist">
+			<result name="success" type="ftl">/admin/cash/backlist.html
+			</result>
+		</action>
+			<action name="hongBaoList" class="manageCashAction" method="hongBaoList">
+			<result name="success" type="ftl">/admin/cash/hongBaoList.html
+			</result>
+		</action>
+			<action name="accountReconciliationList" class="manageCashAction" method="accountReconciliationList">
+			<result name="success" type="ftl">/admin/cash/account_reconciliation.html
+			</result>
+		</action>
+			<action name="advanced_account" class="manageCashAction" method="advanced_account">
+			<result name="success" type="ftl">/admin/cash/advanced_account.html
+			</result>
+		</action>
+		<action name="operationLog" class="manageCashAction" method="operationLog">
+			<result name="success" type="ftl">/admin/cash/operationLog.html
+			</result>
+		</action>
+		
+		<action name="showAllCreditCard" class="manageCashAction" method="showAllCreditCard">
+			<result name="success" type="ftl">/admin/cash/showAllCreditCard.html
+			</result>
+		</action>
+		
+		<action name="addCreditCard" class="manageCashAction" method="addCreditCard">
+			<result name="success" type="ftl">/admin/cash/addCreditCard.html
+			</result>
+		</action>
+		
+		<action name="modifyCreditCard" class="manageCashAction" method="modifyCreditCard">
+			<result name="success" type="ftl">/admin/cash/modifyCreditCard.html
+			</result>
+		</action>
+		
+		<action name="delCreditCard" class="manageCashAction" method="delCreditCard">
+			<result name="success" type="ftl">/admin/cash/delCreditCard.html
+			</result>
+		</action>
+		<action name="cashStatistic" class="manageCashAction" method="cashStatistic">
+			<result name="success" type="ftl">/admin/cash/cashCount.html
+			</result>
+		</action>
+		<action name="downLineBank" class="manageCashAction" method="rechargeDownLineBank">
+			<result name="success" type="ftl">/admin/cash/downLineBank.html
+			</result>
+		</action>
+		<!-- <action name="addPayInterface" class="manageCashAction" method="addPayInterface">
+			<result name="success" type="ftl">/admin/cash/addPayInterface.html
+			</result>
+		</action> -->
+		<action name="payInterface" class="manageCashAction" method="payInterfaceList">
+			<result name="success" type="ftl">/admin/cash/payInterface.html
+			</result>
+		</action>
+		<action name="onlineBank" class="manageCashAction" method="onlineBank">
+			<result name="success" type="ftl">/admin/cash/onlineBank.html
+			</result>
+		</action>
+		<action name="exportTenderRank" class="manageCashAction" method="exportTenderRank">
+			<result name="success" type="ftl">/admin/cash/allaccount.html
+			</result>
+		</action>
+		
+		<!-- V1.6.5.3 RDPROJECT-142 liukun 2013-09-11 start -->
+		<action name="verifyCashStep" class="manageCashAction" method="verifyCashStep">
+			<result name="success" type="ftl">/admin/cash/verifycashstep.html
+			</result>
+		</action>		
+		<action name="showFirstVerifyCash" class="manageCashAction" method="showCashStep">
+			<result name="success" type="ftl">/admin/cash/cash.html
+			</result>
+		</action>		
+		<action name="showSecondVerifyCash" class="manageCashAction" method="showCashStep">
+			<result name="success" type="ftl">/admin/cash/cash.html
+			</result>
+		</action>		
+		<action name="showThirdVerifyCash" class="manageCashAction" method="showCashStep">
+			<result name="success" type="ftl">/admin/cash/cash.html
+			</result>
+		</action>	
+		<!-- V1.6.5.3 RDPROJECT-142 liukun 2013-09-11 end -->
+		<!--V1.6.6.1 RDPROJECT-171 wcw 2013-10-08 start -->
+		<action name="kefuUserInvest" class="manageCashAction" method="kefuUserInvest">
+			<result name="success" type="ftl">/admin/cash/kefuUserInvestList.html
+			</result>
+		</action>	
+		<!--V1.6.6.1 RDPROJECT-171 wcw 2013-10-08 end -->
+		<!--V1.6.6.1 liukun 2013-10-11 start -->
+		<action name="initdb" class="initAccountSumAction" method="initdb">
+			<result name="pre" type="ftl">/admin/cash/initdb.html</result>
+			<result name="success" type="ftl">/admin/cash/initdb.html</result>
+		</action>
+		<!--V1.6.6.1 liukun 2013-10-11 end -->
+		<!-- v1.6.6.2 RDPROJECT-28 wcw 2013-10-17 start-->
+		<action name="ecpssPayOrderlist" class="manageOrderAction" method="ecpssPayOrderList">
+			<result name="success" type="ftl">/admin/cash/ecpssPayOrderList.html</result>
+		</action>
+		<!-- v1.6.6.2 RDPROJECT-28 wcw 2013-10-17 end-->
+		
+		<!-- v1.6.6.2 RDPROJECT-297 liukun 2013-10-21 begin -->
+		<action name="cashForbid" class="manageCashAction" method="cashForbid">
+			<result name="pre" type="ftl">/admin/cash/cashForbid.html</result>
+			<result name="success" type="ftl">/admin/cash/cashForbid.html
+			</result>
+		</action>
+		<!-- v1.6.6.2 RDPROJECT-297 liukun 2013-10-21 end -->
+		
+		<!-- v1.6.7.1 RDPROJECT-124 zza 2013-11-15 start -->
+		<!-- 自动投标排名 -->
+		<action name="autoTenderLog" class="manageCashAction" method="autoTenderLog">
+			<result name="success" type="ftl">/admin/cash/autoTenderLog.html
+			</result>
+		</action>
+		<!-- v1.6.7.1 RDPROJECT-124 zza 2013-11-15 end -->
+		
+	</package>
+</struts>

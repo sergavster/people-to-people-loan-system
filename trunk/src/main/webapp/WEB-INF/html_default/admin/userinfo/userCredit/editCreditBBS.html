@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<#include "../../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "../left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="用户积分修改">
+                        <#include "../banner.html">
+                            <!--面包屑导航---}-->
+
+							<div id="toolbar" class="clearfix">
+		                         <div class="toolbor-module">
+							        <input type="button" class="input-button return" value="返回" onclick="history.go(-1)">
+							    </div>
+                            </div>
+
+                            <div id="main" class="w750 clearfix">
+
+                                <form name="form1" method="post" action="${request.getContextPath()}/admin/credit/editBss.html" enctype="multipart/form-data" >
+                                    <div class="valBox">
+                                        <div class="top">
+                                            <strong>用户积分修改</strong>
+                                        </div>
+                                        <div class="clearfix">
+                                        <ul class="title-v edit">
+                                        <li>
+                                            <div class="title">用户名：</div>
+                                            <div class="v">${user.username!}</div>
+                                        </li>     
+                                         <li>
+                                            <div class="title">用户ID：</div>
+                                            <div class="v">${userCredit.user_id?c}</div>
+                                        </li>
+                                        <li>
+                                            <div class="title">综合积分：</div>
+                                            <div class="v">${userCredit.value?c!0}</div>
+                                        </li>
+                                         <li>
+                                            <div class="title">消费积分：</div>
+                                            <div class="v">${userCredit.expense_value?c!0}</div>
+                                        </li>
+                                        <li>
+                                            <div class="title">有效积分：</div>
+                                            <div class="v">${userCredit.valid_value?c!0}</div>
+                                        </li>
+                                         <li>
+                                            <div class="title">投资积分：</div>
+                                            <div class="v">${userCredit.tender_value?c!0}</div>
+                                        </li>
+                                        <li>
+                                            <div class="title">借款积分：</div>
+                                            <div class="v">${userCredit.borrow_value?c!0}</div>
+                                        </li>
+                                        <li>
+                                            <div class="title">赠送积分：</div>
+                                            <div class="v">${userCredit.gift_value?c!0}</div>
+                                        </li>
+                                       <li>
+                                            <div class="title">论坛积分：</div>
+                                            <div class="v"><input type="text" name="userCredit.bbs_value" id="bbs_value" onblur="check_value('bbs_value')" class="input_border" value="${userCredit.bbs_value?c!0}"/>&nbsp;&nbsp;<font id="bbs_value_1" color='#FF0000'></font></div>
+                                        </li>
+                                          <li>
+                                            <div class="title">备注：</div>
+                                            <div class="v"><textarea rows="6" cols="50" maxlength="255" name="remark" style="width: 382px; height: 147px;"></textarea></div>
+                                        </li>
+                                        <li>
+                                            <div class="title">注意：</div>
+                                            <div class="v"><font color='#FF0000'>修改论坛积分原则：1.论坛积分增加，综合积分和有效积分按比例增加。2.论坛积分减少，综合积分和有效积分按比例减少，有效积分减少不会出现负数。</font></div>
+                                        </li>
+                                        </ul>
+                                    </div>
+                            </div>
+
+                            <div id="bottomToolbar" class="clearfix">
+                                <input type="hidden"  name="userCredit.user_id" value="${userCredit.user_id?c!0}" />
+                                <input class="input-button post" type="submit" onclick="if(confirm('此操作将会修改会员的相关积分,确认吗?')){return true;}else{return false};" name="submit" value="提交" />
+                            </div>
+                            </form>
+                            </div>
+                            <script>
+                                function check_value(idName){
+                                    var value = $("#"+idName).val();
+                                    var numReg =  /^[0-9]$|^[1-9][0-9]+$/;
+                                    if (!numReg.test(value)) {
+                                    	alert("数据填写有误，请核对！");
+                                    	$("#"+idName).val(0);
+                                    	 document.getElementById(idName+"_1").innerHTML = "数据填写有误，请核对！";
+                                    }else{
+                                    	document.getElementById(idName+"_1").innerHTML = "";
+                                    }
+                                }
+                            </script>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+   <div class="msgClass">
+       ${rsmsg!""}
+   </div>
+    </body>
+</html>
+<#include "../../jsPage.html">

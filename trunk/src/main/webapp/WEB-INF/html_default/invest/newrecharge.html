@@ -1,0 +1,269 @@
+﻿<!DOCTYPE html>
+<html>
+<#include "../../include/resource.html">
+<body>
+	<#assign nid="member"> 
+	<#include "../../include/header.html">
+	<link href="${request.getContextPath()}/media/css/modal.css" rel="stylesheet" type="text/css" />
+	<!-- #main start-->
+	<div id="main" class="clearfix">
+		<!-- .wrap950 开始-->
+		<div class="wrap950 ">
+			<!--左边的导航user_left 开始-->
+			<div class="user_left">
+			<#assign mid="m_account" >
+				<#include "../user_menu.html">
+			</div>
+			<!--左边的导航user_left 结束-->
+
+			<!--右边的内容user_right 开始-->
+			<div class="user_right">
+				<div class="user_right_menu">
+					<#assign account_type="newrecharge">
+					<#include "account_menu.html">
+				</div>
+				<!--右边的内容user_right_main 开始-->
+				<div class="user_right_main">
+					
+					<div class="user_help alert">
+                    * 温馨提示：网上银行充值过程中请耐心等待,充值成功后，请不要关闭浏览器,充值成功后返回${webname},
+                    充值金额才能打入您的帐号。
+
+
+</div>
+		<div class="user_right_border">
+			<div class="l" style="font-weight:bold;">真实姓名：</div>
+			<div class="c">${session_user.realname!""}</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l" style="font-weight:bold;">联系Email：</div>
+			<div class="c">*****${session_user.email[5..]!""}</div>
+		</div>
+		<form action="" method="post" name="form1"  onsubmit = "return chec(k);" >
+		<div id="returnpay">
+		<div class="user_right_border">
+		
+			<div class="l" style="font-weight:bold;">充值方式：</div>
+			<div class="c">
+				<input type="radio" name="type"  id="type"  class="input_border" checked="checked" onClick="change_type(1)" value="1"  /> 网上充值<input type="radio" name="type"  id="type" class="input_border"  value="2"  onclick="change_type(2)" /> 线下充值 
+			</div>
+		</div>
+		<div class="user_right_border">
+			<div class="l" style="font-weight:bold;">充值金额：</div>
+			<div class="c">
+				<input type="text" name="money"  class="input_border" value="" size="10" onKeyUp="commit(this);" maxlength="9" /> 元 <span id="realacc">实际入账：<font color="#FF0000" id="real_money">0</font> 元</span>
+			</div>
+		</div>
+                    <div id="type_net" class="disnone">
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;">充值类型：</div>
+				<div class="c">
+						<font color="red">以下银行是使用个人网上银行支付，只需开通个人网上银行即可!</font>
+		<style type="text/css">
+
+		#ban table td{height:40px; line-height:40px;padding-right:30px;padding-bottom:10px; }
+		#ban table img{width:125px; height:33px;float:right;}
+
+		</style>
+		<div id="ban">
+                     <table width="100%" cellpadding="3" cellspacing="3">
+					
+						 <tr>
+                              <td width="150"><input type="radio" name="payment1" value="ICBC_t" /><!--工商银行-->
+                                <img src="${request.getContextPath()}/data/bank/ICBC_OUT.gif" border="0"/></td>
+						   <td width="150">
+                              <input type="radio" name="payment1" value="BOC_t"><!--中国银行-->
+						   <img src="${request.getContextPath()}/data/bank/BOC_OUT.gif" border="0"/>   </td>
+						   <td  width="150">
+                          <input type="radio" name="payment1" value="CCB_t"/><!--中国建设银行-->
+                               <img src="${request.getContextPath()}/data/bank/CCB_OUT.gif" border="0"/></td>
+
+						 </tr>
+						 <tr>
+						   <td><input type="radio" name="payment1" value="ABC_t"/><!--中国农业银行-->
+						   <img src="${request.getContextPath()}/data/bank/ABC_OUT.gif" border="0"/></td>
+						   <td>
+							   <input type="radio" name="payment1" value="CMB_t"/><!--中国招商银行-->
+							   <img src="${request.getContextPath()}/data/bank/CMB_OUT.gif" border="0"/>
+                           </td>
+						   <td>
+							   <input type="radio" name="payment1" value="GDB_t" /><!--广东发展银行-->
+						   <img src="${request.getContextPath()}/data/bank/GDB_OUT.gif" border="0"/></td>
+
+						 </tr>
+						 <tr>
+						   <td><input type="radio" name="payment1" value="CMBC_t"/><!--中国民生银行-->
+						   <img src="${request.getContextPath()}/data/bank/CMBC_OUT.gif" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="CEB_t"/><!--光大银行-->
+						   <img src="${request.getContextPath()}/data/bank/CEB_OUT.gif" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="CIB_t"/><!--兴业银行-->
+						   <img src="${request.getContextPath()}/data/bank/CIB_OUT.gif" border="0"/></td>
+
+						 </tr>
+						 <tr>
+						   <td><input type="radio" name="payment1" value="PSBC_t"/><!--中国邮政储蓄银行-->
+						   <img src="${request.getContextPath()}/data/bank/yz.jpg" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="HXBC_t"/><!--华夏银行-->
+                           <img src="${request.getContextPath()}/data/bank/hx.jpg" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="BOCOM_t"/><!--交通银行-->
+						   <img src="${request.getContextPath()}/data/bank/COMM_OUT.gif" border="0"/></td>
+						 </tr>
+						 <tr>
+						   <td><input type="radio" name="payment1" value="CITIC_t"/><!--中信银行-->
+						   <img src="${request.getContextPath()}/data/bank/CITIC_OUT.gif" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="SPDB_t"><!--上海浦东发展银行-->
+						   <img src="${request.getContextPath()}/data/bank/pf.jpg" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="SDB_t"><!--深圳发展银行-->
+						   <img src="${request.getContextPath()}/data/bank/SZFZ_OUT.gif" border="0"/></td>
+						 </tr>
+					   </table>
+					</div>
+<input type="radio" name="payment1"  class="input_border"   value="32" id="payment1"  /> 国付宝 <input type="hidden" name="payname32" value="国付宝" />(个人网上银行支付) <br />
+<input type="radio" name="payment1"  class="input_border"   value="11" id="payment1"  /> 新生支付<input type="hidden" name="payname10" value="新生支付" /> (充值扣0.05%手续费，提现规则不变)<br />
+<#if session_user.username == "糊涂到底" >
+<input type="radio" name="payment1"  class="input_border"   value="13" id="payment1"  />宝付支付<input type="hidden" name="payname13" value="宝付" />(充值扣0.05%手续费，提现规则不变) <br />	
+<input type="radio" name="payment1"  class="input_border"   value="12" id="payment1"  /> 易宝支付(充值扣0.1%手续费,提现规则不变，支持信用卡，大额支付)<input type="hidden" name="payname12" value="易宝支付" /> <br /> 
+</#if>
+				</div>
+			</div>
+		</div>
+
+		
+                    <div id="type_now"  style="display:none">
+			<div class="user_right_border">
+                                
+				<div class="l" style="font-weight:bold;">充值银行：
+                                </div>
+                                
+				<div class="c">
+                                    <div>
+                                <font color="red">线下充值如遇到问题，请马上与客服联系联系；<br>
+（1）线下充值的单笔最低金额不低于10000元。<br>
+（2）<strong><font color="blue">有效充值登记时间为:周一至周五的9:30到16:00</font></strong>，充值成功请跟我们的客服联系。<br><br>
+								</font></div>
+					<div class="underline-bank">
+						<input type="radio" name="payment2"  class="input_border" value="33" />4340627100817015  建行贵阳阳明支行  法人账户：陈格路<br/>
+						<input type="radio" name="payment2"  class="input_border" value="6" />6228491190009301512  农行贵阳新华支行  法人账户：陈格路<br/>
+						<input type="radio" name="payment2"  class="input_border" value="34" />6222082402002050113  工商银行贵州省贵阳市省新支行  法人账户：陈格路<br/>
+						<input type="radio" name="payment2"  class="input_border" value="36" />4100628903680808  招商银行贵阳分行营业部  法人账户：陈格路<br/>					
+				  </div>
+				</div>
+			</div>
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;">线下充值备注：</div>
+				<div class="c">
+					<input type="text" name="remark"  class="input_border" value="" size="30" /><br>（请注明您的用户名，转账银行卡号和转账流水号，以及转账时间，谢谢配合）
+				</div>
+			</div>
+		</div>
+
+		<div class="user_right_border">
+			<div class="l" style="font-weight:bold;"></div>
+			<div class="c">
+				<input type="submit" class="btn-action"  name="name"  value="确认提交" size="30" /> 
+			</div>
+		</div>
+		</form>
+		</div>
+		
+		
+		
+		
+		<script>
+		function check(){
+			var aa = "";
+			aa = $("input[name=type][checked]").val();
+			if(aa == 2){
+				//if (!ctype()){
+					//alert('请选择充值的银行');
+				//return false;
+				//}
+			}
+		}
+			function change_type(type){
+          
+				if (type==2){
+                                    
+                                    document.getElementById("type_net").style.display="none";
+                                    document.getElementById("type_now").style.display="";
+                                    document.getElementById("realacc").style.display="none";
+				    //$("#type_net").addClass("dishide");
+				    //$("#type_now").removeClass();
+				    //$("#realacc").hide();
+				}else{
+                                    document.getElementById("type_now").style.display="none";
+                                    document.getElementById("type_net").style.display="";
+                                    document.getElementById("realacc").style.display="";
+				    //$("#type_now").addClass("dishide");
+				    //$("#type_net").removeClass();
+				    //$("#realacc").show();
+				}
+				
+			}
+		function payment (){
+	 		var type = GetRadioValue("type");
+			if (type==1){
+				$("#returnpay").html("<font color='red'>请到打开的新页面充值</font>");
+				
+			}
+			
+		}
+		function ctype(){
+		var resualt=false;
+		
+			alert(document.form1.payment2.length);
+			for(var i=0;i<document.form1.payment2.length;i++)
+			{
+				
+				if(document.form1.payment2[i].checked)
+				{
+				  resualt=true;
+				}
+			}
+			return resualt;
+		}
+        function commit(obj) {
+            if (parseFloat(obj.value) > 0 ) 
+            {
+//                var realMoney = Math.round(parseFloat(obj.value)) / 100;
+
+//                if (realMoney > 50) realMoney = 50;
+
+//                document.getElementById("hspanReal").innerText = Math.round(parseFloat(obj.value)*10)/10 - realMoney;
+
+
+                var realMoney=parseFloat(obj.value);
+                /*
+                if(realMoney>=5000)
+                {
+                    document.getElementById("real_money").innerText = realMoney - 50;
+                }
+                else 
+                {
+                    document.getElementById("real_money").innerText = parseInt(realMoney*0.99*100)/100;
+                }
+            }else{
+				 var realMoney=parseFloat(obj.value);
+                 document.getElementById("real_money").innerText = realMoney ;
+			}
+                        */
+                        document.getElementById("real_money").innerText = realMoney ;
+            }
+        }
+    </script>
+		
+		<div class="user_right_foot alert">
+		${webname}禁止信用卡套现、虚假交易等行为,一经发现将予以处罚,包括但不限于：限制收款、冻结账户、永久停止服务,并有可能影响相关信用记录。
+		</div>
+					
+					<!-- 内容结束 -->
+				</div>
+				<!--右边的内容user_right_main 结束-->
+			</div>
+			<!--右边的内容user_right 结束-->
+		</div>
+		<!-- .wrap950 结束-->
+	</div>
+	<!-- #main start-->
+	<#include "../../include/footer.html">

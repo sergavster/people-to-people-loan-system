@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+<package name="credit" namespace="/credit" extends="wzd-default">
+        <action name="userlog"  class="userCreditAction" method="creditLog">
+            <result name="success" type="ftl">/member/userCredit/log.html</result>
+            <interceptor-ref name="mydefault" />
+        </action>
+        <action name="cashDetail"  class="userCreditAction" method="creditCashDetail">
+            <result name="success" type="ftl">/member/userCredit/cash.html</result>
+            <interceptor-ref name="mydefault" />
+        </action>
+        <action name="cashValidate"  class="userCreditAction" method="creditCashValidate">
+            <interceptor-ref name="mydefault" />
+        </action>
+         <action name="cash"  class="userCreditAction" method="creditCash">
+            <result name="result" type="ftl">/member/userCredit/cash.html</result>
+            <interceptor-ref name="mydefault" />
+        </action>
+        <action name="cashLog"  class="userCreditAction" method="cashLog">
+            <result name="success" type="ftl">/member/userCredit/cash_log.html</result>
+            <interceptor-ref name="mydefault" />
+        </action>
+        <action name="cashVipInit"  class="userCreditAction" method="cashVipInit">
+            <result name="success" type="ftl">/member/userCredit/cashVip.html</result>
+            <interceptor-ref name="mydefault" />
+        </action>
+        <action name="cashVip"  class="userCreditAction" method="cashVip">
+            <result name="result" type="ftl">/member/userCredit/cashVip.html</result>
+            <interceptor-ref name="mydefault" />
+        </action>
+        <!-- v1.6.7.2 RDPROJECT-569 cx 2013-12-17 start -->
+        <action name="shopIndex" class="goodsAction" method="shopIndex">
+        	<result name="success" type="ftl">/member/shop/index.html</result>
+        	<result name="login" type="redirect">/user/login.html</result>
+        </action>
+        <action name="showGoods" class="goodsAction" method="showGoods">
+        	<result name="success" type="ftl">/member/shop/showGoods.html</result>
+        	<result name="login" type="redirect">/user/login.html</result>
+        </action>
+        <action name="convertGoods" class="goodsAction" method="convertGoods">
+        	<result name="success" type="ftl">/msg.html</result>
+        	<result name="login" type="redirect">/user/login.html</result>
+        </action>
+        <action name="creditDetail" class="goodsAction" method="creditDetail">
+        	<result name="success" type="ftl">/member/shop/creditDetail.html</result>
+        	<result name="login" type="redirect">/user/login.html</result>
+        </action>
+        <action name="usedCreditDetail" class="goodsAction" method="usedCreditDetail">
+        	<result name="success" type="ftl">/member/shop/usedCreditDetail.html</result>
+        	<result name="login" type="redirect">/user/login.html</result>
+        </action>
+        <action name="canceltCreditConvert"  class="goodsAction" method="canceltCreditConvert">
+        	<result name="success" type="redirect">/credit/shopIndex.html</result>
+        	<result name="goback" type="ftl">/msg.html</result>
+        </action>
+        <action name="childCreditCatagory" class="goodsAction" method="childCreditCatagory">
+        </action>
+        <!-- v1.6.7.2 RDPROJECT-569 cx 2013-12-17 end -->
+    </package>
+</struts>

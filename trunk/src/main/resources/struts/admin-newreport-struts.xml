@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<!-- v1.6.7.1 规则重加载 cx 2013-11-25 start -->
+<!-- 新增 -->
+<!-- v1.6.7.1 规则重加载 cx 2013-11-25 end -->
+<struts>
+	<package name="admin-newreport" namespace="/admin/newreport" extends="wzd-admin">
+		<action name="index" class="mangeRuleAction" method="index">
+			<result name="success" type="ftl">/admin/newreport/index.html</result>
+		</action>
+		
+		 <!-- v1.6.7.1RDPROJECT-510 cx 2013-12-06 start -->
+		<action name="allBorrowDataList" class="newReportAction" method="allBorrowDataList">
+			<result name="success" type="ftl">/admin/newreport/allBorrowDataList.html</result>
+		</action>
+		<action name="allPayAccount" class="newReportAction" method="allPayAccount">
+			<result name="success" type="ftl">/admin/newreport/allPayAccount.html</result>
+		</action>
+		<action name="allTypeAccount" class="newReportAction" method="allTypeAccount">
+			<result name="success" type="ftl">/admin/newreport/allTypeAccount.html</result>
+		</action>
+		<action name="eachMonthPayDataList" class="newReportAction" method="eachMonthPayDataList">
+			<result name="success" type="ftl">/admin/newreport/eachMonthPayDataList.html</result>
+		</action>
+		  <!-- v1.6.7.1RDPROJECT-510 cx 2013-12-06 end -->
+	</package>
+</struts>

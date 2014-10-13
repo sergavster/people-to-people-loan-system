@@ -1,0 +1,26 @@
+<div class="main top">
+	<div class="logo "> 
+		<div style=" height:90px;">
+        <b style=" font-size: 50px; font-family: 隶书; color:#fff; margin-left: 30px;">${webname}</b>
+        <b style="font-size: 25px; font-family: 隶书; color:#fff;">后台管理</b></div>
+	</div>
+	<div class="banner">
+		<div class="banner_top">
+			<span>
+			<a href="${webroot}/admin/system/welcome.html">后台首页</a> | 您好，<font color="#FF0000">${auth_user.username}</font> [超级管理员] &nbsp; &nbsp;
+			<a href="${webroot}/admin/logout.html">退出</a>
+		 	</span>  
+		 	<a href="${webroot}/index.html" target="_blank">查看网站首页</a>
+		 </div>
+	</div>
+	<div class="banner_position">
+		<ul class="aNavContent">
+			<#if auth_purview??>
+			<#list auth_purview.childs as item>
+				<li class=""><a href="${webroot}${item.model.url}">${item.model.name}</a></li>
+			</#list>
+			</#if>
+		</ul>
+	</div>
+</div>
+<br/>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="managePromote" namespace="/admin/promote"
+		extends="wzd-admin">
+		<!-- v1.6.6.2 RDPROJECT-235 zza 2013-10-21 start -->
+		<!-- 推广奖励规则列表 -->
+		<action name="showAllRulePromote" class="managePromoteAction" method="showAllRulePromote">
+			<result name="success" type="ftl">/admin/promote/showAllRulePromote.html</result>
+		</action>
+		
+		<!-- 添加推广奖励规则-->
+		<action name="addRulePromote" class="managePromoteAction" method="addRulePromote">
+			<result name="success" type="ftl">/admin/promote/addRulePromote.html</result>
+		</action>
+		
+		<!-- 修改推广奖励规则-->
+		<action name="modifyRulePromote" class="managePromoteAction" method="modifyRulePromote">
+			<result name="success" type="ftl">/admin/promote/modifyRulePromote.html</result>
+		</action>
+		
+		<!-- 删除推广奖励规则-->
+		<action name="delRulePromote" class="managePromoteAction" method="delRulePromote">
+			<result name="success" type="ftl">/admin/promote/delRulePromote.html</result>
+		</action>
+		<!-- v1.6.6.2 RDPROJECT-235 zza 2013-10-21 end -->
+	</package>
+</struts>

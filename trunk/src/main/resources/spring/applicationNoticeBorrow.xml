@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+  <bean id="noticePayBorrowService"
+        class="com.p2psys.service.impl.NoticePayBorrowServiceImpl">
+        <property name="borrowDao">
+            <ref bean="borrowDao" />
+        </property>
+        <property name="tenderDao">
+            <ref bean="tenderDao" />
+        </property>
+        <property name="collectionDao">
+            <ref bean="collectionDao" />
+        </property>
+         <property name="borrowAutoDao">
+            <ref bean="borrowAutoDao" />
+        </property>
+        <property name="accountDao">
+            <ref bean="accountDao" />
+        </property>
+        <property name="accountLogDao">
+            <ref bean="accountLogDao" />
+        </property>
+        <property name="userAmountDao">
+            <ref bean="userAmountDao" />
+        </property>
+        <property name="bonusDao">
+            <ref bean="bonusDao" />
+        </property>
+        <property name="repaymentDao">
+            <ref bean="repaymentDao" />
+        </property>
+        <property name="messageDao">
+            <ref bean="messageDao" />
+        </property>
+        <property name="userCreditDao">
+            <ref bean="userCreditDao" />
+        </property>
+         <property name="userDao">
+            <ref bean="userDao" />
+        </property>
+         <property name="userCacheDao">
+            <ref bean="userCacheDao" />
+        </property>
+    </bean>
+
+	<!-- v1.6.7.1 RDPROJECT-314 liukun 2013-11-13 start -->
+   <bean id="noticeService"
+        class="com.p2psys.service.impl.NoticeServiceImpl">
+        <!-- <property name="userDao">
+            <ref bean="userDao" />
+        </property> -->
+        <property name="noticeDao">
+            <ref bean="noticeDao" />
+        </property>
+        <property name="messageDao">
+            <ref bean="messageDao" />
+        </property>
+	    <property name="smsPortal">
+			<ref bean="smsPortal" />
+		</property>
+		<!-- v1.6.7.2  RDPROJECT-556 liukun 2013-12-10 start -->
+		<property name="smsPortalBackups">
+	      <list>
+			<ref bean="smsPortalKX"  />
+			<ref bean="smsPortalYnd" />
+			<ref bean="smsPortalChina" />
+			<ref bean="smsPortalYun" />
+	      </list>
+	    </property>
+		<!-- v1.6.7.2  RDPROJECT-556 liukun 2013-12-10 end -->        
+		<property name="userNoticeConfigDao">
+			<ref bean="userNoticeConfigDao" />
+		</property>
+    </bean>
+		<!-- v1.6.7.1 RDPROJECT-314 liukun 2013-11-13 end -->	
+
+</beans>

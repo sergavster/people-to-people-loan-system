@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="审核满标">
+                    <#include "banner.html">
+                        <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+		                         <div class="toolbor-module">
+		                         	<!-- v1.6.6.1 RDPROJECT-248 zza 2013-09-30 start -->
+							        <input type="button" class="input-button return" value="返回" onclick="javascript:location.href='showReviewBorrow.html'">
+							        <!-- v1.6.6.1 RDPROJECT-248 zza 2013-09-30 end -->
+							    </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                        <div id="main" class="clearfix">
+
+ 									<div class="valBox" style="margin-bottom:20px;">
+                                        <div class="top">
+                                            <strong>已满额借款标审核</strong>
+                                        </div>
+                                        <div class="w349 fp clearfix">
+                                            <ul>
+                                                <li>
+                                                    <div class="title">标题：</div>
+                                                    <div class="v">
+                                                        ${b.name!}
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">借款人：</div>
+                                                    <div class="v">
+                                                        <a href="javascript:void(0)" onclick='alertPop("用户详细信息查看","url:get?index.php?wzd888&q=module/user/view&user_id=2702&type=scene",500,230,"true","","true","text");'>${b.username!}</a>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">借款金额：</div>
+                                                    <div class="v">
+                                                        ￥${b.account!}
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">年利率：</div>
+                                                    <div class="v">
+                                                        ${b.apr} %
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">借款期限：</div>
+                                                    <div class="v">
+                                                        <#if b.isday==1>${b.time_limit_day!"-"}天<#else>${b.time_limit!"-"}个月</#if>
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">借款用途：</div>
+                                                    <div class="v">
+                                                        <@linkage plantext=true default=b.use></@linkage>
+                                                    </div>
+                                                </li>
+                                               <#if b.type??&&b.type!=110>
+                                                
+                                                 <#if b.extension_day??&&b.extension_day!=0>
+								                  <li>
+								                    <div class="title">展期天数：</div>
+								                    <div class="v">
+								                        ${b.extension_day}天
+								                    </div>
+								                </li>
+								               </#if>
+								               <#if b.extension_apr??&&b.extension_apr!=0.0>
+								               
+								                  <li>
+								                    <div class="title">展期利率：</div>
+								                    <div class="v">
+								                        ${b.extension_apr*100}%
+								                    </div>
+								                </li>
+								               </#if>
+								               </#if>
+                                            </ul>
+                                        </div>
+                                        </div>
+
+                                <table class="data-list">
+                                        <tr class="header">
+                                            <td>ID</td>
+                                            <td>用户名称</td>
+                                            <td>投资金额</td>
+                                            <td>有效金额</td>
+                                            <td>状态</td>
+                                            <td>投标时间</td>
+                                        </tr>
+                                        <#list tenderlist as item>
+					   					<tr class="s">
+											<!-- v1.6.6.1 RDPROJECT-196 zza 2013-10-08 start -->
+											<td>${item.id?c}</td>
+											<!-- v1.6.6.1 RDPROJECT-196 zza 2013-10-08 end -->
+											<td><a href="javascript:void(0)" onclick='alertPop("用户详细信息查看","url:get?index.php?wzd888&q=module/user/view&user_id=2703&type=scene",500,230,"true","","true","text");'>${item.username!}</a></td>
+											<td>${item.money!0}元</td>
+											<td><font color="#FF0000">${item.account!0}元</font></td>
+											<td><#if (item.money!0)?number==(item.account!0)?number >全部通过<#else>部分通过 </#if></td>
+											<td>${dateformat(item.addtime!)}</td>
+										</tr>
+                                        </#list>
+                                    </table>
+
+                            <!--底部工具栏--{-->
+                            <div id="bottomToolbar" class="clearfix">
+                                <div class="other-tool">
+                                    <dl class="refresh-data">
+                                        <dt class="refresh-data-icon"></dt>
+                                        <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                    </dl>
+                                </div>
+
+                                <!--翻页系统--{-->
+                                <div class="container">
+		                            <#import "../../common/page.html" as pager>  
+		                            <!-- v1.6.6.1 RDPROJECT-248 zza 2013-09-30 start -->
+					         	 	<@pager.pagination page=page url="/admin/borrow/viewFullBorrow.html?id=${b.id?c}" map=param style="style1"/>
+					         	 	<!-- v1.6.6.1 RDPROJECT-248 zza 2013-09-30 end -->
+                                </div>
+                                <!--翻页系统--}-->
+                            </div>
+                            <!--底部工具栏--}-->
+                                  <table class="data-list" style="margin-bottom:20px;">
+                                        <tr class="header">
+                                            <td>ID</td>
+                                            <td>计划还款日</td>
+                                            <td>预还金额</td>
+                                            <td>本金</td>
+                                            <td>利息</td>
+                                        </tr>
+                                        <!-- v1.6.6.1 RDPROJECT-248 zza 2013-09-29 start -->
+                                        <#list repayList as item>
+					   					<tr class="s">
+											<td>${item_index+1}</td>
+											<td>${dateformat(item.repayment_time)}</td>
+											<td>￥${item.repayment_account}</td>
+											<td>￥${item.capital}</td>
+											<td>￥${item.interest}元</td>
+										</tr>
+                                        </#list>
+                                        <!-- v1.6.6.1 RDPROJECT-248 zza 2013-09-29 end -->
+                                    </table>
+								<form name="form1" method="post" action="verifyFullBorrow.html" >
+                                    <div id="audit"  style="margin-bottom:20px;">
+				                    <div class="top">
+				                        <strong>审核此借款</strong>
+				                    </div>
+				                    <div class="v">
+				                        <div class="c">
+				                            <div class="choose">
+				                                <label class="mr15"><input name="status" type="radio" value="3" class="radio">复审通过</label>
+				                                <label><input name="status" type="radio" class="radio" value="4" checked="checked">复审不通过</label>
+				                            </div>
+				                            <textarea class="remark" name="verify_remark">输入审核备注...</textarea>
+				                        </div>
+				                        <div class="other clearfix">
+											<input type="hidden" name="id" value="${b.id?c}" />
+											<input type="submit"  name="reset" value="确定审核" class="input-button confirm"/>
+				                        </div>
+
+				                    </div>
+				                </div>
+				                </form>
+
+				                		<div class="valBox" style="margin-bottom:20px;">
+                                        <div class="top">
+                                            <strong>其他详细内容</strong>
+                                        </div>
+                                        <div class="w349 fp clearfix">
+                                            <ul>
+                                                <li>
+                                                    <div class="title">投标奖励：</div>
+                                                    <div class="v">
+                                                    	<!-- v1.6.6.1 zza RDPROJECT-323 2013-10-12 start -->
+                                                        <#if b.award??&&b.award!=0>有<#else>无</#if>奖励
+                                                        <!-- v1.6.6.1 zza RDPROJECT-323 2013-10-12 end -->
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">投标失败是否奖励：</div>
+                                                    <div class="v">
+                                                        <#if b.is_false??&&b.is_false=="1">是<#else>否</#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">添加时间：</div>
+                                                    <div class="v">
+                                                        ${dateformat(b.addtime)}
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">招标时间：</div>
+                                                    <div class="v">
+                                                        ${dateformat(b.addtime)}
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">内容：</div>
+                                                    <div class="v">
+                                                        ${b.context!}
+                                                    </div>
+                                                </li>
+                                                <li class="color"></li>
+                                            </ul>
+                                        </div>
+                                        </div>
+
+                        </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

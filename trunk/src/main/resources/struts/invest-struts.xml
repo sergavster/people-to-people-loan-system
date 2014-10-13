@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+<package name="invest" namespace="/invest" extends="wzd-default">
+
+        <action name="index"  class="investAction" method="index">
+            <result name="success" type="ftl">/invest/index.html</result>
+            <result name="error">/error.jsp</result>
+        </action>
+        
+         <action name="detail"  class="investAction" method="detail">
+            <result name="success" type="ftl">/invest/detail.html</result>
+            <result name="error">/error.jsp</result>
+            <interceptor-ref name="mydefault" />
+        </action>
+        <action name="detailForJson"  class="investAction" method="detailForJson"> 
+        <interceptor-ref name="mydefault" />
+        </action>
+        <action name="detailTenderForJson"  class="investAction" method="detailTenderForJson">
+        <interceptor-ref name="mydefault" />
+        </action>
+        <!-- v1.6.7.2 RDPROJECT-272 wcw 2013-12-25 start -->
+        <action name="detailForRepaymentInfo"  class="investAction" method="detailForRepaymentInfo">
+        <interceptor-ref name="mydefault" />
+        </action>
+         <action name="detailForBorrowSummary"  class="investAction" method="detailForBorrowSummary">
+        <interceptor-ref name="mydefault" />
+        </action>
+         <action name="detailForUserInfo"  class="investAction" method="detailForUserInfo">
+        <interceptor-ref name="mydefault" />
+        </action>
+         <action name="detailForAuditInfo"  class="investAction" method="detailForAuditInfo">
+        <interceptor-ref name="mydefault" />
+        </action>
+        <!-- v1.6.7.2 RDPROJECT-272 wcw 2013-12-25 end -->
+         <action name="pagenotfound">  
+             <result type="ftl">/404.html</result>
+ 		</action>
+    </package>
+</struts>

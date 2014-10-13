@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="comments" namespace="/comment" extends="wzd-default">
+		<action name="add" class="commentAction" method="add">
+		<result name="fail" type="ftl">/msg.html</result>
+			<result name="success" type="ftl">/msg.html</result>
+			<interceptor-ref name="mydefault"></interceptor-ref>
+		</action>
+		<action name="list" class="commentAction" method="list">
+			<result name="success" type="ftl">/borrow/comment/list.html</result>
+		</action>
+	</package>
+</struts>

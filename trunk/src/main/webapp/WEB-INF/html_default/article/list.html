@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<#include "../include/resource.html"> 
+<body>
+<#include "../include/header.html">
+<link href="${request.getContextPath()}${theme_dir}/media/css/about.css" rel="stylesheet" type="text/css" />
+
+<div class="clearfix" id="container">
+        <img src="${webroot}${theme_dir}/images/zx-banner.jpg" alt="" class="mb15"> 
+            <div class="consult-nav float_left">
+                <div class="consult-nav-title"></div>
+                <div class="consult-nav-main">
+                    <!--<a href="#" class="cur">媒体报道</a>
+                    <a href="#">最新公告</a>-->
+                    <#list sublist as item>
+                        <#if item??&&item.url??&&((item.url)?length gt 0)>
+                        <!-- V1.6.6.2 RDPROJECT-352 ljd 2013-10-18 start -->
+		                <a id="item${item_index+1}" class="consult-item" href="${webroot}${item.url!}" rel="${item.site_id}">${item.name}</a>
+		                <!-- V1.6.6.2 RDPROJECT-352 ljd 2013-10-18 end -->
+                        <#elseif item.status==1>
+                        <a id="item${item_index+1}" class="page" href="${webroot}/article/list.html?catalog=${item.site_id}" rel="${item.site_id}" >${item.name}</a>
+                        </#if>
+                    </#list>
+                </div>
+                
+                <a href="${webroot}/service/onlinekefu.html">
+                    <img src="${webroot}${theme_dir}/images/zx-left-kf.jpg" alt="" class="zx-kefuimg" usemap="#Map1">
+                </a>
+            </div>
+        
+            <div class="consult-content float_right">
+                <div class="consult-content-title clearfix">
+                    <a id="ctl00_content_NavigationLink1_main" href="${webroot}" style=" color:#333; text-decoration:none;">${webname}</a> 
+                     &gt;${psite.name!"网站栏目"}&gt;
+                    <a href="${request.getContextPath()}/article/list.html?catalog=${catalog}" style="color:#333; text-decoration:none;">${site.name}</a></span>
+                </div>
+                <div class="zx-box_name">
+                        <a href="#" class="btn-action" style="margin-top:8px;text-decoration:none;color:#fff;"  >
+                        ${site.name}
+                        </a>
+                </div>
+                <div class="consult-content-text">
+                    <div class="info" id="lxjs">
+                        <#if site.style??&&site.style=="0">		
+                            <!--列表开始-->
+                            <div class="content_list">
+                                <ul class="list_li_1">
+                                    <#if (list?exists)&&(list?size>0)>
+                                    <#list list as item>
+                                    <li class="clearfix">
+                                        <img src="${webroot}${item.litpic!}">
+                                        <a href="detail.html?catalog=${catalog}&id=${item.id}">${item.name}</a>
+                                            <div>
+                                                ${item.summary!}
+                                            </div>
+                                            <a href="detail.html?catalog=${catalog}&id=${item.id}" class="list-detail">详情查看</a>
+                                        <span style="float:left;margin-left:15px;font-size:12px;color:#8f5104;">发布时间：${item.publish[0..10]}</span>
+                                    </li>
+                                    </#list>
+                                    </#if>
+                                </ul>
+                            </div>
+                            <!-- v1.6.6.2 RDPROJECT-116 zza 2013-10-29 start -->
+                            <style>
+                            .select-list-ul {margin-top:20px;}
+                            .select-list-ul li{ width:180px; float:left;}
+                            .select-list-ul li input{ width:120px;}
+                            .select-list-ul li.select-list-ul-time{ width:380px;}
+                            .select-list-ul li .js-datetime{float:left;}
+                            .select-list-ul li.select-list-ul-btn{ width:80px;}
+                            .select-list-ul li.select-list-ul-btn input{ width:80px; margin-top:-10px;}
+                            </style>
+                            <form action="" method="get" id="invest-search">
+								<div class="box">
+									<ul class="select-list-ul clearfix">
+				                    	<li>关 键 字：<input type="text" name="articlename" size="20" 
+											value="${(param.articlename)!}" />
+										</li>
+										<li class="select-list-ul-time clearfix">
+										<div style="height:22px;line-height:22px;float:left;">
+											<div style="height:22px;line-height:22px;float:left;margin:0 8px;">发布时间： </div>
+					                        <input class="_search-value js-datetime" name="publish1" id="publish1" value="" size="15"/>
+					                        <div style="height:22px;line-height:22px;float:left;margin:0 8px;"> 到 </div>
+					                        <input class="_search-value js-datetime" name="publish2" id="publish2" value="" size="15"/>
+				                        </div>
+										</li>
+										<li class="select-list-ul-btn">
+										<input type="submit" class="btn-action" id="search_btn" value="搜索"  />
+										<input type="hidden" name="catalog" value="${catalog}"> 
+										<input type="hidden" name="search" value="select"> 
+										<input type="hidden" name="pageNum" value="6"> 
+										</li>
+									</ul>
+								</div>
+							</form>
+							<!-- v1.6.6.2 RDPROJECT-116 zza 2013-10-29 end -->
+                            <!--兼职列表结束-->
+                            <!--分页开始-->
+                            <#if (list?exists)&&(list?size>0)>
+                            <div style="line-height:26px; font-size:14px; text-align:left; width:600px;white-space:nowrap; "  >
+                                <table class="list_table_page">
+                                    <#import "../common/page.html" as pager>  
+                                    <#assign url="/article/list.html?catalog="+site.site_id />
+                                    <@pager.pagination page=page url=url map=param style="style1" />
+                                </table>
+                            </div>
+                            <#else>
+                            暂无记录
+                            </#if>
+                            <!--分页结束-->
+                            <br>
+                        <#else>
+                            ${site.content!}
+                        </#if>
+                    </div><!--info-->
+                </div><!--myTabContent-->
+            </div><!--right-->
+</div><!--cor_divtop-->
+
+<script src="${request.getContextPath()}${theme_dir}/media/js/modal.js"></script>
+<script type="text/javascript">
+$(function(){
+	var site_id = parseInt("${site.site_id}");
+	var oA = $(".consult-nav-main a");
+	var oArel = "";
+	oA.each(function(){
+		 var index = oA.index(this);
+		 oArel = parseInt($(oA[index]).attr("rel"));
+		 if(site_id == oArel)
+		 {
+			$(oA[index]).addClass("pagehover");
+		 }	
+	})
+})
+// v1.6.6.2 RDPROJECT-116 zza 2013-10-29 start
+var urls = '?search=true';
+function sousuo(){
+    var sou = "";
+    var articlename = $("#articlename").val();
+    if (articlename!=null&&articlename!=""&&articlename!="undefine"&&articlename!="请输入关键字"){
+        sou += "&articlename="+articlename;
+    }
+    var publish1 = $("#publish1").val();
+	if (publish1!=null&&publish1!=""&&publish1!="undefine"){
+		sou += "&publish1="+publish1;
+	}
+	var publish2 = $("#publish2").val();
+	if (publish2!=null&&publish2!=""&&publish2!="undefine"){
+		sou += "&publish2="+publish2;
+	}
+    var url=urls+sou
+    location.href=url;
+}
+// v1.6.6.2 RDPROJECT-116 zza 2013-10-29 end
+</script>
+<#include "../include/footer.html"> 

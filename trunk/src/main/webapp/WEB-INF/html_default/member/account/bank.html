@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html> 
+<!--   v1.6.6.2 RDPROJECT-140 yl 2013-10-23 start-->
+<#assign web_title='银行账户 - ${webname!}'>
+<#assign web_description='银行账户，${webname!}p2p网贷平台'>
+<!--   v1.6.6.2 RDPROJECT-140 yl 2013-10-23 end-->
+<#include "../../include/resource.html">
+<body>
+	<#assign nid="member">
+	<#include "../../include/header.html">
+	<#include "../../common/function.html">
+	 
+	<!-- #main start-->
+	<div id="main" class="clearfix">
+		<!-- .wrap950 开始-->
+		<div class="wrap950 ">
+			<!--左边的导航user_left 开始-->
+			<div class="user_left">
+			<#assign mid="m_account" >
+			<#include "../user_menu.html">
+			</div>
+			<!--左边的导航user_left 结束-->
+
+			<!--右边的内容user_right 开始-->
+			<div class="user_right">
+				<div class="user_right_menu">
+					<#assign account_type="bank">
+					<#include "account_menu.html">
+				</div>
+				<!--右边的内容user_right_main 开始-->
+				<div class="user_right_main">
+					<div class="user_help alert" style="text-align:left;text-indent :24px;">${webname}禁止信用卡套现、虚假交易等行为,一经发现将予以处罚,包括但不限于：限制收款、冻结账户、永久停止服务,并有可能影响相关信用记录。
+					</div>
+
+					<#if banklist?exists && banklist[0].bankaccount?exists>
+						<table style="width: 818px;">
+							<tr >
+							<th>真实姓名</th>
+							<th>登陆用户名</th>
+							<th>开户银行</th>
+							<th>开户行名称</th>
+							<th>银行账号</th>
+							<th>银行卡所在区域</th>
+							</tr>
+							<#list banklist as item>
+								<tr height="30px;">
+									<td><#if item??&&item.realname??>*${(item.realname[1..])!"-"}</#if></td>
+									<td>${item.username!"-"}</td>
+									<td>${item.bankname!"-"}</td>
+									<td>${item.branch!"-"}</td>
+									<td>
+										<#if item.bankaccount?length lt 10>
+											${item.bankaccount}
+										<#else>
+											${item.bankaccount?substring(0,4)}****${item.bankaccount?substring((item.bankaccount?length)-4,(item.bankaccount?length))}
+										</#if>
+									</td>
+									<td>${item.province_name!""}-${item.city_name!""}-${item.area_name!""}</td>
+								</tr>
+							</#list>
+						</table>
+						<div class="user_right_foot alert" style="clear:both;">
+						* 温馨提示：为了您的资金账户安全，如有修改提现银行卡，请联系客服给予修改。
+						</div>
+					<#else>
+						<div class="user_right_border">
+							<div class="l" style="font-weight:bold;">真实姓名：</div>
+							<div class="c">
+								${session_user.realname!"-"}			
+							</div>
+						</div>
+						
+						<div class="user_right_border">
+							<div class="l" style="font-weight:bold;">登陆用户名：</div>
+							<div class="c">
+								${session_user.username}
+							</div>
+						</div>
+						<form action="" method="post">
+						<div class="user_right_border">
+							<div class="l" style="font-weight:bold;">开户银行：</div>
+							<div class="c">
+							<#if act?exists&&act.bank?exists>
+								<@linkage name="bank" id="bank" nid="account_bank" default=act.bank/>
+							<#else>
+								<@linkage name="bank" id="bank" nid="account_bank"/>
+							</#if>
+							</div>
+						</div>
+						<div class="user_right_border">
+							<div class="l" style="font-weight:bold;">开户行名称：</div>
+							<div class="c">
+								<input type="text" name="branch" value="" id="infokaih" />
+							</div>
+						</div>
+						<div class="user_right_border" style="margin-left:0px">
+							<div class="l" style="font-weight:bold;">银行账号：</div>
+							<div class="c">
+								<!--v1.6.7.2  RDPROJECT-470  wcw 2013-12-02 start-->
+								<input type="text" name="account" value="" id="infoyhzh"  onKeyUp="value=value.replace(/[^0-9]/g,'')"/>
+								<!--v1.6.7.2  RDPROJECT-470  wcw 2013-12-02 end-->
+							</div>
+							<div class="l" style="font-weight:bold;"></div>
+						</div>
+						<!-- v1.7.7.2 RDPROJECT-470 wcw 2013-11-28 start -->
+						<div class="user_right_border" style="margin-left:0px">
+							<div class="l" style="font-weight:bold;">所在位置：</div>
+							<div class="c">
+								<#if act?exists&&act.province?exists>
+			                		<@region name="province" id="province" value=act.province pid="0"></@region>&nbsp;
+			                	<#else>
+			                		<@region name="province" id="province" pid="0"></@region>&nbsp;
+			                	</#if>
+								
+								<#if act?exists&&act.province?exists>
+									<#if act.city?exists>
+										<@region name="city" id="city" value=act.city pid=act.province></@region>&nbsp;
+									<#else>
+										<@region name="city" id="city" pid=act.province></@region>&nbsp;
+									</#if>
+			                	<#else>
+			                		<@region name="city" id="city" pid="-1"></@region>&nbsp;
+			                	</#if>
+								
+								<#if act?exists&&act.city?exists>
+									<#if act.area?exists>
+										<@region name="area" id="area" value=act.area pid=act.city></@region>&nbsp;
+									<#else>
+										<@region name="area" id="area" pid=act.city></@region>&nbsp;
+									</#if>
+			                	<#else>
+			                		<@region name="area" id="area" pid="-1"></@region>&nbsp;
+			                	</#if>
+							</div>
+							<div class="l" style="font-weight:bold;"></div>
+						</div>
+						<!-- v1.7.7.2 RDPROJECT-470 wcw 2013-11-28 end -->
+						<div class="user_right_border">
+							<div class="l" style="font-weight:bold;"></div>
+							<div class="c">
+								<input type="hidden" name="type" value="add" />
+								<input type="hidden" name="userid" value="" />
+								<input type="submit" class="btn-action"  name="name"  value="确认提交" size="30" /> 
+							</div>
+						</div>
+						</form>
+						<div class="user_right_foot alert">
+						* 温馨提示：禁止信用卡套现
+						</div>
+					</#if>
+				</div>
+				<!--右边的内容user_right_main 结束-->
+			</div>
+			<!--右边的内容user_right 结束-->
+		</div>
+		<!-- .wrap950 结束-->
+	</div>
+	<!-- #main start-->
+	<#include "../../include/footer.html">

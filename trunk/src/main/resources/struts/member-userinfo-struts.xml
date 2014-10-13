@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="userinfo" namespace="/member/userinfo" extends="wzd-default">
+
+        <action name="userinfo"  class="memberAction" method="userinfo">
+            <result name="success" type="ftl">/member/userinfo/userinfo.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="showarea"  class="memberAction" method="showarea">
+            <result name="success" type="ftl">/member/userinfo/userinfo.html</result>
+        </action>
+        <action name="building"  class="memberAction" method="building">
+            <result name="success" type="ftl">/member/userinfo/building.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="company"  class="memberAction" method="company">
+            <result name="success" type="ftl">/member/userinfo/company.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="firm"  class="memberAction" method="firm">
+            <result name="success" type="ftl">/member/userinfo/firm.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="finance"  class="memberAction" method="finance">
+            <result name="success" type="ftl">/member/userinfo/finance.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="contact"  class="memberAction" method="contact">
+            <result name="success" type="ftl">/member/userinfo/contact.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="mate"  class="memberAction" method="mate">
+            <result name="success" type="ftl">/member/userinfo/mate.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="education"  class="memberAction" method="education">
+            <result name="success" type="ftl">/member/userinfo/education.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="other"  class="memberAction" method="other">
+            <result name="success" type="ftl">/member/userinfo/other.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>    
+        <action name="avatar"  class="memberAction" method="avatar">
+            <result name="success" type="ftl">/member/userinfo/avatar.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action> 
+        <action name="privacy"  class="memberAction" method="privacy">
+            <result name="success" type="ftl">/member/userinfo/privacy.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        
+    </package>
+</struts>

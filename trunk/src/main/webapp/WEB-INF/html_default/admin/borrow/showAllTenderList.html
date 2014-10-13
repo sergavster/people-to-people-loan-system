@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+<body>
+	<#include "../top.html">
+	<!-- div.main start  -->
+	<div class="main">
+		<!-- div.main_left start  -->
+		<div class="main_left"><#include "left.html"></div>
+		<!-- div.main_left end  -->
+		<!-- div.main_right start  -->
+		<div class="main_right">
+			<#assign moduleName="还款管理" >
+			<#include "banner.html">
+			<div class="main_content">
+				<form action="" method="post">
+				<table  border="0"  cellspacing="1" bgcolor="#CCCCCC" width="100%">
+					<tr>
+						<td width="" class="main_td">ID</td>
+						<td width="*" class="main_td" align="left">发标人</td>
+						<td width="*" class="main_td" align="left">发标标题</td>
+						<td width="" class="main_td" align="left">金额</td>
+						<td width="" class="main_td" align="left">操作金额</td>
+						<td width="" class="main_td" align="left">利息</td>
+						<td width="" class="main_td" align="left">时间</td>
+						<td width="" class="main_td" align="left">IP</td>
+					</tr>
+					<#import "../../common/function.html" as func>  
+					<#list list as item>
+					<tr>
+						<td>${item.id?c}</td>
+						<td class="main_td1"  align="left">${item.username!}</td>
+						<td align="left">${item.borrowname!}</td>
+						<td align="left">${item.account!}</td>
+						<td align="left">${item.money!}</td>
+						<td align="left">${item.interest!}</td>
+						<td align="left">${dateformat(item.addtime)}</td>
+						<td align="left">${item.addip!}</td>
+					</tr>
+					</#list>
+					<tr>
+						<td colspan="7" class="action">
+						<div class="floatl">
+					         <a href="#" onclick="exportxls()">导出报表</a>
+							</div>
+							<#if param?exists>
+								<#if param.get("username")?exists><#assign username=param.get("username")></#if>
+								<#if param.get("keywords")?exists><#assign keywords=param.get("keywords")></#if>
+							</#if>
+							<div class="floatr">
+开始时间：<input type="text" onClick="change_picktime()" size="20" value="${param.dotime1}"
+									class="input_border" name="dotime1" id="dotime1">
+						
+结束时间：<input type="text" onClick="change_picktime()" size="20" value="${param.dotime2}"
+									class="input_border" name="dotime2" id="dotime2">
+								用户名：<input type="text" name="username" id="username" value="${username!}"/> 
+								<input type="button" value="搜索"  onclick="sousuo();"  />
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="13" class="page">
+							<#import "../../common/page.html" as pager>  
+			         	 	<@pager.pagination page=page url="/admin/borrow/showAllTenderList.html" map=param style="style1" /> 
+						</td>
+					</tr>
+		
+				</table>
+				</form>	
+				<script>
+				
+				var urls = 'showAllTenderList.html?search=true';
+				var xlsurl = 'showAllTenderList.html?type=export';
+				function sousuo(){
+					var sou = "";
+					var username = $("#username").val();
+					if (username!=""){
+						sou += "&username="+username;
+					}
+					var dotime1 = $("#dotime1").val();
+					if (dotime1!=null&&dotime1!=""&&dotime1!="undefine"){
+						sou += "&dotime1="+dotime1;
+					}
+					var dotime2 = $("#dotime2").val();
+					if (dotime2!=null&&dotime2!=""&&dotime2!="undefine"){
+						sou += "&dotime2="+dotime2;
+					}
+					location.href=urls+sou;
+				}
+				function exportxls(){
+					var sou = "";
+					var username = $("#username").val();
+					if (username!=""){
+						sou += "&username="+username;
+					}
+					var dotime1 = $("#dotime1").val();
+					if (dotime1!=null&&dotime1!=""&&dotime1!="undefine"){
+						sou += "&dotime1="+dotime1;
+					}
+					var dotime2 = $("#dotime2").val();
+					if (dotime2!=null&&dotime2!=""&&dotime2!="undefine"){
+						sou += "&dotime2="+dotime2;
+					}
+					if (sou!=""){
+						location.href=xlsurl+sou;
+					}else{
+						location.href=xlsurl;
+					}					
+				}
+				</script>
+			</div>
+		</div>
+		<!-- div.main_right end  -->
+	</div>
+	<!-- div.main end  -->
+	<#include "../foot.html">
+</body>
+</html>

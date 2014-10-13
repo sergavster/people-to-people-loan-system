@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+<body>
+<table class="mc">
+<tr>
+<td class="mc-l">
+    <!--左侧导航---{-->
+    <div id="navPanelContainer">
+        <div class="system-logo cd"></div>
+        <!--管理员信息---{-->
+        <#include "../adminInfo.html">
+            <!--管理员信息---}-->
+            <div class="nav-wrap">
+                <#include "left.html">
+            </div>
+    </div>
+    <!--左侧导航---}-->
+</td>
+<td class="mc-m">
+    <div class="navToggle"></div>
+</td>
+<td class="mc-r">
+<!--顶部导航---{-->
+<#include "../topNav.html">
+<!--顶部导航---}-->
+
+<!--面包屑导航---{-->
+<#assign moduleName="查看借款标配置">
+<#include "banner.html">
+<!--面包屑导航---}-->
+
+<!--工具栏--{-->
+<div id="toolbar" class="clearfix">
+    <div class="toolbor-module">
+        <input type="button" class="input-button return" value="返回" onclick="history.go(-1)">
+    </div>
+</div>
+<!--工具栏--}-->
+
+<div id="main" class="clearfix">
+    <div class="valBox mb15">
+        <div class="top">
+            <strong>审核借款标配置</strong>
+        </div>
+        <div class="fp w349 clearfix">
+        	<form action="" >
+            <ul>
+                <li class="color">
+                    <div class="title">借款标类型：</div>
+                    <div class="v">${config.name}</div>
+                </li>
+                <li class="color">
+                    <div class="title">最大借款金额：</div>
+                    <div class="v">
+                       <input type="text" name="most_account" value="<#if config??&&config.most_account??>${config.most_account}</#if>">
+                    </div>
+                </li>
+                <li class="color">
+                    <div class="title">最小借款金额：</div>
+                    <div class="v">
+                       <input type="text" name="lowest_account" value="<#if config??&&config.lowest_account??>${config.lowest_account}</#if>">
+                    </div>
+                </li>
+                <li>
+                    <div class="title">最大借款费率：</div>
+                    <div class="v">
+                       <input type="text" name="most_apr" value="<#if config??&&config.most_apr??>${config.most_apr}</#if>">
+                    </div>
+                </li>
+                <li>
+                    <div class="title">最小借款费率：</div>
+                    <div class="v">
+                           <input type="text" name="lowest_apr" value="<#if config??&&config.lowest_apr??>${config.lowest_apr}</#if>">
+
+                    </div>
+                </li>
+                <li>
+                    <div class="title">是否跳过初审：</div>
+                    <div class="v">
+                        <input type="radio" name="is_trail" value="1" <#if config??&&config.is_trail??&&config.is_trail==1>checked="checked"</#if>>跳过初审
+                        <input type="radio" name="is_trail" value="0" <#if config??&&config.is_trail??&&config.is_trail==0>checked="checked"</#if>>不跳过初审
+
+                    </div>
+                </li>
+                <li class="color">
+                    <div class="title">是否跳过复审：</div>
+                    <div class="v">
+                        <input type="radio" name="is_review" value="1" <#if config??&&config.is_review??&&config.is_review==1>checked="checked"</#if>>跳过复审
+                        <input type="radio" name="is_review" value="0" <#if config??&&config.is_review??&&config.is_review==0>checked="checked"</#if>>不跳过复审
+
+                    </div>
+                </li>
+                <li class="color">
+                    <div class="title">月标借款管理费：</div>
+                    <div class="v">
+                           <input type="text" name="managefee" value="<#if config??&&config.managefee??>${config.managefee}</#if>">
+                    </div>
+                </li>
+                <li class="color">
+                    <div class="title">天标借款管理费：</div>
+                    <div class="v">
+                           <input type="text" name="daymanagefee" value="<#if config??&&config.daymanagefee??>${config.daymanagefee}</#if>">
+                    </div>
+                </li>
+                <li class="color">
+                    <div class="v">
+                           <input type="submit" value="修改">
+						   <input type="hidden" name="id" value="<#if config??&&config.id??>${config.id}</#if>">
+                    		<input type="hidden" name="type" value="update">
+
+					</div>
+                </li>
+            </ul>
+			</form>
+        </div>
+    </div>
+
+   
+</div>
+
+</div>
+
+</td>
+</tr>
+<tr>
+    <!--尾部--{-->
+    <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+    <!--尾部--}-->
+</tr>
+</table>
+
+</body>
+</html>
+<#include "../jsPage.html">

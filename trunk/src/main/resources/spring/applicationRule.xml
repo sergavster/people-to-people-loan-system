@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+    
+    <!-- 规则 -->
+    <bean id="ruleDao" class="com.p2psys.dao.jdbc.RuleDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+    
+    <!-- 规则json key -->
+    <bean id="ruleKeyDao" class="com.p2psys.dao.jdbc.RuleKeyDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+    
+    <!-- 奖励统计 -->
+    <bean id="rewardStatisticsDao" class="com.p2psys.dao.jdbc.RewardStatisticsDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+    
+	<!-- 规则 -->
+	<bean id="ruleService" class="com.p2psys.service.impl.RuleServiceImpl">
+		<property name="ruleDao">
+			<ref bean="ruleDao" />
+		</property>
+		<property name="ruleKeyDao">
+			<ref bean="ruleKeyDao" />
+		</property>
+	</bean>
+	
+	<!-- 规则json key -->
+	<bean id="ruleKeyService" class="com.p2psys.service.impl.RuleKeyServiceImpl">
+		<property name="ruleKeyDao">
+			<ref bean="ruleKeyDao" />
+		</property>
+	</bean>
+	
+	<!-- 统计奖励 -->
+	<bean id="rewardStatisticsService" class="com.p2psys.service.impl.RewardStatisticsServiceImpl">
+		<property name="rewardStatisticsDao">
+			<ref bean="rewardStatisticsDao" />
+		</property>
+		<property name="userDao">
+			<ref bean="userDao" />
+		</property>
+		<property name="userCacheDao">
+			<ref bean="userCacheDao" />
+		</property>
+		<property name="ruleDao">
+			<ref bean="ruleDao" />
+		</property>
+		<property name="accountDao">
+			<ref bean="accountDao" />
+		</property>
+		<property name="accountLogDao">
+			<ref bean="accountLogDao" />
+		</property>
+		<property name="operationLogDao">
+			<ref bean="operationLogDao" />
+		</property>
+		<!--  v1.6.6.2 RDPROJECT-287 zza 2013-10-24 start -->
+		<property name="systemDao">
+			<ref bean="systemDao" />
+		</property>
+		<!--  v1.6.6.2 RDPROJECT-287 zza 2013-10-24 end -->
+		<!-- v1.6.7.1 RDPROJECT-395 zza 2013-11-04 start -->
+		<property name="tenderDao">
+			<ref bean="tenderDao" />
+		</property>
+		<!-- v1.6.7.1 RDPROJECT-395 zza 2013-11-04 end -->
+		<!-- v1.6.7.2 RDPROJECT-547 lx 2013-12-6 start -->
+        <property name="rewardRecordDao">
+        	<ref bean="rewardRecordDao"/>
+        </property>
+        <!-- v1.6.7.2 RDPROJECT-547 lx 2013-12-6 end -->
+		
+	</bean>
+</beans>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+<package name="protocol" namespace="/member/protocol" extends="wzd-default">
+
+        <action name="protocol"  class="protocolAction" method="protocol">
+            <result name="success" type="ftl">/msg.html</result>
+        </action>
+          <action name="protocolList"  class="protocolAction" method="protocolList">
+            <result name="success" type="ftl">/member/account/protocolList.html</result>
+        </action>
+    </package>
+</struts>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<#include "../../include/resource.html">
+<body>
+	<#assign nid="member"> 
+	<#include "../../include/header.html">
+	<!--header-end-->
+	<!--用户中心的主栏目 开始-->
+	<div id="main" class="clearfix">
+		<div class="wrap950 " style="margin-top:0">
+			<!--左边的导航 开始-->
+			<div class="user_left"> 
+			<#assign mid="m_invest">
+			   <#include "../user_menu.html"></div>
+			<!--左边的导航 结束-->
+
+			<!--右边的内容 开始-->
+			<div class="user_right">
+				<#if msg?exists>
+				<div id="msg24">
+					<p class="ok">${msg}</p>
+				</div>
+				<#else> <#if errormsg?exists>
+				<div id="msg25">
+					<p class="error">${errormsg}</p>
+				</div>
+				</#if> </#if>
+				<div class="user_right_menu">
+					<#assign invest_type="bid">
+					<#include "invest_menu.html"></div>
+				<div class="user_right_main">
+					<table  border="0"  cellspacing="1" class="table table-striped  table-condensed" style="width:100%">
+					  <form cur="" method="post">
+						<tr class="head" >
+							<td  >标题</td>
+							<td  >借款者</td>
+							<td  >投标/有效金额</td>
+							<td  >信用积分/投标时间 </td>
+							<td  >进度</td>
+							<td  >状态 </td>
+						</tr>
+						<#list tender as item>
+						<tr>
+							<td style="line-height:21px;"><a href="${request.getContextPath()}/invest/detail.html?borrowid=${item.borrow_id?c}" target="_blank" title="${item.borrow_name}">${item.borrow_name}</a> </td>
+							<td  style="line-height:21px;">${item.op_username}</td>
+							<td style="line-height:21px;">投标金额:￥${item.money}<br />有效金额:<font color="#FF0000">￥${item.tender_account}</font></td>
+							
+							<td style="line-height:25px;"><span><img src="${request.getContextPath()}/data/images/credit/${item.credit_pic}" title="${item.credit_jifen?c}分"  /></span>${dateformat(item.addtime)}</td>
+							<#assign account_process=0 >
+							<#if item.borrow_account_yes?exists>
+								<#assign account_process=(item.borrow_account_yes?number/item.borrow_account?number*100)?round >
+							</#if>
+							<td style="line-height:21px;">
+								<div class="rate_bg floatl" align="left">
+									<div class="rate_tiao" style=" width:${account_process}px"></div>
+								</div>
+								<span class="floatl">${account_process}%</span>
+							</td>
+							<td style="line-height:21px;">
+								<!-- v1.6.6.2 borrow_tender的status被设置为0或1，无法追溯原因，先临时处理bin.html页面提示 start -->
+									<#if item.tender_account==item.money>
+										全部通过
+									<#else>
+										部分通过
+									</#if>
+								<!-- v1.6.6.2 borrow_tender的status被设置为0或1，无法追溯原因，先临时处理bin.html页面提示 end -->
+							</td>
+						</tr>
+						</#list>
+						</form>	
+					</table>
+				</div>
+			</div>
+			<!--右边的内容 结束-->
+		</div>
+	</div>
+	<!--用户中心的主栏目 结束-->
+	<script
+		src="${request.getContextPath()}${theme_dir}/media/js/modal.js"></script>
+
+	<#include "../../include/footer.html">
+</body>
+</html>

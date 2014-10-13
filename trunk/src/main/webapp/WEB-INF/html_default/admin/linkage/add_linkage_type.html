@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<!-- v1.6.7.2 RDPROJECT-26 sj 2013-12-24 新增页面-->
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="链接类型管理">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+                            
+                    <!--工具栏--{-->
+                    <div id="toolbar" class="clearfix">
+                        <div class="toolbor-module search">
+                            <input type="button" class="input-button return" value="返回" onclick="history.go(-1)">
+                        </div>
+                    </div>
+                    <!--工具栏--}-->        
+						
+                 <div id="main" class="clearfix">
+					<form action="${request.getContextPath()}/admin/linkagetype/addLinkageType.html" 
+					method="post" name="form_addLinkageType" onsubmit="return check();">
+					    <div class="valBox w750">
+					        <div class="top">
+					            <strong>新增</strong>
+					        </div>
+					        <div class="val clearfix">
+					            <ul class="editUserInfoX">
+					                <li>
+					                    <div class="title">名称：</div>
+					                    <div class="v">
+					                        <input type="text" name="name" id="name" maxlength="20" onKeyUp="value=value.replace(' ','')" />
+					                    </div>
+					                </li>
+					                <li>
+					                    <div class="title">NID：</div>
+					                    <div class="v">
+					                        <input type="text" class="input_border" name="nid" id="nid" maxlength="20" onKeyUp="value=value.replace(' ','')"/>
+					                    </div>
+					                    
+					                </li>
+					                <li>
+					                    <div class="title">排序：</div>
+					                    <div class="v">
+					                        <input type="text" class="input_border" name="order" id="order" maxlength="2" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')"/>
+					                    </div>
+					                </li>
+					            </ul>
+					            <div class="other">
+					                <input type="hidden" name="actionType" value="addLinkageType" />
+					                <input type="submit" value="提交" class="input-button post">
+					                <input type="reset" value="重置" class="input-button reset" name="reset" >
+					            </div>
+					        </div>
+					    </div>
+					
+					</form>
+
+                 </div>          
+                            
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+	<script type="text/javascript">
+        function check(){
+        	var name = $("#name").val();
+        	var nid = $("#nid").val();
+        	var order = $("#order").val();
+        	if(name == "" || name == null){
+        		alert("名称必填");
+        		return false;
+        	}
+			if(nid == "" || nid == null){
+				alert("nid必填");
+				return false;
+        	}
+			if(order == "" || order == null){
+				alert("排序必填");
+				return false;
+			}
+			return true;
+        }
+    </script>
+    </body>
+</html>
+<#include "../jsPage.html">

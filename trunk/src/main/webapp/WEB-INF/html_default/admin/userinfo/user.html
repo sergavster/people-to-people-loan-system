@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="用户管理">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <div class="toolbor-module export">
+                                    <input type="button" onclick="exportxls()" value="导出报表" class="input-button export-btn"/>
+                                </div>
+                                <!-- v1.6.7.1 sj 2013.11.13 start -->
+                                <div class="toolbor-module">
+									<a class="input-button" style="line-height:24px;" href="add.html">新增</a>
+								</div>
+								<!-- v1.6.7.1 sj 2013.11.13 end -->
+                                <form action="" method="post">
+                                <div class="toolbor-module search">
+                                    <input type="button" value="搜索"  class="input-button" onclick="sousuo();">
+                                </div>
+                                <input type="hidden" name="types" value="user" />
+                                <div class="toolbor-module search">    
+                                    <input type="text" name="phone" id="phone" value="请输入手机号" data-value="请输入手机号" class="search-value">
+                                </div>
+                                <div class="toolbor-module search">    
+                                    <input type="text" name="card_id" id="card_id" value="请输入身份证号码" data-value="请输入身份证号码" class="search-value">
+                                </div>
+                                <div class="toolbor-module search">    
+                                    <input type="text" name="username" id="username" value="请输入用户名" data-value="请输入用户名" class="search-value">
+                                </div>
+                                <div class="toolbor-module search">    
+                                    <input type="text" name="email" id="email" value="请输入邮箱" data-value="请输入邮箱" class="search-value">
+                                </div>
+                                <div class="toolbor-module search">    
+                                    <input type="text" name="realname" id="realname" value="请输入真实姓名" data-value="请输入真实姓名" class="search-value">
+								</div>
+                                <div class="toolbor-module search">
+                                    <div class="select-box" id="status">
+                                        <div class="tag-select" >所属客服</div>
+                                        <ul class="tag-options">
+                                        <li data-value="" class="open-selected">所属客服</li>
+                                            <#list kflist as item>
+                                                <li data-value="${item.username}" id="${item.user_id}" >${item.username}</li>
+                                            </#list>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="toolbor-module search">    
+                                    <div class="select-box" id="type_status">
+                                        <div class="tag-select" >用户类型</div>
+                                        <ul class="tag-options">
+                                        <li data-value="" class="open-selected">用户类型</li>
+                                            <#list userTypeList as item>
+                                                <li data-value="${item.name}" id="${item.type_id}">${item.name}</li>
+                                            </#list>
+                                        </ul>
+                                    </div>
+								</div>
+                                </form> 
+                                </div>
+                                
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form action="" method="post">
+                                    <table class="data-list">
+                                        <tr class="header">
+                                            <td>ID</td>
+                                            <td>用户名</td>
+                                            <td>真实姓名</td>
+                                            <td>性别</td>
+                                            <td>邮箱</td>
+                                            <td>QQ</td>
+                                            <td>手机</td>
+                                            <td>所在地</td>
+                                            <td>身份证</td>
+                                            <td>添加时间</td>
+                                            <td>状态</td>
+                                            <td>用户类型</td>
+                                            <td>所属客服</td>
+                                            <!-- v1.6.7.2 RDPROJECT-499 sj 2013-12-4 start -->
+                                            <td>登录IP</td>
+                                            <!-- v1.6.7.2 RDPROJECT-499 sj 2013-12-4 end -->
+                                            <td>操作</td>
+                                        </tr>
+                                        <#if list??> <#list list as obj>
+                                            <tr class="s">
+                                                <td>${(obj.user_id?c)!"-"}</td>
+                                                <td>${obj.username!"-"}</td>
+                                                <td>${obj.realname!"-"}</td>
+                                                <td><#if obj.sex??><#if
+                                                        obj.sex=="1">男<#else>女</#if><#else>-</#if></td>
+                                                <td>${obj.email!"-"}</td>
+                                                <td>${obj.qq!"-"}</td>
+                                                <td >${obj.phone!"-"}</td>
+                                                <td ><#if obj.province??>
+                                                    ${Typet(obj.province,"area")} - <#else> - </#if> <#if obj.city??>
+                                                    ${Typet(obj.city,"area")} - <#else> - </#if> <#if obj.area??>
+                                                    ${Typet(obj.area,"area")} <#else> - </#if></td>
+                                                <td>${obj.card_id!"-"}</td>
+                                                <td><#if obj.addtime??>${dateformat(obj.addtime)}</#if></td>
+                                                <td><#if obj.status??><#if
+                                                        obj.status==0>关闭<#else>开通</#if><#else>-</#if></td>
+                                                <td><#if obj.type_id??>
+                                                    ${Typet(obj.type_id,"usertype")} <#else> - </#if></td>
+                                                <td><#if obj.kefu_username??>${obj.kefu_username}</#if></td>
+                                                <!-- v1.6.7.2 RDPROJECT-499 sj 2013-12-4 start -->
+                                                <td><#if obj.lastip??>${obj.lastip}</#if></td>
+                                                <!-- v1.6.7.2 RDPROJECT-499 sj 2013-12-4 end -->
+                                                <!--<td class="main_td1" align="center">3</td>-->
+                                                <td><a class="un" href="${request.getContextPath()}/admin/userinfo/edituser.html?user_id=${obj.user_id?c}">修改</a>
+                                                </td>
+                                            </tr>
+                                        </#list> <#else> 暂无 </#if>
+                                    </table>
+                                </form>
+
+                                <!--底部工具栏--{-->
+                                <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+
+                                    <!--翻页系统--{-->
+                                    <div class="container">
+                                        <#import "../../common/page.html" as pager>
+                                            <@pager.pagination page=page url="/admin/userinfo/user.html" map=param style="style1" />
+                                    </div>
+                                    <!--翻页系统--}-->
+                                </div>
+                                <!--底部工具栏--}-->
+
+                                <script type="text/javascript">
+                                    var xlsurl = 'user.html?type=export';
+                                    var url='user.html?search=true';
+                                    function sousuo(){
+                    					var sou = "";
+                    					var username = $("#username").val();
+                    					if (username!=""&&username!="请输入用户名"){
+                    						sou += "&username="+username;
+                    					}
+                    					var email = $("#email").val();
+                    					if(email!=""&&email!="请输入邮箱"){
+                    						sou += "&email="+email;
+                    					}
+                    					var realname = $("#realname").val();
+                    					if(realname!=""&&realname!="请输入真实姓名"){
+                    						sou += "&realname="+realname;
+                    					}
+                    					
+                    					var phone = $("#phone").val();
+                    					if(phone!=""&&phone!="请输入手机号"){
+                    						sou += "&phone="+phone;
+                    					}
+                    					var card_id = $("#card_id").val();
+                    					if(card_id!=""&&card_id!="请输入身份证号码"){
+                    						sou += "&card_id="+card_id;
+                    					}
+                    					var kefu_username = $("#status").find(".open-selected").attr("data-value");
+                    					if(kefu_username!=""){
+                    						sou += "&kefu_username="+kefu_username;
+                    					}
+                    					var user_type = $("#type_status").find(".open-selected").attr("data-value");
+                    					if(user_type!=""){
+                    						sou += "&user_type="+user_type;
+                    					}
+                    					if (sou!=""){
+                    							location.href=url+sou;
+                    						}
+                    					}
+                                    
+                                    function exportxls(){
+                                        var sou = "";
+                                        var username = $("#username").val();
+                                        if (username!=""&&username!="请输入用户名"){
+                                            sou += "&username="+username;
+                                        }
+                                       
+                                        var email = $("#email").val();
+                    					if(email!=""&&email!="请输入邮箱"){
+                    						sou += "&email="+email;
+                    					}
+                    					var realname = $("#realname").val();
+                    					if(realname!=""&&realname!="请输入真实姓名"){
+                    						sou += "&realname="+realname;
+                    					}
+                    					var phone = $("#phone").val();
+                    					if(phone!=""&&phone!="请输入手机号"){
+                    						sou += "&phone="+phone;
+                    					}
+                    					var card_id = $("#card_id").val();
+                    					if(card_id!=""&&card_id!="请输入身份证号码"){
+                    						sou += "&card_id="+card_id;
+                    					}
+                    					var kefu_username = $("#status").find(".open-selected").attr("data-value");
+                    					if(kefu_username!=""){
+                    						sou += "&kefu_username="+kefu_username;
+                    					}
+                    					var user_type = $("#type_status").find(".open-selected").attr("data-value");
+                    					if(user_type!=""){
+                    						sou += "&user_type="+user_type;
+                    					}
+                                        if (sou!=""){
+                                            location.href=xlsurl+sou;
+                                        }else{
+                                            location.href=xlsurl;
+                                        }
+                                    }
+                                </script>
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "../borrow/left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="理财宝信息修改">
+                        <#include "../borrow/banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+		                         <div class="toolbor-module">
+							        <input type="button" class="input-button return" value="返回" onclick="history.go(-1)">
+							    </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form name="form1" method="post" action="/admin/treasure/add.html" onsubmit="return check_form();" enctype="multipart/form-data" >
+                                    <div class="valBox" style="margin-bottom:20px;">
+                                        <div class="top">
+                                            <strong>理财宝信息修改</strong>
+                                        </div>
+                                        <div class="title-v edit edit_ul clearfix">
+                                            <ul>
+                                             <li>
+                                                    <div class="title">发布者用户名：</div>
+                                                    <div class="v"><input name="username" id="username" onblur="checkUser();"/><font id="username_" color="red"></font></div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">理财宝名：</div>
+                                                    <div class="v"><input name="name" id="name"/><font id="name_" color="red"></font></div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">理财宝总额：</div>
+                                                    <div class="v"><input name="account" onKeyUp="value=value.replace(/[^0-9.]/g,'')" id="account"/>(单位：元)<font id="account_" color="red"></font></div>
+                                                </li>
+                                                <li  class="color">
+                                                    <div class="title">单人最多投资额度:</div>
+                                                    <div class="v"><input name="most_account" value="0" onKeyUp="value=value.replace(/[^0-9.]/g,'')" id="most_account"/>(单位：元)&nbsp;为零，代表不启用此项限制。<font id="most_account_" color="red"></font></div>
+                                                </li>
+                                                 <li  class="color">
+                                                    <div class="title">单次最高投资额度:</div>
+                                                    <div class="v"><input name="max_account" value="0" onKeyUp="value=value.replace(/[^0-9.]/g,'')" id="max_account"/>(单位：元)&nbsp;为零，代表不启用此项限制。<font id="max_account_" color="red"></font></div>
+                                                </li>
+                                                <li  class="color">
+                                                    <div class="title">单次最低投资额度:</div>
+                                                    <div class="v"><input name="min_account" value="0" onKeyUp="value=value.replace(/[^0-9.]/g,'')" id="min_account"/>(单位：元)&nbsp;为零，代表不启用此项限制。<font id="min_account_" color="red"></font></div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">天利率：</div>
+                                                    <div class="v"><input name="apr" id="apr"/>&nbsp;%&nbsp;保留两位小数。<font id="apr_" color="red"></font></div>
+                                                </li>
+                                                 <li class="color">
+                                                    <div class="title">利息管理费利率：</div>
+                                                    <div class="v"><input name="manager_apr" id="manager_apr"/>&nbsp;%&nbsp;保留两位小数。<font id="apr_" color="red"></font></div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">生息间隔时间：</div>
+                                                    <div class="v">
+                                                    	<input name="interest_time" value="0" onKeyUp="value=value.replace(/[^0-9.]/g,'')" id="interest_time"/>&nbsp;天后。&nbsp;为零，代表即时生息。<font id="interest_time_" color="red"></font>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">利息计算周期：</div>
+                                                    <div class="v">
+                                                    	<input name="interest_cycle" value="0" onKeyUp="value=value.replace(/[^0-9.]/g,'')" id="interest_cycle"/>&nbsp;天&nbsp;为零，代表用户赎回时计算利息。<font id="interest_cycle_" color="red"></font>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">借款时间：</div>
+                                                    <div class="v">
+                                                    	<input name="time_limit" value="0" onKeyUp="value=value.replace(/[^0-9.]/g,'')" id="time_limit"/>&nbsp;<select name="time_limit_type"><option value="0">不限期</option><option value="1">天</option><option value="2">月</option><option value="3">年</option></select>&nbsp;为零，代表不限期。<font id="interest_cycle_" color="red"></font>
+                                                    </div>
+                                                </li>           
+                                                <li>
+                                                    <div class="title">还款方式：</div>
+                                                    <div class="v">
+                                                    <select name="style"><option value="0">用户自主赎回</option><option value="1">到期一次性还款</option></select>
+                                                    </div>
+                                                </li>  
+                                                <li>
+                                                    <div class="title">赎回方式：</div>
+                                                    <div class="v">
+                                                    <select name="back_type"><option value="0">投资份额赎回</option><option value="1">用户资金余额赎回</option></select>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">赎回限制时间：</div>
+                                                    <div class="v">
+                                                    <input name="back_time" value="1" onKeyUp="value=value.replace(/[^0-9.]/g,'')" id="back_time"/>&nbsp;天。&nbsp;为零，代表随时提取。<font id="back_time_" color="red"></font>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">赎回审核类型：</div>
+                                                    <div class="v">
+                                                    <select name="back_verify_type"><option value="0">无需审核</option><option value="1">一审</option><option value="1">一审二核</option></select>
+                                                    </div>
+                                                </li>
+                                                
+                                               <!--  <li>
+                                                    <div class="title"><font color="red">理财宝投资限制</font>：</div>
+                                                    <div class="v">
+                                                    	待收限制启用<input name="" type="checkbox" value="1" class="radio"/>
+                                                    </div>
+                                                    <div class="title">&nbsp;</div>
+                                                    <div class="v">
+                                                    	标的类型<input name="" type="radio" value="1" class="radio"/>不限&nbsp;<input name="" type="radio" value="1" class="radio"/>天标&nbsp;<input name="" type="radio" value="1" class="radio"/>月标
+                                                    </div>
+                                                    
+                                                    <div class="title">&nbsp;</div>
+                                                    <div class="v">
+                                                    	标种<input name="borrow_type" type="radio" value="-1" class="radio"/>不限&nbsp;
+                                                    	<input name="borrow_type" type="checkbox" value="101" class="radio"/>秒标&nbsp;
+                                                    	<input name="borrow_type" type="checkbox" value="102" class="radio"/>信用标&nbsp;
+                                                    	<input name="borrow_type" type="checkbox" value="103" class="radio"/>抵押标&nbsp;
+                                                    	<input name="borrow_type" type="checkbox" value="104" class="radio"/>净值标&nbsp;
+                                                    	<input name="borrow_type" type="checkbox" value="105" class="radio"/>担保标&nbsp;
+                                                    	<input name="borrow_type" type="checkbox" value="110" class="radio"/>流转标&nbsp;
+                                                    </div>
+                                                </li>  -->
+                                                
+                                                 <li>
+                                                    <div class="title">理财宝投资限制：</div>
+                                                    <div class="v">
+                                                    	<input name="rule_check" id="rule_check" type="text"/>&nbsp;&nbsp;&nbsp;<font id="rule_check_" color="red">可为空，不为空时请谨慎填写此条信息。</font>
+                                                    </div>
+                                                </li> 
+                                                
+                                                <li class="color">
+                                                	 <div class="title">理财宝简介:</div>
+                                                    <div class="v">
+                                                       <textarea rows="6" cols="100" maxlength="255" name="describe" id="describe" style="width: 600px; height: 120px;"></textarea><font id="describe_" color="red"></font>
+                                                    </div>
+                                                </li>    
+                                                <li>
+                                                     <div class="title">理财宝详情：</div>
+                                                     <div class="v">
+                                                         <!-- 插入百度编辑器  -->
+														<#include "../../common/ueditor.html"> 
+														<@showUeditor width=680 heigth=100 id="content" name="content" content="" /> 
+                                                     </div>
+                                                 </li>  
+                                                <li class="color"></li>
+                                            </ul>
+                                        </div>
+                                        </div>
+                                      
+                                      <div id="bottomToolbar" class="clearfix">
+			                                <input class="input-button post" type="submit" name="submit" value="提交" />
+			                            </div>
+                                </form>
+                            </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+    <div class="msgClass">
+      ${rsmsg!""}
+ </div>
+</html>
+<#include "../jsPage.html">
+<script>
+	function check_form(){
+		 var frm = document.forms['form1'];
+		 var result = true;
+		 
+		 var username = frm.elements['username'].value;
+		 if (result && username.length == 0 ) {
+			  result =false;
+			  document.getElementById('username_').innerHTML = " 发布者会员名不能为空。";
+		  }
+		 var name = frm.elements['name'].value;
+		 if (result && name.length == 0 ) {
+			  result =false;
+			  document.getElementById('name_').innerHTML = " 理财宝名不能为空。";
+		  }
+		  if (result && name.length > 255 ) {
+			  result =false;
+			  document.getElementById('name_').innerHTML = " 理财宝名不能超过255个字符。";
+		  }
+		  var most_account = frm.elements['most_account'].value;
+		  var mostAccount = parseFloat(most_account);
+		  if(result && (mostAccount == null || mostAccount < 0 )){
+			  result =false;
+			  $("#most_account").val(0);
+			  document.getElementById('most_account_').innerHTML = " 理财宝最多投资额度不能为空。";
+		  }
+		  
+		  var max_account = frm.elements['max_account'].value;
+		  var maxAccount = parseFloat(max_account);
+		  if(result && (maxAccount == null || maxAccount < 0 )){
+			  result =false;
+			  $("#max_account").val(0);
+			  document.getElementById('max_account_').innerHTML = " 理财宝单笔最高投资额度不能为空。";
+		  }
+		  
+		  var min_account = frm.elements['min_account'].value;
+		  var minAccount = parseFloat(min_account);
+		  if(result && (minAccount == null || minAccount < 0 )){
+			  result =false;
+			  $("#min_account").val(0);
+			  document.getElementById('min_account_').innerHTML = " 理财宝单笔最低投资额度不能为空。";
+		  }
+		  
+		  var account = frm.elements['account'].value;
+		  var sumAccount = parseFloat(account);
+		  if(result && (sumAccount == null || sumAccount <= 0) ){
+			  result =false;
+			  document.getElementById('account_').innerHTML = " 理财宝总额度不能为空，并且必须大于0。";
+		  }
+		  
+		  var content = frm.elements['content'].value;
+		  if (result && (content == null || content.length == 0 )) {
+			  result =false;
+			  document.getElementById('content_').innerHTML = " 理财宝详情不能为空。";
+		  }
+		  if (result && content.length > 255 ) {
+			  result =false;
+			  document.getElementById('content_').innerHTML = " 理财宝详情不能超过255个字符。";
+		  }
+		  if (!result){
+			return false;
+		  } else{ 
+			  return true;
+		  }
+		}
+		  function checkUser(){
+	   	 	var username = $("#username").val();
+	   	 	if(username != null){
+	   	 	$.ajax({
+				type: "POST",
+				url: "/admin/treasure/checkUser.html",
+				dataType: "json",
+				data: {username : username},
+				success: function(JSON){
+					if(JSON != null){
+						var user =  JSON;
+						document.getElementById('username_').innerHTML = "<input name='user_id' value='"+user.user_id+"' type='hidden'/>";
+					}else{
+						document.getElementById('username_').innerHTML = " 输入的用户名有误，请重新输入！";
+					}
+				},
+				error : function() {
+					document.getElementById('username_').innerHTML = " 输入的用户名有误，请重新输入！";
+				}
+	   	 	});
+	   	 	}else{
+	   	 		document.getElementById('username_').innerHTML = " 输入的用户名有误，请重新输入！";
+	   	 	}
+		  }
+</script>

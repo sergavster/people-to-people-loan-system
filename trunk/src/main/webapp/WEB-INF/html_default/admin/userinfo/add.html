@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="用户管理">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <div class="toolbor-module search">
+                                    <input type="button" class="input-button return" value="返回" onclick="history.go(-1)">
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form onsubmit="return checknr();" action="${request.getContextPath()}/admin/userinfo/add.html" method="post" name="form_adduser">
+                                    <div class="valBox w750">
+                                        <div class="top">
+                                            <strong>新增用户</strong>
+                                        </div>
+                                        <div class="val clearfix">
+                                            <ul class="editUserInfoX">
+                                                <li>
+                                                    <div class="title">用户名：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="username" id="username" value="" onblur="check()" onKeyUp="value=value.replace(' ','')"/>
+                                						<b class="userb"></b>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">登录密码：</div>
+                                                    <div class="v">
+                                                        <input type="password" class="input_border" name="password" id="password" onblur="check1()" >
+                                						<b class="pwdb"></b>
+                                                    </div>
+                                                    
+                                                </li>
+                                                <li>
+                                                    <div class="title">真实姓名：</div>
+                                                    <div class="v">
+                                                        <input type="text" class="input_border" name="realname" id="realname" onblur="check2()" onKeyUp="value=value.replace(' ','')"/>
+                                                        <b class="nameb"></b>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">类型：</div>
+                                                    <div class="v">
+                                                        <select name="type_id"> <#list Typet("list","usertype") as obj>
+                                                            <#if obj.type?? && obj.type==1>
+                                                            <option value="${obj.type_id!}"<#if user??> <#if
+                                                                user.type_id==obj.type_id>
+                                                            selected="selected"</#if></#if>>${obj.name!}</option> 
+                                                            </#if>
+                                                            </#list>
+                                                        </select>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">状态：</div>
+                                                    <div class="v">
+                                                         <input type="radio" name="status" value="1" checked />开通
+                                                         <input type="radio" name="status" value="0" />关闭
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">电子邮件地址：</div>
+                                                    <div class="v">
+                                                        <input type="text" class="input_border" name="email" id="email" onblur="check3()" onKeyUp="value=value.replace(' ','')"/>
+                                                        <b class="emailb"></b>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">手机：</div>
+                                                    <div class="v">
+                                                        <input type="text" class="input_border" name="phone" id="phone" onblur="check4()" onKeyUp="value=value.replace(' ','')"/>
+                                                        <b class="phoneb"></b>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">QQ：</div>
+                                                    <div class="v">
+                                                        <input type="text" class="input_border" name="qq">
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <div class="other">
+                                                <input type="hidden" name="actionType" value="adminadd" />
+                                                <input type="hidden" name="weburl" value="${weburl}" id="weburl"/>
+                                                <input type="hidden" name="adminUnallowedUsername" value="${adminUnallowedUsername?if_exists}" id="adminUnallowedUsername"/>
+                                                <input type="submit" value="提交" class="input-button post">
+                                                <input type="reset" value="重置" class="input-button reset" name="reset" >
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+    <script src="${request.getContextPath()}/themes/admin/js/area.js"></script>
+    <script type="text/javascript">
+    var realStatus = true;
+    var realEmailStatus = true;
+    var realPwdStatus = true;
+    var realNameStatus = true;
+    var realPhoneStatus = true;
+	    function check(){
+	    	var userb = $(".userb");
+	    	var username_reg = /^([a-zA-Z0-9_]|[\u0391-\uFFE5]){2,15}$/;
+	    	//判断用户名
+	    	if($('#username').val() != '' && $('#adminUnallowedUsername').val() != '' && $('#adminUnallowedUsername').val().indexOf($('#username').val())>0){
+	    		userb.html("用户名不能包含"+$('#adminUnallowedUsername').val()+"关键字");
+	    		realStatus = false;
+	    		return realStatus;
+	    	}else 
+	    		if(str_length($.trim($('#username').val())) < 4){
+	    		userb.html('用户名必须大于4个数字或是1个汉字');
+	    		realStatus = false;
+	    		return realStatus;
+	    	}else if(str_length($('#username').val()) > 15){
+	    		userb.html('用户名必须小于15个数字或是6个汉字');
+	    		realStatus = false;
+	    		return realStatus;
+	    	}
+	    	else if($('#username').val().indexOf($('#weburl').val())>0){
+ 	    		userb.html('用户名不能含域名');
+ 	    		realStatus = false;
+ 	    		return realStatus;
+ 	    	}
+	    	else{
+	    		//判断是否存在用户名
+				$.post("/user/checkUsername.html", {username: $("#username").val() },function (result){
+					if(result == true){
+						userb.html('');
+						realStatus = true;
+						return realStatus;
+					}else{
+						userb.html("用户名已经存在");
+						realStatus = false;
+						return realStatus;
+					}
+				});
+	    	}
+	    	
+	    }
+	    
+	    function str_length(val) {
+    		var len = 0;
+    		var a = val.split("");
+    		for (var i=0;i<a.length;i++) {
+    			if (a[i].charCodeAt(0)<299) {
+    				len++;
+    			} else {
+    				len+=2;
+    			}
+    		}
+    		return len;
+    	}//判断中文为2个字符，英文为一个
+    	
+	    function check1(){
+	    	//判断密码
+	    	var pass_reg = /^(?![0-9A-Za-z]+$)[0-9A-Za-z~!@#$%^&*()]{10,}$/ ;
+	    	var number_reg = /[0-9]+/;
+	    	var pwdb = $(".pwdb");
+	    	if(!pass_reg.exec($('#password').val())){
+	    		pwdb.html('密码的长度至少为10位且是数字 字母 特殊字符 的组合');
+	    		realPwdStatus = false;
+	    		return realPwdStatus;
+	    	}else if(!number_reg.test($('#password').val())){
+	    		pwdb.html('密码的长度至少为10位且是数字 字母 特殊字符 的组合');
+	    		realPwdStatus = false;
+	    		return realPwdStatus;
+	    	}else{
+	    		pwdb.html('');
+	    		realPwdStatus = true;
+	    		return realPwdStatus;
+	    	}
+	    }
+	    function check2(){
+	    	//真实姓名
+	    	var realname_reg = /^[\u0391-\uFFE5]+$/;
+	    	var nameb = $('.nameb');
+	    	if(!realname_reg.test($('#realname').val())){
+	    		nameb.html("请输入正确中文姓名");
+	    		realNameStatus = false;
+	    		return realNameStatus;
+	    	}else{
+	    		nameb.html('');
+	    		realNameStatus = true;
+	    		return realNameStatus;
+	    	}
+	    }
+	    function check3(){
+	    	//电子邮件
+	    	var emailb = $(".emailb");
+	    	var email_reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+	    	if(!email_reg.test($('#email').val())){
+	    		emailb.html("邮箱格式不正确");
+	    		realEmailStatus = false;
+	    		return realEmailStatus;
+	    	}else{
+	    		//验证是否存在email
+                $.post("/user/checkEmail.html",{ email:$("#email").val() },function(result){
+                   if(result == 1){
+                    	emailb.html("");
+                    	realEmailStatus = true;
+        	    		return realEmailStatus;
+                   }else{
+                    	emailb.html("此邮箱已经存在");
+                    	realEmailStatus = false;
+        	    		return realEmailStatus;
+                    }
+                });
+	    	}
+	    }
+		function check4(){
+			//手机号码
+	    	var phoneb = $(".phoneb");
+	    	var phone_reg =  /^(13[0-9]{9})|(18[0-9]{9})|(15[0-35-9][0-9]{8})$/;
+	    	if(!phone_reg.test($('#phone').val())){
+	    		phoneb.html("手机格式不正确");
+	    		realPhoneStatus = false;
+	    		return realPhoneStatus;
+	    	}else{
+	    		phoneb.html('');
+	    		realPhoneStatus = true;
+	    		return true;
+	    	}
+	    }
+		function checknr(){
+			check();
+			check1();
+			check2();
+			check3();
+			check4();
+			if(realStatus &&  realPwdStatus &&  realNameStatus && realEmailStatus && realPhoneStatus){
+				return true;
+			}else{
+				return false;
+			}
+		}
+    </script>
+    </body>
+</html>
+<#include "../jsPage.html">

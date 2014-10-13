@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="memberBorrow" namespace="/member/borrow" extends="wzd-default">
+		<action name="borrow" class="memberBorrowAction" method="borrow">
+			<result name="success" type="ftl">/member/borrow/publish.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		
+		<action name="limitapp" class="memberBorrowAction" method="limitapp">
+			<result name="success" type="ftl">/member/borrow/limitapp.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		
+		<action name="repaymentdetail" class="memberBorrowAction" method="repaymentdetail">
+			<result name="success" type="ftl">/member/borrow/repaymentdetail.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		
+		<action name="borrowdetail" class="memberBorrowAction" method="borrowdetail">
+			<result name="success" type="ftl">/member/borrow/borrowdetail.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		
+		<action name="repay" class="memberBorrowAction" method="repay">
+			<result name="success" type="ftl">/member/borrow/repaymentdetail.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		
+		<!-- v1.6.7.2 RDPROJECT-471 zza 2013-11-29 start -->
+		<action name="borrowVerifyFail" class="memberBorrowAction" method="borrowVerifyFail">
+			<result name="success" type="ftl">/member/borrow/borrowVerifyFail.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<!-- v1.6.7.2 RDPROJECT-471 zza 2013-11-29 end -->
+		
+	</package>
+</struts>

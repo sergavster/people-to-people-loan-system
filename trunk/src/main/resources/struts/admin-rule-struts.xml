@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<!-- v1.6.7.1 RDPROJECT-510 cx 2013-11-25 start -->
+<!-- 新增 -->
+<!-- v1.6.7.1 RDPROJECT-510 cx 2013-11-25 end -->
+<struts>
+	<package name="admin-rule" namespace="/admin/rule" extends="wzd-admin">
+		<action name="reloadRule" class="mangeRuleAction" method="reloadRule">
+			<result name="success" type="ftl">/admin/system/reloadRule.html</result>
+		</action>
+		<!-- v1.6.7.1RDPROJECT-510 cx 2013-12-25 start -->
+		<action name="allRuleList" class="mangeRuleAction" method="allRuleList">
+			<result name="success" type="ftl">/admin/system/allRuleList.html</result>
+		</action>
+		<action name="updateRule" class="mangeRuleAction" method="updateRule">
+			<result name="success" type="ftl">/admin/system/updateRule.html</result>
+		</action>
+		<action name="addRule" class="mangeRuleAction" method="addRule">
+			<result name="success" type="ftl">/admin/system/addRule.html</result>
+		</action>
+		<!-- v1.6.7.1RDPROJECT-510 cx 2013-12-25 end -->
+	</package>
+</struts>

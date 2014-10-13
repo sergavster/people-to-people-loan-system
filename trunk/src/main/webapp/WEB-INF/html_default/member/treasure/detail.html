@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<#include "../../include/resource.html">
+<body>
+<#assign nid="member">
+<#include "../../include/header.html">
+<div class="container">
+  <div class="balance_tab">
+    <ul class="balance_tit clearfix">
+      <li class="details">【理财宝】详情</li>
+      <li class="return"><a href="${webroot}/invest/index.html"> 返回投资列表</a></li>
+    </ul>
+    <form action="${webroot}/treasure/cash.html" method="post" onSubmit="return check_form_1()" name="form1">
+    <div class="balance_content">
+      <ul class="balance_con clearfix">
+        <li class="balance_left">
+          <table>
+            <tr>
+              <td><span>天收益率</span> <font>${item.apr}%</font></td>
+              <td><span>赎回方式：</span> <font><#if item.back_type == 0>投资份额赎回<#else>用户资金余额赎回</#if></font></td>
+              <td><span>申购金额：</span> <font><#if item.account == 0>无限额<#else>${item.account}元</#if></font></td>
+              <td><span>赎回期限：</span> <font><#if item.back_time == 0>随时提取<#else>${item.back_time?c}天以后</#if></font></td>
+            </tr>
+          </table>
+          <dl>
+            <dt>赎回期限： <#if item.back_time == 0>随时提取<#else>${item.back_time?c}天以后</#if>，申请后立即赎回</dt>
+            <dd> 申购金额限制（最小金额为${item.min_account}元），账户余额、充值资金、均可申购。 </dd>
+          </dl>
+        </li>
+        <li class="balance_right">
+          <dl>
+            <dt>账户余额： <#if account??>${(account.use_money!0)?string("##.##")}元<#else><a href="${webroot}/user/login.html"> 登陆</a>后可见</#if></dt>
+            <dd>
+              <input name="id" value="${item.id?c}" type="hidden"/>
+              <input id="money" name="money" placeholder="请输入投资金额" />
+            </dd>
+            <dd> <input type="submit" class="subscribe"  name="name"  value="申购" size="30" /></dd>
+          </dl>
+        </li>
+      </ul>
+    </div>
+     </form>
+  </div>
+  <div class="balance_details">
+    <ul class="tit clearfix">
+      <li> 主要特点 </li>
+      <li> 申购记录 </li>
+    </ul>
+    <div class="balance_details_con">
+      <div class="txt">${item.content!""}</div>
+    </div>
+    
+    <div class="balance_details_con">
+    <table class="record">
+    <caption>
+    	总申购金额：<#if item.account == 0>无限额<#else>${item.account}元</#if>&nbsp;&nbsp;&nbsp;总投资额度：<#if item.invest == 0>无限额<#else>${item.invest}元</#if>
+    </caption>
+    <tr>
+	     <th>用户名称</th>
+		 <th>理财宝名</th>
+		 <th>转入总额</th>
+		 <th>天利率</th>
+		 <th>添加时间</th>
+    </tr>
+    <#if (rechargeList?exists)&&(rechargeList?size>0)>
+      	<#list rechargeList as item>
+      	<tr>
+              <td>${item.username!"-"}</td>
+              <td>${item.name!"-"}</td>
+              <td>${item.money}</td>
+              <td>${item.apr}%</td>
+              <td>${dateformat(item.add_time?c)}</td>
+         </tr>
+      </#list><#else><tr><td colspan="7">无符合条件信息！</td></tr>
+      </#if>
+    </table>
+    </div>
+  </div>
+</div>
+<#include "../../include/footer.html">
+<script>
+$(".balance_details").tabChange({
+	isClick:true,
+	childLi:".tit li ",//tab选项卡
+	childContent:".balance_details_con",//tab内容
+	hoverClassName:"hover"//选中当前选项卡的样式
+	});
+</script>
+<script>
+function check_form_1(){
+	 var frm = document.forms['form1'];
+	 var money = frm.elements['money'].value;
+	 var errorMsg = '';
+	  if (money.length == 0 ) {
+		errorMsg += '请输入你的申购金额' + '\n';
+	  }
+	  if (errorMsg.length > 0){
+		{alert(errorMsg); return false;}
+	  } else{  
+		return true;
+	  }
+}
+</script>
+</body>
+</html>

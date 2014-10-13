@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="客户银行卡管理">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <div class="toolbor-module">
+                                    <input type="button" class="input-button return" value="返回" onclick="location.href='cashbank.html'">
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form name="form1" method="post" action="cashbank.html">
+                                <div class="valBox w750">
+                                    <div class="top">
+                                        <strong>客户银行卡管理</strong>
+                                    </div>
+                                    <div class="val clearfix">
+                                        <ul>
+                                            <li>
+                                                <div class="title">用户名：</div>
+                                                <div class="v">
+                                                    <#if user??&&user.username??>${user.username!}</#if>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">真实姓名：</div>
+                                                <div class="v">
+                                                     <#if user??&&user.realname??>${user.realname!}</#if>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">开户银行：</div>
+                                                <div class="v">
+                                                    <@linkage name="bank" id="bank" nid="account_bank"/>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">开户行名称：</div>
+                                                <div class="v">
+                                                    <input type="text" class="val-text" name="branch" value="<#if account??&&account.branch??>${account.branch!}</#if>"  />
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">银行账号：</div>
+                                                <div class="v">
+                                                <!--v1.6.7.2  RDPROJECT-470  wcw 2013-12-02 start-->
+                                                    <input type="text" class="val-text" name="account" value="<#if account??&&account.account??>${account.account!}</#if>"   onKeyUp="value=value.replace(/[^0-9]/g,'')"/>
+                                                    <!--v1.6.7.2  RDPROJECT-470  wcw 2013-12-02 end-->
+                                                </div>
+                                            </li>
+                                               <li>
+                                                <div class="title">所属地区：</div>
+                                                <div class="v">
+                                                   <#if account?exists&&account.province?exists>
+			                		<@region name="province" id="province" value=account.province pid="0"></@region>&nbsp;
+			                	<#else>
+			                		<@region name="province" id="province" pid="0"></@region>&nbsp;
+			                	</#if>
+								
+								<#if account?exists&&account.province?exists>
+									<#if account.city?exists>
+										<@region name="city" id="city" value=account.city pid=account.province></@region>&nbsp;
+									<#else>
+										<@region name="city" id="city" pid=account.province></@region>&nbsp;
+									</#if>
+			                	<#else>
+			                		<@region name="city" id="city" pid="-1"></@region>&nbsp;
+			                	</#if>
+								
+								<#if account?exists&&account.city?exists>
+									<#if account.area?exists>
+										<@region name="area" id="area" value=account.area pid=account.city></@region>&nbsp;
+									<#else>
+										<@region name="area" id="area" pid=account.city></@region>&nbsp;
+									</#if>
+			                	<#else>
+			                		<@region name="area" id="area" pid="-1"></@region>&nbsp;
+			                	</#if>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <div class="other">
+                                            <input type="hidden" name="actionType" value="add" />
+                                            <input type="hidden" name="ref" value="${ref!}" />
+                                            <input type="hidden" name="id" value="<#if account??&&account.id??>${(account.id!0)?c}</#if>" />
+                                             <input type="hidden" name="user_id" value="<#if user??&&user.user_id??>${(user.user_id!0)?c}</#if>" />
+                                            <input type="submit" name="reset" value="确定修改"  class="input-button confirm"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                </form>
+
+                            </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+    <div class="msgClass">${rsmsg!""}</div>
+</html>
+<#include "../jsPage.html">

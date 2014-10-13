@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="${webroot}${theme_dir}/media/js/jquery_1.9.1.js"></script>
+<script src="${webroot}${theme_dir}/media/js/mobile.js"></script>
+<link href="${webroot}${theme_dir}/media/css/mobile.css" rel="stylesheet" />
+<link href="${webroot}${theme_dir}/media/css/mobile_base.css" rel="stylesheet" />
+
+<title>${webname}</title>
+</head>
+
+<#include "../common/function.html">
+<body>
+<div data-role="page" data-dom-cache="true" id="invest_detail">
+    <div data-role="header">
+        <a href="${webroot}/wx/invest.html" data-ajax="false"  style="float:left;color:#fff;text-decoration:none;position:absolute;left:10px;">返回列表</a>
+        <h1>我要投资</h1>
+        <a data-ajax="false" href="${webroot}/wx/logout.html" data-ajax="false"  style="float:right;color:#fff;text-decoration:none;position:absolute;right:10px;">退出登录</a>
+    </div>
+    <div style="color:#900;font-size:20px;text-align:center">${borrow.name!}</div>
+    <hr>
+    <table width="100%" id="a2">
+        <tr><td colspan="2">借款金额：<span style="color:red;font-size:26px;"><input id="borrowAccount" type="hidden" value="${borrow.account}"/>￥${borrow.account}元</span></td></tr>
+        <tr><td>年利率：${borrow.apr}%</td></tr>
+        <tr><td>借款期限： <#if borrow.type!=110>借款期限<#else>流转周期</#if>：<#if borrow.isday??&&borrow.isday==1>${borrow.time_limit_day!0}天<#elseif borrow.type==101>满标即还<#else>${(borrow.time_limit)?default("0")}月</#if></td></tr>
+        <tr><td colspan="2">还款方式： <!-- v1.6.7.2 RDPROJECT-526 xx 2013-12-10 start -->
+							<@borrowStyle type = item.type isday = item.isday style = item.style/>
+							<!-- v1.6.7.2 RDPROJECT-526 xx 2013-12-10 end --></td></tr>
+        <tr><td>借款人：${user.username!}</td></tr>
+        <tr><td>投标奖励：<#if borrow.award??&&borrow.award==0>	没有奖励
+								<#elseif borrow.award??&&borrow.award==1>
+							 		${(borrow.part_account)!0}%奖励
+								<#elseif borrow.award??&&borrow.award==2>
+									￥${(borrow.funds)!0}元分摊奖励<input id="borrowFunds" type="hidden" value="${(borrow.funds?c)!0}"/>
+								<#else>
+								</#if></td></tr>
+        </table>
+        <hr>
+        <#if borrow.account_yes?exists> 
+		<#assign borrow_process=(borrow.account_yes/borrow.account*100)> 
+		<#assign borrow_remain=(borrow.account-borrow.account_yes) >
+		</#if>
+        <table width="100%" id="a3">
+        <tr><td>已经完成：  <#if (borrow_process?string("##.######"))?number -99.99 lt 0.01 && (borrow_process?string("##.######"))?number -99.99 gt 0>
+                                99.99%
+                            <#else>
+                               ${borrow_process?string("##.##")}%
+                            </#if></td></tr>
+        <tr><td>还差：￥${(borrow_remain!0)?string("##.##")} 元</td></tr>
+        <#if borrow.type==110>
+        <tr><td>最小流转单位：<span style='color:red;'>${borrow.flow_money} 元</span></td></tr>
+            <tr><td>已认购：${(borrow.account_yes?c!0)?number/borrow.flow_money}份&nbsp;&nbsp;
+                        还剩：<b>${((borrow.account?c!0)?number-(borrow.account_yes?c!0)?number)/borrow.flow_money}</b>份</td></tr>
+        <#else>
+        <tr><td>最小投标额：<#if borrow.lowest_account??&&borrow.lowest_account gt 0>${borrow.lowest_account}<#else>无限制</#if></td></tr>
+        <tr><td>最大投标额：<#if borrow.most_account??&&borrow.most_account gt 0>${borrow.most_account}<#else>无限制</#if> </td></tr>
+        </#if>
+        <tr><td>总投标数：${borrow.tender_times!0}笔</td></tr>
+        <tr><td>发标时间：${dateformat(borrow.addtime)} </td></tr>
+        <#if borrow.type!=110>
+        <tr><td>截止投标：<#if borrow.status==1><@showRemainTime addtime=borrow.verify_time valid_time=borrow.valid_time /><#elseif borrow.status==0>此标审核中<#else>已结束</#if> </td></tr>
+        </#if>
+    </table>
+    <div data-role="footer" data-position="fixed">
+    <div data-role="navbar">
+        <ul>
+            <li><a href="#invest_detail" class="hover_ui_pagebtn">借款概述</a></li>
+            <li><a href="#invest_info" class="">借款详情</a></li>
+            <li><a href="#invest_pay">立即投标</a></li>
+        </ul>
+    </div><!-- /navbar -->
+</div><!-- /footer -->
+<script>
+function inputAll(lowest,most,use_money){
+	if(most==0){
+		jQuery("#money").val(use_money);
+	}else if(use_money>most){
+		jQuery("#money").val(most);
+	}else{
+		jQuery("#money").val(use_money);
+	}
+}
+<!-- 时间倒计时  -->
+
+function showRemainTime(){
+    var endtimes=$(".endtime");
+    
+    endtimes.each(function(){
+        RemainTime($(this));
+    });
+}
+showRemainTime();
+setInterval("showRemainTime()",1000);
+<!-- v1.6.6.1 RDPROJECT-234 xx 2013-09-26 start -->
+//这句会导致倒计时每秒执行2次，与 endtimes.each 重复
+//setInterval("showRemainTime()",1000);
+<!-- v1.6.6.1 RDPROJECT-234 xx 2013-09-26 end -->
+
+function RemainTime(t){
+	
+    var iDay,iHour,iMinute,iSecond,account;
+    var sDay="",sTime="";
+    var at="data-time"
+    var iTime=t.attr(at);
+    if (iTime >= 0){
+        iDay = parseInt(iTime/24/3600);
+        iHour = parseInt((iTime/3600)%24);
+        iMinute = parseInt((iTime/60)%60);
+        iSecond = parseInt(iTime%60);
+        if (iDay > 0){
+            sDay = iDay + "天";
+        }
+        sTime =sDay + iHour + "时" + iMinute + "分" + iSecond + "秒";
+        if(iTime==0){
+            sTime="<span style='color:green'>已结束</span>";
+        }
+            t.attr(at,iTime-1);
+      }else{
+         sTime="<span style='color:red'>已结束</span>";
+     }
+    t.html(sTime);
+}
+
+
+</script>
+</div>
+<div data-role="page" data-dom-cache="true" id="invest_info">
+	<div data-role="header">
+            <a href="${webroot}/wx/invest.html" style="float:left;color:#fff;text-decoration:none;position:absolute;left:10px;">返回列表</a>
+            <h1>我要投资</h1>
+            <a data-ajax="false" href="${webroot}/wx/logout.html" style="float:right;color:#fff;text-decoration:none;position:absolute;right:10px;">退出登录</a>
+        </div>
+	<div data-role="content">
+    	 ${borrow.content!}
+    </div>	
+
+<div data-role="footer"data-position="fixed">
+    <div data-role="navbar">
+        <ul>
+            <li><a href="#invest_detail">借款概述</a></li>
+            <li><a href="#invest_info" class="hover_ui_pagebtn">借款详情</a></li>
+            <li><a href="#invest_pay">立即投标</a></li>
+        </ul>
+    </div><!-- /navbar -->
+</div><!-- /footer -->
+
+</div>
+<div data-role="page" data-dom-cache="true" id="invest_pay">
+    <div data-role="header">
+            <a href="${webroot}/wx/invest.html" style="float:left;color:#fff;text-decoration:none;position:absolute;left:10px;">返回列表</a>
+            <h1>我要投资</h1>
+            <a data-ajax="false" href="${webroot}/wx/logout.html" style="float:right;color:#fff;text-decoration:none;position:absolute;right:10px;">退出登录</a>
+    </div>
+    <div data-role="content">
+     <#if userAccount??>
+          <#assign use_money=(((ceil((userAccount.use_money)!0))?number)?c) >
+     <#else>
+          <#assign use_money=0 >
+     </#if>
+    <form action="${request.getContextPath()}/wx/borrowtender.html" name="form1" method="post" onSubmit="return check_form_tender()" data-ajax="false" >
+        <table width="100%">
+            <tr><td>您的帐户总额：${ceil(userAccount.total!0)} 元</td></tr>
+            <tr><td>可用余额： ${use_money}元</td></tr>
+            <tr><td>当前年利率：${borrow.apr!0}%</td></tr>
+            <#if borrow.type==110>
+            <tr><td>最小流转单位：<span style='color:red;'>${borrow.flow_money} 元</span></td></tr>
+            <tr><td>已认购：${(borrow.account_yes?c!0)?number/borrow.flow_money}份&nbsp;&nbsp;
+                        还剩：<b>${((borrow.account?c!0)?number-(borrow.account_yes?c!0)?number)/borrow.flow_money}</b>份</td></tr>
+            <tr><td>单次最多能投：<#if borrow.most_single_limit?? && borrow.most_single_limit gt 0>
+                        <b>${((((borrow.most_single_limit?c)?number)/borrow.flow_money)?int)?c}</b>份
+                        <#else>无限制</#if></td></tr>
+            <tr><td id="flow_num">购买份数：
+            			<div style="width:10%;">
+                            <input class="less" value="-" type="button">
+                        </div>    
+                            <input type="text"  class="nums" id="flow_count" name="flow_count" value="0" size="5">      
+                        <div style="width:10%;">                           
+                            <input class="add" value="+" type="button">
+                        </div>    
+                            <span class="">最多可以认购<b class="max">
+                            <#if ((use_money?number!0?number)/(borrow.flow_money!1?number) gte 1)>
+								<#if ((use_money?number)/((borrow.flow_money?c)?number)) lte ((borrow.account!0)?c?number-(borrow.account_yes!0)?c?number)/borrow.flow_money>
+									${(((use_money?number)/((borrow.flow_money?c)?number))?int)?c}
+								<#else>
+									${(((borrow.account!0)?c?number-(borrow.account_yes!0)?c?number)/borrow.flow_money)?c}
+								</#if>
+							<#else>0</#if></b>份</span>
+			</td></tr>
+            <#else>
+            <tr><td>最多投标总额：<span style='color:red;'><#if borrow.most_account??&&borrow.most_account gt 0>${borrow.most_account}元<#else>无限制</#if></span></td></tr>
+            <tr><td>最少投标限制：<span style='color:red;'><#if borrow.lowest_account??&&borrow.lowest_account gt 0>${borrow.lowest_account}元<#else>无限制</#if></span></td></tr>
+            </#if>
+            <tr><td>还差：￥${(borrow_remain!0)?string("##.##")}元</td></tr>
+            <tr><td><span style='color:red;'>请填写并确认下面投标金额</span></td></tr>
+            <tr><td>
+            <#if borrow.type==110>
+            
+            <#else>
+            <input placeholder="投标金额" type="text" id="money" name="money" size="11" onkeyup="value=value.replace(/[^0-9]/g,'')"> 
+            <input type="button" onclick="inputAll(${borrow.lowest_account!0},${borrow.most_account!0},${use_money!0});" value="自动填入全部金额">
+            </#if>
+            </td></tr>
+            <tr><td>
+                
+                <input placeholder="支付密码" type="password" name="paypassword" size="11"/></td></tr>
+            <tr><td>
+            <div style="float:left;width:180px">
+            <div data-role="fieldcontain">
+                <input name="valicode" id="valicode" placeholder="验证码" class="required" value="" type="text">
+                <img src="${request.getContextPath()}/validimg.html" alt="点击刷新" onClick="this.src='${request.getContextPath()}/validimg.html?t=' + Math.random();" align="absmiddle" style="cursor:pointer; position:absolute; left:160px;" />
+            </div>
+            </div>
+            
+            <tr><td>
+            <input type="hidden" name="id" value="${((borrow.id)?default(0))?c}" />注意：点击按钮表示您将确认投标金额并同意支付.
+            <input type="hidden" name="borrow_token"  value="${borrow_token}" />
+			<input type="checkbox" name="auto_repurchase" value="1" checked="checked" style="display: none;" />
+            <input type="submit" value="确认投标">
+            </td></tr>
+        </table>
+       </form> 
+    </div>    
+<div data-role="footer" data-position="fixed">
+    <div data-role="navbar">
+        <ul>
+            <li><a href="#invest_detail"  data-ajax="false" >借款概述</a></li>
+            <li><a href="#invest_info"  data-ajax="false" >借款详情</a></li>
+            <li><a href="#invest_pay"  data-ajax="false"  class="hover_ui_pagebtn">立即投标</a></li>
+        </ul>
+    </div><!-- /navbar -->
+</div><!-- /footer -->
+<script>
+<!---流转标修改分数-->
+function changeNum(){
+        function  getNum(obj0){
+            var inputBox = $(".nums",obj0);
+			inputBox.blur(function(){
+                inputNum  = parseInt(inputBox.val());
+                var maxNum = parseInt($(".max",obj0).text());
+                if(!isNaN(inputNum))
+                {
+                    if(inputNum>maxNum)
+                    {
+                        inputBox.val(maxNum);
+						inputBox.attr("value",maxNum)
+                    }
+                    else{
+                        inputBox.val(inputNum);
+						inputBox.attr("value",inputNum)
+                    }
+                }else{
+                    inputBox.val("0");
+					inputBox.attr("value","0")
+                }
+            })
+
+        }
+        function add(obj1){//增加
+            var addObj = $(".add",obj1);
+            addObj.click(function(){
+                var num = $(".nums",obj1).val();
+                var maxNum = parseInt($(".max").text());
+                num++;
+                if(num>maxNum)
+                    return false;//获取当前的对象的 最大分数  判断是否大于，大于剩下的分数 就不在增加
+                $(".nums",obj1).val(num);
+				$(".nums",obj1).attr("value",num);
+            })
+        }
+        function less(obj2){ //减少
+            var lessObj = $(".less",obj2);
+            lessObj.click(function(){
+                var num = $(".nums",obj2).val();
+                num--;
+                if(num<0)
+                {
+                    return false;
+                }//获取当前的对象的最小值  判断是否小于0，小于0 就不在减少
+                $(".nums",obj2).val(num);
+				$(".nums",obj2).attr("value",num);
+            })
+        }
+        var flow_input=$("#flow_num");
+        add(flow_input); //对当前form下面的 增加分数 进行操作
+        less(flow_input);//对当前form下面的 减少分数 进行操作
+        getNum(flow_input);
+    }
+    changeNum();
+
+function check_form_tender(){
+	var password = $("input[name='paypassword']").val();
+	var valicode = $("#valicode").val();
+	if(password!=""||valicode!="")
+	{
+		return true;	
+	}else{
+		return false;	
+	}
+}
+</script>
+</div>
+
+</body>
+</html>

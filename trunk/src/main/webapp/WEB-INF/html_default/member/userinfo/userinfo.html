@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<#include "../../include/resource.html"> 
+<body>
+<#assign nid="member">
+<#include "../../include/header.html">
+<!--header-end-->
+<!--用户中心的主栏目 开始-->
+<div id="main" class="clearfix">
+<div class="wrap950 " style="margin-top:0">
+	<!--左边的导航 开始-->
+	<div class="user_left">
+	<#assign mid="m_info" >
+		<#include "../user_menu.html">
+	</div>
+	<!--左边的导航 结束-->
+	
+	<!--右边的内容 开始-->	
+	<div class="user_right">
+		<#if msg?exists>
+		<div id="msg24">
+			<p class="ok"> ${msg} </p>
+		</div>
+		<#else>
+			<#if errormsg?exists>
+				<div id="msg25">
+					<p class="error"> ${errormsg} </p>
+				</div>
+			</#if>
+		</#if>
+		<div class="user_right_menu">
+			<#include "userinfo_menu.html"> 
+		</div>
+		
+		<div class="user_right_main">
+		
+		<form action="" name="form1" method="post" >
+				<!--个人资料 开始-->
+			<div class="user_right_border">
+				<div class="l">帐户：</div>
+				<div class="c">
+				<#if (session_user?exists) >
+					${session_user.username!""}
+				</#if>
+				</div>
+			</div>
+			
+			<!--  
+			<div class="user_right_border">
+				<div class="l">昵 称：</div>
+				<div class="c">
+					<#if (session_user?exists) >
+						${session_user.username}
+					</#if>
+				</div>
+			</div>
+                
+            <div class="user_right_border">
+	            <div class="l">真实姓名：</div>
+	            <div class="c">
+	            	<input disabled="true"  name="realname" value="<#if (session_user?exists) >${session_user.realname}</#if>" />
+	            </div>
+            </div>
+			
+			<div class="user_right_border">
+				<div class="l">性 别：</div>
+				<div class="c">
+					<#assign sex=true>
+					<#if (session_user?exists&&session_user.sex?exists&&session_user.sex=="2") >
+						<#assign sex=false>
+					</#if>
+					<input type="radio" name="sex" value="1" <#if sex==true> checked="checked"</#if>   />男
+                    <input type="radio" name="sex" value="2" <#if sex==false> checked="checked"</#if>  />女
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">手机号码：</div>
+				<div class="c">
+                	<input type="text" name="phone" value="<#if (session_user?exists&&session_user.phone?exists) >${session_user.phone}</#if>" />  
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">籍贯：</div>
+				<div class="c">
+					<#if session_user?exists&&session_user.province?exists>
+                		<@region name="province" id="province" value=session_user.province pid="0"></@region>&nbsp;
+                	<#else>
+                		<@region name="province" id="province" pid="0"></@region>&nbsp;
+                	</#if>
+					
+					<#if session_user?exists&&session_user.province?exists>
+						<#if session_user.city?exists>
+							<@region name="city" id="city" value=session_user.city pid=session_user.province></@region>&nbsp;
+						<#else>
+							<@region name="city" id="city" pid=session_user.province></@region>&nbsp;
+						</#if>
+                	<#else>
+                		<@region name="city" id="city" pid="-1"></@region>&nbsp;
+                	</#if>
+					
+					<#if session_user?exists&&session_user.city?exists>
+						<#if session_user.area?exists>
+							<@region name="area" id="area" value=session_user.area pid=session_user.city></@region>&nbsp;
+						<#else>
+							<@region name="area" id="area" pid=session_user.city></@region>&nbsp;
+						</#if>
+                	<#else>
+                		<@region name="area" id="area" pid="-1"></@region>&nbsp;
+                	</#if>
+					<font color="#FF0000">*</font> 
+				</div>
+			</div>
+              -->  
+			<div class="user_right_border">
+				<div class="l">婚姻状况：</div>
+				<div class="c">
+					<!-- v1.6.7.2 typeid改成nid start -->
+					<#if info?exists&&info.marry?exists>
+						<@linkage name="marry" id="marry" nid="user_marry" default=info.marry></@linkage>
+					<#else>
+						<@linkage name="marry" id="marry" nid="user_marry"></@linkage>
+					</#if>
+					<!-- v1.6.7.2 typeid改成nid end -->
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">子 女：</div>
+				<div class="c">
+					<!-- v1.6.7.2 typeid改成nid start -->
+					<#if info?exists&&info.child?exists>
+						<@linkage name="child" id="child"  nid="user_child" default=info.child></@linkage>
+					<#else>
+						<@linkage name="child" id="child"  nid="user_child"></@linkage>
+					</#if>
+					<!-- v1.6.7.2 typeid改成nid end -->
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">学 历：</div>
+				<div class="c">
+					<!-- v1.6.7.2 typeid改成nid start -->
+					<#if info?exists&&info.education?exists>
+						<@linkage name="education" id="education" nid="user_education" default=info.education></@linkage>
+					<#else>
+						<@linkage name="education" id="education" nid="user_education"></@linkage>
+					</#if>
+					<!-- v1.6.7.2 typeid改成nid end -->
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">月收入：</div>
+				<div class="c">
+					<!-- v1.6.7.2 typeid改成nid start -->
+					<#if info?exists&&info.income?exists>
+						<@linkage name="income" id="income" nid="user_income" default=info.income></@linkage>
+					<#else>
+						<@linkage name="income" id="income" nid="user_income"></@linkage>
+					</#if>
+					<!-- v1.6.7.2 typeid改成nid end -->
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">社 保：</div>
+				<div class="c">
+					<!-- v1.6.7.2 typeid改成nid start -->
+					<#if info?exists&&info.income?exists>
+						<@linkage name="shebao" id="shebao" nid="user_shebao" default=info.shebao></@linkage>
+					<#else>
+						<@linkage name="shebao" id="shebao" nid="user_shebao"></@linkage>
+					</#if>
+					<!-- v1.6.7.2 typeid改成nid end -->
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">社保电脑号：</div>
+				<div class="c">
+					<input type="text" size="30" name="shebaoid" value="<#if info?exists&&info.shebaoid?exists>${info.shebaoid}</#if>" /> 
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">住房条件：</div>
+				<div class="c">
+					<!-- v1.6.7.2 typeid改成nid start -->
+					<#if info?exists&&info.housing?exists>
+						<@linkage name="housing" id="housing" nid="user_housing" default=info.housing></@linkage>
+					<#else>
+						<@linkage name="housing" id="housing" nid="user_housing"></@linkage>
+					</#if>
+					<!-- v1.6.7.2 typeid改成nid end -->
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">是否购车：</div>
+				<div class="c">
+					<!-- v1.6.7.2 typeid改成nid start -->
+					<#if info?exists&&info.car?exists>
+						<@linkage name="car" id="car" nid="user_car" default=info.car></@linkage>
+					<#else>
+						<@linkage name="car" id="car" nid="user_car"></@linkage>
+					</#if>
+					<!-- v1.6.7.2 typeid改成nid end -->
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">逾期记录：</div>
+				<div class="c">
+					<!-- v1.6.7.2 typeid改成nid start -->
+					<#if info?exists&&info.late?exists>
+						<@linkage name="late" id="late" nid="user_late" default=info.late></@linkage>
+					<#else>
+						<@linkage name="late" id="late" nid="user_late"></@linkage>
+					</#if>
+					<!-- v1.6.7.2 typeid改成nid end -->
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+			<div class="l"></div>
+			<div class="c">
+				<input type="submit" class="btn-action"  name="name"  value="确认提交" size="30" /> 
+			</div>
+                        </div>
+		<!--个人资料 结束-->
+		<!--账号充值 开始-->
+				<input type="hidden" name="type" value="1" />
+		</form>
+	</div>
+  </div>
+	<!--右边的内容 结束-->
+</div>
+</div>
+<!--用户中心的主栏目 结束-->
+<script src="${request.getContextPath()}${theme_dir}/media/js/modal.js"></script>
+
+<#include "../../include/footer.html"> 
+</body>
+</html>

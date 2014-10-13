@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<#include "../include/resource.html">
+<body>
+	<#assign nid="member"> 
+	<#include "../include/header.html">
+	<!--header-end-->
+	<!--用户中心的主栏目 开始-->
+	<div id="main" class="clearfix" style="margin-top:10px;">
+		<div class="wrap950 " style="margin-top:0">
+			<!--左边的导航 开始-->
+			<div class="user_left"><#include "user_menu.html"></div>
+			<!--左边的导航 结束-->
+			
+			<!--右边的内容 开始-->
+
+			<div class="user_right">
+				<#if msg??>
+				<div id="msg24">
+					<p class="ok">${msg}</p>
+				</div>
+				<#else> 
+					<#if errormsg??>
+					<div id="msg25">
+						<p class="error">${errormsg}</p>
+					</div>
+					</#if> 
+				</#if> 
+				<#if !query_type??> 
+					<#assign query_type="">
+				</#if>
+				<div class="user_right_menu">
+					<ul id="tab" class="list-tab clearfix">
+						<li class="active"><a href="/memberPasswordToken/tokenListByUserId.html">密保设置</a></li>
+					</ul>
+				</div>
+				<div class="user_right_main">
+					<!--修改登录密码 开始-->
+					<#if query_type=="tokenList">
+					<div id="protected" class="list-tab-con tab-pane fade in active">
+						<form action="" method="post" name="formUser" class="js-formdata">
+							<#if (tokenList?exists)&&(tokenList?size>0)>
+							<div class="user_help alert">* 温馨提示：您已设置过密保问题，先回答之前的问题后再重设密保！</div>
+							<#list tokenList as item>
+							<div class="user_right_border">
+								<div class="l">问题：</div>
+								<div class="c">
+									${item.question}
+								</div>
+							</div>
+							<div class="user_right_border">
+								<div class="l">答案：</div>
+								<div class="c">
+									<input type="text" name="answer${item_index?if_exists+1}" />
+								</div>
+							</div>
+							</#list>
+							<div class="user_right_border">
+								<div class="c" style="margin-left: 135px;">
+									<input type="hidden" name="actionType" value="listAnswer" /> 
+									<input type="submit" class="btn-action" name="submit" id="checkbtn" value="确认提交" size="30" />
+								</div>
+							</div>
+							<#else>
+							<div class="user_help alert">* 温馨提示：您还没有设置过密保，为了您的账户安全，请<a href="/memberPasswordToken/modifyPasswordToken.html" style="color: #f00;">设置密保</a>！</div>
+							</#if>
+						</form>
+					</div>
+					<#elseif query_type=="modifyToken">
+					<div class="list-tab-con tab-pane fade in active" id="userpwd">
+						<form action="" method="post" name="formUser" class="js-formdata">
+							<#if (tokenList?exists)&&(tokenList?size>0)>
+							<div class="user_help alert">* 温馨提示：请重新设置您的密保问题！</div>
+							<#list tokenList as item>
+							<div class="user_right_border">
+								<div class="l">问题：</div>
+								<div class="c">
+								<#if map??&&map.passwordToken??> 
+									<@linkage name="passwordToken${item_index?if_exists+1}" id="passwordToken${item_index?if_exists+1}" default=map.passwordToken type="value" nid="password_token"/>
+								<#else> 
+									<@linkage name="passwordToken${item_index?if_exists+1}" id="passwordToken${item_index?if_exists+1}" type="value" nid="password_token"/> 
+								</#if>
+								<input type="hidden" name="passwordToken${item_index?if_exists+1}" />
+								</div>
+							</div>
+							<div class="user_right_border">
+								<div class="l">答案：</div>
+								<div class="c">
+									<input type="text" name="answer${item_index?if_exists+1}" />
+								</div>
+							</div>
+							<input type="hidden" name="id${item_index?if_exists+1}" value="${item.id}" />
+							</#list>
+							<div class="user_right_border">
+								<div class="c" style="margin-left: 135px;">
+									<input type="hidden" name="commitType" value="modify" /> 
+									<input type="submit" class="btn-action" name="submit" id="checkbtn" value="确认提交" size="30" />
+								</div>
+							</div>
+							</#if>
+						</form>
+					</div>
+					</#if>
+					<div class="user_right_foot alert">* 温馨提示：我们将严格对用户的所有资料进行保密</div>
+				</div>
+			</div>
+			<!--右边的内容 结束-->
+		</div>
+			
+			
+		</div>
+	</div>
+	<!--用户中心的主栏目 结束-->
+	<script
+		src="${request.getContextPath()}${theme_dir}/media/js/modal.js"></script>
+
+	<script>
+		$(function() {
+			function checkVal() {
+				var mb1 = $("select[name='passwordToken1']");
+				var mb2 = $("select[name='passwordToken2']");
+				var mb3 = $("select[name='passwordToken3']");
+				var anser1 = $("input[name='answer1']");
+				var anser2 = $("input[name='answer2']");
+				var anser3 = $("input[name='answer3']");
+				var mbVal1, mbVal2, mbVal3;
+				var mbVal1 = mb1.val();
+				var mbVal2 = mb2.val();
+				var mbVal3 = mb3.val();
+				var btn = $("#checkVal");
+				mb1.change(function() {
+					mbVal1 = $(this).val();
+					console.log(mbVal1)
+					return mbVal1;
+				});
+				mb2.change(function() {
+					mbVal2 = $(this).val();
+					if (mbVal1 == mbVal2) {
+						alert("密保问题不能一样")
+					}
+					console.log(mbVal2)
+					return mbVal2;
+				});
+				mb3.change(function() {
+					mbVal3 = $(this).val();
+					if (mbVal1 == mbVal2 == mbVal3) {
+						alert("密保问题不能一样")
+					}
+					console.log(mbVal3)
+				});
+				console.log(btn)
+				btn.click(function() {
+					if (mbVal1 == mbVal2 == mbVal3) {
+						alert("密保问题不能一样");
+						return false;
+					}
+
+				})
+			}
+			checkVal();
+		});
+	</script>
+	<#include "../include/footer.html">
+</body>
+</html>

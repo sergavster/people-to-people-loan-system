@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="文章列表">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <div class="toolbor-module">
+                                    <a href="addArticle.html" class="input-button" style="line-height:24px;">+新增文章</a>
+                                </div>
+                                <div class="toolbor-module">   
+                                    <input type="button" value="搜索"  class="input-button" onClick="sousuo();">
+                                </div>
+                                 <div class="toolbor-module search">
+                                    <input type="text" name="articlename" id="articlename" value="请输入标题"  data-value="请输入标题" class="search-value">
+                                 </div>
+                                 <div class="toolbor-module">   
+                                    <select name="site_id" id="site_id">
+										<option value="0">全部</option>
+										<#list siteTypeList as item>
+										<option <#if item.site_id == site_id>selected="selected"</#if> value="${(item.site_id)!}">${(item.sitename)!}</option>
+										</#list>
+									</select>
+                                 </div>
+                                 
+                            </div>
+                             
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form action="batchOperateArticle.html" method="post" id="batchOperateArticleForm">
+                                <input type="hidden" name="type" value="" id="type"/>
+                                    <table class="data-list">
+                                        <tr class="header">
+                                            <td class="w80"><label class="ch"><input class="all-c checkbox" type="checkbox" name="allcheck" onclick="checkFormAll(this.form)"/>全选</label></td>
+                                            <td>ID</td>
+                                            <td>标题</td>
+                                            <td>栏目类型</td>
+                                            <td>状态</td>
+                                            <td>排序</td>
+                                            <!-- v1.6.5.3 RDPROJECT-159 xx 2013-09-13 start -->
+                                            <td>置顶</td>
+                                            <!-- v1.6.5.3 RDPROJECT-159 xx 2013-09-13 end -->
+                                            <td>操作</td>
+                                        </tr>
+                                        <#list list as item>
+                                            <#assign status=item.status!(1)>
+                                                <tr>
+                                                    <td ><label><input class="c checkbox" type="checkbox" name="bid" id="id[]" value="${item.id!0}"/></label></td>
+                                                    <td>${item.id!0}</td>
+                                                    <td class="tal">${item.name!""}</td>
+                                                    <td>${item.sitename!""}</td>
+                                                    <td><a href="modifyArticleStatus.html?id=${item.id!0}&status=${item.status!0}"><#if status== 1>显示<#else>隐藏</#if></a></td>
+                                                    <td><input type="text" name="orders" value="${item.order?c}"></td>
+                                                    <!-- v1.6.5.3 RDPROJECT-159 xx 2013.09.12 start -->
+                                                    <!-- <td><#if item.flag!?contains("t")>推荐 </#if><#if item.flag!?contains("h")>头条  </#if><#if item.flag!?contains("f")>幻灯片 </#if></td> -->
+                                                    <td><#if item.is_top?? && item.is_top==1>是<#else>否</#if></td>
+                                                    <!-- v1.6.5.3 RDPROJECT-159 xx 2013.09.12 end -->
+                                                    <td>
+                                                        <a class="un" href="modifyArticle.html?id=${item.id!0}">修改</a>
+                                                        <a class="un" href="javascript:;" onClick="javascript:if(confirm('确定要删除吗?删除后将不可恢复')) location.href='delArticle.html?id=${item.id!0}'">删除</a>
+                                                    </td>
+                                                </tr>
+                                        </#list>
+                                    </table>
+                                </form>
+
+                                <!--底部工具栏--{-->
+                                <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <div class="input-main">
+                                            <input name="type" type="button" class="input-button" value="显示" onclick="javascript:submitArticle(2);"/>
+                                            <input name="type" type="button" class="input-button" value="隐藏" onclick="javascript:submitArticle(3);"/>
+                                            <input name="type" type="button" class="input-button" value="删除" onclick="javascript:submitArticle(6);"/>
+                                        </div>
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+
+                                    <!--翻页系统--{-->
+                                    <div class="container">
+                                        <#import "../../common/page.html" as pager>
+                                            <@pager.pagination page=page url="/admin/article/showArticle.html" map=param style="style1" />
+                                    </div>
+                                    <!--翻页系统--}-->
+                                </div>
+                                <!--底部工具栏--}-->
+                                <script>
+                                var url = 'showArticle.html?search=true';
+                                var sou="";
+                                function sousuo(){
+                                    var articlename = $("#articlename").val();
+                                    var site_id = jQuery("#site_id").val();
+                                    if (articlename!=""&&articlename!="请输入标题"){
+                                        sou += "&articlename="+articlename;
+                                    }
+                                    if (site_id!=null){
+                           			 	sou += "&site_id="+site_id;
+                           		    }
+                                    if (sou!=""){
+                                        location.href=url+sou;
+                                    }
+                                }
+                                </script>
+                            </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+<div class="msgClass">
+<@s.actionmessage/>
+</div>
+    </body>
+</html>
+<#include "../jsPage.html">
+<script>
+    function submitArticle(type){
+        $("#type").val(type);
+        $("#batchOperateArticleForm").submit();
+    }
+</script>

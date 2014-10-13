@@ -1,0 +1,15 @@
+<ul id="tab" class="list-tab clearfix">
+	<!--  <li <#if account_type?exists&&account_type=="list">class="cur"</#if>><a href="${request.getContextPath()}/member/account/list.html">帐户详情</a></li>-->
+	<li <#if account_type?exists&&account_type=="bank">class="cur"</#if>><a href="${request.getContextPath()}/member/account/bank.html">银行账号</a></li>
+	<li <#if account_type?exists&&account_type=="newrecharge">class="cur"</#if>><a href="${request.getContextPath()}/member/account/newrecharge.html">帐户充值</a></li>
+	<li <#if account_type?exists&&account_type=="recharge">class="cur"</#if>><a href="${request.getContextPath()}/member/account/recharge.html">充值记录</a></li>
+	<li <#if account_type?exists&&account_type=="newcash">class="cur"</#if>><a href="${request.getContextPath()}/member/account/newcash.html">帐户提现</a></li>
+	<li <#if account_type?exists&&account_type=="cash">class="cur"</#if>><a href="${request.getContextPath()}/member/account/cash.html">提现记录</a></li>
+	<li <#if account_type?exists&&account_type=="log">class="cur"</#if>><a href="${request.getContextPath()}/member/account/log.html">资金明细</a></li>
+    	<!--<li <#if account_type?exists&&account_type=="hongbao">class="cur"</#if>><a href="${request.getContextPath()}/member/account/hongbao.html">红包</a></li>-->
+    	<!-- V1.6.6.1 RDPROJECT-300 wcw 2013-10-10 start -->
+    <li <#if account_type?exists&&account_type=="specificKefu">class="cur"</#if>><a href="${request.getContextPath()}/member/account/specificKefu.html">专属客服</a></li>
+      	<!-- V1.6.6.1 RDPROJECT-300 wcw 2013-10-10 end -->
+  
+   
+</ul>

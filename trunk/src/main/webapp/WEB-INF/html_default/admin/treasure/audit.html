@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "../borrow/left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="理财宝信息审核">
+                        <#include "../borrow/banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+		                         <div class="toolbor-module">
+							        <input type="button" class="input-button return" value="返回" onclick="history.go(-1)">
+							    </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form name="form1" method="post" action="audit.html" onsubmit="return check_form();" enctype="multipart/form-data" >
+                                    <div class="valBox" style="margin-bottom:20px;">
+                                        <div class="top">
+                                            <strong>理财宝信息审核</strong>
+                                        </div>
+                                        <div class="title-v edit edit_ul clearfix">
+                                            <ul>
+                                                <li>
+                                                    <div class="title">发布者用户名：</div>
+                                                    <div class="v">${item.username}</div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">理财宝名：</div>
+                                                    <div class="v">${item.name}</div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">理财宝总额：</div>
+                                                    <div class="v">${item.account?c}(单位：元)</div>
+                                                </li>
+                                                 <li  class="color">
+                                                    <div class="title">单人最多投资额度:</div>
+                                                    <div class="v">${item.most_account?c}(单位：元)</div>
+                                                </li>
+                                                 <li  class="color">
+                                                    <div class="title">单笔最高投资额度:</div>
+                                                    <div class="v">${item.max_account?c}(单位：元)</div>
+                                                </li>
+                                                <li  class="color">
+                                                    <div class="title">单笔最低投资额度:</div>
+                                                    <div class="v">${item.min_account?c}(单位：元)</div>
+                                                </li>   
+                                                <li class="color">
+                                                    <div class="title">已投资总额度：</div>
+                                                    <div class="v">${item.invest!}元</div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">利率：</div>
+                                                    <div class="v">${item.apr}%</div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">利息管理费利率：</div>
+                                                    <div class="v">${item.manager_apr}%</div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">生息间隔时间：</div>
+                                                    <div class="v">
+                                                        <#if item.interest_time == 0>即时生息<#else>${item.interest_time?c}天后</#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">利息计算周期：</div>
+                                                    <div class="v">
+                                                        <#if item.interest_cycle == 0>不启用<#else>${item.interest_cycle?c}天</#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">借款时间：</div>
+                                                    <div class="v">
+                                                        <#if item.time_limit == 0>不限期<#else>${item.time_limit!}<#if item.time_limit_type == 1>天<#elseif item.time_limit_type == 2>月<#elseif item.time_limit_type == 3>年</#if></#if>
+                                                    </div>
+                                                </li>           
+                                                <li>
+                                                    <div class="title">还款方式：</div>
+                                                    <div class="v">
+                                                        <#if item.style==0>用户自主赎回<#else>到时一次性还款</#if>
+                                                    </div>
+                                                </li>     
+                                                <li>
+                                                    <div class="title">赎回方式：</div>
+                                                    <div class="v">
+                                                    	<#if item.back_type == 0>投资份额赎回<#else>用户资金余额赎回</#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">赎回审核类型：</div>
+                                                    <div class="v">
+                                                    	<#if item.back_verify_type == 0>无需审核<#elseif item.back_verify_type == 1>一审<#elseif item.back_verify_type == 2>一审二核</#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">理财宝投资限制：</div>
+                                                    <div class="v">
+                                                    	${item.rule_check}<font color="red">&nbsp;&nbsp;&nbsp;请仔细核查此条信息。</font>
+                                                    </div>
+                                                </li>       
+                                                <li class="color">
+                                                	 <div class="title">理财宝详情:</div>
+                                                    <div class="v">
+                                                       ${item.content}
+                                                    </div>
+                                                </li> 
+                                                <li class="color"></li>   
+                                            </ul>
+                                        </div>
+                                        </div>
+                                        <#if item??&&item.audit_status??&&item.audit_status==0>
+                                        <div id="audit">
+						                    <div class="top">
+						                        <strong>审核此理财宝信息</strong>
+						                        <input type="hidden"  name="id" value="${item.id?c!0}" />
+						                    </div>
+						                    <div class="v">
+						                        <div class="c">
+						                            <div class="choose">
+						                                <label class="mr15"><input name="audit_status" type="radio" value="1" class="radio">通过</label>
+						                                <label><input name="audit_status" type="radio" class="radio" value="2" checked="checked">未通过</label><font color="red">（一旦审核，结果将不可再进行修改）</font>
+						                            </div>
+						                            <textarea class="remark" name="verify_remark">输入审核备注...</textarea>
+						                        </div>
+						                        <div class="other clearfix">
+													<input type="submit"  name="reset" value="确定审核" class="input-button confirm"/>
+						                        </div>
+
+						                    </div>
+						                </div>
+									</#if>
+                                </form>
+                            </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+    <div class="msgClass">
+      ${rsmsg!""}
+ </div>
+</html>
+<#include "../jsPage.html">
+<script>
+			function check_form(){
+				 var frm = document.forms['form1'];
+				 var verify_remark = frm.elements['verify_remark'].value;
+				 var errorMsg = '';
+				  if (verify_remark.length == 0 ) {
+					errorMsg += '备注必须填写' + '\n';
+				  }
+				  
+				  if (errorMsg.length > 0){
+					alert(errorMsg); return false;
+				  } else{  
+					return true;
+				  }
+			}
+			</script>

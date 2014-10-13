@@ -1,0 +1,80 @@
+<!DOCTYPE>
+<html>
+<#include "../../head.html">
+<body>
+	<#include "../../top.html">
+	<!-- div.main start  -->
+	<div class="main">
+		<!-- div.main_left start  -->
+		<div class="main_left"><#include "../left.html"></div>
+		<!-- div.main_left end  -->
+		<!-- div.main_right start  -->
+		<div class="main_right">
+
+			<div class="main_site">
+				<ul>
+
+					<#include "../bar.html">
+					<li class="title">用户管理 <span>/ 用户管理</span></li>
+
+				</ul>
+			</div>
+			<div class="main_content">
+
+				<!--模块列表 开始-->
+				<table width="100%" cellspacing="1" cellpadding="5" border="0">
+					<tbody>
+						<tr>
+							<td class="main_td">类型名称</td>
+							<td class="main_td">简要</td>
+							<td class="main_td">备注</td>
+							<td class="main_td">排序</td>
+							<td class="main_td">状态</td>
+							<td class="main_td">操作</td>
+						</tr>
+						<form method="post"
+							action="${request.getContextPath()}/admin/userinfo/typeupdate.html">
+							<#if usertype ??> <#list usertype as obj>
+						<tr>
+							<input type="hidden" name="typeList[${obj.type_id}].type_id"
+								value="${obj.type_id}" />
+							<td bgcolor="#ffffff"><input type="text"
+								name="typeList[${obj.type_id}].name" value="${obj.name!}" /></td>
+							<td bgcolor="#ffffff"><input type="text"
+								name="typeList[${obj.type_id}].summary" value="${obj.summary!}" />
+							</td>
+							<td bgcolor="#ffffff"><input type="text"
+								name="typeList[${obj.type_id}].remark" value="${obj.remark!}" /></td>
+							<td bgcolor="#ffffff"><input type="text"
+								value="${obj.order!}" name="typeList[${obj.type_id}].order" />
+							</td>
+							<td bgcolor="#ffffff"><input type="text"
+								value="${obj.status!}" name="typeList[${obj.type_id}].status" /></td>
+							<td bgcolor="#ffffff"><a
+								onclick="javascript:if(confirm('确定要删除吗?请慎重')) location.href='${request.getContextPath()}/admin/userinfo/typedelete.html?type_id=${obj.type_id}'"
+								href="#">删除</a></td>
+						</tr>
+
+
+						</#list> </#if>
+
+
+
+						<tr>
+							<td class="action" colspan="6"><input type="submit"
+								value="提交修改"></td>
+						</tr>
+						</form>
+
+					</tbody>
+				</table>
+
+
+
+			</div>
+		</div>
+	</div>
+	<!-- div.main end  -->
+	<#include "../../foot.html">
+</body>
+</html>

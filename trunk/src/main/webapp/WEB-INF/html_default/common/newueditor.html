@@ -1,0 +1,314 @@
+<#-- 显示百度富文本编辑器  输入参数长度、高度、id(Textarea的id)、name(Textarea的name)、文本框中的值-->
+<#macro showUeditor width heigth id name content>
+<script type="text/javascript" charset="utf-8" src="${webroot}/plugins/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="${webroot}/plugins/ueditor/ueditor.parse.js"> </script>
+<script type="text/javascript" charset="utf-8" src="${webroot}/plugins/ueditor/ueditor.config.js"> </script>
+<script type="text/javascript" charset="utf-8" src="${webroot}/plugins/ueditor/zh-cn.js"></script>
+<script type="text/javascript">
+var ue = UE.getEditor('${id!"editor"}');
+</script>
+<style>
+.edui-popup-content{height:auto !important;}
+</style>
+
+<script id="${id!"editor"}" name="${name!"editor"}" type="text/plain" 
+ style="width:${width}px;heigth:${heigth}px; line-height:20px;">
+<style>
+table{
+border-collapse:collapse;
+}
+td{
+ border:1px solid #000000;
+}
+
+</style>
+        <table width="100%"  cellpadding="0" cellspacing="0">
+        	<tbody>
+		<tr  align="center"  style="height:30px;" >
+			<td colspan="10">
+				急难基金收支状况表：<br />
+			</td>
+			<!--<td style="height:30px;" align="center" width="37%">
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>-->
+		</tr>
+		<tr    style="height:30px;" >
+			<td colspan="10"  align="right">
+				截止    年   月    日止<br />
+			</td>
+		</tr>
+		<tr  align="center"  style="height:30px;" >
+			<td  style="height:30px;" align="center">
+				基本来源：
+			</td>
+			<td style="height:30px;" align="center">
+				金额（万元）<br />
+			</td>
+			<td  style="height:30px;" align="center" >
+				占比（%）：
+			</td>
+			<td style="height:30px;" align="center" >
+				基金使用<br />
+			</td>
+			<td style="height:30px;" align="center">
+				金额（万元）<br />
+			</td>
+			<td style="height:30px;" align="center">
+				占比（%）<br />
+			</td>
+			
+			
+		</tr>
+		<tr>
+			
+			<td  style="height:30px;" align="center" >
+				一、业主铺底
+			</td>
+			<td style="height:30px;" align="center" >
+				
+			</td>
+			<td style="height:30px;" align="center">
+				
+			</td>
+			<td style="height:30px;" align="center">
+				一、无息借款
+			</td>
+			<td style="height:30px;" align="center" >
+			
+			</td>
+			<td style="height:30px;" align="center">
+			
+			</td>
+		</tr>
+		<tr>
+			
+			<td class="td-tb" style="height:30px;"align="center" >
+			    二、收入提成
+			</td>
+			<td style="height:30px;" align="center" >
+				
+			</td>
+			<td style="height:30px;" align="center">
+
+			</td>
+			<td style="height:30px;" align="center">
+				1.大灾大难
+			</td>
+			<td style="height:30px;" align="center" >
+				
+			</td>
+			<td style="height:30px;" align="center">
+				<br />
+			</td>
+		</tr>
+		<tr>
+			
+			<td class="td-tb" style="height:30px;" align="center" >
+			   三、借款人偿还
+			</td>
+			<td style="height:30px;" align="center" >
+				
+			</td>
+			<td style="height:30px;" align="center">
+				
+			</td>
+			<td style="height:30px;" align="center">
+				2.紧急借款
+			</td>
+			<td style="height:30px;" align="center" >
+				正常类借款<br />
+			</td>
+			<td style="height:30px;" align="center">
+				<br />
+			</td>
+			
+		</tr>
+		<tr>
+			
+			<td class="td-tb" style="height:30px;" align="center" >
+               四、无偿捐赠
+			     </td>
+			<td style="height:30px;" align="center" >
+				
+			</td>
+			<td style="height:30px;" align="center">
+				
+			</td>
+			<td style="height:30px;" align="center">
+				3.教育
+			</td>
+			<td style="height:30px;" align="center" >
+				
+			</td>
+			<td style="height:30px;" align="center">
+				
+			</td>
+			
+		</tr>
+		<tr>
+			
+			<td class="td-tb" style="height:30px;" align="center" >
+				五、活动捐赠
+			</td>
+			<td style="height:30px;" align="center" >
+				
+			</td>
+			<td style="height:30px;" align="center">
+				
+			</td>
+			<td style="height:30px;" align="center">
+				4.初创业
+			</td>
+			<td style="height:30px;" align="center" >
+				
+			</td>
+			<td style="height:30px;" align="center">
+				
+			</td>
+			
+		</tr>
+		<tr>
+			
+			<td class="td-tb" style="height:30px;" align="center" >
+				 六、投资收益
+			</td>
+			<td style="height:30px;" align="center" >
+				
+			</td>
+			<td style="height:30px;" align="center">
+				
+			</td>
+			<td style="height:30px;" align="center">
+				5.再创业
+			</td>
+			<td style="height:30px;" align="center" >
+			
+			</td>
+			<td style="height:30px;" align="center">
+				
+			</td>
+			
+		</tr>
+		<tr>
+			
+			<td class="td-tb" style="height:30px;" align="center" >
+				七、其他收入
+			</td>
+			<td style="height:30px;" align="center" >
+				
+			</td>
+			<td style="height:30px;" align="center">
+				
+			</td>
+			<td style="height:30px;" align="center">
+				二、投资
+			</td>
+			<td style="height:30px;" align="center" >
+				
+			</td>
+			<td style="height:30px;" align="center">
+				<br />
+			</td>
+			
+		</tr>
+		<tr>
+			
+			<td class="td-tb" style="height:30px;" align="center">
+				 <br />
+			</td>
+			<td style="height:30px;" align="center" >
+			
+			</td>
+			<td style="height:30px;" align="center">
+				
+			</td>
+			<td style="height:30px;" align="center">
+				三、捐赠奖励
+			</td>
+			<td style="height:30px;" align="center" >
+				
+			</td>
+			<td style="height:30px;" align="center">
+				
+			</td>
+			
+		</tr>
+		<tr>
+		
+			<td class="td-tb" style="height:30px;" align="center" >
+				
+			</td>
+			<td style="height:30px;" align="center" >
+				
+			</td>
+			<td style="height:30px;" align="center">
+			
+			</td>
+			<td style="height:30px;" align="center">
+			    四、其他支出
+			</td>
+			<td style="height:30px;" align="center" >
+				
+			</td>
+			<td style="height:30px;" align="center">
+				
+			</td>
+			
+		</tr>
+		<tr>
+		
+			<td class="td-tb" style="height:30px;" align="center" >
+				
+			</td>
+			<td style="height:30px;" align="center" >
+				
+			</td>
+			<td style="height:30px;" align="center">
+			
+			</td>
+			<td style="height:30px;" align="center">
+			    五、未用结余
+			</td>
+			<td style="height:30px;" align="center" >
+				
+			</td>
+			<td style="height:30px;" align="center">
+				
+			</td>
+			
+		</tr>
+		<tr>
+		
+			<td class="td-tb" style="height:30px;" align="center" >
+				来源总计
+			</td>
+			<td style="height:30px;" align="center" >
+				
+			</td>
+			<td style="height:30px;" align="center">
+			
+			</td>
+			<td style="height:30px;" align="center">
+			   使用总计
+			</td>
+			<td style="height:30px;" align="center" >
+				
+			</td>
+			<td style="height:30px;" align="center">
+				
+			</td>
+			
+		</tr>
+		
+		
+	</tbody>
+        </table> 
+</script>
+
+</#macro>

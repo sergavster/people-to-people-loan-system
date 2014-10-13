@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<!--   v1.6.6.2 RDPROJECT-140 yl 2013-10-23 start-->
+<#assign web_title='我的好友 - ${webname!}'>
+<#assign web_description='我的好友，${webname!}p2p网贷平台'>
+<!--   v1.6.6.2 RDPROJECT-140 yl 2013-10-23 end--> 
+<#include "../../include/resource.html">
+<body>
+	<#assign nid="member"> 
+	<#include "../../include/header.html">
+	<!--header-end-->
+	<!--用户中心的主栏目 开始-->
+	<div id="main" class="clearfix" >
+		<div class="wrap950 " style="margin-top:0">
+			<!--左边的导航 开始-->
+			<div class="user_left"><#include "../user_menu.html"></div>
+			<!--左边的导航 结束-->
+
+			<!--右边的内容 开始-->
+			<div class="user_right">
+	
+				<div class="user_right_menu">
+					<#assign query_type="tc">
+					<#include "friend_menu.html" >
+				</div>
+				<!-- 提成开始-->
+				<!--  
+				<div class="user_main_title alert" style="height:60px; padding-top:7px;"> 
+				提示：当个人推荐的会员当月所有投资额达到50万元或50万元以上人民币（不含秒还标和天标）才能获得提成！<br/>
+				</div>
+				-->
+                <div class="user_right_main">
+                    <table  border="0"  cellspacing="1" class="table table-striped  table-condensed" style="width:100%">
+                            <tr class="head" >
+                                <td  >时间</td>
+                                <td  >投资金额</td>
+                            </tr>
+                            <#if  list??>
+                            <#list list as item>
+                            <tr >
+                                <td>${item.addtimes}</td>
+                                <td>${item.money}</td>
+                            </tr>
+                            </#list>
+                            </#if>
+                    </table>
+                </div>
+				<!--提成 结束-->
+			 
+			</div>
+			<!--右边的内容 结束-->
+		</div>
+	</div>
+	<!--用户中心的主栏目 结束-->
+	<script
+		src="${request.getContextPath()}${theme_dir}/media/js/modal.js"></script>
+
+	<#include "../../include/footer.html">
+</body>
+</html>

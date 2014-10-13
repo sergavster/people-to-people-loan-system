@@ -1,0 +1,10 @@
+<ul id="tab" class="list-tab clearfix">
+	<li <#if userinfo_type?exists&&userinfo_type=="realname">class="cur"</#if> ><a href="${request.getContextPath()}/member/identify/realname.html">实名认证</a></li>
+	<li <#if userinfo_type?exists&&userinfo_type=="email">class="cur"</#if> ><a href="${request.getContextPath()}/member/identify/email.html">邮箱认证</a></li>
+	<li <#if userinfo_type?exists&&userinfo_type=="phone">class="cur"</#if> ><a href="${request.getContextPath()}/member/identify/phone.html">手机认证</a></li>
+	<li <#if userinfo_type?exists&&userinfo_type=="video">class="cur"</#if> ><a href="${request.getContextPath()}/member/identify/video.html">视频认证</a></li>
+	<li <#if userinfo_type?exists&&userinfo_type=="scene">class="cur"</#if> ><a href="${request.getContextPath()}/member/identify/scene.html">现场认证</a></li>
+	<li ><a href="${request.getContextPath()}/member/identify/attestation.html">上传资料证明</a></li>
+	<li <#if userinfo_type?exists&&userinfo_type=="avatar">class="cur"</#if> ><a href="${request.getContextPath()}/member/identify/avatar.html">头像信息</a></li>
+	<!--  <li <#if userinfo_type?exists&&userinfo_type=="privacy">class="cur"</#if> ><a href="${request.getContextPath()}/member/identify/privacy.html">设置隐私</a></li>-->
+</ul>

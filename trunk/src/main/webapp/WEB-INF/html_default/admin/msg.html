@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<#include "head.html">
+<body>
+<table class="mc">
+<tr>
+<td class="mc-l">
+    <!--左侧导航---{-->
+    <div id="navPanelContainer" style="display:none;">
+        <div class="system-logo cd"></div>
+        <!--管理员信息---{-->
+            <!--管理员信息---}-->
+            <div class="nav-wrap">
+
+            </div>
+    </div>
+    <!--左侧导航---}-->
+</td>
+<td class="mc-m">
+    <div class="navToggle" style="width:10px;"></div>
+</td>
+<td class="mc-r">
+
+<div id="main" class="clearfix">
+<div class="valBox">
+<div class="top" style="text-align:center;">
+    <strong>${rsmsg!"操作成功！"}</strong>
+</div>
+<div class="val clearfix" >
+<ul class="ci">
+<li style="text-align:center;">
+    ${backurl}
+</li>
+
+</ul>
+</div>
+</div>
+
+</div>
+</td>
+</tr>
+<tr>
+    <!--尾部--{-->
+    <td colspan="3" class="mc-b"><#include "foot.html"></td>
+    <!--尾部--}-->
+</tr>
+</table>
+
+</body>
+</html>
+<#include "jsPage.html">
