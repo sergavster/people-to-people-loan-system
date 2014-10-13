@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="admin-loanblack" namespace="/admin/loanblack"
+		extends="wzd-admin">
+		<action name="showLoanBlackList" class="loanBlackAction" method="showLoanBlackList">
+			<result name="success" type="ftl">/admin/loanblack/showLoanBlackList.html
+			</result>
+		</action>
+		<action name="loanblack" class="loanBlackAction" method="loanblack">
+			<result name="success" type="ftl">/admin/loanblack/loanblack.html
+			</result>
+		</action>
+		<action name="getloanblack" class="loanBlackAction" method="getloanblack">
+			<result name="success" type="ftl">/admin/loanblack/viewloanblack.html
+			</result>
+		</action>
+		<action name="addloanblack" class="loanBlackAction" method="addloanblack">
+		</action>
+	</package>
+</struts>

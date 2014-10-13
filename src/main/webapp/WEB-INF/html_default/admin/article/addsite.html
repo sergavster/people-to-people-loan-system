@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="添加栏目">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <div class="toolbor-module">
+                                    <a class="input-button" href="addSite.html" style="line-height:24px;">添加父栏目</a>
+                                    <a class="input-button" href="addSite.html" style="line-height:24px;">添加子栏目</a>
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="w750 clearfix">
+
+                                <form action="addSite.html" method="post" name="form1" onsubmit="return check_form()">
+                                    <div class="valBox">
+                                        <div class="top">
+                                            <strong>添加栏目</strong>
+                                        </div>
+                                        <div class="clearfix">
+                                            <ul class="title-v edit">
+                                                <li>
+                                                    <div class="title">所在栏目：</div>
+                                                    <div class="v">
+                                                        <strong>${psite.name!"根目录"}<input type="hidden" name="pid" value="${psite.site_id!0}" /></strong>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">栏目名称：</div>
+                                                    <div class="v">
+                                                        <input type="text" align="absmiddle" name="name" value="" />
+                                                    </div>
+                                                </li>
+                                                
+                                                <li>
+                                                    <div class="title">识别ID(nid)：</div>
+                                                    <div class="v">
+                                                        <input type="text" align="absmiddle" name="nid"  onkeyup="value=value.replace(/[^a-zA-Z_0-9]/g,'')" value=""/> 只能为字母和下划线（_）
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">状&nbsp;&nbsp;&nbsp; 态：</div>
+                                                    <div class="v">
+                                                        <label><input type="radio" value="0" name="status" />隐藏</label>
+                                                            <label><input type="radio" value="1" name="status" checked="checked" />显示</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">栏目类型：</div>
+                                                    <div class="v J_radio">
+                                                        <label><input type="radio" value="0" name="style" checked  />列表</label>
+                                                        <label><input type="radio" value="1" name="style" />单页文章</label>
+                                                        <label><input type="radio" value="2" name="style" />站内链接</label>
+                                                        <label><input type="radio" value="3" name="style"  />站外链接</label>
+                                                    </div>
+                                                </li>
+                                                <li style="display:none" id="jump_url">
+                                                    <div class="title">跳转网址：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="url"  class="input_border" value="" size="30" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">排列顺序：</div>
+                                                    <div class="v">
+                                                        <input type="text" align="absmiddle" name="order"  onkeyup="value=value.replace(/[^0-9]/g,'')" size="5" value=""/>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">所属模块：</div>
+                                                    <div class="v">
+                                                        文章模块<input type="hidden" name="code" value="article" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">栏目描述：</div>
+                                                    <div class="v">
+                                                        <textarea name="description" cols="40" rows="3" id="textarea2"></textarea>
+                                                    </div>
+                                                </li>
+
+                                                <li>
+                                                    <div class="title">栏目内容：</div>
+                                                    <div class="v">
+                                                        <#include "../../common/ueditor.html"> 
+														<@showUeditor width=680 heigth=100 id="content" name="content" content="" />                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">上传文件：</div>
+                                                    <div class="v">
+                                                        <input type='file' name='files' value='' size='20' id='files'>
+                                                    </div>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                <div id="bottomToolbar" class="clearfix">
+                                    <input type="hidden" name="actionType"  value="addSite" />
+                                    <input type="submit" class="input-button post" name="submit_ok" value="提交">
+                                </div>
+                                </form>
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

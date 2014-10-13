@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+<package name="admin" namespace="/admin" extends="wzd-admin">
+
+	<action name="index"  class="adminAuthAction" method="index">
+		<result name="success" type="ftl">/admin/admin_login.html</result>
+	</action>
+	
+	<action name="auth"  class="adminAuthAction" method="auth">
+		<result name="success" type="redirect">/admin/system/welcome.html</result>
+		<result name="error" type="ftl">/admin/admin_login.html</result>
+		
+		<!-- v1.6.7.1 安全优化 sj 2013-11-13 start -->
+		<result name="modifypass" type="ftl">/admin/modifypass.html</result>
+		<!-- v1.6.7.1 安全优化 sj 2013-11-13 end -->
+	</action>
+	
+	<action name="logout"  class="adminAuthAction" method="logout">
+	     <result name="success" type="ftl">/admin/admin_login.html</result>
+	</action>
+
+	<!-- v1.6.7.1 安全优化 sj 2013-11-26 start -->
+	<action name="modifyPwd" class="adminUserInfoAction" method="modifyPwd">
+		<result name="success" type="ftl">/admin/adminModifyPassword.html
+		</result>
+	</action>
+	<!-- v1.6.7.1 安全优化 sj 2013-11-26 end -->
+        
+     </package>
+
+</struts>

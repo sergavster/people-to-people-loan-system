@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="查看全部资料">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <div class="toolbor-module search">
+                                    <input type="button" class="input-button return" value="返回" onclick="history.go(-1)">
+                                </div>
+
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="w700 clearfix uik">
+
+                                <ul class="tag clearfix">
+                                    <li class="active">用户信息</li>
+                                    <li>实名认证</li>
+                                    <li>邮箱认证</li>
+                                    <li>视频认证</li>
+                                    <li>现场认证</li>
+                                    <li>手机认证</li>
+                                    <li>VIP认证</li>
+                                    <li>基本信息</li>
+                                    <li>房产资料</li>
+                                    <li>公司资料</li>
+                                    <li>私营业主资料</li>
+                                    <li>财务状况</li>
+                                    <li>联系方式</li>
+                                    <li>配偶资料</li>
+                                    <li>其他信息</li>
+                                </ul>
+
+                                <div class="valBox">
+                                    <div class="top">
+                                        <strong>用户信息</strong>
+                                    </div>
+                                    <div class="fp clearfix">
+                                        <ul>
+                                            <li>
+                                                <div class="title">用户名：</div>
+                                                <div class="v">
+                                                    ${user.username!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">登陆次数：</div>
+                                                <div class="v">
+                                                    ${userLoginCount!0}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">最后登录时间：</div>
+                                                <div class="v">
+                                                    <#if t??>dateformat(t.login_time)<#else>-</#if>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">注册时间：</div>
+                                                <div class="v">
+                                                    ${dateformat(user.addtime)}
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="hidden valBox">
+                                    <div class="top">
+                                        <strong>实名认证</strong>
+                                    </div>
+                                    <div class="fp clearfix">
+                                        <ul>
+                                            <li>
+                                                <div class="title">真实姓名：</div>
+                                                <div class="v">
+                                                    ${user.realname!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">性别：</div>
+                                                <div class="v">
+                                                    <#if user.sex??><#if user.sex=="1">男<#else>女</#if><#else>-</#if>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">证件类型：</div>
+                                                <div class="v">
+                                                    <#if user.card_type??>${Typet(user.card_type,"name")}<#else>-</#if>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">证件号码：</div>
+                                                <div class="v">
+                                                    ${user.card_id!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">籍贯：</div>
+                                                <div class="v">
+                                                    <#if user.province??>
+                                                        ${Typet(user.province,"area")} - <#else> - </#if> <#if user.city??>
+                                                    ${Typet(user.city,"area")} - <#else> - </#if> <#if user.area??>
+                                                    ${Typet(user.area,"area")} <#else> - </#if>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">身份证图片：</div>
+                                                <div class="v">
+                                                    <a href="/${user.card_pic1_path!}" target="_blank">正面</a> | <a href="/${user.card_pic2_path!}" target="_blank">反面</a>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">民族：</div>
+                                                <div class="v">
+                                                    <#if user.nation??>${Typet(user.nation,"name")}<#else>-</#if>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">生日：</div>
+                                                <div class="v">
+                                                    ${user.birthday!}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">状态：</div>
+                                                <div class="v">
+                                                    <#if user.real_status??><#if user.real_status==1>认证!<#else>未认证</#if><#else>-</#if>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="hidden valBox">
+                                    <div class="top">
+                                        <strong>邮箱认证</strong>
+                                    </div>
+                                    <div class="fp clearfix">
+                                        <ul>
+                                            <li>
+                                                <div class="title">邮箱：</div>
+                                                <div class="v">
+                                                    ${user.email!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">状态：</div>
+                                                <div class="v">
+                                                    <#if user.email_status??><#if user.email_status==1>邮箱已通过认证<#else>邮箱未认证</#if><#else>-</#if>
+                                                </div>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="hidden valBox">
+                                    <div class="top">
+                                        <strong>视频认证</strong>
+                                    </div>
+                                    <div class="fp clearfix">
+                                        <ul>
+                                            <li>
+                                                <div class="title">状态：</div>
+                                                <div class="v">
+                                                    <#if user.video_status??><#if
+                                                            user.video_status=="1">已通过认证<#else>未通过视频认证</#if><#else>-</#if>
+                                                </div>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="hidden valBox">
+                                    <div class="top">
+                                        <strong>现场认证</strong>
+                                    </div>
+                                    <div class="fp clearfix">
+                                        <ul>
+                                            <li>
+                                                <div class="title">状态：</div>
+                                                <div class="v">
+                                                    <#if user.scene_status??><#if
+                                                            user.scene_status=="1">已通过认证<#else>未通过现场认证</#if><#else>-</#if>
+                                                </div>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="hidden valBox">
+                                    <div class="top">
+                                        <strong>手机认证</strong>
+                                    </div>
+                                    <div class="fp clearfix">
+                                        <ul>
+                                            <li>
+                                                <div class="title">手机号：</div>
+                                                <div class="v">
+                                                    ${user.phone!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">状态：</div>
+                                                <div class="v">
+                                                    <#if user.phone_status??><#if
+                                                            user.phone_status==1>已通过认证<#else>未通过认证</#if><#else>-</#if>
+                                                </div>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="hidden valBox">
+                                    <div class="top">
+                                        <strong>VIP认证</strong>
+                                    </div>
+                                    <div class="fp clearfix">
+                                        <ul>
+                                            <li>
+                                                <div class="title">申请备注：</div>
+                                                <div class="v">
+                                                    ${user.vip_remark!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">状态：</div>
+                                                <div class="v">
+                                                    <#if user.vip_status??><#if
+                                                            user.vip_status=="1">Vip用户<#else>非Vip用户</#if><#else>-</#if>
+                                                </div>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="hidden valBox">
+                                    <div class="top">
+                                        <strong>基本信息</strong>
+                                    </div>
+                                    <div class="fp clearfix">
+                                        <ul>
+                                            <li>
+                                                <div class="title">婚姻状况：</div>
+                                                <div class="v">
+                                                    <#if user.marry??>${Typet(user.marry,"name")}</#if>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">子 女：</div>
+                                                <div class="v">
+                                                    <#if user.child??>${Typet(user.child,"name")}</#if>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">学 历：</div>
+                                                <div class="v">
+                                                    <#if user.education??>${Typet(user.education,"name")}</#if>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">月收入：</div>
+                                                <div class="v">
+                                                    <#if user.income??>${Typet(user.income,"name")}</#if>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">社 保：</div>
+                                                <div class="v">
+                                                    <#if user.shebao??>${Typet(user.shebao,"name")}</#if>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">社保电脑号：</div>
+                                                <div class="v">
+                                                    <#if user.shebaoid??>${user.shebaoid!"-"}</#if>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">住房条件：</div>
+                                                <div class="v">
+                                                    <#if user.housing??>${Typet(user.housing,"name")}</#if>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">是否购车：</div>
+                                                <div class="v">
+                                                    <#if user.car??>${Typet(user.car,"name")}</#if>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">逾期记录：</div>
+                                                <div class="v">
+                                                    <#if user.late??>${Typet(user.late,"name")}</#if>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="hidden valBox">
+                                    <div class="top">
+                                        <strong>房产资料</strong>
+                                    </div>
+                                    <div class="fp clearfix">
+                                        <ul>
+                                            <li>
+                                                <div class="title">房产地址：</div>
+                                                <div class="v">
+                                                    ${user.house_address!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">建筑面积：</div>
+                                                <div class="v">
+                                                    ${user.house_area!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">建筑年份：</div>
+                                                <div class="v">
+                                                    ${user.house_year!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">供款状况：</div>
+                                                <div class="v">
+                                                    ${user.house_status!"-"}元
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">所有权人-1：</div>
+                                                <div class="v">
+                                                    ${user.house_holder1!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">产权份额-1：</div>
+                                                <div class="v">
+                                                    ${user.house_right1!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">所有权人-2：</div>
+                                                <div class="v">
+                                                    ${user.house_holder2!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">产权份额-2：</div>
+                                                <div class="v">
+                                                    ${user.house_right2!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">贷款年限：</div>
+                                                <div class="v">
+                                                    ${user.house_loanyear!"-"}
+                                                    每月供款${user.house_loanprice!"-"} 元
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">尚欠贷款余额：</div>
+                                                <div class="v">
+                                                    ${user.house_balance!"-"}元
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">按揭银行：</div>
+                                                <div class="v">
+                                                    ${user.house_bank!"-"}
+                                                </div>
+                                            </li>
+                                            <li class="color"></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="hidden valBox">
+                                    <div class="top">
+                                        <strong>公司资料</strong>
+                                    </div>
+                                    <div class="fp clearfix">
+                                        <ul>
+                                            <li>
+                                                <div class="title">公司名称：</div>
+                                                <div class="v">
+                                                    ${user.company_name!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">公司性质：</div>
+                                                <div class="v">
+                                                    <#if user.company_name??>${Typet(user.company_type,"name")}<#else>-</#if>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">公司行业：</div>
+                                                <div class="v">
+                                                    <#if user.company_industry??>${Typet(user.company_industry,"name")}<#else>-</#if>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">工作级别：</div>
+                                                <div class="v">
+                                                    <#if user.company_jibie??>${Typet(user.company_jibie,"name")}<#else>-</#if>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">职 位：</div>
+                                                <div class="v">
+                                                    <#if user.company_office??>${Typet(user.company_office,"name")}<#else>-</#if>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">服务时间：</div>
+                                                <div class="v">
+                                                    ${user.company_worktime1!"-"}到${user.company_worktime2!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">工作年限：</div>
+                                                <div class="v">
+                                                    <#if user.company_workyear??>${Typet(user.company_workyear,"name")}<#else>-</#if>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">工作电话：</div>
+                                                <div class="v">
+                                                    ${user.company_tel!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">公司地址：</div>
+                                                <div class="v">
+                                                    ${user.company_address!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">公司网站：</div>
+                                                <div class="v">
+                                                    ${user.company_weburl!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">公司备注说明：</div>
+                                                <div class="v">
+                                                    ${user.company_reamrk!"-"}
+                                                </div>
+                                            </li>
+                                            <li class="color"></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="hidden valBox">
+                                    <div class="top">
+                                        <strong>私营业主资料</strong>
+                                    </div>
+                                    <div class="fp clearfix">
+                                        <ul>
+                                            <li>
+                                                <div class="title">私营企业类型：</div>
+                                                <div class="v">
+                                                    ${user.company_name!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">成立日期：</div>
+                                                <div class="v">
+                                                    ${user.private_date!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">经营场所：</div>
+                                                <div class="v">
+                                                    ${user.private_place!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">租金：</div>
+                                                <div class="v">
+                                                    ${user.private_rent!"-"}元
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">租期：</div>
+                                                <div class="v">
+                                                    ${user.private_term!"-"}月
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">税务编号：</div>
+                                                <div class="v">
+                                                    ${user.private_taxid!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">工商登记号：</div>
+                                                <div class="v">
+                                                    ${user.private_commerceid!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">全年盈利/亏损额：</div>
+                                                <div class="v">
+                                                    ${user.private_income!"-"}元（年度）
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">雇员人数：</div>
+                                                <div class="v">
+                                                    ${user.private_employee!"-"}人
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="hidden valBox">
+                                    <div class="top">
+                                        <strong>财务状况</strong>
+                                    </div>
+                                    <div class="fp clearfix">
+                                        <ul>
+                                            <li>
+                                                <div class="title">每月无抵押贷款还款额：</div>
+                                                <div class="v">
+                                                    ${user.finance_repayment!"-"}元
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">自有房产：</div>
+                                                <div class="v">
+                                                    <#if user.finance_property??>${Typet(user.finance_property,"name")}<#else>-</#if>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">每月房屋按揭金额：</div>
+                                                <div class="v">
+                                                    ${user.finance_amount!"-"}元
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">自有汽车：</div>
+                                                <div class="v">
+                                                    <#if user.finance_car??>${Typet(user.finance_car,"name")}<#else>-</#if>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">每月汽车按揭金额：</div>
+                                                <div class="v">
+                                                    ${user.finance_caramount!"-"}元
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">每月信用卡还款金额：</div>
+                                                <div class="v">
+                                                    ${user.finance_creditcard!"-"}元
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="hidden valBox">
+                                    <div class="top">
+                                        <strong>联系方式</strong>
+                                    </div>
+                                    <div class="fp clearfix">
+                                        <ul>
+                                            <li>
+                                                <div class="title">居住地电话：</div>
+                                                <div class="v">
+                                                    ${user.tel!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">手机号码：</div>
+                                                <div class="v">
+                                                    ${user.phone!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">居住所在省市：</div>
+                                                <div class="v">
+                                                    ${user.provincetext!}-${user.citytext!}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">居住地邮编：</div>
+                                                <div class="v">
+                                                    ${user.post!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">现居住地址：</div>
+                                                <div class="v">
+                                                    ${user.address!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">第二联系人姓名：</div>
+                                                <div class="v">
+                                                    ${user.linkman1!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">第二联系人关系：</div>
+                                                <div class="v">
+                                                    <#if user.relation1??>${Typet(user.relation1,"name")}<#else>-</#if>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">第二联系人联系电话：</div>
+                                                <div class="v">
+                                                    ${user.tel1!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">第二联系人联系手机：</div>
+                                                <div class="v">
+                                                    ${user.phone1!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">第三联系人姓名：</div>
+                                                <div class="v">
+                                                    ${user.linkman2!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">第三联系人关系：</div>
+                                                <div class="v">
+                                                    <#if user.relation2??>${Typet(user.relation2,"name")}<#else>-</#if>
+                                                </div>
+                                            </li>                     
+                                            <li>
+                                                <div class="title">第三联系人联系电话：</div>
+                                                <div class="v">
+                                                    ${user.tel2!"-"}
+                                                </div>
+                                            </li>                      
+                                            <li>
+                                                <div class="title">第三联系人联系手机：</div>
+                                                <div class="v">
+                                                    ${user.phone2!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">第四联系人姓名：</div>
+                                                <div class="v">
+                                                    ${user.linkman3!"-"}
+                                                </div>
+                                            </li>                      
+                                            <li>
+                                                <div class="title">第四联系人关系：</div>
+                                                <div class="v">
+                                                    <#if user.relation3??>${Typet(user.relation3,"name")}<#else>-</#if>
+                                                </div>
+                                            </li>                      
+                                            <li>
+                                                <div class="title">第四联系人联系电话：</div>
+                                                <div class="v">
+                                                    ${user.tel3!"-"}
+                                                </div>
+                                            </li>                      
+                                            <li>
+                                                <div class="title">第四联系人联系手机：</div>
+                                                <div class="v">
+                                                    ${user.phone3!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">MSN：</div>
+                                                <div class="v">
+                                                    ${user.msn!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">QQ：</div>
+                                                <div class="v">
+                                                    ${user.qq!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">旺旺：</div>
+                                                <div class="v">
+
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="hidden valBox">
+                                    <div class="top">
+                                        <strong>配偶资料</strong>
+                                    </div>
+                                    <div class="fp clearfix">
+                                        <ul>
+                                            <li>
+                                                <div class="title">配偶姓名：</div>
+                                                <div class="v">
+                                                    ${user.mate_name!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">每月薪金：</div>
+                                                <div class="v">
+                                                    ${user.mate_salary!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">移动电话：</div>
+                                                <div class="v">
+                                                    ${user.mate_phone!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">单位电话：</div>
+                                                <div class="v">
+                                                    ${user.mate_tel!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">工作单位：</div>
+                                                <div class="v">
+                                                    <#if user.mate_type??>${Typet(user.mate_type,"name")}<#else>-</#if>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">职位：</div>
+                                                <div class="v">
+                                                    <#if user.mate_office??>${Typet(user.mate_office,"name")}<#else>-</#if>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">单位地址：</div>
+                                                <div class="v">
+                                                    ${user.mate_address!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">月收入：</div>
+                                                <div class="v">
+                                                    ${user.mate_income!"-"}
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="hidden valBox">
+                                    <div class="top">
+                                        <strong>其他信息</strong>
+                                    </div>
+                                    <div class="fp clearfix">
+                                        <ul>
+                                            <li>
+                                                <div class="title">个人能力：</div>
+                                                <div class="v">
+                                                    ${user.ability!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">个人爱好：</div>
+                                                <div class="v">
+                                                    ${user.interest!"-"}
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="title">其他说明：</div>
+                                                <div class="v">
+                                                    ${user.others!"-"}
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

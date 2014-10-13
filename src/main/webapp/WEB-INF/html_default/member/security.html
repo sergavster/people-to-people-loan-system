@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html>
+<#include "../include/resource.html">
+<body>
+	<#assign nid="member"> 
+	<#include "../include/header.html">
+	<!--header-end-->
+	<!--用户中心的主栏目 开始-->
+	<div id="main" class="clearfix" >
+		<div class="wrap950 " style="margin-top:0">
+			<!--左边的导航 开始-->
+			<div class="user_left">
+            	<#assign mid="m_security" >
+				<#include "user_menu.html">
+			</div>
+			<!--左边的导航 结束-->
+
+			<!--右边的内容 开始-->
+			<div class="user_right">
+				<#if msg?exists>
+				<div id="msg24">
+					<p class="ok"> ${msg} </p>
+				</div>
+				<#else>
+					<#if errormsg?exists>
+						<div id="msg25">
+							<p class="error"> ${errormsg} </p>
+						</div>
+					</#if>
+				</#if>
+				<#if !query_type?exists>
+					<#assign query_type="">
+				</#if>
+				<div class="user_right_menu">
+					<ul id="tab" class="list-tab clearfix">
+						<li <#if query_type=="userpwd">class="active"</#if>><a href="${request.getContextPath()}/memberSecurity/userpwd.html">登录密码</a></li>
+						<#if session_user.type_id == 999>
+						<li <#if query_type=="edituser">class="active"</#if>><a href="${request.getContextPath()}/memberSecurity/edituser.html">修改用户名</a></li>
+						</#if>
+						<li <#if query_type=="paypwd">class="active"</#if>><a href="${request.getContextPath()}/memberSecurity/paypwd.html">交易密码</a></li> 
+						<!-- <li <#if query_type=="protection">class="active"</#if>><a href="${request.getContextPath()}/memberSecurity/protection.html">密码保护</a></li>
+						 
+						<li <#if query_type=="serialStatusSet">class="active"</#if>><a href="${request.getContextPath()}/memberSecurity/serialStatusSet.html">动态口令设置</a>
+						-->
+						</li>
+						<li <#if query_type=="touyoubao">class="active"</#if>><a href="${request.getContextPath()}/modules/member/touyoubao.html">投友宝</a></li>
+					</ul>
+				</div>
+				<div class="user_right_main">
+				<#if query_type=="userpwd">
+				<!--修改登录密码 开始-->
+				<form action="" name="form1" method="post" onsubmit="return check_setPwd();">
+					<!-- v1.6.7.2  安全优化  sj 2013-11-28 start -->
+					<div class="user_help alert">密码设置为字母+数字+特殊字符至少两种的组合</div>
+					<!-- v1.6.7.2  安全优化  sj 2013-11-28 end -->
+					<div class="user_right_border">
+						<div class="e">原始密码：</div>
+						<div class="c">
+							<input type="password" name="oldpassword" id="oldpassword" /> <#if session_user.type_id == 999>您临时会员密码：${session_user.username!}</#if>
+						</div>
+					</div>
+					<div class="user_right_border">
+						<div class="e">新密码：</div>
+						<div class="c">
+							<input type="password" name="newpassword" id="password" /><span class="firstpwdb"></span> 
+						</div>
+					</div>
+					<div class="user_right_border">
+						<div class="e">确认密码：</div>
+						<div class="c">
+							<input type="password" name="newpassword1" id="confirm_password" /><span class="checkpwdb"></span> 
+						</div>
+					</div>
+					<!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-04 start -->
+					<#if phoneSms?? && phoneSms == 1>
+					<div class="user_right_border">
+						<div class="e">手机验证码：</div>
+						<div class="c">
+							<input type="hidden" name="phone" id="phone" value="${user.phone}" size="30" />
+							<input name="phone_valicode" type="text" size="11" maxlength="5" tabindex="3" id="valicode" <#if user?? && user.phone_status == 0>disabled="disabled"</#if>/>&nbsp;
+							<input type="button" value="获取验证码" class="btn timeval" style="width:110px; height:30px;" <#if user?? && user.phone_status == 0>disabled="disabled"</#if> onclick="doajax();"/>
+						</div>
+					</div>
+					<div class="user_help" style="color: #c09853;">
+						<#if user?? && user.phone_status == 0>* 温馨提示：您还未通过手机验证，不能获取验证码，为了您的账号安全，您可以先进行<a href="${webroot}/member/identify/phone.html" style="color: #f00;">手机认证</a>！</#if>
+					</div>
+					</#if>
+					<!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-04 end -->
+					<div class="user_right_border">
+						<div class="e"></div>
+						<div class="c">
+							<input type="hidden" name="actionType" value="chgpwd" size="30" />
+							<input type="submit" name="name" class="btn-action" value="确认提交" size="30"/> 
+						</div>
+					</div>
+				</form>
+				<div class="user_right_foot alert">
+				* 温馨提示：我们将严格对用户的所有资料进行保密
+				</div>
+				<script>
+					var status_pwd = "";
+					var status_ck = "";
+					function ckPwd(){
+						var oldpwd = $("#oldpassword")
+						var pwdBox = $("#password");
+						var firstMes = $(".firstpwdb");
+						var checkBox = $("#confirm_password");
+						var checkMes = $(".checkpwdb");
+						var status_pwd = 0;
+						var status_ck = 0;
+						var checkStr = "";
+						var value = "";
+						pwdBox.focus(function(){
+							firstMes.text("");
+							passwordTest();
+							
+						}).blur(function(){
+							value = pwdBox.val();
+							oldVal = oldpwd.val();
+							var pwdtestVal = getResult(value);
+							var str_len = value.length;
+							if((str_len>7)&&(str_len<17)){
+								if(pwdtestVal<2)
+								{
+									//v1.6.7.2  安全优化  sj 2013-11-28 start
+									firstMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>请输入8至16位，字母+数字+特殊字符至少两种的组合");
+									//v1.6.7.2  安全优化  sj 2013-11-28 end
+									status_pwd = 0;
+								}
+								else{
+									if(value!=oldVal){
+										firstMes.html("<img src='${webroot}${theme_dir}/images/tipimg-g.png'>密码强度合适");
+										status_pwd = 1;
+									}else{
+										firstMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>新密码不能和原始密码一样");
+										status_pwd = 0;	
+									}
+								}
+							}else{
+								//v1.6.7.2  安全优化  sj 2013-11-28 start
+								firstMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>请输入8到16位密码，字母+数字+特殊字符至少两种的组合");
+								//v1.6.7.2  安全优化  sj 2013-11-28 end
+								status_pwd = 0;
+							}
+							paswdStatus = status_pwd+status_ck;
+							return paswdStatus;
+						}).keyup(function(){
+							checkStr = checkBox.val();
+							value = pwdBox.val();
+							if(checkStr=="")
+							{
+								checkMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>请输入和上面一致的密码");
+								status_ck = 0;	
+							}
+							else if(value!=checkStr)
+							{
+								checkMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>两次输入的密码不一致");
+								status_ck = 0;
+							}else{
+								checkMes.html("<img src='${webroot}${theme_dir}/images/tipimg-g.png'>上下密码一致");
+								status_ck = 1
+							}	
+						});
+						checkBox.focus(function(){
+							checkMes.text("");
+						}).blur(function(){
+							value = pwdBox.val();
+							checkStr = checkBox.val();
+							if(checkStr=="")
+							{
+								checkMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>请输入和上面一致的密码");
+								status_ck = 0;
+							}
+							else if(checkStr!=value){
+								checkMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>两次输入的密码不一致");
+								status_ck = 0;
+							}
+							else{
+								checkMes.html("<img src='${webroot}${theme_dir}/images/tipimg-g.png'>上下密码一致");
+								status_ck = 1
+							}
+							paswdStatus = status_pwd+status_ck;
+							return paswdStatus;
+						});
+				
+						function passwordTest() {
+							var pwdBox = $("#password");
+							var firstMes = $(".firstpwdb");
+							pwdBox.keyup(function(){
+								var value = pwdBox.val();
+								var str_len = value.length;
+								if((str_len>7)&&(str_len<17)){
+									var result = getResult(value);
+									check(result);
+									pwdBox.attr("value",value);
+									//判断密码强弱程度
+								}
+								else{
+									//v1.6.7.2  安全优化  sj 2013-11-28 start
+									firstMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>请输入8到16位密码，字母+数字+特殊字符至少两种的组合");
+									//v1.6.7.2  安全优化  sj 2013-11-28 end
+								}
+							})
+						}
+						function getResult(value){
+							var str_len = value.length;
+							var i = 0;
+							if(value.match(/[a-z]/ig)) {
+								i++;
+							}
+							if(value.match(/[0-9]/ig)) {
+								i++;
+							}
+							if(value.match(/(.[^a-z0-9])/ig)) {
+								i++;
+							}
+							if(value.length < 8 && i > 0) {
+								i--;
+							}
+							return i;
+						}
+						function check(num) {
+							if(num == 0) {
+								firstMes.html("<span style='color:#f00'>　密码太短了</span>");
+							} else if (num == 1) {
+								firstMes.html("<span class='hover'>弱</span><span>中</span><span>强</span>");
+							} else if (num == 2) {
+								firstMes.html("<span class='hover'>弱</span><span class='hover'>中</span><span>强</span>");
+							} else if (num == 3) {
+								firstMes.html("<span class='hover'>弱</span><span class='hover'>中</span><span class='hover'>强</span>");
+							} else {
+								firstMes.html("未知错误");
+							}
+						}
+						
+						
+					}
+					ckPwd();	
+					paswdStatus = ckPwd();
+					function check_setPwd(){
+						if(paswdStatus==2){
+							return true;	
+						}else{
+							return false;
+						}	
+						
+					}
+				</script>
+				<!--修改登录密码 结束-->
+				
+				<#elseif query_type="edituser" && session_user.type_id == 999>
+				<!--修改用户名开始-->
+				<form action="" name="form1" method="post" onsubmit="return changeUserName();">
+				<div class="user_right_border">
+					<div class="e">原始用户名：</div>
+					<div class="c">${session_user.username!}</div>
+				</div>
+				<div class="user_right_border">
+					<div class="e">新用户名：</div>
+					<div class="c">
+						<input type="text" id="username"   name="newusername1" /> <span class="userb"></span>
+					</div>
+				</div>
+				<div class="user_right_border">
+					<div class="e">确认新用户名：</div>
+					<div class="c">
+						<input type="text" name="newusername2" id="newusername2" /> <span class="checkb"></span>
+					</div>
+				</div>
+				<div class="user_right_border">
+					<div class="e"></div>
+					<div class="c">
+						<input type="hidden" name="actionType" value="edituser" size="30" />
+						<input type="submit" name="name" class="btn-action"  value="确认提交" size="30" /> 
+					</div>
+				</div>
+				</form>
+				<div class="user_right_foot alert">
+				* 温馨提示：我们将严格对用户的所有资料进行保密
+				</div>
+				<script>
+				$()
+				</script>
+				<script>
+				function userName(){
+		            var userBox = $("#username");
+		            var checkBox = $("#newusername2");
+		            var ckeckSpan = $(".checkb");
+		            var userMes = $(".userb");
+		            var reg = /^([a-zA-Z0-9_]|[\u0391-\uFFE5]){2,15}$/;
+		            var str;
+		            userBox.focus(function(){
+		                userMes.text("");
+		            }).blur(function(){
+		                        str = userBox.val();
+		                        var str_len = str.length;
+		                        //var str_len = str_length(str);
+		                        if(str =="")
+		                        {
+		                            userMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>请输入4-12位英文,数字或不超过6个汉字 ");
+		                            return false;
+		                        }
+		                        else if(str_len<4)
+		                        {
+		                            userMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>用户名必须大于4个数字或是1个汉字");
+		                            return false;
+		                        }
+		                        else if(str_len>15)
+		                        {
+		                            userMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>用户名必须小于15个数字或是6个汉字");
+		                            return false;
+		                        }
+		                        else if(reg.exec(str)){
+		                            //判断是否存在
+		                            console.log(1);
+		                            $.get("/user/checkUsername.html", {username: $("#username").val() },function (result){
+		                                if(result==true){
+		                                    userMes.html("<img src='${webroot}${theme_dir}/images/tipimg-g.png'>新用户名可用");
+		                                    return true;
+		                                }
+		                                else{
+		                                    userMes.html("<img src='${webroot}${theme_dir}/images/tipimg-r.png'>用户名已经存在");
+		                                    return false;
+		                                }
+		                            });
+		                            userBox.attr("value",str);
+		                            return true;
+		                        }
+		                        else{
+		                            userMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>请输入4-12位英文,数字或是少于7个汉字作为用户名");
+		                            return false;
+		                        }
+		                    });
+		            
+		            checkBox.blur(function(){
+		            	str = userBox.val();
+		            	checkVal = checkBox.val();
+		            	if(checkVal==str)
+		            		{
+		            			ckeckSpan.text("新用户名可用");
+		            			return true;
+		            		}
+		            	else{
+		            			ckeckSpan.text("两次输入的用户名不一致");
+		            			return false;
+		            		}
+		            })
+		        }
+				userName()
+				function changeUserName(){
+					var userMes = $(".userb");
+					var ckeckSpan = $(".checkb");
+					var userMesVal = userMes.text();
+					var ckeckSpanVal = ckeckSpan.text();
+					if(userMesVal=="新用户名可用"&&ckeckSpanVal=="新用户名可用")
+						{
+							return true;
+						}
+					else{
+						return false;
+					}
+					
+				}
+				</script>
+				<!--修改用户名 结束-->
+				
+				<#elseif query_type="serialStatusSet">
+			 	<!--修改动态口令状态 开始-->
+				<form action="" name="form1" method="post" onsubmit="">
+				<div class="user_help alert">动态口令可以确认用户的合法身份，从而在合法身份登录的基础上保障业务业务访问的安全性。</div>
+				将动态口令应用于：<br/>
+				<div class="user_right_border">
+					<div class="e">提现：</div>
+					<div class="c">
+						<input type="checkbox" name="carryout" /> 
+					</div>
+					<div class="e">登录：</div>
+					<div class="c">
+						<input type="checkbox" name="login" /> 
+					</div>
+				</div>
+				<div class="">
+					<div class="e"></div>
+					<div class="c">
+					请输入动态口令码: <input type="text" maxlength="6" name="uchoncode"  /> 
+					</div>
+				</div>
+		
+			
+				<div class="">
+					<div class="e"></div>
+					<div class="c">
+						<input type="submit" name="name"  value="确认提交" size="30" /> 
+					</div>
+				</div>
+				</form>
+				<div class="user_right_foot alert">
+				* 温馨提示：我们将严格对用户的所有资料进行保密
+				</div>
+				<!--修改动态口令状态 结束-->
+				<#elseif query_type="paypwd">
+				
+				<!--修改安全密码 开始-->
+				<form action="" name="form1" method="post" onsubmit="return check_form_setpwd2()">
+				<!-- v1.6.7.2  安全优化  sj 2013-11-28 start -->
+				<div class="user_help alert">交易密码设置字母+数字+特殊字符至少两种的组合</div>
+				<!-- v1.6.7.2  安全优化  sj 2013-11-28 end -->
+				<div class="user_right_border">
+					<div class="l">原始交易密码：</div>
+					<div class="c">
+						<input type="password" name="oldpassword" id="oldpassword"  /> 请输入原交易密码。(初始交易密码与您注册时的登录密码一致)
+					</div>
+				</div>
+				<div class="user_right_border">
+					<div class="l">新交易密码：</div>
+					<div class="c">
+						<input type="password" name="newpassword" id="password" /><span class="firstpwdb"></span> 
+					</div>
+				</div>
+				<div class="user_right_border">
+					<div class="l">确认交易密码：</div>
+					<div class="c">
+						<input type="password" name="newpassword1"  id="confirm_password" /><span class="checkpwdb"></span>
+					</div>
+				</div>
+				<!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-04 start -->
+				<#if phoneSms?? && phoneSms == 1>
+				<div class="user_right_border">
+					<div class="l">手机验证码：</div>
+					<div class="c">
+						<input type="hidden" name="phone" id="phone" value="${user.phone}" size="30" />
+						<input name="phone_valicode" type="text" size="11" maxlength="5" tabindex="3" id="valicode" <#if user?? && user.phone_status == 0>disabled="disabled"</#if>/>&nbsp;
+						<input type="button" value="获取验证码" class="btn timeval" style="width:110px; height:30px;" <#if user?? && user.phone_status == 0>disabled="disabled"</#if> onclick="doajax();"/>
+					</div>
+				</div>
+				<div class="user_help" style="color: #c09853;">
+						<#if user?? && user.phone_status == 0>* 温馨提示：您还未通过手机验证，不能获取验证码，为了您的账号安全，您可以先进行<a href="${webroot}/member/identify/phone.html" style="color: #f00;">手机认证</a>！</#if>
+					</div>
+				</#if>
+				<!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-04 end -->
+				<div class="user_right_border">
+					<div class="l">验证码：</div>
+					<div class="c">
+						<input name="valicode" type="text" size="11" maxlength="5"  tabindex="3"/>&nbsp;<img src="${webroot}/validimg.html" alt="点击刷新" onclick="this.src='${webroot}/validimg.html?t=' + Math.random();" align="absmiddle" style="cursor:pointer;display:inline; float:none;" />
+					</div>
+				</div>
+				<div class="user_right_border">
+					<div class="l"></div>
+					<div class="c">
+						<!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-04 start -->
+						<input type="hidden" name="pwdType" value="chgPayPwd" size="30" />
+						<!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-04 end -->
+						<input type="submit" name="name" class="btn-action" value="确认提交" size="30" /> <a href="${webroot}/user/getpaypwd.html">忘记交易密码？</a>
+					</div>
+				</div>
+				</form>
+				<div class="user_right_foot alert">
+				* 温馨提示：我们将严格对用户的所有资料进行保密
+				</div>
+				<script>
+					var status_pwd = "";
+					var status_ck = "";
+					function ckPwd(){
+						var oldpwd = $("#oldpassword")
+						var pwdBox = $("#password");
+						var firstMes = $(".firstpwdb");
+						var checkBox = $("#confirm_password");
+						var checkMes = $(".checkpwdb");
+						var status_pwd = 0;
+						var status_ck = 0;
+						var checkStr = "";
+						var value = "";
+						pwdBox.focus(function(){
+							firstMes.text("");
+							passwordTest();
+							
+						}).blur(function(){
+							value = pwdBox.val();
+							oldVal = oldpwd.val();
+							var pwdtestVal = getResult(value);
+							var str_len = value.length;
+							if((str_len>7)&&(str_len<17)){
+								if(pwdtestVal<2)
+								{
+									//v1.6.7.2  安全优化  sj 2013-11-28 start
+									firstMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>请输入8至16位，字母+数字+特殊字符至少两种的组合");
+									//v1.6.7.2  安全优化  sj 2013-11-28 end
+									status_pwd = 0;
+								}
+								else{
+									if(value!=oldVal){
+										firstMes.html("<img src='${webroot}${theme_dir}/images/tipimg-g.png'>密码强度合适");
+										status_pwd = 1;
+									}else{
+										firstMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>新密码不能和原始密码一样");
+										status_pwd = 0;	
+									}
+								}
+							}else{
+								//v1.6.7.2  安全优化  sj 2013-11-28 start
+								firstMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>请输入8到16位密码，字母+数字+特殊字符至少两种的组合");
+								//v1.6.7.2  安全优化  sj 2013-11-28 end
+								status_pwd = 0;
+							}
+							paswdStatus = status_pwd+status_ck;
+							return paswdStatus;
+						}).keyup(function(){
+							checkStr = checkBox.val();
+							value = pwdBox.val();
+							if(checkStr=="")
+							{
+								checkMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>请输入和上面一致的密码");
+								status_ck = 0;	
+							}
+							else if(value!=checkStr)
+							{
+								checkMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>两次输入的密码不一致");
+								status_ck = 0;
+							}else{
+								checkMes.html("<img src='${webroot}${theme_dir}/images/tipimg-g.png'>上下密码一致");
+								status_ck = 1
+							}	
+						});
+						checkBox.focus(function(){
+							checkMes.text("");
+						}).blur(function(){
+							value = pwdBox.val();
+							checkStr = checkBox.val();
+							if(checkStr=="")
+							{
+								checkMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>请输入和上面一致的密码");
+								status_ck = 0;
+							}
+							else if(checkStr!=value){
+								checkMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>两次输入的密码不一致");
+								status_ck = 0;
+							}
+							else{
+								checkMes.html("<img src='${webroot}${theme_dir}/images/tipimg-g.png'>上下密码一致");
+								status_ck = 1
+							}
+							paswdStatus = status_pwd+status_ck;
+							return paswdStatus;
+						});
+				
+						function passwordTest() {
+							var pwdBox = $("#password");
+							var firstMes = $(".firstpwdb");
+							pwdBox.keyup(function(){
+								var value = pwdBox.val();
+								var str_len = value.length;
+								if((str_len>7)&&(str_len<17)){
+									var result = getResult(value);
+									check(result);
+									pwdBox.attr("value",value);
+									//判断密码强弱程度
+								}
+								else{
+									//v1.6.7.2  安全优化  sj 2013-11-28 start
+									firstMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>请输入8到16位密码，字母+数字+特殊字符至少两种的组合");
+									//v1.6.7.2  安全优化  sj 2013-11-28 end
+								}
+							})
+						}
+						function getResult(value){
+							var str_len = value.length;
+							var i = 0;
+							if(value.match(/[a-z]/ig)) {
+								i++;
+							}
+							if(value.match(/[0-9]/ig)) {
+								i++;
+							}
+							if(value.match(/(.[^a-z0-9])/ig)) {
+								i++;
+							}
+							if(value.length < 8 && i > 0) {
+								i--;
+							}
+							return i;
+						}
+						function check(num) {
+							if(num == 0) {
+								firstMes.html("<span style='color:#f00'>　密码太短了</span>");
+							} else if (num == 1) {
+								firstMes.html("<span class='hover'>弱</span><span>中</span><span>强</span>");
+							} else if (num == 2) {
+								firstMes.html("<span class='hover'>弱</span><span class='hover'>中</span><span>强</span>");
+							} else if (num == 3) {
+								firstMes.html("<span class='hover'>弱</span><span class='hover'>中</span><span class='hover'>强</span>");
+							} else {
+								firstMes.html("未知错误");
+							}
+						}
+						
+						
+					}
+					ckPwd();	
+					paswdStatus = ckPwd();
+					//v1.6.7.2  安全优化  sj 2013-12-03 start
+					function check_form_setpwd2(){
+					//v1.6.7.2  安全优化  sj 2013-12-03 end
+						if(paswdStatus==2){
+							return true;	
+						}else{
+							return false;
+						}	
+						
+					}
+				</script>
+				<!--修改安全密码 结束-->
+				
+				<#elseif query_type="protection">
+				<!--密码保护 开始-->
+				 <form action="" method="post">
+				<#if (mType?exists&&mType=="2") || !user.answer?exists>
+				<div class="user_help alert">请选择一个新的帐号保护问题,并输入答案。帐号保护可以为您以后在忘记密码、重要设置等操作的时候,提供安全保障。 </div>
+				<div class="user_right_border">
+					<div class="l">请选择问题：</div>
+					<div class="c">
+						<@linkage name="question" id="question" class="test" nid="pwd_protection" type="value"/>
+					</div>
+				</div>
+				<div class="user_right_border">
+					<div class="l">请输入答案：</div>
+					<div class="c">
+						<input type="text" name="answer" /><input type="hidden" name="type" value="2" /> 
+					</div>
+				</div>
+				<div class="user_right_border">
+					<div class="l">验证码：</div>
+					<div class="c">
+						<input name="valicode" type="text" size="11" maxlength="5"  tabindex="3"/>&nbsp;<img src="${webroot}/validimg.html" alt="点击刷新" onclick="this.src='/p2p/validimg.html?t=' + Math.random();" align="absmiddle" style="cursor:pointer" />
+					</div>
+				</div>
+				<#else>
+				<div class="user_help alert">您已经设置了密码保护功能，请先输入答案再进行修改。 </div>
+				<div class="user_right_border">
+					<div class="l">请选择问题：</div>
+					<div class="c">
+						<@linkage name="question" id="question" class="test" nid="pwd_protection" type="value"/>
+					</div>
+				</div>
+				<div class="user_right_border">
+					<div class="l">请输入答案：</div>
+					<div class="c">
+						<input type="text" name="answer" /> <input type="hidden" name="type" value="1" />
+					</div>
+				</div>
+				</#if>
+				<div class="user_right_border">
+					<div class="l"></div>
+					<div class="c">
+						<input type="submit" name="name"   class="btn-action"  value="确认提交" size="30" /> 
+					</div>
+				</div>
+				<div class="user_right_foot alert">
+				* 温馨提示：我们将严格对用户的所有资料进行保密
+				</div>
+				
+				</form>
+				<!--密码保护 结束-->
+				<!-- 投友宝开始 -->
+				<#elseif query_type="touyoubao">
+				<#if userKeyFlg?exists>
+				<#if sucmsg?exists>
+					<div class="user_right_foot alert">
+						投友宝授权申请成功。
+					</div>
+				<#else>
+					<div class="user_right_foot alert">
+						 您已经通过投友宝授权申请。 点击链接<a href="http://tyb.cnwdai.com">http://tyb.cnwdai.com</a>登录投友宝。 
+					</div>
+				</#if>
+				<#else>
+				<form action="" name="form1" method="post" onsubmit="return check_form_tyb()">
+				<div class="user_help alert alert">投友宝-您身边的网贷记账专家，成功绑定后可以在投友宝上多平台自动记账、对账，简单、高效、安全。<a href="http://bbs.cnwdai.com/forum.php?mod=viewthread&tid=10617&extra=page%3D1" style="color:#f00;" target="_blank">【点此查看产品说明】</a></div>
+				<div class="user_right_border">
+					<div class="l">投友宝用户名：</div>
+					<div class="c">
+						<input type="text" name="username_forum"/> 没有用户名？<a href="http://tyb.cnwdai.com/"  target="_blank">立即注册</a>
+					</div>
+				</div>
+				<div class="user_right_border">
+					<div class="l">验证码：</div>
+					<div class="c">
+					<input name="valicode" type="text" size="11" maxlength="5"  tabindex="3"/>&nbsp;<img src="${webroot}/validimg.html" alt="点击刷新" onclick="this.src='${webroot}/validimg.html?t=' + Math.random();" align="absmiddle" style="cursor:pointer;display:inline; float:none;" />
+				</div>
+				</div>
+                <div class="user_right_border">
+					<div class="l">　</div>
+					<div class="c" style="">
+						<input type="checkbox" id="tyb_checkbox" checked style="margin-right:5px;"><a href="###" id="tyb_text" style="color:#f00">同意投友宝用户授权协议</a>
+					</div>
+                    <script>
+					jQuery('#tyb_text').click(function(){
+						jQuery('#modal_dialog').dialog('destroy');
+						jQuery('#modal_dialog').dialog({ modal: true ,height: 390,width:739 });
+					});
+					</script>
+                    <div id="modal_dialog" style="display: none;  x-overflow:hidden; y-overflow:scroll; padding:10px;" title="协议">
+                        <b>投友宝用户授权协议</b><br><br>
+
+                        <b>投友宝是一款免费的网贷投资多平台记账对账工具，授权之后，用户可以在投友宝后台获取以下数据：</b>
+                        <br>1.账户资金信息
+                        <br>2.资金操作日志
+                        <br>3.投标记录
+                        <br>4.待收记录
+                        <br>5.用户冲值记录
+                        <br>6.用户提现记录
+                        
+                        <br><b>投友宝安全：</b>
+                        <br>1.投友宝与网贷之窗(http://www.cnwdai.com)用户同步登陆。
+                        <br>2.投友宝不记录用户在平台的任何密码
+                        <br>3.投友宝只查询用户财务记录等情况，不操作用户的资金
+                        <br>4.投友宝维护您的合法权益，不会对外公开任何用户私有数据。
+                        <br>5.投友宝与平台通信采用双向加密验证。
+                        
+                        <br><b>授权解除</b>
+                        <br>用户若需解除用户授权，请登陆投友宝，到自动记账->平台账号 中解除随时解除授权即可。
+                    </div>
+				</div>
+				<div class="user_right_border">
+					<div class="e"></div>
+					<div class="c">
+						<input type="submit" class="btn-action" name="name"  value="确认提交" size="30" /> 
+					</div>
+				</div>
+				</form>		
+				
+				<div class="user_right_foot alert">
+				* 温馨提示：我们将严格对用户的所有资料进行保密
+				</div>
+				<script>
+					function check_form_tyb(){
+						 var frm = document.forms['form1'];
+						 console.log(frm)
+						 // 网贷之窗用户名
+						 var username = frm.elements['username_forum'].value;
+						 var errorMsg = '';
+						 var tyb_checkbox = $("#tyb_checkbox");
+						 var valicodeVal = $("input[name='valicode']").val();
+						  if (username.length == 0 ) {
+							errorMsg += '* 投友宝用户名不能为空' + '\n';
+						  }
+						  if(!tyb_checkbox.is(":checked")){
+							 errorMsg += '* 请勾选同意协议' + '\n';
+						  }
+						  if(valicodeVal=="")
+						  {
+							 errorMsg += '* 验证码不能为空' + '\n';	  
+						  }
+						  if (errorMsg.length > 0){
+							alert(errorMsg); 
+							return false;
+						  } else{
+							  if(confirm("请确认您输入的投友宝用户名是自己的，并且输入无误"))
+							  { 	 
+								return true;
+							  }
+						 	  else{
+							 	return false 
+							 }
+						}
+					
+					}
+
+				</script>
+				</#if>
+				<!-- 投友宝结束 -->
+				</#if>
+			</div>
+			<!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-04 start -->
+			<script type="text/javascript">
+			function doajax() {
+				var phone = jQuery('#phone').val();
+				$(function() {
+					$.ajax({
+						"url" : "${webroot}/memberSecurity/mobileaccess.html?mobile="
+								+ phone + "&phone_type=" + 1,
+						"type" : "post",
+						"cache" : "false",
+						"data" : {
+							'name' : $("#phone").val()
+						},
+						"dataType" : "json",
+						"error" : function() {
+						},
+						"success" : function(data) {
+							if (data != null && data.data != "") {
+								alert(data.data);
+								return false;
+							} else {
+								var Time;
+								var phone = jQuery('#phone').val();
+								var now = new Date();
+								var gettime = now.getTime();
+								var phoneBtn = $(".timeval");
+								var timeVal = parseInt("60");
+								Time = setInterval(
+									function() {
+										timeVal--;
+										if (timeVal > 0) {
+											phoneBtn.val(timeVal+ "秒后重新获取").attr("disabled","disabled");
+										} else {
+											timeVal = "60";
+											phoneBtn.val("获取验证码").removeAttr("disabled","disabled");
+											clearInterval(Time);
+										}
+									}, 1000)
+							}
+						}
+					});
+				});
+			}
+			</script>
+			<!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-04 end -->
+			<!--右边的内容 结束-->
+			</div>
+		</div>
+	</div>
+	<!--用户中心的主栏目 结束-->
+	<script
+		src="${request.getContextPath()}${theme_dir}/media/js/modal.js"></script>
+	<#include "../include/footer.html">
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="额度审核">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+		                         <div class="toolbor-module">
+							        <input type="button" class="input-button return" value="返回" onclick="history.go(-1)">
+							    </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                    <div class="valBox" style="margin-bottom:20px;">
+                                        <div class="top">
+                                            <strong>额度审核</strong>
+                                        </div>
+                                        <div class="w349 fp clearfix">
+                                            <ul>
+                                                <li>
+                                                    <div class="title">用户名：</div>
+                                                    <div class="v">
+                                                        ${apply.username}
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">借款类型：</div>
+                                                    <div class="v">
+                                                        信用额度
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                <!-- v1.6.7.1 RDPROJECT-433 liukun 2013-11-08 start -->
+                                                    <!-- 
+                                                    <div class="title">原来金额：</div>
+                                                    <div class="v">
+                                                        ${apply.account_old!0}
+                                                    </div>
+                                                     -->
+                                                    <div class="title">原有额度：</div>
+                                                    <div class="v">
+                                                        ${useramount.credit!0}
+                                                    </div>
+                                                <!-- v1.6.7.1 RDPROJECT-433 liukun 2013-11-08 end -->
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">申请额度：</div>
+                                                    <div class="v">
+                                                        ${apply.account!0}
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                	<!-- v1.6.7.1 RDPROJECT-433 liukun 2013-11-08 start -->
+                                                    <div class="title">内容：</div>
+                                                    <!-- v1.6.7.1 RDPROJECT-433 liukun 2013-11-08 end -->
+                                                    <div class="v">
+                                                        ${apply.content!}
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">备注：</div>
+                                                    <div class="v">
+                                                        ${apply.remark!}
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        </div>
+
+                          
+									<form method="post" action="verifyAmountApply.html">
+                                        <div id="audit">
+						                    <div class="top">
+						                        <strong>审核</strong>
+						                    </div>
+						                    <div class="v">
+						                        <div class="c">
+						                            <div class="choose">
+						                                <label class="mr15">
+						                                	<input name="status" type="radio" value="1" class="radio">审核通过
+						                                </label>
+						                                <label>
+						                                	<input name="status" type="radio" class="radio" value="0" checked="checked">审核不通过
+						                                </label>
+						                            </div>
+						                            <div class="ce">
+						                                通过额度：
+						                                <input type="text" name="account" value="${apply.account!?c}" style="text-align:center;"/>
+														<input type="hidden" name="id" value="${(apply.id!0)?c}" style="text-align:center;"/>
+						                            </div>                
+						                       
+						                            <textarea class="remark" name="verify_remark">输入审核备注...</textarea>
+						                        </div>
+						                        <div class="other clearfix">
+													<input type="submit"  value="确定审核" class="input-button confirm"/>
+						                        </div>
+
+						                    </div>
+						                </div>
+                                    
+
+                                </form>
+
+                            </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">
+<script>
+			
+			var urls = 'index.php?wzd888&q=module/borrow';
+			
+			function sousuo(url){
+				var sou = "";
+				var username = $("#username").val();
+				if (username!=""){
+					sou += "&username="+username;
+				}
+				var keywords = $("#keywords").val();
+				if (keywords!=""){
+					sou += "&keywords="+keywords;
+				}
+				var status = $("#status").val();
+				if (status!=""){
+					sou += "&status="+status;
+				}
+				var is_vouch = $("#is_vouch").val();
+				if (is_vouch!=""){
+					sou += "&is_vouch="+is_vouch;
+				}
+				if (sou!=""){
+					
+					location.href=url+sou;
+				}
+			}
+			
+			function sousuoFull(url){
+				var sou = "";
+				var username = $("#username").val();
+				if (username!=""){
+					sou += "&username="+username;
+				}
+				var biaoType = $("#biaoType").val();
+				if (biaoType!=""){
+					sou += "&biaoType="+biaoType;
+				}
+				var is_vouch = $("#is_vouch").val();
+				if (is_vouch!=""){
+					sou += "&is_vouch="+is_vouch;
+				}
+				if (sou!=""){
+					
+					location.href=url+sou;
+				}
+			}
+			</script>

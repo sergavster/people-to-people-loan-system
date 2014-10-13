@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "../borrow/left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="理财宝转出资金信息审核">
+                        <#include "../borrow/banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+		                         <div class="toolbor-module">
+							        <input type="button" class="input-button return" value="返回" onclick="history.go(-1)">
+							    </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form name="form1" method="post" action="auditCash.html" onsubmit="return check_form();" enctype="multipart/form-data" >
+                                    <div class="valBox" style="margin-bottom:20px;">
+                                        <div class="top">
+                                            <strong>理财宝转出资金信息审核</strong>
+                                        </div>
+                                        <div class="title-v edit edit_ul clearfix">
+                                            <ul>
+                                                <li>
+                                                    <div class="title">理财宝名：</div>
+                                                    <div class="v">${treasureModel.name}</div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">投资人：</div>
+                                                    <div class="v">${cashModel.username!"-"}</div>
+                                                </li>
+                                                 <li  class="color">
+                                                    <div class="title">转出金额:</div>
+                                                    <div class="v">${cashModel.money?c}(单位：元)</div>
+                                                </li>
+                                                 <li  class="color">
+                                                    <div class="title">获得利息:</div>
+                                                    <div class="v">${cashModel.interest}(单位：元)</div>
+                                                </li>
+                                                <li  class="color">
+                                                    <div class="title">利息管理费:</div>
+                                                    <div class="v">${cashModel.fee?c}(单位：元)</div>
+                                                </li>
+                                                <li class="color"></li>   
+                                            </ul>
+                                        </div>
+                                        </div>
+                                        <#if cashModel??&&cashModel.status??&&cashModel.status==0>
+                                        <div id="audit">
+						                    <div class="top">
+						                        <strong>审核理财宝资金转出信息</strong>
+						                        <input type="hidden"  name="id" value="${cashModel.id?c!0}" />
+						                    </div>
+						                    <div class="v">
+						                        <div class="c">
+						                            <div class="choose">
+						                                <label class="mr15"><input name="status" type="radio" value="1" class="radio">通过</label>
+						                                <label><input name="status" type="radio" class="radio" value="2" checked="checked">未通过</label><font color="red">（一旦审核，结果将不可再进行修改）</font>
+						                            </div>
+						                            <textarea class="remark" name="remark">输入审核备注...</textarea>
+						                        </div>
+						                        <div class="other clearfix">
+													<input type="submit"  name="reset" value="确定审核" class="input-button confirm"/>
+						                        </div>
+
+						                    </div>
+						                </div>
+									</#if>
+                                </form>
+                            </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+    <div class="msgClass">
+      ${rsmsg!""}
+ </div>
+</html>
+<#include "../jsPage.html">
+<script>
+			function check_form(){
+				 var frm = document.forms['form1'];
+				 var verify_remark = frm.elements['remark'].value;
+				 var errorMsg = '';
+				  if (verify_remark.length == 0 ) {
+					errorMsg += '备注必须填写' + '\n';
+				  }
+				  
+				  if (errorMsg.length > 0){
+					alert(errorMsg); return false;
+				  } else{  
+					return true;
+				  }
+			}
+			</script>

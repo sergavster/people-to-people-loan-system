@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${webname}</title>
+<script src="${webroot}${theme_dir}/media/js/jquery_1.9.1.js"></script>
+<script src="${webroot}${theme_dir}/media/js/mobile.js"></script>
+<link href="${webroot}${theme_dir}/media/css/mobile.css" rel="stylesheet" />
+<link href="${webroot}${theme_dir}/media/css/mobile_base.css" rel="stylesheet" />
+
+
+</head>
+
+<body>
+<div data-role="page" id="newcash">
+  <div data-role="header"> <a href="${webroot}/wx/invest.html" style="float:left;color:#fff;text-decoration:none;position:absolute;left:10px;">返回列表</a>
+    <h1>个人中心</h1>
+    <a data-ajax="false" href="${webroot}/wx/logout.html" style="float:right;color:#fff;text-decoration:none;position:absolute;right:10px;">退出登录</a> </div>
+  <div data-role="content">
+    <div class="content_main content_main_table">
+    <#if errormsg?exists&&errormsg!="">
+		<div id="msg25">
+			<p class="error"> ${errormsg?replace('<a ','<a data-ajax="false"')?replace("/memberSecurity/","/wx/")} </p>
+		</div>
+	<#elseif msg?exists&&msg!="">
+		<div id="msg24">
+			<p class="ok"> ${msg?replace('<a ','<a data-ajax="false"')?replace("/member/account/cash.html","/wx/cash.html")} </p>
+		</div>
+	<#else>
+    
+    <#include "../common/function.html"> 
+        <form method="post" name="form1" action="${webroot}/wx/extract.html" onSubmit="return check_form_de()" data-ajax="false">
+          <table width="100%" cellspacing="0" cellpadding="0">
+            <tbody>	
+                <tr>
+                    <td>
+                        银行户名：
+                    </td>
+                    <td>
+                    	${session_user.realname!}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        提现银行：
+                    </td>
+                    <td>
+                    <div class="newcash_cl">
+                        <#if banklist?? && banklist?size gt 0>
+                        <#list banklist as item>
+                        <input type="radio" name="account" id="account" value="${item.bankaccount!""}" ><i style="position: relative;top:-2px;left:35px;font-style: normal">${item.bankname!""} ${item.branch!""} 
+                        <#if item.bankaccount?length lt 10>
+                        ${item.bankaccount}
+                        <#else>
+                        ${item.bankaccount?substring(0,4)}****${item.bankaccount?substring((item.bankaccount?length)-4,(item.bankaccount?length))}
+                        </#if></i>
+                        </#list>
+                        <#else>
+                        <div class="l" style="font-weight:bold;">暂无数据</div>
+                        </#if>
+                    </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        当前可用余额：
+                    </td>
+                    <td>
+                    	${ceil(account.use_money!0)}元
+                    </td>
+                </tr>
+              <tr>
+              	<td colspan="2"><input type="text" name="money" id="cash_money" placeholder="提现金额(大于100小于50000)"   onblur="commit(this)"  /></td>
+              </tr>
+              <tr>
+                  <td  colspan="2">
+                     <input type="password" name="paypassword" placeholder="交易密码" />
+                 </td>	
+              </tr>
+              <tr>
+              	<td colspan="2">
+                	<div class="valicodebox">
+                        <div data-role="fieldcontain" class="valicode">
+                            <input name="valicode" id="valicode" placeholder="验证码" class="required" value=""  type="text">
+                        </div>
+                        <img src="${request.getContextPath()}/validimg.html" alt="点击刷新" onClick="this.src='${request.getContextPath()}/validimg.html?t=' + Math.random();" align="absmiddle" class="valicode_img" />
+                    </div>
+                </td>
+              </tr>
+              <tr>
+              	<td colspan="2">
+              		<input type="hidden" name="newcash_token" value="${newcash_token?if_exists}" />
+					<input type="hidden" name="type" value="newcash" />
+                	<input type="submit" value="确认提交">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      	</form>
+    </div>
+    </#if>
+  </div>
+  <div data-role="footer"data-position="fixed">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="/wx/account.html#account" data-ajax="false"  >我的账户</a></li>
+                <li><a href="/wx/recharge.html#newrecharge" data-ajax="false" >充值</a></li>
+                <li><a href="/wx/newcash.html#newcash" data-ajax="false"  class="hover_ui_pagebtn" >提现</a></li>
+                <li><a href="/wx/accountlog.html#accountlog" data-ajax="false"  >资金记录</a></li>
+            </ul>
+        </div><!-- /navbar -->
+   </div><!-- /footer -->
+   <script>
+	function commit(obj) {
+		if (parseFloat(obj.value) > 0 )
+		{
+			var realMoney=parseFloat(obj.value);
+			var inputValue=parseFloat(obj.value);
+			var wz=(inputValue+"").indexOf(".");
+			 if(wz>0){
+					var curNum=inputValue.toString().split(".")[0].length+3;
+					inputValue=((inputValue+"").substring(0,curNum));
+					obj.value=inputValue;
+			}
+			if(inputValue<=30000 && inputValue>100){
+				realMoney=parseFloat(inputValue-3);
+			}else if(30000<inputValue && inputValue<=50000){
+				realMoney=parseFloat(inputValue-5);
+			}else if(inputValue>50000 || inputValue <100){
+				alert("您好，提现资金不能低于100元高于50000元");
+				obj.value="";
+				return false;
+			}
+			if(inputValue>50000){
+				alert("您好，大额提现金额必须小于5万");
+				obj.value="";
+				return false; 
+			}
+			//document.getElementById("real_money").innerText = realMoney ;
+		}
+	}
+      function check_form_de(){
+        var money = $("#cash_money").val();
+        var paypassword = $("input[name='paypassword']").val();
+        var valicode = $("#valicode").val();
+        if(money!=""||paypassword!=""||valicode!="")
+        {
+            return true;	
+        }else{
+            return false;
+        }		
+    }
+	</script>
+</div>
+
+</body>
+</html>

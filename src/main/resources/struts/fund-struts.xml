@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- v1.6.6.2 RDPROJECT-277 xx 2013-10-25 start -->
+<!-- 新增xml配置 -->
+<!-- v1.6.6.2 RDPROJECT-277 xx 2013-10-25 end -->
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="fund" namespace="/fund" extends="wzd-default">
+		<action name="index" class="fundAction" method="index">
+			<result name="index" type="ftl">/fund/index.html</result>
+		</action>
+		<action name="detail" class="fundAction" method="detail">
+			<result name="detail" type="ftl">/fund/detail.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="tender" class="fundAction" method="tender">
+			<result name="tender" type="ftl">/msg.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+	</package>
+</struts>

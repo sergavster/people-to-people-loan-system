@@ -1,0 +1,74 @@
+<!-- v1.6.6.2 RDPROJECT-277 xx 2013-10-27 start -->
+<!-- 新增页面 -->
+<!-- v1.6.6.2 RDPROJECT-277 xx 2013-10-27 end -->
+<#include "../common/function.html"> 
+<#if list?exists>
+	<div class="listmain">
+		<#list list as item>
+			<div class="list-div">
+				<a href="${webroot}/fund/detail.html?fundId=${item.id?c}">
+					<div class="itam-img">
+						<img src="<#if item.pic??>${webroot}/${item.pic}</#if>" class="productimg"/>
+					</div>
+				</a>
+				<ul class="list-ul">
+					<li class="titleli" style="position: relative;">
+						<span>
+							<a href="${webroot}/fund/detail.html?fundId=${item.id?c}" class="titletxt">
+								<#if item.name?length lt 20>${item.name}<#else>${item.name[0..10]}...</#if>&nbsp;&nbsp;
+							</a>
+						</span>
+						<a rel="tooltip" title="秒标满额系统自动还款" class="aimg">
+           					<img src="${webroot}${theme_dir}/images/miao.png" border="0" />
+        				</a>
+						<span style="font-size: 14px; position: absolute; left: 390px;">
+							<b>投资金额：￥</b>
+							<strong><font color="red">${format2(item.account?c)}元</font></strong>
+						</span>
+					</li>
+					<!-- <li>发布者：<strong><font color="red">${item.username}</font>
+					</strong></li> -->
+					<li><#if item.isDay!=1> 年利率：${item.apr}% <#else>天利率：${format2(item.apr/360)}% </#if></li>
+					<#assign scales=item.accountYes/item.account>
+					<li class="clearfix">
+						<div class="float_left">已完成：</div>
+						<div class="jindu float_left">
+							 <div class="rate_tiao" style="width:
+<#if ((scales*100)?string("##.######"))?number -99.99 lte 0.01 && ((scales*100)?string("##.######"))?number -99.99 gte 0>
+99.9%
+<#else>
+${(scales*100)?string("##.##")}%
+</#if>"></div>
+						</div>
+						<div class="float_left">&nbsp; <#if
+							((scales*100)?string("##.######"))?number -99.99 lt 0.01 &&
+							((scales*100)?string("##.######"))?number -99.99 gt 0> 99.99%
+							<#else> ${(scales*100)?string("##.##")}% </#if>
+						</div>
+					</li>
+					<li>
+						借款期限：<strong>${item.timeLimit}</strong><#if item.isDay==1>天<#else>个月</#if>
+					</li>
+					<li>
+						<#if item.status==1>剩余时间：<@showRemainTimeFund addtime=item.addTime?c valid_time=item.validTime />
+						<#elseif item.status==8>已结束</#if>
+					</li>
+					<li><#if item.style==1>一次性还款
+							<#elseif item.style==2>按月分配
+							<#elseif item.style==3>按季度分配
+							<#elseif item.style==4>每月返息 到期还本
+						</#if>
+					</li>
+				</ul>
+				<div class="list-btnbox">
+					<a href="${webroot}/fund/detail.html?fundId=${item.id?c}" class="list-btn">
+						<#if item.status==1>提交认购意向<#elseif item.status==8>已结束</#if>
+					</a>
+				</div>
+			</div>
+		</#list>
+	</div>
+
+<#else>
+	<div align="center" >目前没有相关信息</div>
+</#if>

@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html>
+<#include "../../include/resource.html">
+<body>
+	<#assign nid="member"> 
+		<#include "../../common/function.html"> 
+	<#include "../../include/header.html">
+	 
+	<!-- #main start-->
+	<div id="main" class="clearfix">
+		<!-- .wrap950 开始-->
+		<div class="wrap950 ">
+			<!--左边的导航user_left 开始-->
+			<div class="user_left">
+			<#assign mid="m_account" >
+				<#include "../user_menu.html">
+			</div>
+			<!--左边的导航user_left 结束-->
+
+			<!--右边的内容user_right 开始-->
+			<div class="user_right">
+				<div class="user_right_menu">
+					<#assign troublefund_type="add">
+					<#include "troublefund_menu.html">
+				</div>
+				<!--右边的内容user_right_main 开始-->
+				<div class="user_right_main">
+					<div class="user_help " style="text-align:left;">
+					<#if list??>
+					
+						<table  border="0"  cellspacing="1" class="table table-striped  table-condensed" >
+							<tr>
+							   <td colspan="5">急难基金无偿功德榜</td>
+							</tr>
+							<tr class="head">
+								<td>序号</td>
+								<td>时间</td>
+								<td>用户名</td>
+								<td>捐赠金额</td>
+								<td>使用要求</td>
+							</tr>
+							<#list list as item>
+							<tr>
+								<td>${(item_index+1)!"错误类型!"}</td>
+								<td>${dateformat(item.addtime)}</td>
+								<td><#if item.display_way==0>匿名<#elseif item.display_way==1>${item.username}<#elseif item.display_way==2>${item.realname}<#elseif item.display_way==3>${item.username}${item.realname}</#if></td>
+								<td>${item.money!0}</td>
+								<td>${item.remark!""}</td>
+							</tr>
+							</#list>
+							<tr>
+								<td colspan="11" class="page">
+									<div align="center">
+										<#import "../../common/page.html" as pager>  
+			         	 				<@pager.pagination page=page url="/member/troublefund/troubleFund.html?giving_way=1" map=param style="style1"  />
+		         	 				</div> 
+								</td>
+							</tr>
+						</table>
+
+					<#elseif troubleFund??>
+						<table  border="0"  cellspacing="1" class="table table-striped  table-condensed" >
+							<tr>
+							   <td colspan="5">此次捐赠的获奖情况</td>
+							</tr>
+							<tr class="head">
+								<td>捐赠</td>
+								<td>奖励</td>
+								<td>奖池余额</td>
+								<td>转入基金</td>
+								<td>基金结余</td>
+							</tr>
+							<tr>
+								<td>${(troubleFund.money)!""}</td>
+								<td>${troubleFund.award_money}</td>
+								<td>${troubleAwardExtra}</td>
+								<td>${donate.money}</td>
+								<td>${troubleDonateExtra}</td>
+							</tr>
+							<tr>
+								<td colspan="11" class="page">
+									<div align="center">
+									
+		         	 				</div>  
+								</td>
+							</tr>
+						</table>
+					<#else>
+		<form action="" method="post" onSubmit="javascript:check_form()" name="form1">
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;">奖池当前的余额：</div>
+				<div class="c">
+					${troubleAwardExtra}元	
+				</div>
+			</div>
+		
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;">捐助金额：</div>
+				<div class="c">
+					<input type="text" name="money" onKeyUp="value=value.replace(/[^0-9]/g,'')">
+				</div>
+			</div>
+		
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;">是否无偿</div>
+				<div class="c">
+					<input type="radio" name="giving_way" checked="checked" value="1">是<input type="radio" name="giving_way" value="0">否
+				</div>
+			</div>
+		
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;">显示方式：</div>
+				<div class="c">
+					<input type="radio" name="display_way" checked="checked" value="0">匿名
+					<input type="radio" name="display_way" value="1">用户名
+					<input type="radio" name="display_way" value="2">真实姓名
+					<input type="radio" name="display_way" value="3">用户名及真实姓名
+					
+				</div>
+			</div>
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;">使用要求：</div>
+				<div class="c">
+					<input type="text" name="remark" >
+				</div>
+			</div>
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;">交易密码：</div>
+				
+				<div class="c" style="vertical-align:top">
+					<input type="password" name="paypassword" >
+				</div>
+			</div>	
+					<div class="user_right_border">
+			<div class="l" style="font-weight:bold; float:left;">验证码：</div>
+			<div class="c" >
+				<input name="valicode" type="text" size="11" maxlength="5"  tabindex="3"  style="float:left;"/>&nbsp;<img src="${request.getContextPath()}/validimg.html" alt="点击刷新" onClick="this.src='${request.getContextPath()}/validimg.html?t=' + Math.random();" align="absmiddle" style="cursor:pointer; display:inline-block;zoom:1;*display:inline; *float:none;" />
+			</div>
+		</div>
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;"></div>
+				<div class="c">
+					<input type="hidden" name="type" value="add" />
+					<input type="hidden" name="ruleId" value="1" />
+					<input type="submit" class="btn-action"  name="name"  value="确认提交" size="30" /> 
+				</div>
+			</div>
+		</form>
+				</#if>
+									
+					<!-- 内容结束 -->
+					</div>
+				</div>
+				<!--右边的内容user_right_main 结束-->
+			</div>
+			<!--右边的内容user_right 结束-->
+		</div>
+		<!-- .wrap950 结束-->
+	</div>
+	<!-- #main start-->
+	<#include "../../include/footer.html">

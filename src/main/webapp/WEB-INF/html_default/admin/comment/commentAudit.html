@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body  onload="test()">
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="审核借款标">
+                              
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+
+                                <div class="toolbor-module">
+                                                
+                                    <input type="button" class="input-button return" value="返回" onclick="javascript:location.href='showTrialBorrow.html'">
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form name="form1" method="get" action="updateComment.html" onsubmit="return check_form();" enctype="multipart/form-data">
+
+                                    <div class="valBox mb15">
+                                        <div class="top">
+                                            <strong>审核评论</strong>
+                                        </div>
+                                        <div class="fp w349 clearfix">
+                                            <ul>
+                                                <li>
+                                                    <div class="title">评论内容：</div>
+                                                    <div class="v"><#if comment??> ${comment.comment}</#if></div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div id="audit">
+                                        <div class="top">
+                                            <strong>审核此评论</strong>
+                                        </div>
+                                        <div class="v">
+                                            <div class="c">
+                                                <div class="choose">
+                                                    <label class="mr15"><input name="status" value="1" type="radio" class="radio">审核通过</label>
+                                                    <label><input name="status" type="radio" value="-1" class="radio" checked="checked">审核不通过</label>
+                                                </div>
+                                                <textarea  name="verify_remark" class="remark">输入审核备注...</textarea>
+                                                                                                     
+                                                        
+                                                     
+                                            </div>
+                                            <div class="other clearfix">
+                                                <input type="hidden" name="id" id="id" />
+                                                <input type="submit"  name="reset" value="审核此评论" class="input-button confirm"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                           <script>
+                                function check_form(){
+                                    var frm = document.forms['form1'];
+                                    var verify_remark = frm.elements['verify_remark'].value;
+                                    var errorMsg = '';
+                                    if (verify_remark.length == 0 || verify_remark=='输入审核备注...') {
+                                        errorMsg += '备注必须填写' + '\n';
+                                    }
+
+                                    if (errorMsg.length > 0){
+                                        alert(errorMsg); return false;
+                                    } else{
+                                        return true;
+                                    }
+                                }
+                                
+                                function getQueryString(name){
+                            		var reg=new  RegExp("(^|&)"+name+"=([^&]*)(&|$)");
+                            	    var r =window.location.search.substr(1).match(reg);
+                            	    if(r!=null)
+                            	    	return  unescape(r[2]);
+                            	    return  null;
+                            	}
+                            	function test(){
+                            		var id=getQueryString("id");
+                            		document.getElementById("id").value=id;
+                            	}
+                            </script>
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+<div class="msgClass">
+                                                              ${rsmsg!""}
+                                                          </div>
+    </body>
+</html>
+<#include "../jsPage.html">

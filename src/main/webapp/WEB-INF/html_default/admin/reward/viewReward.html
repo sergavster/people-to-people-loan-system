@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                        	<!-- v1.6.6.2 RDPROJECT-238 zza 2013-10-21 start -->
+                            <#include "../report/left.html">
+                            <!-- v1.6.6.2 RDPROJECT-238 zza 2013-10-21 end -->
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="奖励审核">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+		                         <div class="toolbor-module">
+							        <input type="button" class="input-button return" value="返回" onclick="history.go(-1)">
+							    </div>
+                            </div>
+                            <!--工具栏--}-->
+                            <#import "../../common/function.html" as func>
+                            <div id="main" class="clearfix">
+                                <form name="form1" method="post" action="verifyReward.html" onsubmit="return check_form();" enctype="multipart/form-data" >
+                                    <div class="valBox" style="margin-bottom:20px;">
+                                        <div class="top">
+                                            <strong>查看奖励</strong>
+                                        </div>
+                                        <div class="w349 fp clearfix">
+                                            <ul>
+                                                <li>
+                                                    <div class="title">用户名：</div>
+                                                    <div class="v">
+                                                        <a href="javascript:void(0)" onclick='alertPop("用户详细信息查看","url:get?index.php?admin&q=module/user/view&user_id=2675&type=scene",500,230,"true","","true","text");'>${passiveName}</a>
+                                                    </div>
+                                                </li>
+                                                <!-- v1.6.5.5 RDPROJECT-254 zza 2013-09-29 start -->
+                                                <#if reward.type != 6 && reward.type != 7>
+                                                <!-- v1.6.5.5 RDPROJECT-254 zza 2013-09-29 end -->
+                                                <li>
+                                                    <div class="title">投资总额：</div>
+                                                    <div class="v">
+                                                    	<!-- v1.6.6.2 RDPROJECT-287 zza 2013-10-23 start -->
+                                                    	${reward.tender_count!0} 元
+                                                    	<!-- v1.6.6.2 RDPROJECT-287 zza 2013-10-23 end -->
+                                                    </div>
+                                                </li>
+                                                </#if>
+                                                <li>
+                                                	<div class="title">获取奖励用户：</div>
+                                                	<div class="v">
+                                                		<a href="javascript:void(0)" onclick='alertPop("用户详细信息查看","url:get?index.php?admin&q=module/user/view&user_id=2675&type=scene",500,230,"true","","true","text");'>${username}</a>
+                                                	</div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">应发时间：</div>
+                                                    <div class="v">
+                                                        ${dateformat(reward.receive_time!)}
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">应发金额： </div>
+                                                    <div class="v">
+                                                        ${reward.receive_account!} 元
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">状态：</div>
+                                                    <div class="v">
+                                                       <@func.receiveStatus status=reward.receive_status />
+                                                    </div>
+                                                </li>           
+                                                <li  class="color">
+                                                    <div class="title">添加时间：</div>
+                                                    <div class="v">
+                                                        ${dateformat(reward.addtime!)}
+                                                    </div>
+                                                </li>     
+                                            </ul>
+                                        </div>
+                                     </div>
+						<#if reward??&&reward.receive_status??&&reward.receive_status==2>
+                                        <div class="add-time">
+									        <span class="mr25"><strong>审核人：</strong>${auth.username!"--"}, 审核时间：${dateformat(reward.receive_yestime!)}</span>
+									    </div>
+									    <#else>
+                                        <div id="audit">
+						                    <div class="top">
+						                        <strong>审核此扣款信息</strong>
+						                    </div>
+						                    <div class="v">
+						                        <div class="c">
+						                            <div class="choose">
+						                                <label class="mr15"><input name="status" type="radio" value="2" class="radio" checked="checked">审核通过</label>
+						                                <label><input name="status" type="radio" class="radio" value="3">审核不通过</label>
+						                            </div>
+						                            <div class="ce">
+						                               实收金额：<input type="text" name="receiveYesAccount" value="${(reward.receive_account!0)?c}" size="15" style="text-align:center;">（一旦审核通过将不可再进行修改）
+						                            </div>
+						                        </div>
+						                        <div class="other clearfix">
+													<input type="hidden" name="id" value="${reward.id?c}" />
+													<input type="hidden" name="verifyReward_token" value="${verifyReward_token}" /> 
+													<!-- v1.6.6.1 RDPROJECT-254 zza 2013-09-29 start -->
+													<#if reward.type == 6 || reward.type ==7>
+													<!-- v1.6.6.1 RDPROJECT-254 zza 2013-09-29 end -->
+													<!-- v1.6.5.3  第一次投标奖励自动返还的时候不能点审核按钮  zza 2013-09-17 start  -->
+														<#if reward.back_type != 2>
+															<input type="submit"  name="reset" value="确定审核" class="input-button confirm"/>
+														<#else>
+															<input type="submit"  name="reset" value="确定审核" class="input-button confirm" disabled="disabled"/>
+														</#if>
+													<!-- v1.6.5.3  第一次投标奖励自动返还的时候不能点审核按钮  zza 2013-09-17 end  -->
+													<!-- v1.6.6.2 RDPROJECT-287 zza 2013-10-23 start -->
+													<#elseif reward.tender_count == tenderCheckMoney || (reward.tender_count - tenderCheckMoney) gt 0> 
+													<!-- v1.6.6.2 RDPROJECT-287 zza 2013-10-23 end -->
+														<input type="submit"  name="reset" value="确定审核" class="input-button confirm"/>
+													<#else>
+														<input type="submit"  name="reset" value="确定审核" disabled="disabled" class="input-button confirm"/>
+													</#if>
+						                        </div>
+						                    </div>
+						                </div>
+									</#if>
+                                </form>
+                            </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+<div class="msgClass">
+      ${rsmsg!""}
+ </div>
+    </body>
+</html>
+<#include "../jsPage.html">

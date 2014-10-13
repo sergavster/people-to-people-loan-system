@@ -1,0 +1,380 @@
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title></title>
+</head>
+<body>
+<div style="text-align:center;">
+<p>
+	<span style="text-align:center;font-size:12.0pt;font-family:宋体;">${webname}</span>
+</p>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+<p>
+	<span style="text-align:center;font-size:40px;font-family:宋体;font-weight:bold;">三方合作协议</span>
+</p>
+<p>
+	<span style="text-align:center;font-size:30px;font-family:宋体;">流转/抵押/净值/信用/秒标</span>
+</p>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+<p>
+	<span style="text-align:center;font-size:14px;font-family:宋体;">${borrowProtocolTime}</span>
+</p>
+<p>
+	<span style="text-align:center;font-size:14px;font-family:宋体;">合同编号： ${borrow.id}</span>
+</p>
+<br/><br/><br/><br/><br/><br/><br/><br/>
+</div>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">本协议</span><span style="font-size:12.0pt;font-family:宋体;">由下列各方于<span><span>&nbsp;&nbsp;&nbsp; </span>${nowYear?c}</span>年<span><span>&nbsp;&nbsp;&nbsp; </span>${nowMonth}</span>月<span>${nowDay}<span>&nbsp;&nbsp;&nbsp; </span></span>日在太原签订：</span><span style="font-size:12.0pt;font-family:宋体;"></span> 
+</p>
+<p>
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<b><span style="font-size:12.0pt;font-family:宋体;">甲方（出借人代理）：<span> ${tenderUser.realname}</span></span></b> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">住所地：<span>${tenderUser.address!"-"}</span></span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">身份证号码：<span>${tenderUser.card_id}</span></span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">电话：<span>${tenderUser.phone}</span></span> 
+</p>
+<p style="text-align:left;" align="left">
+	<b><span style="font-size:12.0pt;font-family:宋体;">乙方（借款人）：<span>${borrowUser.realname}</span></span></b> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">晋商贷用户名：<span>${borrowUser.username}</span></span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">住所地：${borrowUser.address!"-"}</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">身份证号码：<span>${borrowUser.card_id}</span></span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">电话：<span>${borrowUser.phone}</span></span> 
+</p>
+<p style="text-align:left;" align="left">
+	<b><span style="font-size:12.0pt;font-family:宋体;">丙方（居间人）： 山西新晋商电子商务股份有限公司<span> </span></span></b> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">住所地：<span> </span>山西省太原市长风街123号君威财富中心大楼B区4层
+	</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">联系人：<span></span></span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">电话：<span></span></span> 
+</p>
+<p>
+	<span style="font-size:12.0pt;font-family:宋体;">（在本协议中，以上各方分别称为“一方”，合称为“各方”。）<span></span></span> 
+</p>
+<p>
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<b><span style="font-size:12.0pt;font-family:宋体;">鉴于：<span></span></span></b> 
+</p>
+<p style="text-align:left;text-indent:24.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">1</span><span style="font-size:12.0pt;font-family:宋体;">、丙方是一家在山西省太原市合法成立并有效存续的电子商务公司，拥有<span>www.jinshangdai.com </span>网站（以下简称<span>“</span>${webname}<span>”</span>）的经营权；<span></span></span> 
+</p>
+<p style="text-align:left;text-indent:24.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">2</span><span style="font-size:12.0pt;font-family:宋体;">、乙方为${webname}注册用户，并承诺其提供给丙方的信息是完全真实的，且希望以${webname}为媒介的方式成立借贷关系；<span></span></span> 
+</p>
+<p style="text-align:left;text-indent:24.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">3</span><span style="font-size:12.0pt;font-family:宋体;">、甲方系附件一所列的已在${webname}注册的全部投资人（以下简称“出借人”）的委托代理人，代表投资人全权处理与乙方之间的借款事宜，其委托权限包括但不限于签署借款合同、支付借款、收取利息和罚息（如适用）、违约金（如适用）、收取借款本金及采取一切甲方认为对投资人有利或可能为投资人减少损失的一切事宜或行为等等；<span></span></span> 
+</p>
+<p style="text-align:left;text-indent:24.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">4</span><span style="font-size:12.0pt;font-family:宋体;">、乙方有借款需求且同意接受以甲方作为出借人的代理人并全权处理借款事宜的方式成立借贷关系。甲方亦是在其所代表的出借人决定借款给乙方后，为了简化合同签署等程序而代表出借人与乙方签立借贷协议及相关文件。<span></span></span> 
+</p>
+<p style="text-align:left;text-indent:23.5pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">为此，经各方协商一致，同意订立本借款协议如下，共同遵照履行： <span></span></span> 
+</p>
+<p style="text-align:center;" align="center">
+	<b><span style="font-size:12.0pt;font-family:宋体;">第一条 基本规定<span></span></span></b> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">1.1<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;">各方一致确认，甲方仅为附件一所列全体出借人的委托代理人，代表出借人签署本协议及本协议提及的一切文件（包括下述的借款合同及担保合同），而该等协议及文件项下任何以甲方名义提及的权利和义务（除强调为甲方本人的除外）均由甲方所代表的出借人承担，而甲方本人并不承担该等权利义务。<span></span></span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">1.2<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;">乙方拟向甲方借款【${tender.account}】元，甲方同意向乙方提供【${tender.account}】元借款，双方拟就该借款事宜签署编号为【 ${borrowNO}】的《借款合同》（以下简称“借款合同”），并就该笔借款提供相关流转/抵押/净值/信用/秒标担保，具体参见编号为【押 ${borrowNO}】的《流转/抵押/净值/信用/秒标合同》（以下简称“担保合同”），且会按照借款合同和担保合同的规定办理流转/抵押/净值/信用/秒标登记及强制执行公证等相关手续。<span></span></span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">1.3<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>甲方应按照${webname}公布的收费规则向丙方支付利息管理费，该费用在甲方获得乙方支付的利息时由丙方按照本协议第一条项下1.7条、1.8条的约定扣除并支付于丙方在晋商贷合作的第三方支付平台的独立的资金账户（以下简称“丙方资金账户”）。</span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">1.4<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span> 乙方必须按照借款合同的约定按时足额向甲方支付利息和偿还本金，并按照本协议第二条的约定按时足额向丙方支付借款管理费用。</span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">1.5<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>乙方承诺若其未来没有按照借款合同约定向甲方支付利息或偿还本金（以下简称“逾期还款”），则其接受甲方本人或其他甲方本人授权的人士在持有甲方本人的书面授权文件的前提下到有管辖权的法院申请强制执行相关抵押物/质押物，其自愿接受强制执行的范围为借款合同和担保合同项下的担保金额、利息、罚息（如适用）、综合管理费（如适用）、违约金（如适用）、实现担保物权所支付的相关费用（包括但不限于律师费、公证费、执行费、拍卖费等）和本协议项下应支付于丙方的的借款管理费等以及所有其他应付款项。</span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">1.6<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>甲乙双方同意，丙方有权在借款合同中约定的借款支付日按照出借人各自投标借款的数额将相应款项从出借人各自在晋商贷合作的第三方支付平台的独立的资金账户（以下简称“出借人资金账户”）直接划付至乙方在晋商贷合作的第三方支付平台的独立的资金账户（以下简称“乙方资金账户”），丙方在执行此操作时有权按照本协议第二条约定扣除乙方应支付于丙方的借款管理费。</span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">1.7<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>甲乙双方同意，丙方有权在借款合同中约定的支付利息日和/或归还本金日将乙方应付的利息和/或本金从乙方资金账户按照届时出借人所持债权的比例划付至出借人资金账户，丙方在执行此操作时有权扣除甲方应支付于丙方的利息管理费，丙方亦有权按照本协议第二条约定从乙方资金账户划付届时应支付的借款管理费到丙方资金账户。</span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">1.8<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>如果在借款合同约定的归还本金日前，乙方在${webname}网络借贷软件系统中发出提前还款付息的指令，则丙方有权按照乙方的指令将相应的款项按照出借人应得的比例在扣除利息管理费后划付至出借人资金账户，丙方亦有权从乙方资金账户划付届时应支付的借款管理费到丙方资金账户。</span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">1.9<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>甲乙双方同意，丙方有权在乙方逾期还款时对乙方进行违约提醒及催收工作，包括但不限于电话通知、发律师函、对乙方提起诉讼等。丙方有权自己进行违约提醒及催收工作，亦有权将该等工作委托给其他方进行。乙方对前述的违约提醒及催收事项已明确知晓并应积极配合。</span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">1.10<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>丙方根据本协议对乙方进行违约提醒及催收工作时，可在其认为必要时进行上门催收提醒，即丙方派出人员至乙方披露的住所地或经常居住地（联系地址）处催收和进行违约提醒，同时向乙方发送催收通知单，乙方应当签收，乙方不签收的，不影响上门催收提醒工作的进行。丙方或其委托的其他方采取违约提醒及催收工作时产生的一切实际费用（包括但不限于快递费、交通费、食宿费等），由乙方承担。</span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">1.11<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>乙方承诺，若其工作单位、职务、住址、联系电话发生变化，应提前3日以书面通知丙方和甲方。</span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">1.12<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>乙方承诺，若其个人或家庭经济收入状况恶化、涉及诉讼、仲裁或其他对其履行本协议和借款合同项下支付借款、利息及借款管理费等义务构成重大威胁的任何事件发生时，应立即以书面通知丙方和甲方。</span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">1.13<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>出借人（一名或多名）可以根据自己的意愿将其在借款合同项下的全部或部分对乙方的债权转让他人，在其债权转让后，乙方明确同意甲方无须就该等债权转让行为另行通知乙方，乙方的还款义务亦不受任何该债权转让行为的影响。乙方仍须对甲方按照本协议继续履行本协议下的还款义务，不得以未接到债权转让通知为由拒绝履行还款义务。</span> 
+</p>
+<p style="text-align:center;" align="center">
+	<b><span style="font-size:12.0pt;font-family:宋体;">第二条 借款管理费<span></span></span></b> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">2.1 <span>&nbsp;</span></span><span style="font-size:12.0pt;font-family:宋体;">在本协议中，<span>“</span>借款管理费<span>”</span>是指因丙方为乙方提供信用咨询、评估、还款提醒、账户管理、还款特殊情况沟通、本金保障等系列信用相关服务（统称<span>“</span>信用服务<span>”</span>）而应由乙方支付给丙方的报酬。<span> </span></span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">2.2 <span>&nbsp;</span></span><span style="font-size:12.0pt;font-family:宋体;"><span> </span>对于丙方向乙方提供的一系列信用服务，乙方同意向丙方支付本协议第一条项下1.2条约定借款本金总额的2<span>%</span>作为首两个月的借款管理费，从第三个月起(含第三个月)每月支付本金总金额的0.6<span>%</span>作为管理费,直至还款结束。前两期借款管理费由乙方授权并委托丙方在丙方根据本协议第一条项下1.6条的约定向乙方划付借款本金时从本金中予以扣除，即视为乙方已缴纳。其余各期借款管理费，乙方应从取得借款本金后第三个月开始按月向丙方支付，具体缴纳时间与借款合同中约定的支付利息日一致，即每月【${payment}】日。乙方授权并委托丙方在每月支付利息日时或乙方决定提前还款时从乙方资金账户中予以扣除，即视为乙方已缴纳。</span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">2.3 <span>&nbsp;</span></span><span style="font-size:12.0pt;font-family:宋体;"><span> </span>如乙方和丙方协商一致调整借款管理费时，甲方同意无需经过甲方同意。</span> 
+</p>
+<p style="text-align:center;" align="center">
+	<b><span style="font-size:12.0pt;font-family:宋体;">第三条 提前还款<span></span></span></b> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">3.1<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;">乙方可在借款期间任何时候提前偿还借款本金。<span></span></span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">3.2<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;">乙方提前偿还借款本金时，应向甲方支付当月应支付的利息和借款本金，并向丙方支付当期的借款管理费，乙方无需支付剩余月份的利息和剩余的借款管理费。  <span></span></span> 
+</p>
+<p style="margin-left:28.3pt;text-align:left;text-indent:-28.3pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">3.3<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;">任何形式的提前还款均不影响丙方已经向乙方收取的借款管理费，丙方均无退还乙方借款管理费的义务。<span> </span></span> 
+</p>
+<p style="text-align:center;" align="center">
+	<b><span style="font-size:12.0pt;font-family:宋体;">第四条 通知<span></span></span></b> 
+</p>
+<p style="text-align:left;text-indent:30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">甲方：<span></span></span> 
+</p>
+<p style="text-align:left;text-indent:30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">通信地址：<span></span></span> 
+</p>
+<p style="text-align:left;text-indent:30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">收件人：<span></span></span> 
+</p>
+<p style="text-align:left;text-indent:30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">乙方：<span></span>${borrowUser.realname}</span> 
+</p>
+<p style="text-align:left;text-indent:30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">通信地址：<span></span>${borrowUser.address!"-"}</span> 
+</p>
+<p style="text-align:left;text-indent:30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">收件人：<span></span>${borrowUser.realname}</span> 
+</p>
+<p style="text-align:left;text-indent:30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">丙方：<span></span>山西新晋商电子商务股份有限公司</span> 
+</p>
+<p style="text-align:left;text-indent:30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">通信地址：<span></span></span> 
+</p>
+<p style="text-align:left;text-indent:30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">收件人：<span></span></span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">4.2<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;">上述通知或其他通信如以传真形式发送，则一经发出即视为送达；如当面送递，则一经面交即视为送达；如以邮寄形式发送，则在投邮<span>5</span>日后即视为送达。<span></span></span> 
+</p>
+<p style="text-align:center;" align="center">
+	<b><span style="font-size:12.0pt;font-family:宋体;">第五条 违约责任<span></span></span></b> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">5.1<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>协议各方均应严格履行合同义务，若任何一方违反本协议的约定或声明、保证和承诺等条款，即构成违约，均须依据有关法律、法规及本协议约定承担违约责任，并赔偿给其他方造成的经济损失（包括但不限于调查、诉讼费、律师费等）。</span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">5.2<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>如本协议提前解除时，乙方在${webname}的账户里有任何余款的，丙方有权将乙方的余款用于清偿乙方尚未支付于丙方的借款管理费及乙方尚未偿还甲方的借款本金、利息及其他所有应付的相关费用，并要求乙方支付因此产生的相关费用。</span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">5.3<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>如乙方逾期还款，则应自乙方应该支付利息日或归还本金日后一天（若支付利息日与归还本金日不同，则以较早时间计算）到乙方实际支付完毕应支付的利息和/或本金之日为止（以下简称“逾期天数”）每天按【0.4】%乘以应支付但尚未支付的利息和/或本金总额（以下简称“逾期本息总额”）向丙方支付逾期管理费。</span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">5.4<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>如果乙方逾期还款超过15天，或乙方在逾期还款后出现逃避、拒绝沟通或拒绝承认欠款事实等恶意行为，丙方有权将乙方的“逾期记录”记入人民银行公民征信系统，丙方不承担任何法律责任。</span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">5.5<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>如果乙方逾期还款超过30天，或乙方在逾期还款后出现逃避、拒绝沟通或拒绝承认欠款事实等恶意行为，丙方有权将乙方违约失信的相关信息及乙方其他信息向媒体、用人单位、公安机关、检查机关、司法机关披露，丙方不承担任何责任。 </span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">5.6<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>在乙方还清全部借款本金、利息、借款管理费及逾期管理费之前，逾期管理费的计算不停止。</span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">5.7<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>在本协议有效期间，甲方、丙方对乙方的任何违约或延误行为给予任何宽容、宽限或延缓行使权利均不损害、影响或限制甲方和丙方依本协议和有关法律规定作为债权人应享有的一切权利，亦不能解释为甲方和丙方对任何违反本协议行为的许可，更不能视为甲方和丙方放弃对现有或将来违约行为采取行动的权利。</span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">5.8<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>本协议中的甲方、乙方及丙方之间的关系是相互独立的，一旦乙方逾期还款，甲方有权单独向乙方追索或者提起诉讼。如乙方逾期支付借款管理费或提供虚假信息的，丙方亦可单独向乙方追索或者提起诉讼。</span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">5.9<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>尽管有本协议其他约定，本条规定的效力不受本协议中止或者终止的影响。</span> 
+</p>
+<p style="text-align:center;" align="center">
+	<b><span style="font-size:12.0pt;font-family:宋体;">第六条 法律适用及争议解决<span></span></span></b> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">6.1<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;">本协议的签订、履行、终止、解释均适用中华人民共和国法律。<span></span></span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">6.2<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>各方就本协议项下条款的解释和履行发生争议时，各方应通过友好协商解决，若协商不成，任何一方均可向丙方所在地（山西省太原市）人民法院提起诉讼，各方一致同意由丙方所在地人民法院管辖。</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">6.3<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>除各方发生争议的事项外，各方仍应当本着善意的原则按照本协议的规定继续履行各自的义务。</span> 
+</p>
+<p style="text-align:center;" align="center">
+	<b><span style="font-size:12.0pt;font-family:宋体;">第七条 附则<span></span></span></b> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">7.1<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;">本协议自甲、乙、丙各方签字、盖章后生效，至本协议附件借款合同项下借款本息、违约金（如适用）、和本协议项下借款管理费和其他相关费用全部清偿完毕后终止。<span></span></span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">7.2<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>与本协议相关的文件，包括但不限于乙方提交的各有关文件资料以及各方就本协议未尽事项可能签订的任何修改、补充协议、丙方向乙方发出的任何书面文件等，均构成本协议不可分割的组成部分。</span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">7.3<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>本协议任何条款赋予各方的任何权利、权力和补救并不能排除该方依据法律规定及本协议项下其他条款所享有的其他任何权利、权力或补救，且一方对其权利、权力和补救的行使并不排除该方对其享有的其他权利、权力和补救的行使。</span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">7.4<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>本协议各条的标题仅为索引而设，在任何情况下，该等标题不得用于或影响对本协议条文的解释。</span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">7.5<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>本协议的每一条款均可分割且独立于其他每一条款，如果在任何时候本协议的任何一条或多条条款成为无效、不合法或不能执行，本协议其他条款的有效性、合法性和可执行性并不因此而受到影响。</span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">7.6<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>本协议的任何修改和补充必须以书面形式进行，并由本协议各方签署后生效。</span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">7.7<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>本协议对各方的合法继承人或继受人均具有约束力。</span> 
+</p>
+<p style="margin-left:30.0pt;text-align:left;text-indent:-30.0pt;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">7.8<span>&nbsp; </span></span><span style="font-size:12.0pt;font-family:宋体;"><span></span>本协议正本一式三份，甲方、乙方、丙方各执一份，具有同等法律效力。</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">（本页以下无正文）<span></span></span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p>
+	<span style="font-size:12.0pt;font-family:宋体;">（此页无正文，为《三方合作协议》之签署页）<span></span></span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">甲方：（签字）<span></span></span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">乙方：（签字）<span></span></span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">丙方：（签字<span>/</span>盖章）<span></span></span> <img src="${stamp}" height="70" width="70"/>
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">&nbsp;</span> 
+</p>
+</body>
+</html>
+
+<html>
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8" />
+<title></title>
+</head>
+<body >
+
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">附件二&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;《借款合同》</span> 
+</p>
+<p style="text-align:left;" align="left">
+	<span style="font-size:12.0pt;font-family:宋体;">附件三&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;《流转/抵押/净值/信用/秒标合同》</span> 
+</p>
+</body>
+</html>

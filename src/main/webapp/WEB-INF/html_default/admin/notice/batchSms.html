@@ -1,0 +1,104 @@
+<!-- v1.6.5.3 RDPROJECT-147 xx 2013.09.11 start -->
+<!-- 新增页面 -->
+<!-- v1.6.5.3 RDPROJECT-147 xx 2013.09.11 end -->
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                        	<!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 start -->
+                            <#include "../setting/left.html">
+                            <!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 end -->
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="短信群发">
+                            <!--面包屑导航---}-->
+                            <!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 start -->
+							<#include "../setting/banner.html">
+							<!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 end -->
+                            <div id="main" class="clearfix">
+								<form name="form1" method="post" action="" id="smsForm" enctype="multipart/form-data">
+									<div class="module_title"><strong>短信群发</strong></div>
+										<div class="module_border">
+										<div class="l">发送范围：</div>
+										<div class="c">
+											<input type="radio" name="scope" value="1" onclick="$('#phonesDiv').hide();$('#splitStrDiv').hide();$('#txtDiv').hide();"/>全站用户
+											<input type="radio" name="scope" value="2" checked="checked" onclick="$('#phonesDiv').show();$('#splitStrDiv').show();$('#txtDiv').show();"/>指定用户
+										</div>
+									</div>
+									
+									<div class="module_border" id="phonesDiv">
+										<div class="l">指定用户手机号串：</div>
+										<div class="c">
+											<textarea name="phones" cols="60" rows="8"></textarea>
+										</div>
+										格式：以英文逗号","隔开,请输入正确的11位手机号码
+									</div>
+									<div class="module_border" id="txtDiv">
+										<div class="l">或者上传txt：</div>
+										<div class="c">
+											<input type="file" name="txt"/>
+										</div>
+										文本内容格式：每行一个手机号,请勿超过5000行
+									</div>
+									
+									<div class="module_border">
+										<div class="l">内容：</div>
+										<div class="c">
+											<textarea name="content" id="content" cols="60" rows="8"></textarea>
+										</div>
+									</div>
+
+									<div class="module_submit" >
+										<input type="hidden" name="actionType" value="sms" />
+										<input type="button" id="smsButton" value="确认提交" onclick="sms();"/>
+									</div>
+								</form>
+			                </div>
+			            </td>
+			        </tr>
+			        <tr>
+			            <!--尾部--{-->
+			            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+			            <!--尾部--}-->
+			        </tr>
+			    </table>
+<div class="msgClass">
+<@s.actionmessage/>
+</div>
+</body>
+</html>
+<#include "../jsPage.html">
+<script type="text/javascript">
+	
+	
+	
+    function sms(){
+    	var content = $("#content").val();
+    	if(content!=null && content!=""){
+    		$("#smsForm").submit();	
+    	}else{
+    		alert("请填写内容！");
+    	}
+    }
+</script>

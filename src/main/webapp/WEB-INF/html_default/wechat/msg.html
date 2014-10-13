@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<title>${webname}</title>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${webname}</title>
+<script src="${webroot}${theme_dir}/media/js/jquery_1.9.1.js"></script>
+<script src="${webroot}${theme_dir}/media/js/mobile.js"></script>
+<link href="${webroot}${theme_dir}/media/css/mobile.css" rel="stylesheet" />
+<link href="${webroot}${theme_dir}/media/css/mobile_base.css" rel="stylesheet" />
+</head>
+
+<body>
+<div data-role="page" class="clearfix">
+	<div data-role="header">
+    	<h1>提示信息</h1>
+    </div>
+	<div data-role="content">
+		<div class="box-con">
+            <div align="center">
+            <br><br><#if rsmsg??>${rsmsg?replace('<a ','<a data-ajax="false"')}<#elseif errormsg??>${errormsg}</#if>
+			<!-- ${backurl!"/"} -->
+            <br><br><a href='javascript:history.go(-1)' data-ajax="false">返回上一页</a><br><br>	
+            </div>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

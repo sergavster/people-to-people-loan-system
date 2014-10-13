@@ -1,0 +1,316 @@
+﻿﻿<!DOCTYPE html>
+<html>
+<#assign nid="member" >
+<!--   v1.6.6.2 RDPROJECT-140 yl 2013-10-23 start-->
+<#assign web_title='我的账户 - ${webname!}' >
+<#assign web_description='我的账户，${webname!}p2p网贷平台' >
+<!--   v1.6.6.2 RDPROJECT-140 yl 2013-10-23 end-->
+<#include "../include/resource.html"> 
+<#include "../common/function.html"> 
+<body>
+<#include "../include/header.html">
+<!--header-end-->
+<!--用户中心的主栏目 开始-->
+<div id="container" class="clearfix container">
+<div class="">
+	<!--左边的导航 开始-->
+	<div class="user_left">
+		<#include "user_menu.html">
+	</div>
+	<!--左边的导航 结束-->
+
+	<!--右边的内容 开始-->
+	<div class="user_right ">
+
+		<div class="user_right_l clearfix" style="width:auto;">
+		<#if detailuser.real_status==0>
+            <div class="alert alert-error" id="user_amange" style="clear:both;">
+             <a class="close" data-dismiss="alert">×</a>
+                ${webname}温馨提醒您：你还没有进行实名认证，
+                    <a href="${webroot}/member/identify/realname.html"><strong>请先进行实名认证！</strong>
+                </a>
+            </div>
+		</#if>
+		
+		<!-- v1.6.7.2  安全优化  sj 2013-12-03 start -->
+		<#if message?exists && message != "">
+			<div class="alert alert-error" id="message_amange" style="clear:both;">
+				<div>
+					<center>密码过于简单，请用户<a href="${webroot}/memberSecurity/passwordTokenPwd.html"><strong>修改密码</strong></a>！</center>
+				</div>
+			</div>
+		</#if>
+		<!-- v1.6.7.2  安全优化  sj 2013-12-03 end -->
+		<!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-26 start -->		
+		<#if isToken?exists && isToken>
+			<div class="alert alert-error" id="message_amange" style="clear:both;">
+				* 温馨提示：您还没有设置过密保，为了您的账户安全，请
+				<a href="/memberPasswordToken/modifyPasswordToken.html" style="color: #f00;">
+					<strong>设置密保</strong>
+				</a>！
+			</div>
+		</#if>
+		<!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-26 end -->
+        	<div class="zh-user-right clearfix">
+                <div class="user_right_lmain clearfix">
+                    <div class="user_right_img">
+                        <img src="${webroot}/imgurl.html?userid=${detailuser.user_id?c}&size=middle" height="98" width="98" class="picborder" style="border:1px dashed #999;padding:2px;"/>
+                        <a href="${webroot}/member/identify/avatar.html"><font color="#FF0000">[更换头像]</font></a>
+                    </div>
+                    <div class="user_right_txt">
+                        <ul style="width:374px; overflow:hidden; *float:left; ">
+                           
+                            <li style="overflow:hidden; width:427px;">
+                                <div class="floatl"><span> 认&nbsp;&nbsp;&nbsp;   证： </span></div> 
+								
+									<#include "../common/macro.html">
+									<@identifyShow detailuser=detailuser/>
+									
+                            </li>
+                           <li class="clearfix">
+                            	<div class="float_left mr10">
+                            	VIP 期限：
+	                                      <a href="${webroot}/member/vip.html">
+	                          <!--  V1.6.6.1 RDPROJECT-201 wcw 2013-09-29 start-->
+                            	<#if userCache??>
+	                            	<#if userCache.vip_status==1>
+	                                    <#assign new_vip_expire_time=((userCache.vip_end_time?number)?c)>
+	                                    <#assign nowtime=dateformat("now") >
+	                                    <#if nowtime?number lt new_vip_expire_time?number>
+	                                        ${dateformat(new_vip_expire_time,"yyyy-MM-dd")}
+	                                    </#if>
+	                                <!-- v1.6.7.1 RDPROJECT-446 zza 2013-11-20 start -->
+	                                <#elseif userCache.vip_status==2>
+	                                    VIP审核中
+	                                <!-- v1.6.7.1 RDPROJECT-446 zza 2013-11-20 end -->
+	                                <#elseif userCache.vip_status==3>
+	                                                                                                                           已经过期
+	                                <#else>
+	                                    <font color="#999999">不是VIP</font>
+	                                </#if>
+                            	<#else>
+	                                <#if detailuser.vip_status==1>
+	                                	<!-- v1.6.7.1 RDPROJECT-446 zza 2013-11-20 start -->
+	                                    <#assign vip_expire_time = detailuser.vip_end_time>
+	                                    ${dateformat(vip_expire_time,"yyyy-MM-dd")}
+	                                <#elseif detailuser.vip_status==2>
+	                                    VIP审核中
+	                                    <!-- v1.6.7.1 RDPROJECT-446 zza 2013-11-20 end -->
+	                                <#elseif detailuser.vip_status==3>
+	                                                                                                                           已经过期
+	                                <#else>
+	                                    <font color="#999999">不是VIP</font>
+	                                </#if>
+                                </#if>
+                                <!--  V1.6.6.1 RDPROJECT-201 wcw 2013-09-29 end-->
+                            </a>
+                            </div>
+                            <div class="floatl"><span><#if !detailuser.credit_pic?exists><#else><img style="float:left" class="rank" src="${request.getContextPath()}/data/images/credit/${detailuser.credit_pic}" title="${detailuser.credit_jifen}"  /></#if></span></div>
+                            </li>
+                            <li>
+                            系统通知： <a href="${webroot}/member/message/box.html"><font color="red">${unreadmsg?default(0)}</font> 封未读信息</a>&nbsp; &nbsp; 　
+
+                            <a href="${webroot}/member/account/newrecharge.html" class="orgcolor" color="red"><font color="red">[账户充值]</font></a>　<a href="${webroot}/member/borrow/limitapp.html" class="orgcolor" color="red"><font color="red">[申请额度]</font></a> <a href="${webroot}/member/account/specificKefu.html" class="orgcolor" color="red"><font color="red">[专属客服]</font></a>
+                            </li>
+                            
+                             <li>
+                                <div class="float_left">资料完善度：</div>
+                                <div class="jindu">
+                                    <div style="width:${(((userinfo.rate)!0)*100)?string("##.##")}%;"class="rate_tiao"></div>	
+                                </div>
+                                <div style="float:left;">${(((userinfo.rate)!0)*100)?string("##.##")}%　<a href="${webroot}/member/userinfo/userinfo.html" >继续完善</a></div>
+                             </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="user-right-tab">
+                    <div class="user-right-tab-title"><span class="titles">账户详情</span></div>
+                    <div class="user-right-tabcontent" style="display:block;">
+                        <table width="100%" cellspacing="2">
+                              <tr>
+                                <td width="35%"><a href="#" rel="tooltip" title="总额=可用余额+冻结金额+待收金额">账户总额</a>：<font>￥<#if summary??>${ceil(summary.accountTotal!0)}</#if></font></td>
+                                <td width="65%"><a href="${webroot}/member/account/log.html">资金记录查询</a>  |  <a href="${webroot}/member/account/bank.html">
+                                        &nbsp;银行账户设置</a></td>
+                              </tr>
+                              <tr>
+                            <td width="35%"><a href="#" rel="tooltip" title="可用余额表示当前您账户中可实际用来来投标的金额">可用余额</a>：<font>￥<#if summary??><#if (summary.accountUseMoney!0) lt 0.01>0<#else>${ceil(summary.accountUseMoney!0)}</#if></#if></font></td>
+                                <td width="65%"><a href="${webroot}/member/account/newcash.html"><font style="font-size:12px;" ><strong>提现</strong></font></a> <a href="${webroot}/member/account/newrecharge.html"><font style="font-size:12px;" ><strong>充值</font></strong> </a>  <a href="${webroot}/member/account/recharge.html">
+                                            &nbsp;充值查询 </a>
+                                    &nbsp;<a href="${webroot}/member/account/cash.html">提现查询 </a> </td>
+                              </tr>
+                              <tr>
+                                <td width="35%"><a href="#" rel="tooltip" title="冻结金额账户中暂时冻结的金额，一般是投标中(尚未满标审核)或申请VIP等待客服审核等">冻结总额</a>：<font>￥<#if summary??>${ceil(summary.accountNoUseMoney!0)}</#if></font></td>
+                                <td width="65%"><a href="${webroot}/member/invest/bid.html">正在进行的投标</a>  |  <a href="${webroot}/member/account/cash.html">正在申请的提现</a></td>
+                              </tr>
+							   <tr>
+                                <td width="35%"><a href="#" rel="tooltip" title="净资产">净&nbsp;资&nbsp;产</a> ：<font>￥<#if summary??>${ceil(summary.accountOwnMoney!0)}</#if></font></td>
+                                <td width="65%"><a href="/member/account/hongbao.html">红&nbsp;包</a>：<font>￥<#if summary??>${ceil(summary.hongbao!0)}</#if></font></td>
+                              </tr>
+							  <tr>
+								<td width="35%"><a href="${webroot}/award/log.html?status=1&ruleId=1">中奖记录</a></td>
+							  </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="user-right-tab">
+                    <div class="user-right-tab-title"><span class="titles">待收待还详情</span></div>
+                        <div class="user-right-tabcontent">
+                            <table width="100%" cellspacing="2">
+                                <tr>
+                                    <td width="35%"><a href="#" rel="tooltip" title="待收总额是指当前用户所有借款标中尚未收回的金额(包括本金+利息)">待收总额</a>：<font>￥<#if summary??>${((summary.collectTotal)!0)?string("##.##")}</#if></font></td>
+                                    <td width="65%"><a href="#" rel="tooltip" title="待收利息是指当前用户待收金额中的利息部分">&nbsp;&nbsp;待收利息</a>：<font><#if summary??>￥${(summary.collectInterest!0)?string("##.##")}</#if></font></td>
+                                </tr>
+                                <tr>
+                                    <td width="35%">最近待收金额：<font>￥<#if summary??>${ceil(summary.newestCollectMoney!0)}</#if></font></td>
+                                    <td width="65%">最近待收时间：<#if summary??&&summary.newestCollectDate??><font>${dateformat(summary.newestCollectDate,"yyyy-MM-dd")}</font><#else>暂无收款</#if>&nbsp;<a href="${webroot}/member/invest/collect.html?status=0"><strong><font color="red">我要收款</font></strong></a></td>
+                                </tr>
+                                <!-- v1.6.6.1 RDPROJECT-325 zza 2013-10-15 start -->
+                                <tr>
+                                    <td width="35%">已赚利息：<font><#if summary??>￥${ceil(summary.yes_interest!0)}</#if></td>
+                                    <td width="65%">已赚奖励：<font><#if summary??>￥${ceil(summary.awardTotal!0)}</#if></font> </td>
+                                </tr>
+                                <!-- v1.6.6.1 RDPROJECT-325 zza 2013-10-15 end -->
+                                <!-- v1.6.7.1 RDPROJECT-399 zza 2013-11-06 start -->
+                                <tr>
+                                    <td width="35%">已赚还款时奖励：<font><#if summary??>￥${summary.repayYesAward}</#if></td>
+                                    <td width="65%">未收还款时奖励：<font><#if summary??>￥${summary.repayAward}</#if></font> </td>
+                                </tr>
+                                <!-- v1.6.7.1 RDPROJECT-399 zza 2013-11-06 end -->
+                                <tr>
+                                    <td width="35%">借出总额：<font>￥<#if summary??>${ceil(summary.lendTotal!0)}</#if></td>
+                                    <td width="65%">已收总额：<font>￥<#if summary??>${ceil(summary.acceptSum!0)}</#if></font> </td>
+                                </tr>
+                                <tr>
+                                    <td width="35%">借款总额：<font><#if summary??>￥${ceil(summary.borrowTotal!0)}</#if></font></td>
+                                    <td width="65%">待还总额：<font><#if summary??>￥${ceil(summary.repayTotal!0)}</#if></font> </td>
+                                </tr>
+                                <tr>
+                                    <td width="35%">最近待还金额：<font><#if summary??>￥${ceil(summary.newestRepayMoney!0)}</#if></font></td>
+                                    <td width="65%">最近待还时间：<#if summary??&&summary.newestRepayDate??><font>${dateformat(summary.newestRepayDate,"yyyy-MM-dd")}</font><#else>暂无还款</#if>&nbsp;<a href="${webroot}/member/borrow/repaymentdetail.html"><strong><font color="red">我要还款</font></strong></a></td>
+                                </tr>
+                            </table>
+                        </div>
+                </div>
+                <div class="user-right-tab">
+                    <div class="user-right-tab-title"><span class="titles">信用额度</span></div>
+                        <div class="user-right-tabcontent">
+                            <table width="100%" cellspacing="2">
+                                <tr>
+                                    <td width="35%">信用总额：<font>￥${(amount.credit)!0}</font> </td>
+                                    <td width="65%">可用信用额度：<font>￥${(amount.credit_use)!0}</font></td>
+                                </tr>
+                            </table>
+                        </div>
+                </div>
+                 <!-- 用户积分 -->
+		            <div class="user-right-tab">
+		                    <div class="user-right-tab-title"><span class="titles">积分额度</span></div>
+		                        <div class="user-right-tabcontent">
+		                           <!--  V1.6.7.1 zhangyz 2013-11-21 start -->
+		                            <table width="100%" cellspacing="2">
+		                                <tr>
+		                                    <td width="35%">积分总额：<font>${(userCredit.value)!0}</font> </td>
+		                                  
+		                                  <!--    <td width="65%"><a href="${webroot}/credit/cashDetail.html"><font>积分兑换</font></a>  |  
+		                                    <a href="${webroot}/credit/cashVipInit.html"><font>兑换VIP</font></a>
+		                                  -->  
+		                                    </td>
+		                                </tr>
+		                                 <tr>
+		                                    <td width="35%">已消费积分：<font>${(userCredit.expense_value)!0}</font> </td>
+		                                    <td width="65%">可用积分：<font>${(userCredit.valid_value)!0}</font></td>
+		                                </tr>
+		                               <!--  <tr>
+		                                    <td width="35%"></td>
+		                                    <td width="65%"><a href="${webroot}/credit/userlog.html">积分操作记录</a>  |  <a href="${webroot}/credit/cashLog.html">积分兑换记录</a></td>
+		                                </tr> -->
+		                            </table>
+		                             <!--  V1.6.7.1 zhangyz 2013-11-21 end -->
+		                        </div>  
+		                    </div>               
+		        	</div>
+					
+		                                  
+            	<!-- 用户积分 -->
+        	</div>
+          	<!--  账户中间内容部分-->
+            
+           
+            
+            <div class="" id="slidebar" style="margin-top:0;">
+            
+            <#if kf??>
+            	<div class="zh-kefu" style="margin-bottom:10px;">
+                    <div class="kefu-content">
+                       	<img class="user-photo" src="${webroot}/imgurl.html?userid=${kf.user_id?c}&size=middle" />
+                        <p>客服名称：${kf.username!}　<a href="http://wpa.qq.com/msgrd?v=3&uin=${kf.qq!}&site=qq&menu=yes" target="_blank"><img border="0" src="http://wpa.qq.com/pa?p=2:${kf.qq!}:41" alt="点击这里给我发消息"
+                                                    title="点击这里给我发消息" style="display:inline;"></a>
+                        </p>
+                    </div>
+                </div>专属客服
+            </#if>
+            <!-- V1.6.7.1 RDPROJECT-418 liukun 2013-11-11 start -->
+            <!-- <div class="slidebar-box" style="margin-top:0;">
+                <div class=" slidebar-title">
+                    <span class="float_left">网站公告</span><a href="${webroot}/article/list.html?catalog=22" class="float_right">[更多]</a>
+                </div>
+                <ul class="articleul slidebar-list">
+                    <#if (ggList?exists)&&(ggList?size>0)>
+                        <#list ggList as item>
+                            <li>
+                                <a href="${webroot}/article/detail.html?catalog=22&id=${item.id}"><#if item.name?length lt 15>${item.name}<#else>${item.name[0..14]}</#if></a>
+                            </li>
+                        </#list>
+                    </#if>
+                 </ul>
+            </div>
+            
+            <div class="slidebar-box" style="margin-bottom: 0;">
+                <div class="slidebar-title">
+                    <span class="float_left">常见问题</span><a href="${webroot}/article/list.html?catalog=98" class="float_right">[更多]</a>
+                </div>
+                <ul class="articleul slidebar-list">
+                        <#if cjList??>
+                            <#list cjList as item>
+                        <li>
+                            <a href="${webroot}/article/detail.html?catalog=98&id=${item.id}"><#if item.name?length lt 15>${item.name}<#else>${item.name[0..14]}</#if></a>
+                        </li>
+                            </#list>
+                        </#if>
+                 </ul>
+            </div> -->
+            <#if (saList?exists)&&(saList?size>0)>
+            <#list saList as saHm>
+            <div class="slidebar-box" style="margin-top:0;">
+                <div class=" slidebar-title">
+                    <span class="float_left">${saHm.site.name}</span><a href="${webroot}/article/list.html?catalog=${saHm.site.site_id}" class="float_right">[更多]</a>
+                </div>
+                <ul class="articleul slidebar-list">
+                    <#if (saHm.aList?exists)&&(saHm.aList?size>0)>
+                        <#list saHm.aList as item>
+                            <li>
+                                <a href="${webroot}/article/detail.html?catalog=22&id=${item.id}"><#if item.name?length lt 15>${item.name}<#else>${item.name[0..14]}</#if></a>
+                            </li>
+                        </#list>
+                    </#if>
+                 </ul>
+            </div>
+            </#list>
+			</#if>
+            <!-- V1.6.7.1 RDPROJECT-418 liukun 2013-11-11 end -->
+                
+            </div>
+            
+		</div>
+	</div>
+	<!--右边的内容 结束-->
+</div>
+</div>
+<!--用户中心的主栏目 结束-->
+<script src="${webroot}${theme_dir}/media/js/modal.js"></script>
+
+<#include "../include/footer.html"> 
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<!-- v1.6.7.1 RDPROJECT-284 xx 2013-10-30 start -->
+<!-- 新增页面 -->
+<!-- v1.6.7.1 RDPROJECT-284 xx 2013-10-30 end -->
+<html>
+<#include "../head.html">
+<body>
+<table class="mc">
+    <tr>
+        <td class="mc-l">
+            <!--左侧导航---{-->
+            <div id="navPanelContainer">
+                <div class="system-logo cd"></div>
+                <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                <!--管理员信息---}-->
+                <div class="nav-wrap">
+                    <#include "left.html">
+                </div>
+            </div>
+            <!--左侧导航---}-->
+        </td>
+        <td class="mc-m">
+            <div class="navToggle"></div>
+        </td>
+        <td class="mc-r">
+            <!--顶部导航---{-->
+            <#include "../topNav.html">
+            <!--顶部导航---}-->
+            
+            <div id="breadcrumbNav">
+			    <div class="home-icon"></div>
+			    <ul>
+			        <li>用户冻结</li>
+			        <li class="v">用户冻结信息列表</li>
+			    </ul>
+			</div>
+
+            <!--工具栏--{-->
+            <div id="toolbar" class="clearfix">
+            	<div class="toolbor-module export">
+            		<input type="button" onclick="exportxls()" value="导出报表" class="input-button export-btn"/>
+            	</div>
+            	<div class="toolbor-module">
+                    <a href="add.html" class="input-button" style="line-height:24px;">+新增</a>
+                </div>
+            	<div class="toolbor-module search">
+                   <input type="button" value="搜索"  class="input-button" onclick="search();">
+                </div>
+                <div class="toolbor-module search">
+                    <div style="height:22px;line-height:22px;float:left;">状态：</div>
+                   <div class="select-box" id="status">
+                        <div class="tag-select">全部</div>
+                        <ul class="tag-options">
+                           <li data-value="99" <#if status??&&status==99 >data-selected="selected"</#if> class="open-selected">全部</li>
+                           <li data-value="0" <#if status??&&status==0 >data-selected="selected"</#if>>未启用</li>
+                           <li data-value="1" <#if status??&&status==1 >data-selected="selected"</#if>>启用中</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="toolbor-module search">
+                    <input type="text" name="username" id="username" value="请输入用户名" data-value="请输入用户名" class="search-value">
+            	</div>
+            </div>
+            <!--工具栏--}-->
+
+            <div id="main" class="clearfix">
+                <form action="" method="post">
+                    <table class="data-list">
+                        <tr class="header">
+                            <td>ID</td>
+                            <td>用户名</td>
+                            <td>冻结标示</td>
+                            <td>添加时间</td>
+                            <td>状态</td>
+                            <td>操作</td>
+                        </tr>
+                        <#import "../../common/function.html" as func>
+                        <#list list as item>
+                            <tr class="s">
+                                <td>${item.id?c}</td>
+                                <td>
+                                    <a href="javascript:void(0)" onclick='alertPop("用户详细信息查看","url:get?${webroot}/admin/attestation/viewUserInfo.html?username=${item.username!}",500,230,"true","","true","text")'>
+                                        ${item.username!}
+                                    </a>
+                                </td>
+                                <td>
+                                <#if item.mark?? && item.mark?length gt 0>
+                                	<#list item.mark?split(",") as obj>
+                                		<#if obj=="login">
+                                			登录 
+                                		<#elseif obj=="recharge">
+                                			充值 
+                                		<#elseif obj=="cash">
+                                			提现 
+                                		<#elseif obj=="tender">
+                                			投标 
+                                		<#elseif obj=="borrow">
+                                			发标 
+                                		</#if>
+                                	</#list>
+                                </#if>
+                                </td>
+                                <td>${dateformat(item.addTime?c!)}</td>
+                                <td><#if item.status==0>未启用<#elseif item.status==1>启用中</#if></td>
+                                <td>
+                                	<#if item.status==0>
+                                	<!-- v1.6.7.2 RDPROJECT-618 lx 2013-12-23 start -->
+                            		<a href="javascript:;" class="un" onClick="javascript:if(confirm('确定要开启吗?')) location.href='/admin/freeze/modifyStatus.html?id=${item.id?c}&status=1'">开启</a>
+                                	<!-- <a href="/admin/freeze/modifyStatus.html?id=${item.id?c}&status=1">开启</a> -->
+                            		<!-- v1.6.7.2 RDPROJECT-618 lx 2013-12-23 end -->
+                                	<#elseif item.status==1>
+                                	<!-- v1.6.7.2 RDPROJECT-618 lx 2013-12-23 start -->
+                            		<a href="javascript:;" class="un" onClick="javascript:if(confirm('确定要关闭吗?')) location.href='/admin/freeze/modifyStatus.html?id=${item.id?c}&status=0'">关闭</a>
+                                	<!-- <a href="/admin/freeze/modifyStatus.html?id=${item.id?c}&status=0">关闭</a> -->
+                            		<!-- v1.6.7.2 RDPROJECT-618 lx 2013-12-23 end -->
+                                	</#if>
+                                	<a href="/admin/freeze/modify.html?id=${item.id?c}">修改</a>
+                                </td>
+                            </tr>
+                        </#list>
+                    </table>
+                </form>
+
+                <!--底部工具栏--{-->
+                <div id="bottomToolbar" class="clearfix">
+                    <div class="other-tool">
+                        <dl class="refresh-data">
+                            <dt class="refresh-data-icon"></dt>
+                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                        </dl>
+                    </div>
+
+                    <!--翻页系统--{-->
+                    <div class="container">
+                        <#import "../../common/page.html" as pager>
+                        <@pager.pagination page=page url=currentUrl map=param style="style1" />
+                    </div>
+                    <!--翻页系统--}-->
+                </div>
+                <!--底部工具栏--}-->
+
+                <script>
+                    var urls = '?search=true';
+                    var xlsurl = '?actionType=export';
+                    function search(){
+                        var sou = "";
+                        var username = $("#username").val();
+                        if (username.length>0 && username!="请输入用户名"){
+                            sou += "&username="+username;
+                        }
+    					var status = $("#status").find(".open-selected").attr("data-value");
+   						sou += "&status="+status;
+                        location.href = urls+sou;
+                    }
+                    function exportxls(){
+                   		var sou = "";
+                   		var username = $("#username").val();
+                        if (username.length>0 && username!="请输入用户名"){
+                            sou += "&username="+username;
+                        }
+    					var status = $("#status").find(".open-selected").attr("data-value");
+   						sou += "&status="+status;
+                        location.href = xlsurl+sou;
+                    }
+                </script>
+            </div>
+
+        </td>
+    </tr>
+    <tr>
+        <!--尾部--{-->
+        <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+        <!--尾部--}-->
+    </tr>
+</table>
+
+</body>
+</html>
+<#include "../jsPage.html">

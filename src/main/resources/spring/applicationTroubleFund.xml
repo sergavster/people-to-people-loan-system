@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<bean id="troubleFundDao" class="com.p2psys.dao.jdbc.TroubleFundDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+	<bean id="userDao" class="com.p2psys.dao.jdbc.UserDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+	<bean id="troubleFundService" class="com.p2psys.service.impl.TroubleFundServiceImpl">
+		<property name="troubleFundDao">
+			<ref bean="troubleFundDao" />
+		</property>
+		<property name="userDao">
+			<ref bean="userDao" />
+		</property>
+		<property name="accountDao">
+			<ref bean="accountDao" />
+		</property>
+		<property name="accountLogDao">
+			<ref bean="accountLogDao" />
+		</property>
+	</bean>
+
+</beans>

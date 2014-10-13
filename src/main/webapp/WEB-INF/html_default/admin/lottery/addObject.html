@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                        	<!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 start -->
+                            <#include "../setting/left.html">
+                            <!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 end -->
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="新增奖品规则">
+                    	<!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 start -->
+                        <#include "../setting/banner.html">
+                        <!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 end -->
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <div class="toolbor-module search">
+                                    <input type="button" class="input-button return" value="返回" onclick="location.href='allObject.html?id=${id}'">
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form name="form1" method="post" action="" onsubmit="return check_form();" enctype="multipart/form-data" >
+                                    <div class="valBox w750">
+                                        <div class="top">
+                                            <strong>新增奖品规则</strong>
+                                        </div>
+                                        <div class="val clearfix">
+                                            <ul>
+                                                <li>
+                                                    <div class="title">奖品名：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="name" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">奖品级别：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="level" onKeyUp="value=value.replace(/[^0-9]/g,'')"/><label> 等奖（1到100以内的整数）</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">奖品中奖率：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="rate" onKeyUp="value=value.replace(/[^0-9.]/g,'')"/><label>*0到1之间的小数（目前系统支持的最小概率为0.00000001）</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">奖品数量限制：</div>
+                                                    <div class="v">
+                                                    	<label><input name="award_limit" value="0" type="radio" class="radio" checked="checked">无限制</label>
+                                                        <label><input name="award_limit" value="1" type="radio" class="radio" >限制</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">奖品总量：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="total" onKeyUp="value=value.replace(/[^0-9]/g,'')"/><label>*1到10000000000的整数（奖品限制时，必须填写）</label>
+                                                    </div>
+                                                </li>
+
+                                                <li>
+                                                    <div class="title">倍率：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="ratio" onKeyUp="value=value.replace(/[^0-9.]/g,'')"/><label>*0.00001到10000的数字（抽奖规则为按倍率抽奖制时，必须填写）</label>
+                                                    </div>
+                                                </li>
+                                                <!-- v1.6.6.2 RDPROJECT-285 lhm 2013-10-25 start -->
+                                                <li>
+                                                    <div class="title">奖品类型：</div>
+                                                    <div class="v">
+                                                    	<label><input name="type" value="0" type="radio" class="radio" checked="checked">现金</label>
+                                                    	<label><input name="type" value="1" type="radio" class="radio" >积分</label>
+                                                    </div>
+                                                </li>
+                                                <!-- v1.6.6.2 RDPROJECT-285 lhm 2013-10-25 end -->
+                                                <li>
+                                                    <div class="title">奖品面值：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="obj_value" onKeyUp="value=value.replace(/[^0-9]/g,'')"/><label>*填写奖品所对应的面值</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">奖品描述：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="description" />
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <div class="other">
+                                                <input type="hidden"  name="actionType" value="add" />
+                                                <input type="hidden"  name="rule_id" value="${(id!0)?c}" />
+                                                <input type="submit"  name="reset" value="新增" class="input-button confirm"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+<div class="msgClass">
+                                                                    ${rsmsg!""}
+                                                                </div>
+    </body>
+</html>
+<#include "../jsPage.html">

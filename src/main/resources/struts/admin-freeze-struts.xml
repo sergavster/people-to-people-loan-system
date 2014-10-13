@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- v1.6.7.1 RDPROJECT-284 xx 2013-11-04 start -->
+<!-- 新增xml配置    冻结功能 -->
+<!-- v1.6.7.1 RDPROJECT-284 xx 2013-11-04 end -->
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="manageFreeze" namespace="/admin/freeze" extends="wzd-admin">
+		<action name="index" class="manageFreezeAction" method="index">
+			<result name="index" type="ftl">/admin/freeze/index.html</result>
+		</action>
+		<action name="add" class="manageFreezeAction" method="add">
+			<result name="add" type="ftl">/admin/freeze/add.html</result>
+		</action>
+		<action name="isExistsByUserName" class="manageFreezeAction" method="isExistsByUserName">
+		</action>
+		<action name="modify" class="manageFreezeAction" method="modify">
+			<result name="modify" type="ftl">/admin/freeze/modify.html</result>
+		</action>
+		<action name="modifyStatus" class="manageFreezeAction" method="modifyStatus">
+			<result name="redirectIndex" type="redirect">/admin/freeze/index.html?status=99</result>
+		</action>
+	</package>
+	
+</struts>

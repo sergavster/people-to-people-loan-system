@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="修改客户信息">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <div class="toolbor-module search">
+                                    <input type="button" class="input-button return" value="返回" onclick="history.go(-1)">
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="w850 clearfix">
+                            <form enctype="multipart/form-data" action="${request.getContextPath()}/admin/userinfo/updateuser.html" method="post">
+                            <input type="hidden" value="0" name="updatetype">
+
+                            <div id="user_info_menu_tab">
+                                <div id="parametersTab" class="bl">
+                                    <ul class="clearfix tab_1" id="userinfo_ul">
+                                        <li data-value="0"><div class="t active">基本资料</div></li>
+                                        <li data-value="1"><div class="t">个人详细资料</div></li>
+                                        <li data-value="2"><div class="t">房产资料</div></li>
+                                        <li data-value="3"><div class="t">单位资料</div></li>
+                                        <li data-value="4"><div class="t">私营业主资料</div></li>
+                                        <li data-value="5"><div class="t">财务状况</div></li>
+                                        <li data-value="6"><div class="t">联系方式</div></li>
+                                        <li data-value="7"><div class="t">配偶资料</div></li>
+                                        <li data-value="8"><div class="t">教育背景</div></li>
+                                        <li data-value="9"><div class="t">其他信息</div></li>
+                                    </ul>
+                                    <script>
+									$(function(){
+										$("#user_info_menu_1").removeClass("hidden");
+										var changeInput = $("input[name='updatetype']");
+										var typeLi = $("#userinfo_ul li");
+										typeLi.click(function(){
+											typeVal = $(this).attr("data-value");
+											changeInput.val(typeVal);
+										})	
+									})
+									</script>
+
+                                        <div class="hidden customer-info"  id="user_info_menu_1">
+                                            <ul class="title-v">
+                                                <li>
+                                                    <div class="title">用户：</div>
+                                                    <div class="v">
+                                                        ${user.username!}(ID:${user.user_id?c})
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">真实姓名：</div>
+                                                    <div class="v">
+                                                        ${user.realname!"-"}
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">邮箱：</div>
+                                                    <div class="v">
+                                                        ${user.email!"-"}
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="hidden customer-info" id="user_info_menu_2">
+                                            <ul class="title-v">
+                                                <li>
+                                                    <div class="title">婚姻状况：</div>
+                                                    <div class="v">
+                                                    	<!-- v1.6.7.2 typeid改成nid start -->
+                                                        <#if user?exists&&user.marry?exists>
+                                                            <@linkage name="marry" id="marry" nid="user_marry"
+                                                            default=user.marry></@linkage> <#else> <@linkage name="marry"
+                                                        id="marry" nid="user_marry"></@linkage> </#if>
+                                                        <!-- v1.6.7.2 typeid改成nid end -->
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">子 女：</div>
+                                                    <div class="v">
+                                                    	<!-- v1.6.7.2 typeid改成nid start -->
+                                                        <#if user?exists&&user.child?exists>
+                                                            <@linkage name="child" id="child" nid="user_child"
+                                                            default=user.child></@linkage> <#else> <@linkage name="child"
+                                                        id="child" nid="user_child"></@linkage> </#if>
+                                                        <!-- v1.6.7.2 typeid改成nid end -->
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">学 历：</div>
+                                                    <div class="v">
+                                                    	<!-- v1.6.7.2 typeid改成nid start -->
+                                                        <#if user?exists&&user.education?exists>
+                                                            <@linkage name="education" id="education" nid="user_education"
+                                                            default=user.education></@linkage> <#else> <@linkage
+                                                        name="education" id="education" nid="user_education"></@linkage> </#if>
+                                                        <!-- v1.6.7.2 typeid改成nid end -->
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">月收入：</div>
+                                                    <div class="v">
+                                                    	<!-- v1.6.7.2 typeid改成nid start -->
+                                                        <#if user?exists&&user.income?exists>
+                                                            <@linkage name="income" id="income" nid="user_income"
+                                                            default=user.income></@linkage> <#else> <@linkage name="income"
+                                                        id="income" nid="user_income"></@linkage> </#if>
+                                                        <!-- v1.6.7.2 typeid改成nid end -->
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">社 保：</div>
+                                                    <div class="v">
+                                                    	<!-- v1.6.7.2 typeid改成nid start -->
+                                                        <#if user?exists&&user.income?exists>
+                                                            <@linkage name="shebao" id="shebao" nid="user_shebao"
+                                                            default=user.shebao></@linkage> <#else> <@linkage name="shebao"
+                                                        id="shebao" nid="user_shebao"></@linkage> </#if>
+                                                        <!-- v1.6.7.2 typeid改成nid end -->
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">社保电脑号：</div>
+                                                    <div class="v">
+                                                        <input type="text" size="30" name="shebaoid"
+                                                               value="<#if user??>${user.shebaoid!}</#if>" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">住房条件：</div>
+                                                    <div class="v">
+                                                    	<!-- v1.6.7.2 typeid改成nid start -->
+                                                        <#if user?exists&&user.housing?exists>
+                                                            <@linkage name="housing" id="housing" nid="user_housing"
+                                                            default=user.housing></@linkage> <#else> <@linkage
+                                                        name="housing" id="housing" nid="user_housing"></@linkage> </#if>
+                                                        <!-- v1.6.7.2 typeid改成nid end -->
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">是否购车：</div>
+                                                    <div class="v">
+                                                    	<!-- v1.6.7.2 typeid改成nid start -->
+                                                        <#if user?exists&&user.car?exists>
+                                                            <@linkage name="car" id="car" nid="user_car"
+                                                            default=user.car></@linkage> <#else> <@linkage name="car"
+                                                        id="car" nid="user_car"></@linkage> </#if>
+                                                        <!-- v1.6.7.2 typeid改成nid end -->
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">逾期记录：</div>
+                                                    <div class="v">
+                                                    	<!-- v1.6.7.2 typeid改成nid start -->
+                                                        <#if user?exists&&user.late?exists>
+                                                            <@linkage name="late" id="late" nid="user_late"
+                                                            default=user.late></@linkage> <#else> <@linkage name="late"
+                                                        id="late" nid="user_late"></@linkage> </#if>
+                                                        <!-- v1.6.7.2 typeid改成nid end -->
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="hidden customer-info" id="user_info_menu_3">
+                                            <ul class="title-v">
+                                                <li>
+                                                    <div class="title">房产地址：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="house_address"
+                                                               value="<#if user??>${user.house_address!}</#if>" size="30" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">建筑面积：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="house_area"
+                                                               value="${user.house_area!}" size="15">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">建筑年份：</div>
+                                                    <div class="v">
+                                                        <input type="text" onclick="change_picktime()"
+                                                               value="${user.house_year!}" name="house_year" size="15">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">供款状况：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.house_status!}"
+                                                               name="house_status" size="15"> 元
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">所有权人1：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.house_holder1!}"
+                                                               name="house_holder1" size="15"> 产权份额<input type="text"
+                                                                                                          value="${user.house_right1!}" name="house_right1" size="15">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">所有权人2：</div>
+                                                    <div class="v">
+                                                     	<!-- v1.6.7.2 RDPROJECT-559 lhm 2013-12-09 start-->
+                                                        <input type="text" value="${user.house_holder2!}"
+                                                               name="house_holder2" size="15"> 产权份额<input type="text"
+                                                                                                          value="${user.house_right2!}" name="house_right2" size="15">
+                                                       <!-- v1.6.7.2 RDPROJECT-559 lhm 2013-12-09 end-->
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">贷款年限：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.house_loanyear!}"
+                                                               name="house_loanyear" size="10">每月供款<input type="text"
+                                                                                                          value="${user.house_loanprice!}" name="house_loanprice"
+                                                                                                          size="10"> 元
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">尚欠贷款余额：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.house_balance!}"
+                                                               name="house_balance" size="15"> 元
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">按揭银行：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.house_bank!}"
+                                                               name="house_bank" size="15">
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="hidden customer-info" id="user_info_menu_4">
+                                            <ul class="title-v">
+                                                <li>
+                                                    <div class="title">公司名称：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.company_name!}"
+                                                               name="company_name" size="15">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">公司性质：</div>
+                                                    <div class="v">
+                                                        <#if user?exists&&user.company_type?exists>
+                                                            <@linkage name="company_type" id="company_type"
+                                                            nid="user_company_type" default=user.company_type></@linkage>
+                                                        <#else> <@linkage name="company_type" id="company_type"
+                                                            nid="user_company_type"></@linkage> </#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">公司行业：</div>
+                                                    <div class="v">
+                                                        <#if
+                                                                user?exists&&user.company_industry?exists> <@linkage
+                                                            name="company_industry" id="company_industry"
+                                                            nid="user_company_industry"
+                                                            default=user.company_industry></@linkage> <#else> <@linkage
+                                                        name="company_industry" id="company_industry"
+                                                        nid="user_company_industry"></@linkage> </#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">工作级别：</div>
+                                                    <div class="v">
+                                                        <#if
+                                                                user?exists&&user.company_jibie?exists> <@linkage
+                                                            name="company_jibie" id="company_jibie"
+                                                            nid="user_company_jibie" default=user.company_jibie></@linkage>
+                                                        <#else> <@linkage name="company_jibie" id="company_jibie"
+                                                            nid="user_company_jibie"></@linkage> </#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">职 位：</div>
+                                                    <div class="v">
+                                                        <#if
+                                                                user?exists&&user.company_office?exists> <@linkage
+                                                            name="company_office" id="company_office"
+                                                            nid="user_company_office"
+                                                            default=user.company_office></@linkage> <#else> <@linkage
+                                                        name="company_office" id="company_office"
+                                                        nid="user_company_office"></@linkage> </#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">服务时间：</div>
+                                                    <div class="v">
+                                                        <input type="text" onclick="change_picktime()"
+                                                               value="${user.company_worktime1!}" name="company_worktime1"
+                                                               size="15"> 到 <input type="text"
+                                                                                   onclick="change_picktime()" value="${user.company_worktime2!}"
+                                                                                   name="company_worktime2" size="15">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">工作年限：</div>
+                                                    <div class="v">
+                                                        <#if
+                                                                user?exists&&user.company_workyear?exists> <@linkage
+                                                            name="company_workyear" id="company_workyear"
+                                                            nid="user_company_workyear"
+                                                            default=user.company_workyear></@linkage> <#else> <@linkage
+                                                        name="company_workyear" id="company_workyear"
+                                                        nid="user_company_workyear"></@linkage> </#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">工作电话：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.company_tel!}"
+                                                               name="company_tel" size="15">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">公司地址：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.company_address!}"
+                                                               name="company_address" size="15">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">公司网站：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.company_weburl!}"
+                                                               name="company_weburl" size="15">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">备注说明：</div>
+                                                    <div class="v">
+                                                        <textarea name="company_reamrk" rows="2" cols="50">${user.company_reamrk!}</textarea>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="hidden customer-info" id="user_info_menu_5">
+                                            <ul class="title-v">
+                                                <li>
+                                                    <div class="title">私营企业类型：</div>
+                                                    <div class="v">
+                                                        <#if user?exists&&user.private_type?exists>
+                                                            <@linkage name="private_type" id="private_type"
+                                                            nid="user_company_industry"
+                                                            default=user.private_type></@linkage> <#else> <@linkage
+                                                        name="private_type" id="private_type"
+                                                        nid="user_company_industry"></@linkage> </#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">成立日期：</div>
+                                                    <div class="v">
+                                                        <input type="text" onclick="change_picktime()"
+                                                               value="${user.private_date!}" name="private_date" size="15">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">经营场所：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.private_place!}"
+                                                               name="private_place" size="15">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">租金：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.private_rent!}"
+                                                               name="private_rent" size="15"> 元
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">租期：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.private_term!}"
+                                                               name="private_term" size="15"> 月
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">税务编号：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.private_taxid!}"
+                                                               name="private_taxid" size="15">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">工商登记号：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.private_commerceid!}"
+                                                               name="private_commerceid" size="15">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">全年盈利/亏损额：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.private_income!}"
+                                                               name="private_income" size="15"> 元（年度）
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">雇员人数：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.private_employee!}"
+                                                               name="private_employee" size="15"> 人
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="hidden customer-info" id="user_info_menu_6">
+                                            <ul class="title-v">
+                                                <li>
+                                                    <div class="title">每月无抵押贷款还款额：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.finance_repayment!}"
+                                                               name="finance_repayment" size="15"> 元
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">自有房产：</div>
+                                                    <div class="v">
+                                                        <#if
+                                                                user?exists&&user.finance_property?exists> <@linkage
+                                                            name="finance_property" id="finance_property"
+                                                            nid="user_finance_property"
+                                                            default=user.finance_property></@linkage> <#else> <@linkage
+                                                        name="finance_property" id="finance_property"
+                                                        nid="user_finance_property"></@linkage> </#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">每月房屋按揭金额：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.finance_amount!}"
+                                                               name="finance_amount" size="15"> 元
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">自有汽车：</div>
+                                                    <div class="v">
+                                                        <#if
+                                                                user?exists&&user.finance_property?exists> <@linkage
+                                                            name="finance_car" id="finance_car" nid="user_finance_car"
+                                                            default=user.finance_car></@linkage> <#else> <@linkage
+                                                        name="finance_car" id="finance_car"
+                                                        nid="user_finance_car"></@linkage> </#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">每月汽车按揭金额：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.finance_caramount!}"
+                                                               name="finance_caramount" size="15"> 元
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">每月信用卡还款金额：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.finance_creditcard!}"
+                                                               name="finance_creditcard" size="15"> 元
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="hidden customer-info" id="user_info_menu_7">
+                                            <ul class="title-v">
+                                                <li>
+                                                    <div class="title">居住地电话：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.tel!}" name="tel" size="20">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">手机号码：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.phone!}" name="phone"
+                                                               size="20">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">居住所在省市：</div>
+                                                    <div class="v">
+                                                        <#if user?exists&&user.province?exists>
+                                                            <@region name="province" id="province" value=user.province
+                                                            pid="0"></@region>&nbsp; <#else> <@region name="province"
+                                                        id="province" pid="0"></@region>&nbsp; </#if> <#if
+                                                            user?exists&&user.province?exists> <#if user.city?exists>
+                                                        <@region name="city" id="city" value=user.city
+                                                        pid=user.province></@region>&nbsp; <#else> <@region name="city"
+                                                        id="city" pid=user.province></@region>&nbsp; </#if> <#else>
+                                                        <@region name="city" id="city" pid="-1"></@region>&nbsp; </#if>
+
+                                                        <#if user?exists&&user.city?exists> <#if user.area?exists>
+                                                            <@region name="area" id="area" value=user.area
+                                                            pid=user.city></@region>&nbsp; <#else> <@region name="area"
+                                                            id="area" pid=user.city></@region>&nbsp; </#if> <#else>
+                                                        <@region name="area" id="area" pid="-1"></@region>&nbsp; </#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">居住地邮编：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.post!}" name="post" size="20">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">现居住地址：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.address!}" name="address"
+                                                               size="20">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">第二联系人姓名：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.linkman1!}" name="linkman1"
+                                                               size="20">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">第二联系人关系：</div>
+                                                    <div class="v">
+                                                        <#if user?exists&&user.relation1?exists>
+                                                            <@linkage name="relation1" id="relation1" nid="user_relation"
+                                                            default=user.relation1></@linkage> <#else> <@linkage
+                                                        name="relation1" id="relation1" nid="user_relation"></@linkage>
+                                                        </#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">第二联系人联系电话：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.tel1!}" name="tel1" size="20">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">第二联系人联系手机：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.phone!}" name="phone1"
+                                                               size="20">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">第三联系人姓名：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.linkman2!}" name="linkman2"
+                                                               size="20">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">第三联系人关系：</div>
+                                                    <div class="v">
+                                                        <#if user?exists&&user.relation1?exists>
+                                                            <@linkage name="relation2" id="relation2" nid="user_relation"
+                                                            default=user.relation2></@linkage> <#else> <@linkage
+                                                        name="relation2" id="relation2" nid="user_relation"></@linkage>
+                                                        </#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">第三联系人联系电话：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.tel2!}" name="tel2" size="20">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">第三联系人联系手机：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.phone2!}" name="phone2"
+                                                               size="20">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">第四联系人姓名：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.linkman3!}" name="linkman3"
+                                                               size="20">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">第四联系人关系：</div>
+                                                    <div class="v">
+                                                        <#if user?exists&&user.relation1?exists>
+                                                            <@linkage name="relation3" id="relation3" nid="user_relation"
+                                                            default=user.relation3></@linkage> <#else> <@linkage
+                                                        name="relation3" id="relation3" nid="user_relation"></@linkage>
+                                                        </#if>
+                                                    </div>
+                                                <li>
+                                                    <div class="title">第四联系人联系电话：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.tel3!}" name="tel3" size="20">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">第四联系人联系手机：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.phone3!}" name="phone3"
+                                                               size="20">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">MSN：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.msn!}" name="msn" size="20">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">QQ：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.qq!}" name="qq" size="20">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">旺旺：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.wangwang!}" name="wangwang"
+                                                               size="20">
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="hidden customer-info" id="user_info_menu_8">
+                                            <ul class="title-v">
+                                                <li>
+                                                    <div class="title">配偶姓名：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.mate_name!}" name="mate_name"
+                                                               size="20">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">每月薪金：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.mate_salary!}"
+                                                               name="mate_salary" size="20">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">移动电话：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.mate_phone!}"
+                                                               name="mate_phone" size="20">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">单位电话：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.mate_tel!}" name="mate_tel"
+                                                               size="20">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">工作单位：</div>
+                                                    <div class="v">
+                                                        <#if user?exists&&user.mate_office?exists>
+                                                            <@linkage name="mate_type" id="mate_type"
+                                                            nid="user_company_industry" default=user.mate_type></@linkage>
+                                                        <#else> <@linkage name="mate_type" id="mate_type"
+                                                            nid="user_company_industry"></@linkage> </#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">职位：</div>
+                                                    <div class="v">
+                                                        <#if user?exists&&user.mate_office?exists>
+                                                            <@linkage name="mate_office" id="mate_office"
+                                                            nid="user_company_office" default=user.mate_office></@linkage>
+                                                        <#else> <@linkage name="mate_office" id="mate_office"
+                                                            nid="user_company_office"></@linkage> </#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">单位地址：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.mate_address!}"
+                                                               name="mate_address" size="20">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">月收入：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.mate_income!}"
+                                                               name="mate_income" size="20">
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="hidden customer-info" id="user_info_menu_9">
+                                            <ul class="title-v">
+                                                <li>
+                                                    <div class="title">最高学历：</div>
+                                                    <div class="v">
+                                                        <#if
+                                                                user?exists&&user.education_record?exists> <@linkage
+                                                            name="education_record" id="education_record"
+                                                            nid="user_education" default=user.education_record></@linkage>
+                                                        <#else> <@linkage name="education_record" id="education_record"
+                                                            nid="user_education"></@linkage> </#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">最高学历学校：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.education_school!}"
+                                                               name="education_school" size="20">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">专业：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.education_study!}"
+                                                               name="education_study" size="20">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">时间：</div>
+                                                    <div class="v">
+                                                        <input type="text" onclick="change_picktime()"
+                                                               value="${user.education_time1!}" name="education_time1"
+                                                               size="20"> 到 <input type="text"
+                                                                                   onclick="change_picktime()" value="${user.education_time2!}"
+                                                                                   name="education_time2" size="20">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">工作单位：</div>
+                                                    <div class="v">
+                                                        <#if user?exists&&user.mate_office?exists>
+                                                            <@linkage name="mate_type" id="mate_type"
+                                                            nid="user_company_industry" default=user.mate_type></@linkage>
+                                                        <#else> <@linkage name="mate_type" id="mate_type"
+                                                            nid="user_company_industry"></@linkage> </#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">职位：</div>
+                                                    <div class="v">
+                                                        <#if user?exists&&user.mate_office?exists>
+                                                            <@linkage name="mate_office" id="mate_office"
+                                                            nid="user_company_office" default=user.mate_office></@linkage>
+                                                        <#else> <@linkage name="mate_office" id="mate_office"
+                                                            nid="user_company_office"></@linkage> </#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">单位地址：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.mate_address!}"
+                                                               name="mate_address" size="20">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">月收入：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.mate_income!}"
+                                                               name="mate_income" size="20">
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <!--<div class="hidden customer-info" id="user_info_menu_10">-->
+
+                                        <!--</div>-->
+
+                                        <div class="hidden customer-info" id="user_info_menu_11">
+                                            <ul class="title-v">
+                                                <li>
+                                                    <div class="title">个人能力：</div>
+                                                    <div class="v">
+                                                        <textarea name="ability" cols="50" rows="2">${user.ability!}</textarea>
+                                                        <br>（如电脑能力、组织协调能力或其他）
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">个人爱好：</div>
+                                                    <div class="v">
+                                                        <textarea name="interest" cols="50" rows="2">${user.interest!}</textarea>
+                                                        <br>（突出自己的个性，工作态度或他人对自己的评价等）
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">其他说明：</div>
+                                                    <div class="v">
+                                                        <textarea name="others" cols="50" rows="2">${user.other!}</textarea>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">时间：</div>
+                                                    <div class="v">
+                                                        <input type="text" onclick="change_picktime()"
+                                                               value="${user.education_time1!}" name="education_time1"
+                                                               size="20"> 到 <input type="text"
+                                                                                   onclick="change_picktime()" value="${user.education_time2!}"
+                                                                                   name="education_time2" size="20">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">工作单位：</div>
+                                                    <div class="v">
+                                                        <#if user?exists&&user.mate_office?exists>
+                                                            <@linkage name="mate_type" id="mate_type"
+                                                            nid="user_company_industry" default=user.mate_type></@linkage>
+                                                        <#else> <@linkage name="mate_type" id="mate_type"
+                                                            nid="user_company_industry"></@linkage> </#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">职位：</div>
+                                                    <div class="v">
+                                                        <#if user?exists&&user.mate_office?exists>
+                                                            <@linkage name="mate_office" id="mate_office"
+                                                            nid="user_company_office" default=user.mate_office></@linkage>
+                                                        <#else> <@linkage name="mate_office" id="mate_office"
+                                                            nid="user_company_office"></@linkage> </#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">单位地址：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.mate_address!}"
+                                                               name="mate_address" size="20">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">月收入：</div>
+                                                    <div class="v">
+                                                        <input type="text" value="${user.mate_income!}"
+                                                               name="mate_income" size="20">
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                            </div>
+                            </div>
+
+                                    <div id="bottomToolbar" class="clearfix">
+                                        <input type="hidden" value="${user.user_id?c}" name="user_id" />
+                                        <input type="submit" name="submit" class="input-button post" value="提交">
+                                        <input type="reset" name="reset" class="input-button reset" value="重置">
+                                    </div>
+                                </form>
+
+
+
+                            </div>
+                            <script type="text/javascript">
+                                change_menu_tab("user_info_menu");
+                            </script>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">
+	<script src="${webroot}${theme_dir}/media/js/area.js"></script>
+    <script>
+        $(function(){
+            $(".customer-info").eq(0).removeClass("hidden");
+        });
+    </script>
+

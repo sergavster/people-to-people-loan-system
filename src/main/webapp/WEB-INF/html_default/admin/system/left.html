@@ -1,0 +1,31 @@
+<div class="nav-oneself">
+    <div class="nav-visitors-item">
+        <div class="bl hidden"></div>
+        <div class="vg">系统设置</div>
+    </div>
+    <ul class="visitors-block hidden">
+        <li><a class="v" href="${request.getContextPath()}/admin/system/index.html" data-nav="index.html">系统参数</a></li>
+        <!-- v1.6.7.2 RDPROJECT-26 sj 2013-12-24 start -->
+        <li><a class="v" href="${request.getContextPath()}/admin/linkagetype/list.html" data-nav="list.html">链接类型管理</a></li>
+        <li><a class="v" href="${request.getContextPath()}/admin/linkage/showLinkage.html" data-nav="showLinkage.html">链接信息管理</a></li>
+        <!-- v1.6.7.2 RDPROJECT-26 sj 2013-12-24 end -->
+    </ul>
+    
+</div>
+
+<div class="nav-oneself">
+    <div class="nav-visitors-item">
+        <div class="bl hidden"></div>
+        <div class="vg">其它管理</div>
+    </div>
+    <ul class="visitors-block hidden">
+        <li><a class="v" href="${request.getContextPath()}/admin/system/clean/index.html" data-nav="index.html">清空缓存</a></li>
+        <!-- v1.6.7.1 规则重加载 cx 2013-11-25 start -->
+        <li><a class="v" href="${request.getContextPath()}/admin/rule/reloadRule.html" data-nav="reloadRule.html">规则重加载</a></li>
+        <!-- v1.6.7.1 规则重加载 cx 2013-11-25 end -->
+         <!--2013-11-27 start -->
+        <li><a class="v" href="${request.getContextPath()}/admin/rule/allRuleList.html" data-nav="allRuleList.html">规则管理</a></li>
+        <!--  <li><a class="v" href="${request.getContextPath()}/admin/newreport/index.html">报表显示</a></li>-->
+        <!-- 2013-11-27 end -->
+    </ul>
+</div>

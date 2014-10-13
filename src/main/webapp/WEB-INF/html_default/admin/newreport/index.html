@@ -1,0 +1,220 @@
+<html style="height:100%">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title></title>
+		<LINK rel="stylesheet" type="text/css" href="/themes/newreportcss/webresources/skin/qq/ymPrompt.css"/>
+		<link rel="STYLESHEET" type="text/css" href="/themes/newreportcss/style/codebase/tree.css">
+		<link rel="STYLESHEET" type="text/css" href="/themes/newreportcss/style/codebase/tabbar.css">
+		<STYLE type=text/css>
+		</STYLE>							
+		<script language="javascript"  src="/themes/newreportcss/webresources/component/ymPrompt/ymPrompt.js"></script>
+		<script language="javascript"  src="/themes/newreportcss/style/codebase/common.js"></script>
+		<script language="javascript"  src="/themes/newreportcss/style/codebase/tabbar.js"></script>
+		<script language="javascript"  src="/themes/newreportcss/style/codebase/tabbar_start.js"></script>
+		<script language="javascript"  src="/themes/newreportcss/style/codebase/tree.js"></script>
+	</head>
+	<body onLoad="loadReadonlyTree();" onResize="correctSizes();a_tabbar.enableAutoReSize(true,true);"
+		style="padding: 0; margin: 0; overflow: hidden; height: 100%;">
+		<script>
+		String.prototype._dhx_trim = function(){
+                     return this.replace(/&nbsp;/g," ").replace(/(^[ \t\n\r]*)|([ \t\n\r]*$)/g,"");
+                  }
+		var node=null;
+		var t=document.location.href.split("?");
+		var displaytype='readonly';
+		function correctSizes(){
+			var tabbarObj=document.getElementById('tabbarconteiner');
+			tabbarObj.style.height = (document.body.offsetHeight - 65)+'px';
+			tabbarObj.style.display='none';
+			tabbarObj.style.display='';
+		}
+		var currentTreeObj;
+		var currentPageId;
+		var currentReportId;
+		var currentTreeItemId;
+		var loadedTypeMessageId=null;
+		
+		var treeReadOnly=null;
+		var treeEditable=null;
+		var treeForm=null;
+		var treeOther=null;
+		function loadReadonlyTree(){
+			if(treeReadOnly!=null) return;
+			loadedTypeMessageId='readonlytree_message';
+			treeReadOnly=new dhtmlXTreeObject("readonlytree_box","100%","100%",0);
+			treeReadOnly.setImagePath("/themes/newreportcss/style/codebase/imgs/");
+			treeReadOnly.setOnClickHandler(function(id){openReportPage(this,id);});
+			treeReadOnly.attachEvent("onOpenEnd",updateTreeSize);
+			treeReadOnly.enableCheckBoxes(false);
+			treeReadOnly.loadXML("/themes/newreportcss/style/xml/readonly_reportsTree.xml?nu=0",loadXMLCallBack);
+			correctSizes();
+		}
+		
+		
+		function openReportPage(treeObj,id)
+		{	
+			var pageid = treeObj.getUserData(id,"pageid");
+			var reportid = treeObj.getUserData(id,"reportid");
+			if(!pageid||pageid=='') return;
+			if(pageid=='[message]')
+			{
+				return;
+			}
+			currentPageId_temp=pageid;
+			currentReportId_temp=reportid;
+			currentTreeObj_temp=treeObj;
+			currentTreeItemId_temp=id;
+			try
+			{
+				if(currentPageId!=null&currentPageId!=''&&sampleframe.WX_UPDATE_ALLDATA!=null)
+				{
+					var updateallDataLocal=sampleframe.WX_UPDATE_ALLDATA;
+					for(var reportguidTmp in updateallDataLocal)
+					{
+						if(reportguidTmp==null) continue;
+						if(reportguidTmp.indexOf(currentPageId+'_guid_')==0&&updateallDataLocal[reportguidTmp]!=null&&updateallDataLocal[reportguidTmp]!='')
+						{
+							ymPrompt.confirmInfo({message:'<b></b>',title:'确认',width:350,height:230,handler:loadNewReportPage});
+							return;
+						}
+					}
+				}
+			}catch(e)
+			{
+			}
+			loadNewReportPage('ok');
+		}
+		var currentPageId_temp,currentReportId_temp,currentTreeObj_temp,currentTreeItemId_temp;
+		function loadNewReportPage(input)
+		{
+			if(input!='ok') return;
+			var pageid=currentPageId_temp;
+			var reportid=currentReportId_temp;
+			var treeObj=currentTreeObj_temp;
+			var id=currentTreeItemId_temp;
+			currentPageId=pageid;
+			currentReportId=reportid;
+			currentTreeObj=treeObj;
+			currentTreeItemId=id;
+			document.getElementById('title_tr1').style.display='';
+			document.getElementById('title_tr2').style.display='';
+			var url='';
+			var params=treeObj.getUserData(id,"params");
+			if(pageid.indexOf('/')>=0&&(pageid.indexOf('.jsp')>pageid.indexOf('/')||pageid.indexOf('.html')>pageid.indexOf('/')))
+			{
+				//普通的jsp
+				url=pageid;
+			}else
+			{	//报表
+				url='/ShowReport.wx?PAGEID='+pageid;
+				if(reportid&&reportid!='')
+				{
+					url=url+'&REPORTID='+reportid;
+				}
+				if(params&&params!='')
+				{
+					url=url+params;
+				}
+			}
+			window.frames.sampleframe.location.href =url;
+		}
+		
+		function updateTreeSize(){
+			this.allTree.style.overflow = "visible";
+			this.allTree.style.height = this.allTree.scrollHeight+"px";
+			
+		}
+		
+		function loadXMLCallBack()
+		{
+			var domObj=document.getElementById(loadedTypeMessageId);
+			if(domObj!=null) domObj.style.display='none';
+		}
+
+		var isBarOpen=true;
+		function showOrHideNaviBar()
+		{
+			if(isBarOpen)
+			{
+				document.getElementById('tabbartd').style.display='none';
+				document.getElementById('imgShowHideNavi').src='/themes/newreportcss/style/codebase/imgs/arrow_right.gif';
+				isBarOpen=false;
+			}else
+			{
+				document.getElementById('tabbartd').style.display='';
+				document.getElementById('imgShowHideNavi').src='/themes/newreportcss/style/codebase/imgs/arrow_left.gif';
+				isBarOpen=true;
+			}
+		} 
+		
+		function openReportUrl(aTag)
+		{
+			window.open(aTag.getAttribute('url'));
+		}
+	</script>
+		<table width="100%" height="100%" cellpadding="0" cellspacing="0"
+			border="0" style="table-layout: fixed;">
+			<tr>
+				<td width="100%" height="100%" colspan="4">
+					<table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0">
+						<tr><td height="2"></td></tr>
+						<tr>
+							<td id="tabbartd" valign="top" width="270">
+								<div id="tabbarconteiner" style="width: 270px; height: 100%; margin: 0 0 0 8px;">
+									<div id="a_tabbar" class="dhtmlxTabBar" tabstyle="scbr"
+										tabheight="28" imgpath="/themes/newreportcss/style/codebase/imgs/"
+										style="width: 270px; height: 100%;"
+										skinColors="#FFFFFF,#F4F3EE" mode="left" offset="3"
+										oninit="a_tabbar.setTabActive(displaytype+'tab')" select="readonlytab">
+										<div id="readonlytab" width="120" name="&lt;table width='100%' height='100%' cellspacing='0' cellpadding='0' border='0' style='margin-left: 3px;'&gt; &lt;tr&gt;&lt;td width='100%' height='100%' valign='middle' align='center'&gt;报表显示&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="padding: 8px 8px 0 8px;display:none;">
+											<div id="readonlytree_box" style="width: 220px; height: 100%;">
+												<span id="readonlytree_message"><font size='2'>正在加载菜单项，请稍候...</font></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</td>
+							<td width="10">
+								<div><img id="imgShowHideNavi" src="/themes/newreportcss/style/codebase/imgs/arrow_left.gif" onmouseover="this.style.cursor='pointer';" onclick='showOrHideNaviBar();'></div>
+							</td>
+							<td align="right" valign="top">
+							  <table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0">
+									<tr id="title_tr1" style="display:none;">
+									  <td  valign="top" height="15">
+											<table width="100%" style="margin:0;z-index:101;" height="100%">
+											  <tr>
+											    <td align="left" height="15">
+													<div  style="font-size:10pt;">
+													</div>
+												 </td>
+												 <td align="right" height="15">
+													<div  style="font-size:10pt;">
+													</div>
+												 </td>
+											  </tr>
+											</table>
+									 	</td>
+									</tr>
+									<tr id="title_tr2" style="display:none;">
+								  		<td height="2" colspan="2" valign="top"><hr/></td>
+									</tr>
+									<tr>
+										<td align="right" colspan="2"  valign="top">
+											<iframe id="sampleframe" name="sampleframe" width="100%" height="99%" frameborder="0" style="border: 0px solid #cecece;"></iframe>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td height="6" width="100%" colspan="4">
+					<div></div>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>
+

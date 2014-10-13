@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="manageComment" namespace="/admin/comment"
+		extends="wzd-admin">
+
+		<action name="showAllComment" class="manageCommentAction" method="showAllComment">
+			<result name="success" type="ftl">/admin/comment/comment.html
+			</result>
+		</action>
+		
+		<action name="updateComment" class="manageCommentAction" method="updateComment">
+			<result name="success" type="ftl">/admin/comment/commentAudit.html</result>
+		</action>
+		
+		<action name="deleteComment" class="manageCommentAction" method="deleteComment">
+			<result name="success" type="ftl">/admin/comment/commentAudit.html</result>
+		</action>
+		
+	</package>
+</struts>

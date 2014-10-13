@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<#include "../../include/resource.html"> 
+<body>
+<#assign nid="member">
+<#include "../../include/header.html">
+<!--header-end-->
+<link href="${request.getContextPath()}/media/css/modal.css" rel="stylesheet" type="text/css" />
+<!--用户中心的主栏目 开始-->
+<div id="main" class="clearfix" >
+<div class="wrap950 " style="margin-top:0">
+	<!--左边的导航 开始-->
+	<div class="user_left">
+		<#include "../user_menu.html">
+	</div>
+	<!--左边的导航 结束-->
+	
+	<!--右边的内容 开始-->	
+	<div class="user_right">
+		<#if msg?exists>
+		<div id="msg24">
+			<p class="ok"> ${msg} </p>
+		</div>
+		<#else>
+			<#if errormsg?exists>
+				<div id="msg25">
+					<p class="error"> ${errormsg} </p>
+				</div>
+			</#if>
+		</#if>
+		<div class="user_right_menu">
+			<#assign userinfo_type="building" >
+			<#include "userinfo_menu.html"> 
+		</div>
+		
+		<div class="user_right_main">
+		<form action="" name="form1" method="post" >
+				<div class="alert user_help">请填写你个人的房产资料相关信息</div>
+		
+		<div class="user_right_border">
+				<div class="l">房产地址：</div>
+				<div class="c">
+					<input type="text" size="30" name="house_address" value="<#if info?exists&&info.house_address?exists>${info.house_address}</#if>" /> 
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">建筑面积：</div>
+				<div class="c">
+					<input type="text" size="25" name="house_area" value="<#if info?exists&&info.house_area?exists>${info.house_area}</#if>"/> 
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">建筑年份：</div>
+				<div class="c">
+					<input type="text" size="25" name="house_year" value="<#if info?exists&&info.house_year?exists>${info.house_year}</#if>" onclick="change_picktime()" /> 
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">供款状况：</div>
+				<div class="c">
+					<input type="text" size="25" name="house_status" value="<#if info?exists&&info.house_status?exists>${info.house_status}</#if>" /> 元
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">所有权人1：</div>
+				<div class="c">
+					<input type="text" size="25" name="house_holder1" value="<#if info?exists&&info.house_holder1?exists>${info.house_holder1}</#if>" /> 
+					产权份额：<input type="text" size="25" name="house_right1" value="<#if info?exists&&info.house_right1?exists>${info.house_right1}</#if>" /> 
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">所有权人2：</div>
+				<div class="c">
+					<input type="text" size="25" name="house_holder2" value="<#if info?exists&&info.house_holder2?exists>${info.house_holder2}</#if>" /> 
+					产权份额：<input type="text" size="25" name="house_right2" value="<#if info?exists&&info.house_right2?exists>${info.house_right2}</#if>" /> 
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="e">若房产尚在按揭中, 请填写</div>
+				<div class="c">
+					贷款年限：<input type="text" size="10" name="house_loanyear" value="<#if info?exists&&info.house_loanyear?exists>${info.house_loanyear}</#if>" />
+					每月供款：<input type="text" size="10" name="house_loanprice" value="<#if info?exists&&info.house_loanprice?exists>${info.house_loanprice}</#if>" /> 元
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">尚欠贷款余额：</div>
+				<div class="c">
+					<input type="text" size="25" name="house_balance" value="<#if info?exists&&info.house_balance?exists>${info.house_balance}</#if>" /> 元
+				</div>
+			</div>
+			
+			<div class="user_right_border">
+				<div class="l">按揭银行：</div>
+				<div class="c">
+					<input type="text" size="25" name="house_bank" value="<#if info?exists&&info.house_bank?exists>${info.house_bank}</#if>" /> 
+				</div>
+			</div>
+		
+		
+		<script>
+			function change_type(type){
+				if (type==2){
+					$("#type_net").addClass("dishide");
+					$("#type_now").removeClass();
+				}else{
+					$("#type_now").addClass("dishide");
+					$("#type_net").removeClass();
+				}
+				
+			}
+		
+		</script>
+		
+		<div class="user_right_border">
+			<div class="l"></div>
+			<div class="c">
+				<input type="submit" class="btn-action"  name="name"  value="确认提交" size="30" /> 
+			</div>
+		</div>
+		
+		<div class="user_right_foot alert">
+		* 温馨提示：我们将对所有的信息进行保密
+		</div>
+		
+		<!--账号充值 结束-->
+		
+		<!--单位资料 开始-->
+				<input type="hidden" name="type" value="1" />
+		</form>
+		</div>
+ 	 </div>
+	<!--右边的内容 结束-->
+	</div>
+</div>
+<!--用户中心的主栏目 结束-->
+<script src="${request.getContextPath()}${theme_dir}/media/js/modal.js"></script>
+
+<#include "../../include/footer.html"> 
+</body>
+</html>

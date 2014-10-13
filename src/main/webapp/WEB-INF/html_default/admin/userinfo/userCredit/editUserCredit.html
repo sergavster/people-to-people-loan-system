@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<#include "../../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "../left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="用户积分修改">
+                        <#include "../banner.html">
+                            <!--面包屑导航---}-->
+
+							 <div id="toolbar" class="clearfix">
+		                         <div class="toolbor-module">
+							        <input type="button" class="input-button return" value="返回" onclick="history.go(-1)">
+							    </div>
+                            </div>
+
+                            <div id="main" class="w750 clearfix">
+
+                                <form name="form1" method="post" action="${request.getContextPath()}/admin/credit/editCredit.html" onsubmit="return checkForm();" enctype="multipart/form-data" >
+                                    <div class="valBox">
+                                        <div class="top">
+                                            <strong>用户积分修改</strong>
+                                        </div>
+                                        <div class="clearfix">
+                                        <ul class="title-v edit edit_ul clearfix">
+                                        <li>
+                                            <div class="title">用户名：</div>
+                                            <div class="v">${user.username!}</div>
+                                        </li>     
+                                         <li>
+                                            <div class="title">用户ID：</div>
+                                            <div class="v">${userCredit.user_id?c}</div>
+                                        </li>
+                                        <li>
+                                            <div class="title">综合积分：</div>
+                                            <div class="v"><input type="text" name="userCredit.value" id="value" onblur="check_value('value')" class="input_border" value="${userCredit.value?c!0}"/>&nbsp;&nbsp;<font id="value_1" color='#FF0000'></font></div>
+                                        </li>
+                                         <li>
+                                            <div class="title">消费积分：<input type="hidden" id="expenseValue" value="${userCredit.expense_value?c!0}"/></div>
+                                            <div class="v"><input type="text" name="userCredit.expense_value" id="expense_value" onblur="check_value('expense_value')" class="input_border" value="${userCredit.expense_value?c!0}"/>&nbsp;&nbsp;<font id="expense_value_1" color='#FF0000'></font></div>
+                                        </li>
+                                        <li>
+                                            <div class="title">有效积分：</div>
+                                            <div class="v"><input type="text" name="userCredit.valid_value" id="valid_value" onblur="check_value('valid_value')" class="input_border" value="${userCredit.valid_value?c!0}"/>&nbsp;&nbsp;<font id="valid_value_1" color='#FF0000'></font></div>
+                                        </li>
+                                         <li>
+                                            <div class="title">投资积分：</div>
+                                            <div class="v">${userCredit.tender_value?c!0}</div>
+                                        </li>
+                                        <li>
+                                            <div class="title">借款积分：</div>
+                                            <div class="v">${userCredit.borrow_value?c!0}</div>
+                                        </li>
+                                        <li>
+                                            <div class="title">赠送积分：</div>
+                                            <div class="v">${userCredit.gift_value?c!0}</div>
+                                        </li>
+                                       <li>
+                                            <div class="title">论坛积分：</div>
+                                            <div class="v">${userCredit.bbs_value?c!0}</div>
+                                        </li>
+                                        <li class="textarea_li">
+                                            <div class="title">备注：</div>
+                                            <div class="v"><textarea rows="6" cols="100" maxlength="255" name="remark" style="width: 600px; height: 120px;"></textarea></div>
+                                        </li>
+                                        <li class="textarea_li">
+                                            <div class="title">注意：</div>
+                                            <div class="v"><font color='#FF0000'>修改积分原则：1.综合积分=有效积分+消费积分；2.有效积分必须大于等于零；3.消费积分只增不减；否则修改不成功。</font></div>
+                                        </li>
+                                        </ul>
+                                    </div>
+                            </div>
+							<!-- onclick="if(confirm('此操作将会修改会员的相关积分,确认吗?')){return true;}else{return false};" -->
+                            <div id="bottomToolbar" class="clearfix">
+                                <input type="hidden"  name="userCredit.user_id" value="${userCredit.user_id?c!0}" />
+                                <input class="input-button post" type="submit" name="submit" value="提交" />
+                            </div>
+                            </form>
+                            </div>
+                            <script>
+                                function check_value(idName){
+                                    var value = $("#"+idName).val();
+                                    var numReg =  /^[0-9]$|^[1-9][0-9]+$/;
+                                    if (!numReg.test(value)) {
+                                    	$("#"+idName).val(0);
+                                    	document.getElementById(idName+"_1").innerHTML = "数据填写有误，请核对！";
+                                    }else{
+                                    	document.getElementById(idName+"_1").innerHTML = "";
+                                    }
+                                }
+                                
+                                function checkForm(){
+                            		var value = parseInt($("#value").val());// 总积分
+                            		var valid_value = parseInt($("#valid_value").val());// 有效积分
+                            		var expense_value = parseInt($("#expense_value").val());// 修改后的消费积分
+                            		var expenseValue = parseInt($("#expenseValue").val());// 原有的消费积分
+                               	 	var numReg =  /^[0-9]$|^[1-9][0-9]+$/;  
+                            		var result = true;
+                            		var value_ = valid_value + expense_value;
+                            		if(value < valid_value ){
+                            			alert("总积分不能小于有效积分!");
+                            			result = false;
+                            		}else if(value < expense_value ){
+                            			alert("总积分不能小于消费积分!");
+                            			result = false;
+                            		}else if(value != value_){
+                            			alert("不满足修改积分第一原则!");
+                            			result = false;
+                            		}else if(expense_value < expenseValue){
+                            			alert("消费积分不能减少!");
+                            			result = false;
+                            		}else if(valid_value < 0){
+                            			alert("有效积分不能小于零!");
+                            			result = false;
+                            		}
+                            		if(result){
+                            			if(confirm('此操作将会修改会员的相关积分,确认吗?')){
+                                			return true;
+                                		}else{
+                                			return false
+                                		};
+                            		}else{
+                            			return false
+                            		}
+                            	}
+                            </script>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+   <div class="msgClass">
+       ${rsmsg!""}
+   </div>
+    </body>
+</html>
+<#include "../../jsPage.html">

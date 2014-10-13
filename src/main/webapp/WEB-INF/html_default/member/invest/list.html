@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<#include "../../include/resource.html">
+<body>
+	<#assign nid="member"> <#include "../../include/header.html">
+	<!--header-end-->
+	<!--用户中心的主栏目 开始-->
+	<div id="main" class="clearfix" style="margin-top:10px;">
+		<div class="wrap950 " style="margin-top:0">
+			<!--左边的导航 开始-->
+			<div class="user_left">
+            	<#assign mid="m_invest" >
+				<#include "../user_menu.html"></div>
+			<!--左边的导航 结束-->
+
+			<!--右边的内容 开始-->
+			<div class="user_right">
+				<#if msg?exists>
+				<div id="msg24">
+					<p class="ok">${msg}</p>
+				</div>
+				<#else> <#if errormsg?exists>
+				<div id="msg25">
+					<p class="error">${errormsg}</p>
+				</div>
+				</#if> </#if>
+				<div class="user_right_menu">
+					<#if type?exists>
+						<#if type=="1"><#assign invest_type="wait"></#if>
+						<#if type=="2"><#assign invest_type="yes"></#if>
+					</#if>
+					<#include "invest_menu.html"></div>
+				<div class="user_right_main">
+					<table  border="0"  cellspacing="1" class="table table-striped  table-condensed" style="width:100%">
+						<form method="post">
+						<tr class="head" >
+							<td  >标题</td>
+							<td  >借款者</td>
+							<td  >金额(元)</td>
+							<td  >年利率</td>
+							<td  >期限</td>
+							<td  >投标时间</td>
+							<!--v1.6.6.2 RDPROJECT-294 wcw 2013-10-12 start  -->
+							<td>展期天数</td>
+							<!--v1.6.6.2 RDPROJECT-294 wcw 2013-10-12 end  -->
+							<td  >应收本息</td>
+							<td  >借出金额</td>
+						</tr>
+						<#import "../../common/function.html" as func>
+						<#list borrow as item>
+						<tr>
+							<td title="${(item.borrow_name)?default("")}"><a href="${request.getContextPath()}/invest/detail.html?borrowid=${(item.id?c)?default(0)}" target="_blank">${(item.borrow_name)?default("")}</a></td>
+							<td  ><a href="${request.getContextPath()}/user/show.html?user_id=${(item.user_id)?c}">${item.username}</a></td>
+							<td  >￥${func.format2(item.account)}</td>
+							<td  >${item.apr}%</td>
+							<td  ><#if item.isday??&&item.isday==1>${item.time_limit_day!0}天<#else>${item.time_limit!0}个月</#if></td>
+							<td  >${dateformat(item.tender_time)}</td>
+							<!--v1.6.6.2 RDPROJECT-294 wcw 2013-10-12 start  -->
+							<td><#if item??&&item.extension_day??>${item.extension_day}<#else>0</#if></td>
+							<!--v1.6.6.2 RDPROJECT-294 wcw 2013-10-12 end  -->
+							<td  >${func.format2(item.repayment_account)}</td>
+							<td  >${func.format2(item.anum)}</td>
+						</tr>
+						</#list>
+						<tr>
+							<td colspan="11" class="page">
+								<div align="center">
+									<#import "../../common/page.html" as pager>  
+				         	 		<@pager.pagination page=page url="/member/invest/list.html" map=param style="style1"  /> 
+								</div>
+							</td>
+						</tr>
+					</form>
+					</table>
+				</div>
+			</div>
+			<!--右边的内容 结束-->
+		</div>
+	</div>
+	<!--用户中心的主栏目 结束-->
+	<script
+		src="${request.getContextPath()}${theme_dir}/media/js/modal.js"></script>
+
+	<#include "../../include/footer.html">
+</body>
+</html>

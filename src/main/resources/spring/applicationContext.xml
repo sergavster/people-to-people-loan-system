@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- v1.6.7.1 注解方式进行对象依赖注入 xx 2013-11-28 start -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+	<!-- v1.6.7.1 注解方式进行对象依赖注入 xx 2013-11-28 end -->
+	
+	<!-- v1.6.7.1 注解方式进行对象依赖注入 xx 2013-11-28 start -->
+	<!-- 使用annotation @Repository,@Service自动注册bean, 并保证@Required、@Autowired的属性被注入的包范围 -->
+    <context:component-scan base-package="com.p2psys,com.p2psys"/>
+    <context:annotation-config/>
+	<!-- v1.6.7.1 注解方式进行对象依赖注入 xx 2013-11-28 end -->
+	
+	
+	<bean id="propertyConfigurer" class="com.p2psys.tool.des.DecryptPropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>      
+                <value>classpath:desdb.properties</value><!-- 加密后文件 -->
+            </list>
+        </property>
+        <property name="fileEncoding" value="utf-8"/> 
+        <property name="keyLocation" value="classpath:desdb.key" /><!-- 密钥文件位置 -->
+    </bean>
+	
+	<!-- <bean id="dataSource"  class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+	    <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+	   	<property name="jdbcUrl" value="${jdbc.url}"/>
+	    <property name="user" value="${jdbc.username}"/>
+	    <property name="password" value="${jdbc.password}"/>
+	    <property name="initialPoolSize" value="10"></property>
+	    <property name="minPoolSize" value="10"></property>
+	    <property name="maxPoolSize"  value="20"></property>
+	    <property name="maxIdleTime" value="30"></property> 
+	    <property name="acquireIncrement" value="5"></property>
+	    <property name="idleConnectionTestPeriod" value="1000"></property>
+	</bean> -->
+	<bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+    	<!-- Connection Info -->
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/> 
+		<!-- 检查数据库连接池中空闲连接的间隔时间  -->
+		<property name="idleConnectionTestPeriod" value="4" />
+		<!-- 连接池中未使用的链接最大存活时间  -->
+		<property name="idleMaxAge" value="240" />
+		<!-- 设置每个分区含有connection最大个数  -->
+		<property name="maxConnectionsPerPartition" value="20" />
+		<!-- 设置每个分区含有connection最小个数  -->
+		<property name="minConnectionsPerPartition" value="10" />
+		<!-- 设置每个分区数  -->
+		<property name="partitionCount" value="3" />
+		<!-- 设置分区中的connection增长数量  -->
+		<property name="acquireIncrement" value="5" />
+		<property name="statementsCacheSize" value="50"/>
+  	    <property name="releaseHelperThreads" value="3"/>
+	</bean>
+
+	<!-- v1.6.7.1 注解方式进行对象依赖注入 xx 2013-11-28 start -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+	<bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+		<constructor-arg index="0" ref="dataSource"/> 
+	</bean>
+	<!-- v1.6.7.1 注解方式进行对象依赖注入 xx 2013-11-28 end -->
+
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+ 		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+	
+	<!-- v1.6.7.1 对rd及rongdu里的servcie进行事务管理 xx 2013-11-28 start -->
+	<aop:config>
+		<aop:pointcut id="allManagerMethod"
+			expression="execution(* com..service.*.*(..)) 
+			and !execution(* com.p2psys.service.impl.AutoBorrowServiceImpl.autoDealTender(..)) " />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="allManagerMethod" />
+	</aop:config>
+	<!-- v1.6.7.1 对rd及rongdu里的servcie进行事务管理 xx 2013-11-28 end -->
+</beans>

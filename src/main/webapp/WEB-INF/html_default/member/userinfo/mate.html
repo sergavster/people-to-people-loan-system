@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<#include "../../include/resource.html">
+<body>
+	<#assign nid="member"> 
+	<#include "../../include/header.html">
+	<!--header-end-->
+	<!--用户中心的主栏目 开始-->
+	<div id="main" class="clearfix" >
+		<div class="wrap950 " style="margin-top:0">
+			<!--左边的导航 开始-->
+			<div class="user_left"><#include "../user_menu.html"></div>
+			<!--左边的导航 结束-->
+
+			<!--右边的内容 开始-->
+			<div class="user_right">
+				<#if msg?exists>
+				<div id="msg24">
+					<p class="ok">${msg}</p>
+				</div>
+				<#else> <#if errormsg?exists>
+				<div id="msg25">
+					<p class="error">${errormsg}</p>
+				</div>
+				</#if> </#if>
+				<div class="user_right_menu"><#assign userinfo_type="mate">
+					<#include "userinfo_menu.html"></div>
+
+				<div class="user_right_main">
+				<form action="" name="form1" method="post" >
+						<div class="user_help alert">请填写您联系方式</div>
+		
+				<div class="user_right_border">
+					<div class="l">配偶姓名：</div>
+					<div class="c">
+						<input type="text" size="25" name="mate_name" value="<#if info?exists&&info.mate_name?exists>${info.mate_name}</#if>" />
+					</div>
+				</div>
+				
+				<div class="user_right_border">
+					<div class="l">每月薪金：</div>
+					<div class="c">
+						<input type="text" size="25" name="mate_salary" value="<#if info?exists&&info.mate_salary?exists>${info.mate_salary}</#if>" />
+					</div>
+				</div>
+				
+				<div class="user_right_border">
+					<div class="l">移动电话：</div>
+					<div class="c">
+						<input type="text" size="25" name="mate_phone" value="<#if info?exists&&info.mate_phone?exists>${info.mate_phone}</#if>" />
+					</div>
+				</div>
+				
+				<div class="user_right_border">
+					<div class="l">单位电话：</div>
+					<div class="c">
+						<input type="text" size="25" name="mate_tel" value="<#if info?exists&&info.mate_tel?exists>${info.mate_tel}</#if>" />
+					</div>
+				</div>
+				
+				<div class="user_right_border">
+					<div class="l">工作单位：</div>
+					<div class="c">
+						<#if info?exists&&info.mate_office?exists>
+							<@linkage name="mate_type" id="mate_type" nid="user_company_industry" default=info.mate_type></@linkage>
+						<#else>
+							<@linkage name="mate_type" id="mate_type" nid="user_company_industry"></@linkage>
+						</#if>
+					</div>
+				</div>
+				
+				
+				<div class="user_right_border">
+					<div class="l">职位：</div>
+					<div class="c">
+						<#if info?exists&&info.mate_office?exists>
+							<@linkage name="mate_office" id="mate_office" nid="user_company_office" default=info.mate_office></@linkage>
+						<#else>
+							<@linkage name="mate_office" id="mate_office" nid="user_company_office"></@linkage>
+						</#if>
+					</div>
+				</div>
+				
+				<div class="user_right_border">
+					<div class="l">单位地址：</div>
+					<div class="c">
+						<input type="text" size="25" name="mate_address" value="<#if info?exists&&info.mate_address?exists>${info.mate_address}</#if>" />
+					</div>
+				</div>
+				
+				<div class="user_right_border">
+					<div class="l">月收入：</div>
+					<div class="c">
+						<input type="text" size="25" name="mate_income" value="<#if info?exists&&info.mate_income?exists>${info.mate_income}</#if>" />
+					</div>
+				</div>
+					
+				<div class="user_right_border">
+					<div class="l"></div>
+					<div class="c">
+						<input type="submit" class="btn-action"  name="name"  value="确认提交" size="30" /> 
+					</div>
+				</div>
+				
+				<div class="user_right_foot alert">
+				 * 温馨提示：我们将对所有的信息进行保密
+				</div>
+				
+				<!--配偶资料   结束-->
+				
+				
+				<!--教育背景   开始-->
+						<input type="hidden" name="type" value="1" />
+				</form>
+				</div>
+			</div>
+			<!--右边的内容 结束-->
+		</div>
+	</div>
+	<!--用户中心的主栏目 结束-->
+	<script
+		src="${request.getContextPath()}${theme_dir}/media/js/modal.js"></script>
+
+	<#include "../../include/footer.html">
+</body>
+</html>

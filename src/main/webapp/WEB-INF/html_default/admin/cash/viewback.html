@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="扣款审核">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+		                         <div class="toolbor-module">
+							        <input type="button" class="input-button return" value="返回" onclick="history.go(-1)">
+							    </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form name="form1" method="post" action="verifyBack.html" onsubmit="return check_form();" enctype="multipart/form-data" >
+                                    <div class="valBox" style="margin-bottom:20px;">
+                                        <div class="top">
+                                            <strong>扣款查看</strong>
+                                        </div>
+                                        <div class="w349 fp clearfix">
+                                            <ul>
+                                                <li>
+                                                    <div class="title">用户名：</div>
+                                                    <div class="v">
+                                                    <!-- v1.6.7.2 RDPROJECT-548 lx 2013-12-23 end  -->
+                                                    <a href="javascript:void(0)" onclick='alertPop("用户详细信息查看","url:get?${request.getContextPath()}/admin/attestation/viewUserInfo.html?username=${back.username!}",500,230,"true","","true","text")'>
+                                           				 ${back.username}
+                                        			</a>
+                                                    <!-- v1.6.7.2 RDPROJECT-548 lx 2013-12-23 end  -->
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">扣款类型：</div>
+                                                    <div class="v">
+                                                       	 线下扣款
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">扣款总额：</div>
+                                                    <div class="v">
+                                                        ${back.money!}元
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">用户备注：</div>
+                                                    <div class="v">
+                                                        ${back.remark!}
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">流水号：</div>
+                                                    <div class="v">
+                                                        ${back.trade_no!}
+                                                    </div>
+                                                </li>           
+                                                <li>
+                                                    <div class="title">状态：</div>
+                                                    <div class="v">
+                                                        <#if back.status==1>成功<#elseif back.status==0>未审核<#else>审核失败</#if>
+                                                    </div>
+                                                </li>           
+                                                <li  class="color">
+                                                    <div class="title">添加时间/IP:</div>
+                                                    <div class="v">
+                                                        ${dateformat(back.addtime!)}/${back.addip!}
+                                                    </div>
+                                                </li>     
+                                                <li class="color"></li>      
+                                                <li class="color"></li>      
+                                                
+                                            </ul>
+                                        </div>
+                                        </div>
+
+                                        <#if back??&&back.status??&&back.status==1>
+                                        <div class="add-time">
+									        <span class="mr25"><strong>审核人：</strong>${back.verify_username!"--"},审核时间：${dateformat(back.verify_time!)},审核备注：${back.verify_remark!}</span>
+									    </div>
+									    <#else>
+
+                                        <div id="audit">
+						                    <div class="top">
+						                        <strong>审核此扣款信息</strong>
+						                    </div>
+						                    <div class="v">
+						                        <div class="c">
+						                            <div class="choose">
+						                                <label class="mr15"><input name="status" type="radio" value="1" class="radio">扣款成功</label>
+						                                <label><input name="status" type="radio" class="radio" value="2" checked="checked">扣款失败</label>
+						                            </div>
+						                            <div class="ce">
+						                                到账金额：<input type="text" name="total" value="${(back.money!0)?c}" size="15" readonly="" style="text-align:center;">（一旦审核通过将不可再进行修改）
+						                            </div>
+						                            <textarea class="remark" name="verify_remark">输入审核备注...</textarea>
+						                        </div>
+						                        <div class="other clearfix">
+													<input type="hidden" name="id" value="${back.id?c}" />
+													<input type="hidden" name="verifyback_token" value="${verifyback_token}" />
+													<input type="submit"  name="reset" value="确定审核" class="input-button confirm"/>
+						                        </div>
+
+						                    </div>
+						                </div>
+									</#if>
+                                    
+
+                                </form>
+
+                            </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+<div class="msgClass">
+      ${rsmsg!""}
+ </div>
+    </body>
+</html>
+<#include "../jsPage.html">
+<script>
+			function check_form(){
+				 var frm = document.forms['form1'];
+				 var verify_remark = frm.elements['verify_remark'].value;
+				 var errorMsg = '';
+				  if (verify_remark.length == 0 ) {
+					errorMsg += '备注必须填写' + '\n';
+				  }
+				  
+				  if (errorMsg.length > 0){
+					alert(errorMsg); return false;
+				  } else{  
+					return true;
+				  }
+			}
+			</script>

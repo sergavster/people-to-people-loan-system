@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="identify" namespace="/member/identify" extends="wzd-default">
+
+        <action name="attestation"  class="memberIdentifyAction" method="list">
+            <result name="success" type="ftl">/member/identify/attestation.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="realname"  class="memberAction" method="realname">
+            <result name="success" type="ftl">/member/identify/realname.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="showarea"  class="memberAction" method="showarea">
+            <result name="success" type="ftl">/member/identify/realname.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="email"  class="memberIdentifyAction" method="email">
+            <result name="success" type="ftl">/member/identify/email.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="active"  class="memberIdentifyAction" method="active">
+            <result name="success" type="ftl">/member/identify/email.html</result>
+        </action>
+        <action name="phone"  class="memberIdentifyAction" method="phone">
+            <result name="success" type="ftl">/member/identify/phone.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="phoneSms"  class="memberIdentifyAction" method="phoneSms">
+        </action>
+        <action name="scene"  class="memberIdentifyAction" method="scene">
+            <result name="success" type="ftl">/member/identify/scene.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="video"  class="memberIdentifyAction" method="video">
+            <result name="success" type="ftl">/member/identify/video.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="avatar"  class="memberIdentifyAction" method="blank">
+            <result name="success" type="ftl">/member/identify/avatar.html</result>
+            <interceptor-ref name="mydefault" /> 
+        </action>
+        <action name="mobileaccess"  class="memberIdentifyAction" method="mobileaccess"> </action>
+		<action name="phoneSms"  class="memberIdentifyAction" method="phoneSms"></action>        
+        
+    </package>
+</struts>

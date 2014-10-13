@@ -1,0 +1,6 @@
+<ul class="list-tab clearfix">
+	<li <#if troublefund_type?exists&&troublefund_type=="add">class="cur"</#if> ><a href="${request.getContextPath()}/member/troublefund/addTroubleFund.html">捐赠页面</a></li>
+	<li <#if troublefund_type?exists&&troublefund_type=="free">class="cur"</#if> ><a href="${request.getContextPath()}/member/troublefund/troubleFund.html?giving_way=1">无偿功德榜</a></li>
+	<li <#if troublefund_type?exists&&troublefund_type=="paid">class="cur"</#if> ><a href="${request.getContextPath()}/member/troublefund/troubleFund.html?giving_way=0">活动捐赠功德榜</a></li>
+	<li <#if troublefund_type?exists&&troublefund_type=="list">class="cur"</#if> ><a href="${request.getContextPath()}/member/troublefund/troubleFund.html?donateOutStatus=1">无息借款明细表</a></li>
+</ul>

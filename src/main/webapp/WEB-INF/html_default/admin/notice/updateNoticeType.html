@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                        	<!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 start -->
+                            <#include "../setting/left.html">
+                            <!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 end -->
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="修改权限">
+                    	<!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 start -->
+                        <#include "../setting/banner.html">
+                        <!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 end -->
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <div class="toolbor-module search">
+                                    <input type="button" class="input-button return" value="返回" onclick="location.href='noticeTypeList.html'">
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form name="form1" method="post" action="" onsubmit="return check_form();" enctype="multipart/form-data" >
+                                    <div class="valBox w750">
+                                        <div class="top">
+                                            <strong>更改类型</strong>
+                                        </div>
+                                        <div class="val clearfix">
+                                            <ul>
+                                                <li>
+                                                    <div class="title">类型编码：</div>
+                                                    <div class="v">
+                                                        ${p.nid!}
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">通知类型：</div>
+                                                    <div class="v">
+                                                        <#if p.notice_type??&&p.notice_type==1>短信<#elseif p.notice_type??&&p.notice_type==2>邮件<#else>站内信</#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">类型名称：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="name" value="${p.name!}"/>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">通知类别：</div>
+                                                    <div class="v">
+                                                    	<#if p.canswitch==1>
+                                                        <input type="radio" name="type" value="1" <#if p.type==1>checked="checked"</#if>/>系统通知
+                                                        <input type="radio" name="type" value="2" <#if p.type==2>checked="checked"</#if>/>用户通知
+                                                        <#else>
+                                                        <input type="radio" name="type" value="1" <#if p.type==1>checked="checked"</#if>/>系统通知
+                                                        </#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">是否发送：</div>
+                                                    <div class="v">
+                                                        <input type="radio" name="send" value="1" <#if p.send==1>checked="checked"</#if>/>发送
+                                                        <input type="radio" name="send" value="0" <#if p.send==0>checked="checked"</#if>/>不发送
+                                                    </div>
+                                                </li>
+                                                <!-- v1.6.7.2  RDPROJECT-556 liukun 2013-12-10 start -->
+                                                <#if p.notice_type??&&p.notice_type==1>
+                                                <li>
+                                                    <div class="title">发送通道序列：</div>
+                                                    <div class="v">
+                                                    	<input type="text" name="send_route" value="${p.send_route!}" />（注：多个通道请用英文:进行分隔，为空或者配置无法识别则使用默认通道进行发送）
+                                                    </div>
+                                                </li>
+                                                </#if>
+                                                <!-- v1.6.7.2  RDPROJECT-556 liukun 2013-12-10 end -->
+                                                <li>
+                                                    <div class="title">标题模板：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="title_templet" value="${p.title_templet!}" size="48"/>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title"><font style="color: red;">注意：</font></div>
+                                                    <div class="v">
+                                                        <font style="color: red;">内容模板里的"[${r"${...}"}]"不要修改，否则影响通知、短信、站内信的正常使用！</font>
+                                                    </div>
+                                                </li>
+                                                <!-- v1.6.7.2 RDPROJECT-605 lhm 2013-12-18 start-->
+                                                <li style="height:260px">
+                                                    <div class="title">内容模板：</div>
+                                                    <div class="v">
+                                                    	<#if p.notice_type??&&p.notice_type==1>
+                                                    			<textarea id="content" name="content" cols="80" rows="13" >${p.templet!}</textarea>
+                                                    	<#else>
+		                                                        <#include "../../common/ueditor.html"> 
+																<@showUeditor width=680 heigth=100 id="content" name="content" content=p.templet!"" />
+														</#if>
+                                                    </div>
+                                                </li>
+                                                  <!-- v1.6.7.2 RDPROJECT-605 lhm 2013-12-18 end-->
+                                                <li>
+                                                    <div class="title">备注：</div>
+                                                    <div class="v">
+                                                    	<input type="text" name="remark"  value="${p.remark!}" size = "80"/>
+                                                    </div>
+                                                </li>  
+                                            </ul>
+                                            <div class="other">
+                                                <input type="hidden"  name="actionType" value="update" />
+                                                <input type="hidden"  name="nid" value="${p.nid!}" />
+                                                <input type="hidden"  name="notice_type" value="${p.notice_type!}" />
+                                                <input type="submit"  name="reset" value="修改" class="input-button confirm"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+<div class="msgClass">
+                                                                    ${rsmsg!""}
+                                                                </div>
+    </body>
+</html>
+<#include "../jsPage.html">

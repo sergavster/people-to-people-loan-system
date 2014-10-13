@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<#include "include/resource.html"> 
+<body>
+<#assign nid="member" >
+<#include "include/header.html"> 
+	<!--用户注册 开始-->
+	
+    <div class="container">
+    <div class="loginhtml">
+
+        <div class="logindiv">
+            <div class="logintitle">
+                <span class="left-txt">找回密码?</span>
+            </div>
+            <div class="login-content clearfix">
+                <form action="" method="post" name="formUser" >
+                    <ul class="loginhtml-ul" style="padding-top:140px;">
+                        <li class="clearfix">
+                            <label for="">用户名：</label><input maxLength=20  class="user_aciton_input1" name="username" id="username" >
+                        </li>
+                        <li class="clearfix">
+                            <label for="">验证码：</label>
+                            <span style="float:left;"><input maxLength=5  class="user_aciton_input" name=validcode id=validcode align="top" ></span>
+						   <span style="float:left;margin-left:5px;">
+						   <img src="${request.getContextPath()}/validimg.html" alt="点击刷新" 
+						   onClick="this.src='${request.getContextPath()}/validimg.html?t=' + Math.random();" align="absmiddle" style="cursor: pointer; float: left;" />
+						   </span>
+                        </li>
+                        <li class="clearfix">
+						 <input type="submit" value="找回密码" class="denglubtn" />
+						  <input type="hidden" name="getpwdtype" value="${getpwdtype}">
+						  <input type="hidden" value="getpwd" name="actionType"/>
+                        </li>
+                    </ul>
+                </form>
+
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--用户注册 结束-->
+<#include "include/footer.html"> 
+</body>
+</html>

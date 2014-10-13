@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${webname}</title>
+<script src="${webroot}${theme_dir}/media/js/jquery_1.9.1.js"></script>
+<script src="${webroot}${theme_dir}/media/js/mobile.js"></script>
+<link href="${webroot}${theme_dir}/media/css/mobile.css" rel="stylesheet" />
+<link href="${webroot}${theme_dir}/media/css/mobile_base.css" rel="stylesheet" />
+
+</head>
+
+<body>
+<#include "../common/function.html"> 
+<div data-role="page" id="account">
+  <div data-role="header"> <a href="${webroot}/wx/newcash.action"  data-ajax="false"  style="float:left;color:#fff;text-decoration:none;position:absolute;left:10px;">返回提现页面</a>
+    <h1>提现记录</h1>
+    <a data-ajax="false" href="${webroot}/wx/logout.html" style="float:right;color:#fff;text-decoration:none;position:absolute;right:10px;">退出登录</a> </div>
+  <div data-role="content">
+    <div class="content_main">
+      <table width="100%" cellspacing="0" cellpadding="0">
+        <tbody>
+          <tr>
+            <td>提现帐号</td><td>提现金额</td>
+            <td>状态</td><td>操作</td>
+          </tr>
+          <#include "../common/function.html"> 
+		<#list cash as item>
+          <tr>
+            <td><#if item.account?length lt 8>
+				${item.account}
+			<#else>
+				${item.account?substring(0,4)}****${item.account?substring((item.account?length)-4,(item.account?length))}
+			</#if></td>
+			<td>￥${format2((item.total!"0"))}</td>
+            <td><#if item.status==0||item.status=5||item.status=7>审核中<#elseif item.status==1>成功<#elseif item.status==4>用户取消<#else>审核失败</#if></td>
+            <td><#if item.status==0||item.status=5||item.status=7>
+				<a href="#" onclick="javascript:if(confirm('确定要取消此提现申请')) location.href='cancelcash.html?id=${item.id?c}'">取消提现</a>
+			    <#else>
+				-
+			   </#if></td>
+          </tr>
+        </#list>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+</div>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                        	<!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 start -->
+                            <#include "../setting/left.html">
+                            <!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 end -->
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="修改抽奖规则">
+                    	<!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 start -->
+                        <#include "../setting/banner.html">
+                        <!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 end -->
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <div class="toolbor-module search">
+                                    <input type="button" class="input-button return" value="返回" onclick="location.href='allRule.html'">
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form name="form1" method="post" action="" onsubmit="return check_form();" enctype="multipart/form-data" >
+                                    <div class="valBox w750">
+                                        <div class="top">
+                                            <strong>修改抽奖规则</strong>
+                                        </div>
+                                        <div class="val clearfix">
+                                            <ul>
+                                                <li>
+                                                    <div class="title">规则名称：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="name" value="${p.name!}" />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">抽奖开始时间：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="start_date" value="${p.start_date!}" onclick="change_picktime()"/><label>*必须填写</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">抽奖结束时间：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="end_date"  value="${p.end_date!}" onclick="change_picktime()"/><label>*必须填写</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">抽奖类型：</div>
+                                                    <div class="v">
+                                                    	<!-- v1.6.7.2 typeid改成nid start -->
+                                                        <@linkage name="award_type" type="value" nid="award_type" default=p.award_type></@linkage>  
+                                                        <!-- v1.6.7.2 typeid改成nid end -->
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">抽奖次数限制：</div>
+                                                    <div class="v">
+                                                    	<!-- v1.6.7.2 typeid改成nid start -->
+                                                        <@linkage name="time_limit" type="value" nid="award_time_limit" default=p.time_limit></@linkage>  
+                                                        <!-- v1.6.7.2 typeid改成nid end -->
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">最多抽奖次数：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="max_times" value="${p.max_times!}" onKeyUp="value=value.replace(/[^0-9]/g,'')"/><label>*抽奖次数限制有限制时，必须填写</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">基准积分：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="base_point" value="${p.base_point!?c}" onKeyUp="value=value.replace(/[^0-9]/g,'')"/><label>*抽奖类型为积分抽奖时，必须填写</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">金额限制：</div>
+                                                    <div class="v">
+                                                    	<#assign money_limit=p.money_limit!0 >
+                                                    	<label><input name="money_limit" value="0" type="radio" class="radio" <#if money_limit==0 > checked="checked"</#if> onclick="checkMoney(this.value)">无限制</label>
+                                                        <label><input name="money_limit" value="1" type="radio" class="radio" <#if money_limit==1 > checked="checked"</#if> onclick="checkMoney(this.value)">限制</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">总金额：</div>
+                                                    <div class="v">
+                                                        <input type="text" name="total_money" value="${p.total_money!?c}" onKeyUp="value=value.replace(/[^0-9]/g,'')"/><label>*金额限制时，必须填写</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">100%中奖：</div>
+                                                    <div class="v">
+                                                    	<#assign is_absolute=p.is_absolute!0 >
+                                                        <label><input name="is_absolute" value="0" type="radio" class="radio" <#if is_absolute==0 > checked="checked"</#if>>否</label>
+                                                        <label><input name="is_absolute" value="1" type="radio" class="radio" <#if is_absolute==1 > checked="checked"</#if>>是</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">返现方式：</div>
+                                                    <div class="v">
+                                                    	<#assign back_type=p.back_type!0 >
+                                                    	<!-- v1.6.6.2 RDPROJECT-285 lhm 2013-10-25 start -->
+                                                    	<label><input name="back_type" value="0" type="radio" class="radio" <#if back_type==0 > checked="checked"</#if>>无</label>
+                                                    	<!-- v1.6.6.2 RDPROJECT-285 lhm 2013-10-25 end -->
+                                                        <label><input name="back_type" value="1" type="radio" class="radio" <#if back_type==1 > checked="checked"</#if>>人工返现</label>
+                                                        <label><input name="back_type" value="2" type="radio" class="radio" <#if back_type==2 > checked="checked"</#if>>自动返现</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">中奖提醒：</div>
+                                                    <div class="v">
+                                                    	<!-- v1.6.7.2 typeid改成nid start -->
+                                                        <@linkage name="msg_type" type="value" nid="msg_type" default=p.msg_type></@linkage><label>*现在还没有做中奖提醒，请选择【不需要】</label> 
+                                                        <!-- v1.6.7.2 typeid改成nid end --> 
+                                                    </div>
+                                                </li>
+                                                <li style="height:300px;">
+                                                    <div class="title">规则描叙：</div>
+                                                    <div class="v">
+                                                    	<!-- 插入百度编辑器  -->
+                                                        <script charset="utf-8" src="${request.getContextPath()}/plugins/editor/kindeditor/kindeditor-min.js"></script>
+													    <script charset="utf-8" src="${request.getContextPath()}/plugins/editor/kindeditor/lang/zh_CN.js"></script>
+                                                    	<#include "../../common/ueditor.html"> 
+               											<@showUeditor width=680 heigth=100 id="content" name="content" content="${p.content!}" />
+                                                    </div>
+                                                </li>
+
+                                            </ul>
+                                            <div class="other">
+                                                <input type="hidden"  name="actionType" value="modify" />
+                                                <input type="hidden"  name="id" value="${(p.id!0)?c}" />
+                                                <input type="submit"  name="reset" value="修改" class="input-button confirm"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+    <script type="text/javascript">
+    function checkMoney(money_limit){
+        var frm = document.forms['form1'];
+        if(money_limit == '1'){
+            frm.elements['total_money'].disabled=false;
+        }else{
+            frm.elements['total_money'].disabled=true;
+            frm.elements['total_money'].value="";
+        }
+    }
+    </script>
+<div class="msgClass">
+                                                                    ${rsmsg!""}
+                                                                </div>
+    </body>
+</html>
+<#include "../jsPage.html">

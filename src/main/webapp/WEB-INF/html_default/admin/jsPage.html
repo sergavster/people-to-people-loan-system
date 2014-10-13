@@ -1,0 +1,16 @@
+
+<script src="${request.getContextPath()}/themes/admin/js/ajax.js" type="text/javascript"></script>
+<script src="${request.getContextPath()}/themes/admin/js/admin.js" type="text/javascript"></script>
+<script src="${request.getContextPath()}/themes/admin/js/base.js" type="text/javascript"></script>
+<script src="${request.getContextPath()}/themes/admin/js/adminBasis.js" type="text/javascript"></script>
+<script type="text/javascript" src="${request.getContextPath()}/themes/admin/js/jquery-ui.js"></script>
+<script type="text/javascript" src="${request.getContextPath()}/themes/admin/js/jquery-ui-slide.min.js"></script>
+<script type="text/javascript" src="${request.getContextPath()}/themes/admin/js/jquery-ui-timepicker-addon.js"></script>
+<script>
+	$("[onclick='change_picktime()']").each(function(){
+        this.className = "js-datetime";
+	})
+	// v1.6.5.3 RDPROJECT-36  zza 2013-09-13 start
+	$('.js-datetime').datetimepicker({yearRange:"1900:2020",showSecond: true,timeFormat: 'hh:mm:ss'});
+	// v1.6.5.3 RDPROJECT-36  zza 2013-09-13 end
+</script>

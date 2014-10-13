@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="memberSecurity" namespace="/memberSecurity" extends="wzd-default">
+		<action name="userpwd" class="memberSecurityAction" method="userpwd">
+			<result name="success" type="ftl">/member/security.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="paypwd" class="memberSecurityAction" method="paypwd">
+			<result name="success" type="ftl">/member/security.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="protection" class="memberSecurityAction" method="protection">
+			<result name="success" type="ftl">/member/security.html</result>
+			<interceptor-ref name="mydefault" />
+		</action> 
+		<action name="serialStatusSet" class="memberSecurityAction" method="serialStatusSet">
+			<result name="success" type="ftl">/member/security.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="edituser" class="memberSecurityAction" method="edituser">
+			<result name="success" type="ftl">/member/security.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>	
+		<!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-02 start -->
+		<action name="passwordTokenPwd" class="memberSecurityAction" method="passwordTokenPwd">
+			<result name="success" type="ftl">/member/pwdSecurity.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="passwordTokenPayPwd" class="memberSecurityAction" method="passwordTokenPayPwd">
+			<result name="success" type="ftl">/member/pwdSecurity.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="mobileaccess" class="memberSecurityAction" method="mobileaccess"> </action>
+		<!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-02 end -->
+	</package>
+</struts>

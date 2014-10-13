@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "../setting/left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="所有推荐奖励规则">
+                        <#include "../setting/banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <div class="toolbor-module search">
+                                    <a href="addRulePromote.html" class="input-button" style="line-height:24px;">+新增推广奖励规则</a>
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form action="" method="post">
+                                    <table class="data-list">
+                                        <tr class="header">
+                                            <td>ID</td>
+                                            <td>规则名</td>
+                                            <td>状态</td>
+                                            <td>邀请成功人数</td>
+                                            <td>获得奖励百分比</td>
+                                            <td>添加时间</td>
+                                            <td>备注</td>
+                                            <td>操作</td>
+                                        </tr>
+                                        <#list list as item>
+                                            <tr class="s">
+                                                <td>${item.id!0}</td>
+                                                <td>${item.name!""}</td>
+                                                <td><#if item.status??&&item.status==1>启用<#else>未启用</#if></td>
+                                                <!-- v1.6.6.2 RDPROJECT-235 zza 2013-10-21 start -->
+                                                <td>${item.count_up?c}~${item.count_down?c}</td>
+                                                <!-- v1.6.6.2 RDPROJECT-235 zza 2013-10-21 end -->
+                                                <td>${item.award_percent!0}</td>
+                                                <td>${dateformat(item.addtime!"")}</td>
+                                                <td>${item.remark}</td>
+                                                <td>
+                                                    <a class="un" href="modifyRulePromote.html?id=${item.id!0}">修改</a>
+                                                    <a class="un" href="javascript:;" onClick="javascript:if(confirm('确定要删除吗?删除后将不可恢复')) location.href='delRulePromote.html?id=${item.id!0}'">删除</a>
+                                                </td>
+                                            </tr>
+                                        </#list>
+                                    </table>
+                                </form>
+
+                                <!--底部工具栏--{-->
+                                <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                                <!--底部工具栏--}-->
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

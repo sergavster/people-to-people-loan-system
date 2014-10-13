@@ -1,0 +1,114 @@
+@charset "gb2312";
+/* CSS Document */
+body{color:#333333;font-size:12px;}
+li {list-style:none;}
+input { vertical-align:middle; }
+img { border:0;}
+table {border-collapse: collapse;border-spacing: 0;empty-cells:show;}
+ 
+.floatl { float:left}
+.pl30 { padding-left:15px;}
+.main{width:950px;height: auto;overflow: visible;margin: 0 auto;padding: 0}
+
+.big{width:950px;height: auto;overflow: hidden;clear: both;}
+.big .left{width:371px; float:right;}
+.big .left .tbg{width:371px; float:left; background:url(../images/login_07.gif) no-repeat; height:7px; line-height:7px;}
+.big .left .mbg{width:363px; float:left; border-left:1px #a7b2b6 solid; border-right:1px #a7b2b6 solid; padding:0px 3px; height:378px; display:inline;}
+.login{
+	width:313px;
+	float:none;
+	background:url(../images/login_12.gif) repeat-x;
+	padding:18px 18px 16px 32px;
+	display:block;
+	height: auto;
+	overflow: hidden;
+}
+.login .top{
+	width:313px;
+	height: 23px;
+	overflow: hidden;
+}
+.login .top .left{width:152px; float:left;}
+.login .top .right{width:160px;float:right;text-align:right;color:#7dbf0e;line-height:26px;} 
+
+.login .form{
+	width:313px;
+	height: auto;
+	overflow: hidden;
+}
+.login .form .user .text{  height: 27px; line-height: 27px; text-align: right;width:70px;font-size:12px;float:left;}
+.ui-input{width:160px;padding:4px 3px;*padding-top:2px;border-color:#aaa #DDDDDd #ddd #AAAAAA;border-width:1px;border-style:solid;line-height:1.2\0;height:14px;*height:16px;-moz-border-radius:2px;-webkit-border-radius:2px;border-radius:2px;-moz-box-shadow:1px 1px 1px #ddd inset;-webkit-box-shadow:1px 1px 1px #ddd inset;box-shadow:1px 1px 1px #ddd inset}
+.ui-input:hover,.ui-input-hover{border-color:#999 #CCCCCc #ccc #999999}
+.ui-input:focus{-moz-box-shadow:none;-webkit-box-shadow:none;box-shadow:none}
+
+.login .user{
+	width:313px;
+	padding-bottom:15px;
+	height:27px;
+}
+.login .user1{width:257px; float:left; padding-bottom:10px; height:27px; padding-left:56px;}
+.login .user2{width:257px; float:left; padding-bottom:5px; height:35px; padding-left:70px;}
+
+.login .input{width:185px; height:25px; float:left; border:1px #999999 solid; padding:0 5px; line-height:25px; background-color:#ffffe1; font-size:14px; font-weight:bold; color:#666666;}
+.login .input1{width:72px; height:25px; float:left; border:1px #999999 solid; padding:0 5px; line-height:25px; background-color:#ffffe1; font-size:14px; font-weight:bold; color:#666666;}
+.login .img{width:48px; float:left; padding-left:20px; padding-top:4px;}
+.login .fonth{color:#999999;padding-left:10px;font-size:14px;line-height:26px;}
+.login .font12{color:#999999; padding-left:5px; }
+
+.login .submit{width:78px; float:left; height:40px; margin:0 20px 0 0px; background:url(../images/index_login.jpg) no-repeat; border:none;}
+
+.bg1{
+	width:321px;
+	background:url(../images/bg1.gif) repeat-x;
+	height:29px;
+	margin:0 10px 0 15px!important;
+	margin:0 4px 0 6px;
+	line-height:29px;
+	padding-left:15px;
+	color:#3c86cb;
+	clear: both;
+}
+.bg2{
+	width:160px;
+	margin: 0 auto;
+	font-size:14px;
+	clear: both;
+	text-align: center;
+	height: 60px;
+	overflow: hidden;
+}
+.big .left .fbg{width:371px; float:right; background:url(../images/login_46.gif) no-repeat; height:7px;}
+
+.big .right{width:575px; float:left; color:#666666;}
+.big .right .top{width:575px; float:left;}
+.big .right .bottom{width:575px; float:left;}
+.big .right .bottom .fenlei{width:121px; float:left; padding:10px 30px 0 40px; line-height:20px; background:url(../images/login_51.gif) no-repeat top right; height:66px;}
+.big .right .bottom .fenlei1{width:121px; float:left; padding:10px 30px 0 40px; line-height:20px; height:66px;}
+.font1{font-size:16px; font-family:"微软雅黑"; line-height:30px;}
+.main .tooles {clear: both;background-image: url(../images/tools-bg_19.gif);width: 950px;background-repeat: repeat-y;height: auto;overflow: hidden;margin-top: 15px;}
+.main .tooles .tpbg {height: 8px;width: 950px;overflow: hidden;}
+.main .tooles .tools01 {background-image: url(../images/tools-lbg_09.gif);height: 80px;background-repeat: no-repeat;width: 315px;background-position: right 10px;float: left;padding-bottom: 8px;}
+.main .tooles .tools01 ul {display: block;width: 240px;padding-left: 60px;background-image: url(../images/tools-icon1_07.gif);background-repeat: no-repeat;margin-top: 10px;}
+
+.main .tooles .tools01 ul li {display: block;height: 22px;line-height: 22px;clear: both;}
+.main .tooles .tools01 ul li a {display: block;float: left;width: 80px;}
+.main .tooles .tools01 ul li .la01 {width: 130px;}
+.main .tooles .tools01 .tools02 {background-image: url(../images/tools-iconbg2_11.gif);width: 240px;}
+.main .tooles .tools01 .tools03 {background-image: url(../images/tools-icon03_13.gif);}
+.main .tooles .tbbg {clear: both;height: 8px;width: 950px;overflow: hidden;}
+.main .head .text a {color: #3c86cb;}
+.main .head .text a:hover {color: #f60;}
+.main .big .left .mbg .login .top .right a {color: #7dbf0e;}
+.main .big .left .mbg .login .top .right a:hover {color: #f60;}
+
+.main .citys {width: 950px;border-top: 1px solid #ccc;padding-top: 6px;height: auto;line-height: 20px;overflow: hidden;margin-top: 15px;clear: both;}
+.main .citys h5 {display: block;font-size: 12px;color: #333;width: 110px;float: left;height: 40px;}
+.main .citys p span {padding-right: 7px;color: #333;}
+.main .citys p {float: left;color: #999;width:850px;}
+.main .big .left .mbg .login .form .hiddendiv {height: 29px;color: #F60;line-height: 29px;}
+.main .big .left .mbg .login .form  .hiddendiv .displsynone {display: none;}
+.main .big .left .mbg .bg2 .login-w {float: left;line-height: 30px;}
+.main .big .left .mbg .bg1 div {float: left;padding-left: 22px;padding-right: 18px;}
+.main .big .left .mbg .bg1 .icon01 {background-image: url(../images/login_02.gif);background-repeat: no-repeat;background-position: 0 6px;}
+.main .big .left .mbg .bg1 .icon02 {background-image: url(../images/login_01.gif);background-repeat: no-repeat;background-position: 0 4px;}
+.main .big .left .mbg .bg1 .icon03 {background-image: url(../images/login_05.gif);background-repeat: no-repeat;background-position: 0 5px;padding-right: 0px;}

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- v1.6.7.1 RDPROJECT-284 xx 2013-11-04 start -->
+<!-- 新增xml配置 -->
+<!-- v1.6.7.1 RDPROJECT-284 xx 2013-11-04 end -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<bean id="freezeDao" class="com.p2psys.freeze.dao.jdbc.FreezeDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+
+	<bean id="freezeService" class="com.p2psys.freeze.service.impl.FreezeServiceImpl">
+		<property name="freezeDao">
+			<ref bean="freezeDao" />
+		</property>
+	</bean>
+	
+	<bean id="manageFreezeAction" class="com.p2psys.freeze.web.action.admin.ManageFreezeAction" scope="prototype">
+		<property name="freezeService">
+			<ref bean="freezeService" />
+		</property>
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+	</bean>
+
+</beans>

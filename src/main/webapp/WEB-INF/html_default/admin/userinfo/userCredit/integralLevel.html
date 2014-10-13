@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<!--v1.6.7.2 RDPROJECT-510 cx 2013-12-10 start  -->
+<html>
+<#include "../../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "../left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="会员积分管理">
+                        <#include "../banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <form action="" method="post">
+                                <div class="toolbor-module export">
+                                    <input type="button" onClick="exportxls()" value="导出报表" class="input-button export-btn"/>   
+                                </div>
+                                <div class="toolbor-module search">
+                                 	<div style="height:22px;line-height:22px;float:left;">用户名：</div>   
+				   					<input type="text" name="username" id="username" class="search-value">
+                                   	<input type="button" value="搜索"  class="input-button" onClick="sousuo();">
+                                </div>
+                                </form>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <table class="data-list">
+                                        <tr class="header">
+                                        	<td>用户名</td>
+                                        	<td>真实姓名</td>
+                                        	<td>综合积分</td>
+                                        	<td>有效积分</td>
+											<td>用户等级</td>
+											<td>已优惠利息管理费总额</td>
+                                        </tr>
+                                    	<#list list as item>
+                                        <tr class="s">
+                                        	<td>${item.userName!}</td>
+                                        	<td>${item.realname!}</td>
+											<td>${item.value!0}</td>
+											<td>${item.valid_value!0}</td>
+											<td>${item.user_credit_level!0}</td>
+											<td>${item.perferTotalMoney!0}元</td>
+                                        </tr>
+                                     	</#list>
+                                    </table>
+                                <!--底部工具栏--{-->
+                                <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+
+                                    <!--翻页系统--{-->
+                                    <div class="container">
+                                        <#import "../../../common/page.html" as pager>
+                                            <@pager.pagination page=page url="/admin/credit/integralLevel.html" map=param style="style1" />
+                                    </div>
+                                    <!--翻页系统--}-->
+                                    		<script type="text/javascript">
+												var url=window.location.href;
+												var index=url.indexOf("?");
+				                				if(index>0){
+				                					url=url.substring(0,index);
+				                				 }
+												var xlsurl=url+"?exportType=export";
+												function sousuo(){
+													var sou = "";
+													var username = $("#username").val();
+													if (username!=""&&username!="请输入用户名"){
+														sou += "&username="+username;
+													}
+													location.href=url+"?search=true"+sou;
+											  	 }
+												
+												function exportxls(){
+													var condi = "";
+													var username = $("#username").val();
+													if (username!=""&&username!="请输入用户名"){
+														condi += "&username="+username;
+													}
+								                    if (condi!=""){
+								                    	location.href=xlsurl+condi;
+								                    }else{
+								                        location.href=xlsurl;
+								                    }
+												}
+
+											</script>
+                                </div>
+                                <!--底部工具栏--}-->
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+	
+    </body>
+</html>
+<#include "../../jsPage.html">
+<!--v1.6.7.2 RDPROJECT-510 cx 2013-12-10 end  -->

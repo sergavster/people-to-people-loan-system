@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<#include "../../include/resource.html"> 
+<body>
+<#assign nid="member">
+<#include "../../include/header.html">
+<!--header-end-->
+<link href="${request.getContextPath()}/media/css/modal.css" rel="stylesheet" type="text/css" />
+<!--用户中心的主栏目 开始-->
+<div id="main" class="clearfix" >
+<div class="wrap950 " style="margin-top:0">
+	<!--左边的导航 开始-->
+	<div class="user_left">
+    	<#assign mid="m_info" >
+		<#include "../user_menu.html">
+	</div>
+	<!--左边的导航 结束-->
+	
+	<!--右边的内容 开始-->	
+	<div class="user_right">
+		<#if msg?exists>
+		<div id="msg24">
+			<p class="ok"> ${msg} </p>
+		</div>
+		<#else>
+			<#if errormsg?exists>
+				<div id="msg25">
+					<p class="error"> ${errormsg} </p>
+				</div>
+			</#if>
+		</#if>
+		<div class="user_right_menu">
+			<#assign msg_type="sent" >
+			<#include "msg_menu.html"> 
+		</div>
+
+		<div class="user_right_main">
+			<table  border="0"  cellspacing="0" class="table table-striped  table-condensed">
+				<form action="" method="post" id="form1">
+					<tr class="head" >
+						<td>
+							<input type="checkbox" name="allcheck" onclick="checkFormAll(this.form)"/>
+							<input type="hidden" name="type" id="type" value="0" />
+						</td>
+						<td>
+							<div class="icon_xin_no"></div>
+						</td>
+						<td>收件人 </td>
+						<td>标题</td>
+						<td>发送时间 </td>
+					</tr>
+					<#list msgList as item>
+					<tr>
+						<td><input type="checkbox" name="id" value="${item.id?c}"/></td>
+						<td><div class="icon_xin_no"></div></td>
+						<td>${item.receive_username!}</td>
+		                <td ><a href="${request.getContextPath()}/member/message/view.html?id=${item.id?c}&type=sent">${item.name!}</a></td>
+						<td>${dateformat(item.addtime!)}</td>
+					</tr>
+					</#list>
+					
+					<tr >
+						<td colspan="5" class="page">
+							<div class="user_list_page"> 
+								<#import "../../common/page.html" as pager>  
+	         	 				<@pager.pagination page=page url="/member/message/sent.html" map=param style="style1"  />
+         	 				</div>  
+						</td>
+					</tr>
+					
+					<tr >
+						<td colspan="5">
+							<div class="user_main_title1" >
+								<input type="button"    class="btn-action"  value="删除" onclick="on_submit('set.html',2)" />
+							</div>
+						</td>
+					</tr>				
+
+				</form>	
+			</table>
+		</div>
+ 	 </div>
+	<!--右边的内容 结束-->
+	</div>
+</div>
+<!--用户中心的主栏目 结束-->
+<script src="${request.getContextPath()}${theme_dir}/media/js/modal.js"></script>
+<script src="${request.getContextPath()}${theme_dir}/media/js/base.js"></script>
+<#include "../../include/footer.html"> 
+</body>
+</html>

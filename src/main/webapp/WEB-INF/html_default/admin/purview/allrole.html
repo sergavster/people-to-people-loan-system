@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="所有角色">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <div class="toolbor-module search">
+                                    <a href="addRole.html?id=${id}" class="input-button" style="line-height:24px;">+新增角色</a>
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                    <table class="data-list">
+                                        <tr class="header">
+                                            <td>ID</td>
+                                            <td>角色名</td>
+                                            <td>类型</td>
+                                            <td>备注</td>
+                                            <td>操作</td>
+                                        </tr>
+                                        <#list list as item>
+                                            <tr class="s">
+                                                <td>${item.type_id!0}</td>
+                                                <td>${item.name!0}</td>
+                                                <td>${item.type!0}</td>
+                                                <td>${item.remark!0}</td>
+                                                <td>
+                                                    <a class="un" href="modifyRole.html?id=${item.type_id!0}">修改</a>&nbsp;
+                                                    <a class="un" href="setPurview.html?user_typeid=${item.type_id!0}">管理权限</a>&nbsp;
+                                                    <!-- v1.6.7.2 RDPROJECT-618 lx 2013-12-23 start -->
+                            						<a href="javascript:;" class="un" onClick="javascript:if(confirm('确定要删除吗?删除不可恢复')) location.href='delRole.html?id=${item.type_id!0}'">删除</a>
+                                                    <!-- <a class="un" href="delRole.html?id=${item.type_id!0}">删除</a>&nbsp; -->
+                            						<!-- v1.6.7.2 RDPROJECT-618 lx 2013-12-23 end -->
+                                                </td>
+                                            </tr>
+                                        </#list>
+                                    </table>
+
+                                <!--底部工具栏--{-->
+                                <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                                <!--底部工具栏--}-->
+
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

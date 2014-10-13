@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<#include "include/resource.html"> 
+<body>
+<#assign nid="member" >
+<#include "include/header.html"> 
+	
+<div class="container">
+    <div class="loginhtml ptbyname">
+        <div class="logindiv">
+            <div class="login-content clearfix">
+            <!-- v1.6.6.2 区分交易密码和支付密码找回 zza 2013-10-30 start -->
+            <#if getpwdtype == 'pwd'>
+            <form action="/user/getpwdByEmail.html" method="post" name="formUser" class="js-formdata">
+	            <input type="hidden" name="tokenList" value="${tokenList}" />
+	            <!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-06 start -->
+				<ul class="loginhtml-ul secret_main">
+				<!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-06 end -->
+					<#if (tokenList?exists)&&(tokenList?size>0)>
+	                	<#list tokenList as item>
+							<li class="clearfix">
+			                    <label for="">问题：</label>
+			                    <!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-06 start -->
+			                    <span>${item.question!}</span>
+			                    <!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-06 end -->
+								<input type="hidden" name="question" value="${item.question!}" />
+		                    </li>
+			                <li class="clearfix">
+			                    <label for="">答案：</label>
+			                    <!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-06 start -->
+			                    <input type="text" name="answer${item_index?if_exists+1}" />
+			                    <!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-06 end -->
+		                    </li>
+	    				</#list>
+	                </#if>
+	                    <li class="clearfix">
+						 <input type="submit" value="找回密码" class="denglubtn" />
+						 <input type="hidden" name="getpwdtype" value="${getpwdtype}">
+						 <input type="hidden" value="getpwd" name="htmlType"/>
+						 <input type="hidden" value="${username}" name="username"/>
+	                    </li>
+	                    <!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-06 start -->
+	                    <#if errormsg?exists>
+						<li class="clearfix">
+		                    <label for=""></label>
+		                    <span style="color: #f00;">${errormsg}</span>
+	                    </li>
+						</#if> 
+						<!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-06 end -->
+	           	</ul>
+            </form>
+            <#elseif getpwdtype == 'paypwd'>
+                <form action="/user/getpaypwdByEmail.html" method="post" name="formUser" class="js-formdata">
+                <input type="hidden" name="tokenList" value="${tokenList}" />
+                <!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-06 start -->
+				<ul class="loginhtml-ul secret_main">
+				<!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-06 end -->
+					<#if (tokenList?exists)&&(tokenList?size>0)>
+	                	<#list tokenList as item>
+							<li class="clearfix">
+			                    <label for="">问题：</label>
+			                    <!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-06 start -->
+			                    <span>${item.question!}</span>
+								<input type="hidden" name="question" value="${item.question!}" />
+			                    <!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-06 end -->
+		                    </li>
+			                <li class="clearfix">
+			                    <label for="">答案：</label>
+			                    <!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-06 start -->
+			                    <input type="text" name="answer${item_index?if_exists+1}" />
+			                    <!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-06 end -->
+		                    </li>
+	    				</#list>
+	                </#if>
+                    <li class="clearfix">
+					 <input type="submit" value="找回密码" class="denglubtn" />
+					 <input type="hidden" name="getpwdtype" value="${getpwdtype}">
+					 <input type="hidden" value="getpaypwd" name="htmlType"/>
+					 <input type="hidden" value="${username}" name="username"/>
+                    </li>
+                    <!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-06 start -->
+                    <#if errormsg?exists>
+					<li class="clearfix">
+	                    <label for=""></label>
+	                    <span style="color: #f00;">${errormsg}</span>
+                    </li>
+					</#if> 
+					<!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-06 end -->
+	           	</ul>
+            </form>
+            </#if>
+            <!-- v1.6.6.2 区分交易密码和支付密码找回 zza 2013-10-30 end -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--用户注册 结束-->
+<#include "include/footer.html"> 
+</body>
+</html>

@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html>
+<#include "../../include/resource.html">
+<body>
+	<#assign nid="shop"> 
+	<#include "../../common/function.html"> 
+	<#include "../../include/header.html">
+	<link href="${request.getContextPath()}/media/css/modal.css" rel="stylesheet" type="text/css" />
+	<!-- #main start-->
+	<div id="main" class="clearfix" style="border-top:1px solid #ccc" >
+		<!-- .wrap950 开始-->
+		<div class="wrap950 ">
+			<!--左边的导航user_left 开始-->
+			 <!--  V1.6.7.1 zhangyz 2013-11-20 start -->
+			<div class="user_left">
+			<#assign mid="m_shop" >
+			<#include "../user_menu.html">
+			</div>
+			 <!--  V1.6.7.1 zhangyz 2013-11-20 end -->
+			<!--左边的导航user_left 结束-->
+
+			<!--右边的内容user_right 开始-->
+			<div class="shop_main">
+			
+				<#if errormsg?exists && errormsg != "">
+					<div id="msg25">
+						<p class="error"> ${errormsg} </p>
+					</div>
+				<#elseif msg?exists && msg != "">
+					<div id="msg24">
+						<p class="ok"> ${msg} </p>
+					</div>
+				</#if>
+				<style>
+					.shop_main .user_right_border{ width:45%; float:left;}
+				</style>
+				<!--右边的内容user_right_main 开始-->
+				<div class="user_right_main clearfix">
+					<p class="text_dh">
+						100积分兑换1块钱，1000积分起可以兑换
+					</p>
+					<!-- 内容开始 -->
+					<form action="${webroot}/credit/cash.html" method="post" onSubmit="return check_form()" name="form1">
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;">真实姓名：</div>
+				<div class="c">
+					${session_user.realname}		
+				</div>
+			</div>
+		
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;">总积分：</div>
+				<div class="c">
+					${(credit.value)!0}
+				</div>
+			</div>
+		
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;">消费积分：</div>
+				<div class="c">
+					${(credit.expense_value)!0}
+				</div>
+			</div>
+		
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;">可用积分：</div>
+				<div class="c"><#if credit?? && credit.valid_value??><input type="hidden" value="${credit.valid_value?c!0}" id="valid_value"></#if>
+					${(credit.valid_value)!0}
+				</div>
+			</div>
+			
+			<div class="user_right_border" style=" width:100%;">
+				<div class="l" style="font-weight:bold;">兑换备注：</div>
+				<div class="c">
+						<textarea rows="6" cols="70" type="text" name="creditConvert.remark" maxLength="255"/></textarea>
+				</div>
+			</div>
+		
+			<div class="user_right_border" style=" width:100%;">
+				<div class="l" style="font-weight:bold;">兑换积分：</div>
+				<div class="c">
+					<input type="text" id="credit_value"  name="creditConvert.credit_value" onblur="creditCashValidate();"  /><span id="realacc">参考到账金额：<font color="#FF0000" id="real_money">0</font> 元，一切以实际到账金额为准。</span>
+				</div>
+			</div>
+
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;"></div>
+				<div class="c">
+				<#if credit_cash_token?exists && credit_cash_token != "">
+					<input type="hidden" name="credit_cash_token" value="${credit_cash_token}" />
+					</#if>
+					<input type="submit" class="btn-action"  name="name"  value="确认提交" size="30" /> 
+				</div>
+			</div>
+		</form>
+					<!-- 内容结束 -->
+				</div>
+				<!--右边的内容user_right_main 结束-->
+			</div>
+			<!--右边的内容user_right 结束-->
+		</div>
+		<!-- .wrap950 结束-->
+	</div>
+	<!-- #main start-->
+	<script>
+	 function creditCashValidate() {
+   	  	var value = $("#credit_value").val();// 兑换积分
+   	  	var valid_value = $("#valid_value").val();// 有效积分
+   	 	var credit_value = parseInt(value);
+   	 	var numReg =  /^[0-9]$|^[1-9][0-9]+$/;  
+		 if(credit_value != null && credit_value > 0 && credit_value <= valid_value && numReg.test(value)){
+		 	jQuery.ajax({
+				url:"${webroot}/credit/cashValidate.html",
+				dataType:'json', 
+				success:function(data){
+					if(data != null){
+						var infoMap = data.infoMap;
+						var integral_basic = infoMap.integral_basic;//兑换单元基数
+						var integral_min = infoMap.integral_min;//兑换积分最小基数
+						var userCredit = infoMap.item;//会员积分实体
+						var valid_value = userCredit.valid_value;//会员有效积分
+						if(userCredit != null && valid_value > 0 && valid_value >= credit_value){//用户积分实体不为空，有效积分大于等兑换积分
+							if(credit_value >= integral_min){//兑换积分要大于等于最小起兑基数
+								var money = credit_value / integral_basic;
+								document.getElementById('real_money').innerHTML = money;
+							}else{
+								$("#credit_value").val(0);
+								document.getElementById('real_money').innerHTML = 0;
+								alert("您的输入的积分小于积分兑换最小"+integral_min+"的起兑基数！");
+							}
+						}else{
+							$("#credit_value").val(0);
+							document.getElementById('real_money').innerHTML = 0;
+							alert("您的积分信息为空，或有效积分大于兑换积分！");
+						}
+					}
+				},
+				error : function() {
+					$("#credit_value").val(0);
+					document.getElementById('real_money').innerHTML = 0;
+					alert("您的积分信息有误，请联系管理员！");
+				}
+			}); 
+		 }
+     }
+	 
+	 function check_form(){
+		var value = $("#credit_value").val();// 兑换积分
+		var valid_value = $("#valid_value").val();// 有效积分
+   	 	var credit_value = parseInt(value);
+   	 	var numReg =  /^[0-9]$|^[1-9][0-9]+$/;  
+	   	if(credit_value != null && credit_value > 0 && credit_value <= valid_value && numReg.test(value)){
+	   		 return true;
+	    }else{
+	    	if(credit_value <= 0){
+		    	$("#credit_value").val(0);
+				document.getElementById('real_money').innerHTML = 0;
+				alert("请输入大于零的积分！");
+	    	}else if(credit_value > valid_value){
+	    		$("#credit_value").val(0);
+				document.getElementById('real_money').innerHTML = 0;
+				alert("兑换的积分不能大于"+valid_value+"有效积分！");
+	    	}else if(!numReg.test(value)){
+	    		$("#credit_value").val(0);
+				document.getElementById('real_money').innerHTML = 0;
+				alert("输入的积分积分格式不正确！");
+	    	}
+			return false;
+	    }
+	}
+     
+	</script>
+	<#include "../../include/footer.html">

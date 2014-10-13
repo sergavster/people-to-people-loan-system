@@ -1,0 +1,274 @@
+<!-- v1.6.6.2 RDPROJECT-277 xx 2013-10-22 start -->
+<!-- 新增页面 -->
+<!-- v1.6.6.2 RDPROJECT-277 xx 2013-10-22 end -->
+<div class="valBox">
+	<div class="clearfix">
+		<ul class="title-v edit">
+			<li>
+				<div class="title">类型：</div>
+				<div class="v">
+					<#if model?? && model.type??>
+						<@linkage name="type" id="type" default="${model.type}" type="value" nid="fund_type" />
+					<#else>
+						<@linkage name="type" id="type" type="value" nid="fund_type"/>
+					</#if>
+				</div>
+			</li>
+			<li>
+				<div class="title">标题：</div>
+				<div class="v">
+					<input type="text" name="name" id="name" class="input_border" size="30" maxlength="50" value="<#if model?? && model.name??>${model.name}</#if>"/>
+				</div>
+			</li>
+			<li>
+				<div class="title">募集资金：</div>
+				<div class="v">
+					<input type="text" name="account" id="account" class="input_border" size="10" maxlength="10" value="<#if model?? && model.account??>${model.account?c}</#if>" onKeyUp="value=value.replace(/[^0-9]/g,'')"/>
+					万
+				</div>
+			</li>
+			<li>
+				<div class="title">预期年化收益：</div>
+				<div class="v">
+					<input type="text" name="apr" id="apr" class="input_border" size="8" maxlength="6" value="<#if model?? && model.apr??>${model.apr}</#if>" onKeyUp="value=value.replace(/[^0-9.]/g,'')"/>
+					%
+				</div>
+			</li>
+			<li>
+				<div class="title">最低认购金额：</div>
+				<div class="v">
+					<span id="fund_lowest_account">
+						<#if model?? && model.lowestAccount??>
+							<@linkage name="lowestAccount" id="lowestAccount" default="${model.lowestAccount?c}" type="value" nid="fund_lowest_account" />
+						<#else>
+							<@linkage name="lowestAccount" id="lowestAccount" type="value" nid="fund_lowest_account"/>
+						</#if>
+					</span>
+					<span id="fund_trust_lowest_account">
+						<#if model?? && model.timeLimit??>
+							<@linkage name="trustLowestAccount" id="trustLowestAccount" default="${model.lowestAccount?c}" type="value" nid="fund_trust_lowest_account" />
+						<#else>
+							<@linkage name="trustLowestAccount" id="trustLowestAccount" type="value" nid="fund_trust_lowest_account"/>
+						</#if>
+					</span>
+				</div>
+			</li>
+			<li>
+				<div class="title">最大认购金额：</div>
+				<div class="v">
+					<span id="fund_most_account">
+						<#if model?? && model.mostAccount??>
+							<@linkage name="mostAccount" id="mostAccount" default="${model.mostAccount?c}" type="value" nid="fund_most_account" noselect="没有限制"/>
+						<#else>
+							<@linkage name="mostAccount" id="mostAccount" type="value" nid="fund_most_account" noselect="没有限制"/>
+						</#if>
+					</span>
+					<span id="fund_trust_most_account">
+						<#if model?? && model.mostAccount??>
+							<@linkage name="trustMostAccount" id="trustMostAccount" default="${model.mostAccount?c}" type="value" nid="fund_trust_most_account" noselect="没有限制"/>
+						<#else>
+							<@linkage name="trustMostAccount" id="trustMostAccount" type="value" nid="fund_trust_most_account" noselect="没有限制"/>
+						</#if>
+					</span>
+				</div>
+			</li>
+			<li>
+				<div class="title">产品期限：</div>
+				<div class="v">
+					<span id="time_limit">
+						<#if model?? && model.timeLimit??>
+							<@linkage name="timeLimit" id="timeLimit" default="${model.timeLimit}" type="value" nid="borrow_time_limit" />
+						<#else>
+							<@linkage name="timeLimit" id="timeLimit" type="value" nid="borrow_time_limit"/>
+						</#if>
+					</span>
+					<span id="time_limit_day">
+						<#if model?? && model.timeLimit??>
+							<@linkage name="timeLimitDay" id="timeLimitDay" default="${model.timeLimit}" type="value" nid="borrow_time_limit_day" />
+						<#else>
+							<@linkage name="timeLimitDay" id="timeLimitDay" type="value" nid="borrow_time_limit_day"/>
+						</#if>
+					</span>
+					<a href="#">按天</a><input type="checkbox" name="changetoDay" id="changetoDay" value="1" onClick="">
+					<input type="hidden" name="isDay" id="isDay" value="${model?if_exists.isDay?if_exists}" />
+				</div>
+			</li>
+			<li>
+				<div class="title">有效时间：</div>
+				<div class="v">
+					<#if model?? && model.validTime??>
+						<@linkage name="validTime" id="validTime" default="${model.validTime}" type="value" nid="borrow_valid_time" />
+					<#else>
+						<@linkage name="validTime" id="validTime" type="value" nid="borrow_valid_time"/>
+					</#if>
+				</div>
+			</li>
+			<li>
+				<div class="title">收益分配方式：</div>
+				<div class="v">
+					<#if model?? && model.style??>
+						<@linkage name="style" id="style" default="${model.style}" type="value" nid="fund_style" />
+					<#else>
+						<@linkage name="style" id="style" type="value" nid="fund_style"/>
+					</#if>
+				</div>
+			</li>
+			<li>
+				<div class="title">反担保方式：</div>
+				<div class="v">
+					<#if model?? && model.counterGuaranty??>
+						<@linkage name="counterGuaranty" id="counterGuaranty" default="${model.counterGuaranty}" type="value" nid="fund_counterguaranty" />
+					<#else>
+						<@linkage name="counterGuaranty" id="counterGuaranty" type="value" nid="fund_counterguaranty"/>
+					</#if>
+				</div>
+			</li>
+			
+			<li>
+				<div class="title">联系电话：</div>
+				<div class="v">
+					<input type="text" name="phone" id="phone" class="input_border" size="30" maxlength="30" onKeyUp="value=value.replace(/[^0-9-]/g,'')" value="<#if model?? && model.phone??>${model.phone}</#if>"/>
+				</div>
+			</li>
+			<li>
+				<div class="title">发行机构：</div>
+				<div class="v">
+					<input type="text" name="issuer" id="issuer" class="input_border" size="50" maxlength="50" value="<#if model?? && model.issuer??>${model.issuer}</#if>"/>
+				</div>
+			</li>
+			<li>
+				<div class="title">担保机构：</div>
+				<div class="v">
+					<input type="text" name="guaranty" id="guaranty" class="input_border" size="50" maxlength="50" value="<#if model?? && model.guaranty??>${model.guaranty}</#if>"/>
+				</div>
+			</li>
+			<li>
+				<div class="title">项目简介：</div>
+				<div class="v">
+					<!-- 插入百度编辑器  -->
+					<#include "../../common/ueditor.html"> 
+					<@showUeditor width=680 heigth=100 id="content" name="content" content="${model?if_exists.content?if_exists}" />
+					<span style="color:red;">请勿操作2048个字符。</span>
+				</div>
+			</li>
+			<li>
+				<div class="title">上传文件：</div>
+				<div class="v">
+					<input type='file' name='files' value='' size='20' id='files'>
+					<#if model?? && model.pic?? >
+						<img src="${webroot}${model.pic}"/>
+						<input type="hidden" name="pic" value="${model.pic}">
+					</#if>
+				</div>
+			</li>
+		</ul>
+	</div>
+
+</div>
+<div id="bottomToolbar" class="clearfix">
+	<input type="hidden" name="id" value="${model?if_exists.id?if_exists}">
+	<input type="hidden" name="userId" value="${model?if_exists.userId?if_exists}">
+	<input type="hidden" name="actionType" value="fund" />
+	<input class="input-button post" type="button" name="button" onclick="LimitAttach(this.form.files.value);" value="提交" />
+	<input class="input-button reset" type="reset" name="reset" value="重置" />
+</div>
+<script type="text/javascript">
+	$(function(){
+		var isDay=jQuery('#isDay').val();
+		if(isDay==1){
+			document.getElementById("changetoDay").checked=true;
+			jQuery('#time_limit_day').show();
+			jQuery('#time_limit').hide();
+		}else{
+			jQuery('#time_limit_day').hide();
+			jQuery('#time_limit').show();
+		}
+		
+		var type = $("#type").val();
+		if(type==1){
+			jQuery('#fund_lowest_account').show();
+			jQuery('#fund_trust_lowest_account').hide();
+			jQuery('#fund_most_account').show();
+			jQuery('#fund_trust_most_account').hide();
+		}else if(type==2){
+			jQuery('#fund_trust_lowest_account').show();
+			jQuery('#fund_lowest_account').hide();
+			jQuery('#fund_trust_most_account').show();
+			jQuery('#fund_most_account').hide();
+		}
+	});
+	
+	jQuery('#changetoDay').click(function(){
+		var isDay=jQuery('#isDay').val();
+		if(isDay==0){
+			jQuery('#isDay').val('1');
+			jQuery('#time_limit_day').show();
+			jQuery('#time_limit').hide();
+		}else{
+			jQuery('#isDay').val('0');
+			jQuery('#time_limit_day').hide();
+			jQuery('#time_limit').show();
+		}
+	});
+	
+	jQuery('#type').change(function(){
+		var type=jQuery('#type').val();
+		if(type==1){
+			jQuery('#fund_lowest_account').show();
+			jQuery('#fund_trust_lowest_account').hide();
+			jQuery('#fund_most_account').show();
+			jQuery('#fund_trust_most_account').hide();
+		}else if(type==2){
+			jQuery('#fund_trust_lowest_account').show();
+			jQuery('#fund_lowest_account').hide();
+			jQuery('#fund_trust_most_account').show();
+			jQuery('#fund_most_account').hide();
+		}
+	});
+	
+	extArray = new Array(".jsp", ".jspx", ".php", ".asp", ".aspx");
+	function LimitAttach(file) {
+		var frm = document.forms['form1'];
+		allowSubmit = false;
+		while (file.indexOf("\\") != -1)
+			file = file.slice(file.indexOf("\\") + 1);
+		ext = file.slice(file.indexOf(".")).toLowerCase();
+		for ( var i = 0; i < extArray.length; i++) {
+			if (extArray[i] == ext) {
+				allowSubmit = true;
+				break;
+			}
+		}
+		if (!allowSubmit) {
+			checkForm();
+		} else {
+			alert("对不起，上传格式的不正确，请重新选择符合条件的文件再上传！");
+			return false;
+		}
+	}
+
+	function checkForm() {
+		var type = $("#type").val();
+		var name = $("#name").val();
+		var account = $("#account").val();
+		var apr = $("#apr").val();
+
+		if (name == null || name.length == 0) {
+			alert("标题不能为空！");
+			return false;
+		}
+		if(type==1 && (account<50)){
+			alert("基金类型，募集资金不能少于50万！");
+			return false;
+		} else if(type==2 && (account<100)){
+			alert("信托类型，募集资金不能少于100万！");
+			return false;
+		}
+		if(!(apr>0)){
+			alert("年化收益不能小于0！");
+			return false;
+		}
+
+		$("#form").submit();
+	}
+</script>

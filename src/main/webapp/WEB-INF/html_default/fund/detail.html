@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<!-- v1.6.6.2 RDPROJECT-277 xx 2013-10-27 start -->
+<!-- 新增页面 -->
+<!-- v1.6.6.2 RDPROJECT-277 xx 2013-10-27 end -->
+<html>
+<#include "../include/resource.html">
+<#include "../common/function.html">
+<body>
+	<#assign nid="fund">
+	<#include "../include/header.html">
+	<!--header-end-->
+	<link href="${request.getContextPath()}${theme_dir}/media/css/modal.css" rel="stylesheet" type="text/css" />
+	<link href="${request.getContextPath()}${theme_dir}/media/css/tipswindown.css" rel="stylesheet" type="text/css" />
+    <script src="${request.getContextPath()}${theme_dir}/media/js/tipswindown.js" type="text/javascript"></script>
+	<div id="main" class="clearfix" style="font-family:微软雅黑; color:#666;">
+		<div class="box-detail clearfix" style="width:980px; background:#fff">
+			<div class="box-info clearfix  second-border">
+				<div class="box-info-user second-border-user">
+					<img class="user-photo" src="<#if model.pic??>${webroot}${model.pic}</#if>" />
+				</div>
+							
+				<div class="box-info-detail">
+					<h2 class="clearfix" style="border-bottom:1px dashed #d5d5d5; padding-bottom:5px;">
+						<span style="float: left; margin-right: 5px; font-size:20px; font-family:微软雅黑; font-weight:bold; line-height:38px; color:#000;">${model.name}</span>
+						<a rel="tooltip" class="aimg">
+           					<img src="${webroot}${theme_dir}/images/<#if model.type==1>jijin<#elseif model.type==2>xintuo</#if>.png" border="0" />
+        				</a>
+					</h2>
+					</h2>
+					<ul class="clearfix">
+						<li>募集资金：￥<strong>${model.account?c}万</strong></li>
+                        <li>预计年化收益：<strong>${model.apr}%</strong></li>
+						<#assign scales=model.accountYes/model.account>
+                        <li>    
+                        	<span class="floatl">完成：</span>
+							<div class="rate_bg floatl" >
+								<div class="rate_tiao" style="width: <#if 
+									((scales*100)?string("##.######"))?number -99.99 lte 0.01 && ((scales*100)?string("##.######"))?number -99.99 gte 0>
+									99.9%
+									<#else>
+									${(scales*100)?string("##.##")}%
+									</#if>">
+								</div>
+							</div>
+							<div class="floatl" style="margin-top:2px;margin-left:5px;*display:inline;">
+								<#if
+								((scales*100)?string("##.######"))?number -99.99 lt 0.01 &&
+								((scales*100)?string("##.######"))?number -99.99 gt 0> 99.99%
+								<#else> ${(scales*100)?string("##.##")}% </#if>
+							</div>
+						</li>
+						<li>
+							剩余金额:￥${(model.account-model.accountYes)?c}万
+						</li>
+						<li>产品期限：${model.timeLimit}<#if model.isDay==1>天<#else>个月</#if></li>
+                        <li>
+							<#if model.status==1>剩余时间：<@showRemainTime addtime=model.addTime?c valid_time=model.validTime />
+							<#elseif model.status==8>已结束
+							<#else>-
+							</#if>
+						</li>
+                        <li>
+                       		收益分配方式：
+							<#if model.style==1>一次性
+							<#elseif model.style==2>按月分配
+							<#elseif model.style==3>按季度分配
+							<#elseif model.style==4>每月返息 到期还本
+							</#if>
+                        </li>
+					</ul>
+					
+                    <ul class="clearfix" style="border-top:1px dashed #D5D5D5; padding:5px 0;">
+                        <li>最低认购金额：${model.lowestAccount?c}万<#if model.type==1>，以最低1万递增<#elseif model.type==2>，以最低10万递增</#if></li>
+                        <li>最大认购金额：<#if model.mostAccount gt 0>${model.mostAccount?c}万<#else>无限制</#if></li>
+                        <li>发布时间：${dateformat(model.addTime?c)}</li>
+                        <li>意向：${model.tenderTime?c}&nbsp;&nbsp;浏览量：${model.visitTime?c}</li>
+                        <li>发行机构：${model.issuer}</li>
+                        <li>担保机构：${model.guaranty}</li>
+						<li>反担保方式：<#if model.counterGuaranty==1>土地抵押<#elseif model.counterGuaranty==2>特定股权质押</#if></li>
+					</ul>
+					<#if model.status==1 && (getRemainTime(model.addTime?c,model.validTime)?number gt 0)>
+						<form action="${webroot}/fund/tender.html" name="form1" method="post" >
+							<ul class="clearfix" style="border-top:1px dashed #D5D5D5; padding:5px 0;">
+								<li id="flow_num">认购金额：
+									<input class="less" value="-" type="button">
+			                        <input type="text"  class="nums" id="account" name="account" value="${model.lowestAccount}" size="5" maxlength="6">万
+			                        <input class="add" value="+" type="button">
+			                    </li>
+								<li>验&nbsp;&nbsp;证&nbsp;&nbsp;码：<input id="valicode" name="valicode" type="text" size="11" maxlength="5" />&nbsp;<img src="${webroot}/validimg.html" alt="点击刷新" onclick="this.src='${webroot}/validimg.html?t=' + Math.random();" align="absmiddle" /></li>
+							</ul>
+							<input type="hidden" name="fund_token" value="${fund_token}" />
+							<input type="hidden" name="fundId" value="${model.id}" />
+						</form>
+					</#if>
+                    <style>
+                    .box-info-detail-ac a{cursor:pointer}
+                    </style>
+					
+					<div class="box-info-detail-ac">
+						<#if model.status==0>
+							<a class="btn-action">暂未开启</a>
+						<#elseif model.status==8>
+							<a class="btn-action">已结束</a>
+						<#elseif model.status==1 && (getRemainTime(model.addTime?c,model.validTime)?number lt 0)>
+							<a class="btn-action">已过期</a>
+						<#elseif model.status==1 && (model.accountYes lt model.account)>
+							<a class="btn-action" href="javascript:void(0);" onclick="checkForm();">提交认购意向</a>
+						<#else>
+							<a class="btn-action">已结束</a>
+						</#if>
+					</div>
+                    <#if session_user??&&session_user.real_status==1>
+                        <div class="box-info-detail-ac">
+                            <#if session_user??&&session_user.real_status==0><div class="btn"><a href="${webroot}/member/identify/realname.html">请先实名认证</a></div></#if>
+                            <#if session_user??&&session_user.phone_status==0><div class="btn"><a href="${webroot}/member/identify/phone.html">请手机认证</a></div></#if>                        
+                        </div>
+                    </#if>
+					
+				</div>
+			</div>
+
+			<div class="box box-kefu second-right">
+				<a href="${webroot}/service/onlinekefu.html"> <img
+					src="${theme_dir}/images/zx-left-kf2.jpg" usemap="#Map1"
+					style="margin: 0 auto; display: block; margin-top: 10px; margin-bottom: 10px;">
+				</a>
+			</div>
+		</div><!--右侧内容-->
+
+            <ul id="tab" class="list-tab clearfix mt10">
+                <li class="active"><a href="#jkxq" data-toggle="tab">项目简介</a></li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+            <div class="list-tab-con" id="jkxq" style="display:block;">
+                <div>
+                	<p>${model.content!}</p>
+                    <p><br/></p>
+				</div>
+            </div>
+            
+            <script type="text/javascript">
+                function showRemainTime(){
+                	var endtimes=$(".endtime");
+                	endtimes.each(function(){
+                		RemainTime($(this));
+                	});
+                }
+                showRemainTime();
+                setInterval("showRemainTime()",1000); 
+
+                function RemainTime(t){
+                	var iDay,iHour,iMinute,iSecond,account;
+                	var sDay="",sTime="";
+                	var at="data-time"
+                	var iTime=t.attr(at);
+                    if (iTime >= 0){
+                    	iDay = parseInt(iTime/24/3600);
+                        iHour = parseInt((iTime/3600)%24);
+                        iMinute = parseInt((iTime/60)%60);
+                        iSecond = parseInt(iTime%60);
+                    	if (iDay > 0){ 
+                   			sDay = iDay + "天"; 
+                    	}
+                	    sTime =sDay + iHour + "时" + iMinute + "分" + iSecond + "秒";
+                	    if(iTime==0){
+                        	sTime="<span style='color:green'>已结束</span>";
+                        }
+                			t.attr(at,iTime-1);
+                      }else{
+                	     sTime="<span style='color:red'>已结束</span>";
+                	 }
+                	t.html(sTime);
+                }
+            </script>
+
+
+        </div>
+    </div>
+		<!--main end-->
+			
+<script src="${request.getContextPath()}${theme_dir}/media/js/modal.js"></script>
+<script src="${request.getContextPath()}${theme_dir}/media/js/tab.js"></script>
+<script src="${request.getContextPath()}${theme_dir}/media/js/transition.js"></script>
+<script type="text/javascript">
+	function checkForm(){
+		var frm = document.forms['form1'];
+		var account = $("#account").val();
+		var valicode = $("#valicode").val();
+		if (valicode==""){
+		 	alert("验证码不能为空");
+			return false;
+		}
+		if(confirm('确定要提交认购意向'+account+'万，确定了将不能取消')){
+			frm.submit();
+		}else{
+			return false;
+		}
+		 
+	}
+        
+	function changeNum(){
+		function getNum(obj0){
+		   var inputBox = $(".nums",obj0);		   
+		   inputBox.blur(function(){
+			   inputNum  = parseInt(inputBox.attr("value"));
+			   var maxNum = parseInt($(".max",obj0).text());
+               if(!isNaN(inputNum))
+               {
+                   if(inputNum>maxNum)
+                   {
+                       inputBox.attr("value",maxNum);
+                   }
+                   else{
+                       inputBox.attr("value",inputNum);
+                   }
+               }else{
+                   inputBox.attr("value",1);
+               }
+			})
+		}
+		
+	   function add(obj1){//增加
+		   var addObj = $(".add",obj1);
+		   addObj.click(function(){
+			   var num = $(".nums",obj1).attr("value");
+			   var maxNum = 0;
+			   if(${model.mostAccount?c} > 0){
+				   maxNum = parseInt(${model.mostAccount?c});
+			   }else{
+				   maxNum = parseInt(${model.account?c});
+			   }
+			   if(maxNum > (${model.account?c}-${model.accountYes?c})){
+				   maxNum = parseInt(${model.account?c}-${model.accountYes?c});
+			   }
+		   	   if(${model.type}==1){
+		   		   num++;
+		   	   }else{
+		   		   num = parseInt(num)+10;
+		   	   }
+			   if(num>maxNum)
+			   return false;//获取当前的对象的 最大分数  判断是否大于，大于剩下的分数 就不在增加
+			   $(".nums",obj1).attr("value",num);
+			})
+		 }
+	   function less(obj2){ //减少
+		   var lessObj = $(".less",obj2);
+		   lessObj.click(function(){
+			   var num = $(".nums",obj2).attr("value");
+			   if(${model.type}==1){
+				   num--;
+		   	   }else{
+		   		   num = parseInt(num)-10;
+		   	   }
+			   if(num<parseInt(${model.lowestAccount?c}))
+			   {
+					return false;   
+				}//获取当前的对象的最小值  判断是否小于0，小于0 就不在减少
+			   $(".nums",obj2).attr("value",num);
+			   })
+		   
+		   }
+	   var flow_input=$("#flow_num");
+		add(flow_input); //对当前form下面的 增加分数 进行操作
+		less(flow_input);//对当前form下面的 减少分数 进行操作
+		getNum(flow_input);
+		
+	   }
+	   changeNum();
+</script>
+<#include "../include/footer.html">
+</body>
+</html>

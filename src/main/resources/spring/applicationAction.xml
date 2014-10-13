@@ -1,0 +1,847 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<!-- 首页 --> 
+	<bean id="indexAction" class="com.p2psys.web.action.IndexAction"
+		scope="prototype"> 
+		<property name="articleService">
+			<ref bean="articleService" />
+		</property>
+		<property name="borrowService">
+			<ref bean="borrowService" />
+		</property>
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="creditCardService">
+			<ref bean="creditCardService" />
+		</property>
+		<property name="quickenLoansService">
+			<ref bean="quickenLoansService" />
+		</property>
+		<!-- v1.6.6.1 RDPROJECT-209 yl 2013-09-27 start -->
+		<property name="rewardStatisticsService">
+			<ref bean="rewardStatisticsService" />
+		</property>
+		<!-- v1.6.6.1 RDPROJECT-209 yl 2013-09-27 end -->
+		
+	</bean>
+
+	<!-- 文章管理 -->
+	<bean id="articleAction" class="com.p2psys.web.action.ArticleAction"
+		scope="prototype">
+		<property name="articleService">
+			<ref bean="articleService" />
+		</property>
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+	</bean>
+
+	<!-- 图片输出Action -->
+	<bean id="imageAction" class="com.p2psys.web.action.ToolAction" scope="prototype">
+	</bean>
+
+	<!-- 评论Action -->
+	<bean id="commentAction" class="com.p2psys.web.action.CommentAction"
+		scope="prototype">
+		<property name="commentservice">
+			<ref bean="commentService" />
+		</property>
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+	</bean>
+	<!--用户注册登录模块Action -->
+	<bean id="userAction" class="com.p2psys.web.action.UserAction" scope="prototype">
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="userinfoService">
+			<ref bean="userinfoService" />
+		</property>
+		<property name="borrowService">
+			<ref bean="borrowService" />
+		</property>
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
+		<property name="messageService">
+			<ref bean="messageService" />
+		</property>
+		<property name="memberBorrowService">
+			<ref bean="memberBorrowService"/>
+		</property>
+		<property name="passwordTokenService">
+			<ref bean="passwordTokenService"/>
+		</property>
+		<property name="cooperationLoginService">
+			<ref bean="cooperationLoginService" />
+		</property>
+		<property name="rewardStatisticsService">
+			<ref bean="rewardStatisticsService" />
+		</property>
+		<property name="userCreditService">
+			<ref bean="userCreditService" />
+		</property>
+		<property name="emailLogService">
+			<ref bean="emailLogService" />
+		</property>
+		<property name="accountSumService">
+			<ref bean="accountSumService" />
+		</property>
+	</bean>
+
+
+	<!--投资模块Action -->
+	<bean id="investAction" class="com.p2psys.web.action.InvestAction"
+		scope="prototype">
+		<property name="borrowService">
+			<ref bean="borrowService" />
+		</property>
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="userinfoService">
+			<ref bean="userinfoService"></ref>
+		</property>
+		<property name="commentService">
+			<ref bean="commentService" />
+		</property>
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
+		<property name="memberBorrowService">
+			<ref bean="memberBorrowService" />
+		</property>
+		<property name="friendService">
+			<ref bean="friendService" />
+		</property>
+	</bean>
+	<!--贷款模块Action -->
+	<bean id="borrowAction" class="com.p2psys.web.action.BorrowAction"
+		scope="prototype">
+		<property name="borrowService">
+			<ref bean="borrowService" />
+		</property>
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="userAmountService">
+			<ref bean="userAmountService" />
+		</property>
+		<property name="articleService">
+			<ref bean="articleService" />
+		</property>
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
+		<!-- v1.6.7.1 RDPROJECT-395 zza 2013-11-04 start -->
+		<property name="rewardStatisticsService">
+			<ref bean="rewardStatisticsService" />
+		</property>
+		<!-- v1.6.7.1 RDPROJECT-395 zza 2013-11-04 end -->
+	</bean>
+
+	<!-- 用户管理模块 -->
+	<bean id="memberAction" class="com.p2psys.web.action.MemberAction"
+		scope="prototype">
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="userinfoService">
+			<ref bean="userinfoService" />
+		</property>
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
+		<property name="articleService">
+			<ref bean="articleService" />
+		</property>
+		<property name="friendService">
+			<ref bean="friendService" />
+		</property>
+		<property name="messageService">
+			<ref bean="messageService" />
+		</property>
+		<property name="borrowService">
+			<ref bean="borrowService" />
+		</property>
+		<property name="autoBorrowService">
+			<ref bean="autoBorrowService" />
+		</property>
+		<property name="userCreditService">
+			<ref bean="userCreditService"/>
+		</property>
+		<property name="ruleService">
+			<ref bean="ruleService"/>
+		</property>
+	</bean>
+	<bean id="memberFriendAction" class="com.p2psys.web.action.member.FriendAction"
+		scope="prototype">
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="friendService">
+			<ref bean="friendService" />
+		</property>
+	</bean>
+	<bean id="memberSecurityAction" class="com.p2psys.web.action.member.SecurityAction"
+		scope="prototype">
+		<property name="userinfoService">
+			<ref bean="userinfoService" />
+		</property>
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="friendService">
+			<ref bean="friendService" />
+		</property>
+		<!-- v1.6.7.1 xx 2013-11-20 start -->
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
+		<!-- v1.6.7.1 xx 2013-11-20 end -->
+		<!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-02 start -->
+		<property name="passwordTokenService">
+			<ref bean="passwordTokenService" />
+		</property>
+		<!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-02 end -->
+	</bean>
+	<bean id="memberIdentifyAction" class="com.p2psys.web.action.member.IdentifyAction"
+		scope="prototype">
+		<property name="userinfoService">
+			<ref bean="userinfoService" />
+		</property>
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="userCreditService">
+			<ref bean="userCreditService" />
+		</property>
+	</bean>
+	<!-- 用户管理-我的借款 -->
+	<bean id="memberBorrowAction" class="com.p2psys.web.action.member.MemberBorrowAction"
+		scope="prototype">
+		<property name="memberBorrowService">
+			<ref bean="memberBorrowService" />
+		</property>
+		<property name="borrowService">
+			<ref bean="borrowService" />
+		</property>
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="userAmountService">
+			<ref bean="userAmountService" />
+		</property>
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
+	</bean>
+	<!-- 用户管理-我的投资 -->
+	<bean id="memberInvestAction" class="com.p2psys.web.action.member.MemberInvestAction"
+		scope="prototype">
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="borrowService">
+			<ref bean="borrowService" />
+		</property>
+	</bean>
+	<bean id="borrowAutoAction" class="com.p2psys.web.action.member.BorrowAutoAction"
+		scope="prototype">
+		<property name="borrowService">
+			<ref bean="borrowService" />
+		</property>
+	</bean>
+	<bean id="memberAccountAction" class="com.p2psys.web.action.member.AccountAction"
+		scope="prototype">
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="borrowService">
+			<ref bean="borrowService" />
+		</property>
+	</bean>
+	<bean id="memberMessageAction" class="com.p2psys.web.action.member.MessageAction"
+		scope="prototype">
+		<property name="messageService">
+			<ref bean="messageService" />
+		</property>
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+	</bean>
+
+	<!-- Tool模块 -->
+	<bean id="interestAction" class="com.p2psys.web.action.ToolAction"
+		scope="prototype">
+	</bean>
+	<bean id="pluginAction" class="com.p2psys.web.action.ToolAction"
+		scope="prototype">
+	</bean>
+
+	<!-- 对外公开模块，主要支付回调 -->
+	<bean id="publicAction" class="com.p2psys.web.action.PublicAction"
+		scope="prototype">
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
+	</bean>
+
+	<!-- 管理后台部分 -->
+	<bean id="adminAuthAction" class="com.p2psys.web.action.admin.AuthAction"
+		scope="prototype">
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="manageAuthService">
+			<ref bean="manageAuthService" />
+		</property>
+	</bean>
+	<!-- 后台客户管理 -->
+	<bean id="adminUserInfoAction" class="com.p2psys.web.action.admin.UserInfoAction"
+		scope="prototype">
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="userInfoService">
+			<ref bean="userinfoService" />
+		</property>
+		<property name="messageService">
+			<ref bean="messageService" />
+		</property>
+		<property name="userCreditService">
+			<ref bean="userCreditService" />
+		</property>
+		<property name="accountSumService">
+			<ref bean="accountSumService" />
+		</property>
+		<!--    v1.6.6.2  RDPROJECT-315 gc 2013-10-28 start -->
+		<property name="passwordTokenService">
+			<ref bean="passwordTokenService" />			
+		</property>
+		<!--    v1.6.6.2  RDPROJECT-315 gc 2013-10-28 end -->
+		<!-- v1.6.7.1 2013-11-26 start -->
+		<property name="accountService">
+			<ref bean="accountService" />			
+		</property>
+		<!-- v1.6.7.1 2013-11-26 end -->
+	</bean>
+	<!-- 系统设置 -->
+	<bean id="SystemConfigAction" class="com.p2psys.web.action.admin.SystemConfigAction"
+		scope="prototype">
+		<property name="systemService">
+			<ref bean="systemService" />
+		</property>
+	</bean>
+	<!-- 证件管理 -->
+	<bean id="attestationAction" class="com.p2psys.web.action.admin.AttestationAction"
+		scope="prototype">
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="userinfoService">
+			<ref bean="userinfoService" />
+		</property>
+		<property name="attestationService">
+			<ref bean="attestationService" />
+		</property>
+		<!-- v1.6.7.1 RDPROJECT-314 liukun 2013-11-20 start -->
+		<!-- <property name="messageService">
+			<ref bean="messageService" />
+		</property> -->
+		<!-- v1.6.7.1 RDPROJECT-314 liukun 2013-11-20 end -->
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
+		<property name="rewardStatisticsService">
+			<ref bean="rewardStatisticsService" />
+		</property>
+		<property name="userCreditService">
+			<ref bean="userCreditService" />
+		</property>
+		<property name="ruleService">
+			<ref bean="ruleService" />
+		</property>
+	</bean>
+	
+	<bean id="manageBorrowAction" class="com.p2psys.web.action.admin.ManageBorrowAction"
+		scope="prototype">
+		<property name="borrowService">
+			<ref bean="borrowService" />
+		</property>
+		<property name="memberBorrowService">
+			<ref bean="memberBorrowService" />
+		</property>
+		<property name="userAmountService">
+			<ref bean="userAmountService" />
+		</property>
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+	    <property name="accountService">
+			<ref bean="accountService" />
+		</property>
+		 <property name="quickenLoansService">
+			<ref bean="quickenLoansService" />
+		</property>
+	</bean>
+	<bean id="manageCashAction" class="com.p2psys.web.action.admin.ManageCashAction"
+		scope="prototype">
+		<property name="manageCashService">
+			<ref bean="manageCashService" />
+		</property>
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
+		<property name="messageService">
+			<ref bean="messageService" />
+		</property>
+		<property name="userAmountService">
+			<ref bean="userAmountService" />
+		</property>
+		<property name="creditCardService">
+			<ref bean="creditCardService" />
+		</property>
+			<property name="borrowService">
+			<ref bean="borrowService" />
+		</property>
+		<property name="upfilesService">
+			<ref bean="upfilesService" />
+		</property>
+		<!-- V1.6.6.2 RDPROJECT-286 wcw 2013-10-15 start  -->
+		<property name="linkageService">
+			<ref bean="linkageService" />
+		</property>
+		<!-- V1.6.6.2 RDPROJECT-286 wcw 2013-10-15 end  -->
+		<!-- v1.6.7.1 RDPROJECT-314 liukun 2013-11-12 start -->
+		<property name="noticeService">
+			<ref bean="noticeService" />
+		</property>
+		<!-- v1.6.7.1 RDPROJECT-314 liukun 2013-11-12 end -->	
+		<property name="manageBankService">
+			<ref bean="manageBankService" />
+		</property>
+		
+	</bean>
+	<!-- v1.6.6.2 RDPROJECT-173 wcw 2013-10-25 start -->
+	<bean id="manageBankAction" class="com.p2psys.web.action.admin.ManageBankAction"
+		scope="prototype">
+		<property name="manageBankService">
+			<ref bean="manageBankService" />
+		</property>
+	</bean>
+	<!-- v1.6.6.2 RDPROJECT-173 wcw 2013-10-25 end -->
+
+	<bean id="manageSiteAction" class="com.p2psys.web.action.admin.ManageSiteAction"
+		scope="prototype">
+		<property name="articleService">
+			<ref bean="articleService" />
+		</property>
+	</bean>
+	<!-- v1.6.6.2 RDPROJECT-28 wcw 2013-10-17 start-->
+	<bean id="manageOrderAction" class="com.p2psys.web.action.admin.ManageOrderAction"
+		scope="prototype">
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
+	</bean>
+	<!-- v1.6.6.2 RDPROJECT-28 wcw 2013-10-17 end-->
+	<bean id="manageArticleAction" class="com.p2psys.web.action.admin.ManageArticleAction"
+		scope="prototype">
+		<property name="articleService">
+			<ref bean="articleService" />
+		</property>
+	</bean>
+	
+	<bean id="managePurviewAction" class="com.p2psys.web.action.admin.ManagePurviewAction"
+		scope="prototype">
+		<property name="manageAuthService">
+			<ref bean="manageAuthService" />
+		</property>
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="userinfoService">
+			<ref bean="userinfoService" />
+		</property>
+	</bean>
+<bean id="manageCommentAction" class="com.p2psys.web.action.admin.ManageCommentAction" scope="prototype">
+			<property name="commentService" >
+				<ref bean="commentService"/>
+			</property>
+	</bean>
+	
+	<!-- v1.6.7.2 RDPROJECT-26 sj 2013-12-24 start -->
+	<bean id="linkageTypeAction" class="com.p2psys.web.action.admin.LinkageTypeAction" scope="prototype">
+			<property name="linkageService" >
+				<ref bean="linkageService"/>
+			</property>
+	</bean>
+	<bean id="linkageAction" class="com.p2psys.web.action.admin.LinkageAction" scope="prototype">
+			<property name="linkageService" >
+				<ref bean="linkageService"/>
+			</property>
+	</bean>
+	<!-- v1.6.7.2 RDPROJECT-26 sj 2013-12-24 end -->
+	
+	<!--积分模块Action -->
+	<bean id="pointsAction" class="com.p2psys.web.action.PointsAction"
+		scope="prototype">
+		<property name="borrowService">
+			<ref bean="borrowService" />
+		</property>
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="userinfoService">
+			<ref bean="userinfoService"></ref>
+		</property>
+		<property name="commentService">
+			<ref bean="commentService" />
+		</property>
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
+		<property name="memberBorrowService">
+			<ref bean="memberBorrowService" />
+		</property>
+		<property name="friendService">
+			<ref bean="friendService" />
+		</property>
+	</bean>
+	
+	<!--爱心捐助模块Action -->
+	<bean id="donationAction" class="com.p2psys.web.action.DonationAction"
+		scope="prototype">
+		<property name="borrowService">
+			<ref bean="borrowService" />
+		</property>
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="userinfoService">
+			<ref bean="userinfoService"></ref>
+		</property>
+		<property name="commentService">
+			<ref bean="commentService" />
+		</property>
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
+		<property name="memberBorrowService">
+			<ref bean="memberBorrowService" />
+		</property>
+		<property name="friendService">
+			<ref bean="friendService" />
+		</property>
+	</bean>
+	<!-- 及时雨协议 -->
+	<bean id="protocolAction" class="com.p2psys.web.action.member.ProtocolAction"
+		scope="prototype">
+	<property name="borrowService">
+			<ref bean="borrowService" />
+		</property>
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
+	</bean>
+	<bean id="managerProtocolAction" class="com.p2psys.web.action.admin.ManagerProtocolAction"
+		scope="prototype">
+	<property name="borrowService">
+			<ref bean="borrowService" />
+		</property>
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
+	</bean>
+	<!-- v1.6.7.1 RDPROJECT-314 liukun 2013-11-19 start -->
+	<!-- TODO RDPROJECT-314 DELETE -->
+	<!-- <bean id="noticeConfigAction" class="com.p2psys.web.action.admin.NoticeConfigAction"
+		scope="prototype">
+	    <property name="noticeConfigService">
+			<ref bean="noticeConfigService" />
+		</property>
+		<property name="linkageService">
+			<ref bean="linkageService" />
+		</property>
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="smsPortal">
+			<ref bean="smsPortal" />
+		</property>
+		<property name="noticeService">
+			<ref bean="noticeService" />
+		</property>
+	</bean> -->
+	<!-- v1.6.7.1 RDPROJECT-314 liukun 2013-11-19 end -->
+	<!-- 密保设置 -->
+	<bean id="passwordTokenAction" class="com.p2psys.web.action.PasswordTokenAction"
+		scope="prototype">
+		<property name="passwordTokenService">
+			<ref bean="passwordTokenService" />
+		</property>
+	</bean>
+
+	
+
+	<bean id="cooperationQQLoginAction" class="com.p2psys.web.action.cooperation.CooperationQQLoginAction" scope="prototype">
+		<property name="cooperationLoginService"><ref bean="cooperationLoginService" /></property>
+		<property name="userService"><ref bean="userService" /></property>
+	</bean>
+	
+	<!-- 奖励统计 -->
+	<bean id="manageRewardAction" class="com.p2psys.web.action.admin.ManageRewardAction"
+		scope="prototype">
+		<property name="rewardStatisticsService">
+			<ref bean="rewardStatisticsService" />
+		</property>
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="ruleService">
+			<ref bean="ruleService" />
+		</property>
+   </bean>
+   <!-- 急难基金 -->
+  <bean id="manageTroubleFundAction" class="com.p2psys.web.action.admin.ManageTroubleFundAction"
+		scope="prototype">
+	 <property name="articleService">
+			<ref bean="articleService" />
+		</property>
+		<property name="troubleFundService">
+			<ref bean="troubleFundService" />
+		</property>
+ 
+   </bean>
+   <bean id="troubleFundAction" class="com.p2psys.web.action.member.TroubleFundAction"
+		scope="prototype">
+	 <property name="troubleFundService">
+			<ref bean="troubleFundService" />
+		</property>
+		<property name="awardService">
+			<ref bean="awardService" />
+		</property>
+ 
+   </bean>
+  <!-- 抽奖 -->
+   <bean id="AwardAction" class="com.p2psys.web.action.award.AwardAction"
+		scope="prototype">
+		<property name="awardService">
+			<ref bean="awardService" />
+		</property>
+		<!--  v1.6.6.2 RDPROJECT-285 lhm 2013-10-25 start -->
+		<!-- <property name="userCreditService">
+			<ref bean="userCreditService" />
+		</property>  -->
+		<!--  v1.6.6.2 RDPROJECT-285 lhm 2013-10-25 start -->
+   </bean>
+   	<bean id="ManageAwardAction" class="com.p2psys.web.action.admin.ManageAwardAction"
+			scope="prototype">
+			
+			<property name="awardService">
+			<ref bean="awardService" />
+		</property>
+   </bean>
+   
+   <!-- 用户积分处理action -->
+	<bean id="userCreditAction" class="com.p2psys.web.action.UserCreditAction" scope="prototype">
+		<property name="userCreditService">
+			<ref bean="userCreditService" />
+		</property>
+		<property name="ruleService">
+			<ref bean="ruleService" />
+		</property>
+		<property name="creditConvertService">
+			<ref bean="creditConvertService" />
+		</property>
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+   </bean>
+   
+   <bean id="manageUserCreditAction" class="com.p2psys.web.action.admin.ManageUserCreditAction" scope="prototype">
+		<property name="userCreditService">
+			<ref bean="userCreditService" />
+		</property>
+		<property name="creditConvertService">
+			<ref bean="creditConvertService" />
+		</property>
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<!-- v1.6.7.2 RDPROJECT-509 zza 2013-12-12 start -->
+		<property name="upfilesService">
+			<ref bean="upfilesService" />
+		</property>
+		<!-- v1.6.7.2 RDPROJECT-509 zza 2013-12-12 end -->
+   </bean>
+   
+   <!-- 每日报表 -->
+	<bean id="manageReportAction" class="com.p2psys.web.action.admin.ManageReportAction"
+		scope="prototype">
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
+		<property name="borrowService">
+			<ref bean="borrowService" />
+		</property>
+   </bean>
+	<!-- v1.6.7.2 RDPROJECT-556 liukun 2013-12-13 start -->
+	<bean id="smsPortalKX" class="com.p2psys.util.sms.KuaiXianSmsPortalImpl"
+		scope="prototype">
+	</bean>
+	<bean id="smsPortalYnd" class="com.p2psys.util.sms.YndSmsPortalImpl"
+		scope="prototype">
+	</bean> 
+	<bean id="smsPortalChina" class="com.p2psys.util.sms.ChinaSmsPortalImpl"
+		scope="prototype">
+	</bean>
+	<bean id="smsPortalYun" class="com.p2psys.util.sms.YunSmsPortalImpl"
+		scope="prototype">
+	</bean>
+	<bean id="smsPortal" class="com.p2psys.util.sms.ErongduSmsPortalImpl"
+		scope="prototype">
+	</bean>
+	<!-- v1.6.7.2 RDPROJECT-556 liukun 2013-12-13 start -->
+
+	<!-- v1.6.7.1 RDPROJECT-314 liukun 2013-11-14 start -->
+	<!-- TODO RDPROJECT-314 -->
+	<bean id="manageNoticeAction" class="com.p2psys.web.action.admin.ManageNoticeAction"
+		scope="prototype">
+		<property name="noticeTypeService">
+			<ref bean="noticeTypeService" />
+		</property>
+		<property name="smsPortal">
+			<ref bean="smsPortal" />
+		</property>
+		<!-- v1.6.7.2 RDPROJECT-556 liukun 2013-12-13 start -->
+		<property name="smsPortalBackups">
+	      <list>
+			<ref bean="smsPortalKX"  />
+			<ref bean="smsPortalYnd" />
+			<ref bean="smsPortalChina" />
+			<ref bean="smsPortalYun" />
+	      </list>
+	    </property>
+		<!-- v1.6.7.2 RDPROJECT-556 liukun 2013-12-13 end -->
+	</bean>   
+	<bean id="memberNoticeConfigAction" class="com.p2psys.web.action.member.MemberNoticeConfigAction"
+		scope="prototype">
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
+		<property name="noticeTypeService">
+			<ref bean="noticeTypeService" />
+		</property>
+		<property name="userNoticeConfigService">
+			<ref bean="userNoticeConfigService" />
+		</property>
+	</bean>  
+	<!-- v1.6.7.1 RDPROJECT-314 liukun 2013-11-14 end -->
+	
+	<bean id="accountCashAction" class="com.p2psys.web.action.member.AccountCashAction"
+		scope="prototype">
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+		<property name="borrowService">
+			<ref bean="borrowService" />
+		</property>
+	</bean>  
+	 <!--V1.6.6.1 liukun 2013-10-11 start -->
+	 <bean id="initAccountSumAction" class="com.p2psys.web.action.admin.InitAccountSumAction"
+		scope="prototype">
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
+		<property name="accountSumService">
+			<ref bean="accountSumService" />
+		</property>		
+		<property name="accountDao">
+			<ref bean="accountDao" />
+		</property>		
+	</bean> 
+	<!--V1.6.6.1 liukun 2013-10-11 start -->
+	<!-- v1.6.6.2 RDPROJECT-235 zza 2013-10-17 start -->
+	<!-- 推广奖励规则 -->
+	 <bean id="managePromoteAction" class="com.p2psys.web.action.admin.ManagePromoteAction"
+		scope="prototype">
+		<property name="rulePromoteService">
+			<ref bean="rulePromoteService" />
+		</property>
+	</bean> 
+	<!-- v1.6.6.2 RDPROJECT-235 zza 2013-10-17 end -->
+	
+	<!-- v1.6.6.2 RDPROJECT-277 xx 2013-10-22 start -->
+	<bean id="manageFundAction" class="com.p2psys.fund.web.action.admin.ManageFundAction" scope="prototype"></bean>
+	<bean id="manageFundTenderAction" class="com.p2psys.fund.web.action.admin.ManageFundTenderAction" scope="prototype"></bean>
+	<bean id="fundAction" class="com.p2psys.fund.web.action.front.FundAction" scope="prototype"></bean>
+	<!-- v1.6.6.2 RDPROJECT-277 xx 2013-10-22 end -->
+	
+	<!-- v1.6.7.1 规则重加载 cx 2013-11-25 start -->
+	<bean id="mangeRuleAction" class="com.p2psys.web.action.admin.ManageRuleAction" scope="prototype">
+		<property name="ruleService">
+			<ref bean="ruleService" />
+		</property>
+	</bean>  
+	<!-- v1.6.7.1 规则重加载 cx 2013-11-25 end -->
+	<!-- v1.6.7.1 1RDPROJECT-510 cx 2013-12-06 start -->
+	<bean id="newReportAction" class="com.p2psys.report.web.action.admin.NewReportAction" scope="prototype">
+		<property name="borrowService">
+			<ref bean="borrowService" />
+		</property>
+		<property name="reportService">
+			<ref bean="reportService" />
+		</property>
+	</bean>  
+	<!--v1.6.7.2 RDPROJECT-569 cx 2013-12-16 start -->
+	<bean id="goodsAction" class="com.p2psys.credit.web.action.GoodsAction" scope="prototype">
+		<property name="userService">
+			<ref bean="userService"/>
+		</property>
+	</bean>
+	<!--v1.6.7.2 RDPROJECT-569 cx 2013-12-16 end -->	
+	
+	<!--v1.6.7.2 债权转让 zhangyz 2013-12-25 start -->
+	<bean id="memberCaAction" class="com.p2psys.creditassignment.web.action.front.MemberCaAction" scope="prototype">
+	</bean>
+	
+	<bean id="manageCaAction" class="com.p2psys.creditassignment.web.action.admin.ManageCaAction" scope="prototype">
+	</bean>
+	<!--v1.6.7.2 债权转让 zhangyz 2013-12-25 end -->
+		
+</beans>

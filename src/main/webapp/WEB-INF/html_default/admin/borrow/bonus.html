@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+<body>
+	<#include "../top.html">
+	<!-- div.main start  -->
+	<div class="main">
+		<!-- div.main_left start  -->
+		<div class="main_left"><#include "left.html"></div>
+		<!-- div.main_left end  -->
+		<!-- div.main_right start  -->
+		<div class="main_right">
+			<#assign moduleName="分红利息" >
+			<#include "banner.html">
+			<div class="main_content">
+				<form action="" method="post">
+				<table  border="0"  cellspacing="1" bgcolor="#CCCCCC" width="100%">
+					<tr>
+						<td width="" class="main_td">ID</td>
+						<td width="*" class="main_td" align="left">借款人</td>
+						<td width="*" class="main_td">借款标的名称</td>
+						<td width="" class="main_td">期数</td>
+						<td width="" class="main_td">借款时间</td>
+						<td width="" class="main_td">金额</td>
+						<td width="" class="main_td">操作</td>
+					</tr>
+					<#list list as item>
+					<tr>
+						<td>${item.id?c}</td>
+						<td class="main_td1"  align="left">${item.username!}</td>
+						<td align="left"><a href="" target="_blank">${item.name!}</a></td>
+						<td align="left">${item.time_limit!}</td>
+						<td align="left">${dateformat(item.addtime)}</td>
+						<td align="left">${item.account!}元</td>
+						<td align="left"><a href="bonusmodify.html?borrow_id=${item.id?c}">分红利息</a></td>
+					</tr>
+					</#list>
+				</table>
+				</form>	
+			</div>
+		</div>
+		<!-- div.main_right end  -->
+	</div>
+	<!-- div.main end  -->
+	<#include "../foot.html">
+</body>
+</html>

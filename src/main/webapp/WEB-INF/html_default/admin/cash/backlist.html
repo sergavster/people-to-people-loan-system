@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l"> 
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="扣款记录">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+
+                                <div class="toolbor-module export">
+                                    <input type="button" onClick="exportxls()" value="导出报表" class="input-button export-btn"/>
+                                </div>
+
+                                <#if param?exists>
+                                    <#if param.get("dotime1")?exists><#assign dotime1=param.get("dotime1")></#if>
+                                    <#if param.get("dotime2")?exists><#assign dotime2=param.get("dotime2")></#if>
+                                    <#if param.get("username")?exists><#assign username=param.get("username")></#if>
+                                    <#if param.get("realname")?exists><#assign realname=param.get("realname")></#if>
+                                    <#if param.get("status")?exists><#assign status=param.get("status")></#if>
+                                </#if>
+								<div class="toolbor-module search">    
+                                    <input type="button" value="搜索"  class="input-button" onClick="sousuo();">
+                                </div>
+                                <div class="toolbor-module search">
+                                    <input type="text" name="username" id="username" value="请输入用户名" data-value="请输入用户名" class="search-value">
+                                    <input type="text" name="realname" id="realname" value="请输入真实姓名" data-value="请输入真实姓名" class="search-value">
+                                </div>
+                                <div class="toolbor-module search">    
+                                    <div class="select-box" id="status">
+                                        <div class="tag-select">全部</div>
+                                        <ul class="tag-options">
+											<li data-value="" class="open-selected">全部</li>
+                                            <li data-value="0" <#if status??&&status=="0">data-selected="selected"</#if>>未审核</li>
+                                            <li data-value="1" <#if status??&&status=="1">data-selected="selected"</#if>>审核成功</li>
+                                            <li data-value="2" <#if status??&&status=="2">data-selected="selected"</#if>>审核失败</li>
+                                        </ul>
+                                    </div>
+                                </div>    
+
+                                <div class="toolbor-module search">
+                                    <div style="height:22px;line-height:22px;float:left;">扣款时间：</div>
+                                    <input class="_search-value js-datetime" name="dotime1" id="dotime1" value="${dotime1!}"/>
+                                    <div style="height:22px;line-height:22px;float:left;margin:0 8px;"> 到 </div>
+                                    <input class="_search-value js-datetime" name="dotime2" value="${dotime2!}" id="dotime2"/>
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form action="" method="post">
+                                    <table class="data-list">
+                                        <tr class="header">
+                                            <td>ID</td>
+                                            <td>流水号</td>
+                                            <td>用户名称</td>
+                                            <td>真实姓名</td>
+                                            <td>类型</td>
+                                            <td>扣款金额</td>
+                                            <td>备注</td>
+                                            <td>扣款时间</td>
+                                            <td>审核人</td>
+                                            <td>状态</td>
+                                            <td>操作</td>
+                                        </tr>
+                                        <#list list as item>
+                                            <tr class="s">
+                                                <td>${(item.id!0)?c}</td>
+                                                <td >${item.trade_no!"ERROR!"}</td>
+                                                <td><a href="javascript:void(0)" onclick='alertPop("用户详细信息查看","url:get?${request.getContextPath()}/admin/attestation/viewUserInfo.html?username=${item.username!}",500,230,"true","","true","text")'>
+		                                            ${item.username!}
+		                                        </a></td>
+                                                <td>${item.realname!}</td>
+                                                <td>扣款</td>
+                                                <td>${item.money!}元</td>
+                                                <td>${item.remark!}</td>
+                                                <td>${dateformat(item.addtime!"")}</td>
+                                                <#if item.status==1 || item.status==2>
+                                                <td>${item.verify_username!}</td>
+                                                <#else>
+                                                <td>-</td>
+                                                </#if>
+                                                <td><font color="#6699CC"><#if item.status==1>成功<#elseif item.status==0>未审核<#else>审核失败</#if></font></td>
+                                         	<td>
+                                         	<#if item.status==0 || item.status==1>
+                                         	<a href=viewBack.html?id=${item.id?c}>扣款审核</a>
+                                         	<#else >
+                                         	-
+                                         	</#if>
+                                         	</td>
+                                            </tr>
+                                            </#list>
+                                    </table>
+                                </form>
+
+                                <!--底部工具栏--{-->
+                                <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+
+                                    <!--翻页系统--{-->
+                                    <div class="container">
+                                        <#import "../../common/page.html" as pager>
+                                            <@pager.pagination page=page url="/admin/cash/backlist.html" map=param style="style1"  />
+                                    </div>
+                                    <!--翻页系统--}-->
+                                </div>
+                                <!--底部工具栏--}-->
+                                <script>
+								 var url = 'backlist.html?search=true';
+                                   var xlsurl = 'backlist.html?type=export';
+
+                                    function sousuo(){
+                                        var sou = "";
+                                        var username = $("#username").val();
+                                        var account_type=$("#account_type").find(".open-selected").attr("data-value");
+                                        if (username!=""&&username!="请输入用户名"){
+                                            sou += "&username="+username;
+                                        }
+                                    	// v1.6.7.1 RDPROJECT-402 zza 2013-11-07 start
+                                        var realname = $("#realname").val();
+                                        if (realname!=null&&realname!=""&&realname!="undefine"&&realname!="请输入真实姓名"){
+                                            sou += "&realname="+realname;
+                                        }
+                                     	// v1.6.7.1 RDPROJECT-402 zza 2013-11-07 end
+                                        var status =$("#status").find(".open-selected").attr("data-value");
+                                        if (status!="" && status!=null){
+                                            sou += "&status="+status;
+                                        }
+                                        var dotime1 = $("#dotime1").val();
+                                        var dotime2 = $("#dotime2").val();
+                                        var type = $("#type").val();
+                                        if (dotime1!=null){
+                                            sou += "&dotime1="+dotime1;
+                                        }
+                                        if (dotime2!=null){
+                                            sou += "&dotime2="+dotime2;
+                                        }
+                                        if(account_type!=null){
+
+                                            sou+="&account_type="+account_type;
+                                        }
+                                        if (sou!=""){
+                                            location.href=url+sou;
+                                        }
+                                    }
+                                    
+                                    
+                                    function exportxls(){
+                                        var sou = "";
+                                        var username = $("#username").val();
+                                        var account_type=$("#account_type").find(".open-selected").attr("data-value");
+                                        if (username!=""&&username!="请输入用户名"){
+                                            sou += "&username="+username;
+                                        }
+                                        var realname = $("#realname").val();
+                                        if (realname!=null&&realname!=""&&realname!="undefine"&&realname!="请输入真实姓名"){
+                                            sou += "&realname="+realname;
+                                        }
+                                        var status = $("#status").find(".open-selected").attr("data-value");
+                                        if (status!="" && status!=null){
+                                            sou += "&status="+status;
+                                        }
+                                        var dotime1 = $("#dotime1").val();
+                                        var dotime2 = $("#dotime2").val();
+                                        var type = $("#type").val();
+                                        if (dotime1!=null){
+                                            sou += "&dotime1="+dotime1;
+                                        }
+                                        if (dotime2!=null){
+                                            sou += "&dotime2="+dotime2;
+                                        }
+                                        if(account_type!=null){
+
+                                            sou+="&account_type="+account_type;
+                                        }
+                                        if (sou!=""){
+                                            location.href=xlsurl+sou;
+                                        }else{
+                                            location.href=xlsurl;
+                                        }
+                                    }
+									</script>
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

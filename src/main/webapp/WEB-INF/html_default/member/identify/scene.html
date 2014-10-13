@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<#include "../../include/resource.html">
+<body>
+	<#assign nid="member"> 
+	<#include "../../include/header.html">
+	<!--header-end-->
+	<!--用户中心的主栏目 开始-->
+	<div id="main" class="clearfix" >
+		<div class="wrap950 " style="margin-top:0">
+			<!--左边的导航 开始-->
+			<div class="user_left">
+					<#assign mid="m_identify" >
+			<#include "../user_menu.html"></div>
+			<!--左边的导航 结束-->
+
+			<!--右边的内容 开始-->
+			<div class="user_right">
+				<#if msg?exists>
+				<div id="msg24">
+					<p class="ok">${msg}</p>
+				</div>
+				<#else> <#if errormsg?exists>
+				<div id="msg25">
+					<p class="error">${errormsg}</p>
+				</div>
+				</#if> </#if>
+				<div class="user_right_menu">
+					<#assign userinfo_type="scene">
+					<#include "identify_menu.html"></div>
+				<div class="user_right_main">
+				<#if session_user.scene_status??&&session_user.scene_status==2>
+					实地考察认证正在审核！
+				<#elseif session_user.scene_status??&&session_user.scene_status==1>
+					实地考察认证已经通过！
+				<#else>
+				<form action="${webroot}/member/identify/scene.html" method="post" name="form1" >
+					如果您需要实地考察认证，请您点击申请，等待公司安排，客服将与您电话联系。<br/><br/>
+					<input type="submit" class="btn-action"  name="apply" value="申请"  /><br/>
+					<input type="hidden"  name="actionType" value="scene"  />
+				</form>
+				</#if>	
+				</div>
+			</div>
+			<!--右边的内容 结束-->
+		</div>
+	</div>
+	<!--用户中心的主栏目 结束-->
+	<script
+		src="${request.getContextPath()}${theme_dir}/media/js/modal.js"></script>
+
+	<#include "../../include/footer.html">
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${webname}</title>
+<script src="${webroot}${theme_dir}/media/js/jquery_1.9.1.js"></script>
+<script src="${webroot}${theme_dir}/media/js/mobile.js"></script>
+<link href="${webroot}${theme_dir}/media/css/mobile.css" rel="stylesheet" />
+<link href="${webroot}${theme_dir}/media/css/mobile_base.css" rel="stylesheet" />
+
+</head>
+
+<body>
+<#include "../common/function.html"> 
+<div data-role="page" id="account">
+  <div data-role="header"> <a href="${webroot}/wx/recharge.html"  data-ajax="false"  style="float:left;color:#fff;text-decoration:none;position:absolute;left:10px;">返回充值页面</a>
+    <h1>充值记录</h1>
+    <a data-ajax="false" href="${webroot}/wx/logout.html" style="float:right;color:#fff;text-decoration:none;position:absolute;right:10px;">退出登录</a> </div>
+  <div data-role="content">
+    <div class="content_main">
+      <table width="100%" cellspacing="0" cellpadding="0">
+        <tbody>
+          <tr>
+            <td>充值方式</td><td>充值金额</td>
+            <td>充值时间</td><td>状态</td>
+          </tr>
+          <#list recharge as item>
+          <tr>
+            <td><#if item.payment?exists>${item.paymentname!}<#else>手动充值</#if></td>
+			<td>￥${item.money}</td>
+            <td><#if item.addtime?exists>${dateformat(item.addtime)}</#if></td>
+            <td><#if item.status==0>审核中<#elseif  item.status==1>充值成功<#elseif item.status==2>充值失败</#if></td>
+          </tr>
+        </#list>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+</div>
+</body>
+</html>

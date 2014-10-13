@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html>
+<#include "include/resource.html"> 
+<body>
+<#assign nid="member">
+<#include "include/header.html">
+    <style type="text/css">
+        .out_box{border:1px solid #ccc; background:#fff; font:12px/20px Tahoma;}
+        .list_box{border-bottom:1px solid #eee; padding:0 5px; cursor:pointer;}
+        .focus_box{background:#f0f3f9;}
+        .mark_box{color:#c00;}
+        .emailb,.nameb,.userb,.firstpwdb,.checkpwdb.phoneb{ color: #666; font-weight: normal;}
+        .reg-table li #mailListBox_0{ height:auto; line-height: 20px;}
+        .reg-table li #mailListBox_0 div{ float: none; height:30px; line-height: 30px;}
+    </style>
+    <div class="zs-formbg">
+	<form action="${webroot}/user/register.html" method="post" name="formUser" id="reg_sub" >
+		<div class="clearfix content">
+			<div class="box">
+				<div class="reg-boxbg clearfix">
+					
+					<ul class="reg-table reg-zr">
+						<li>
+							<div class="reg-l-title">用户名：</div>
+							<div class="reg-l-input">
+                                <input id="username" name="username" type="text" size="22" maxlength="60" value="" onKeyUp="value=value.replace(' ','')">
+							</div>
+							<div class="reg-l-tips" id="username_notice">
+                                <b class="userb"><img src="${webroot}${theme_dir}/images/tipimg-b.png" alt="">请输入4-15位英文,数字或不超过6个汉字</b>
+                            </div>
+                        </li>
+						<li>
+							<div class="reg-l-title">密码：</div>
+							<div class="reg-l-input">
+								<!-- v1.6.7.1 RDPROJECT-104 xx 2013-11-11 start -->
+								<#if rsaFormEncrypt?? && rsaFormEncrypt.status?? && rsaFormEncrypt.status==1>
+									<input type="password" size="22" maxlength="60" id="firstpwd">
+									<input type="hidden" name="password" id="firstpwd_hid">
+	                            	<input type="hidden" name="encrypt" id="encrypt">
+								<#else>
+									<input name="password" type="password" size="22" maxlength="60" id="firstpwd">
+								</#if>
+								<!-- v1.6.7.1 RDPROJECT-104 xx 2013-11-11 end -->
+							</div>
+							<div class="reg-l-tips" id="password_notice">
+								<!-- 1.6.7.2  安全优化  sj 2013-11-28 start -->
+                                <b class="firstpwdb"><img src="${webroot}${theme_dir}/images/tipimg-b.png" alt="">请输入8至16位，至少数字，字母和特殊字符二种以上组合的密码</b>
+                                <!-- 1.6.7.2  安全优化  sj 2013-11-28 end -->
+							</div>
+                        </li>
+						<li>
+							<div class="reg-l-title">确认密码：</div>
+							<div class="reg-l-input">
+								<!-- v1.6.7.1 RDPROJECT-104 xx 2013-11-11 start -->
+								<#if rsaFormEncrypt?? && rsaFormEncrypt.status?? && rsaFormEncrypt.status==1>
+									<input type="password" size="22" maxlength="60" id="checkpwd">
+									<input type="hidden" name="confirm_password" id="checkpwd_hid">
+								<#else>
+									<input type="password" name="confirm_password" size="22" maxlength="60" id="checkpwd">
+								</#if>
+								<!-- v1.6.7.1 RDPROJECT-104 xx 2013-11-11 end -->
+							</div>
+							<div class="reg-l-tips" id="conform_password_notice">
+                                <b class="checkpwdb"><img src="${webroot}${theme_dir}/images/tipimg-b.png" alt="">请重复输入上面的密码</b>
+                            </div>
+                        </li>
+						<li>
+							<div class="reg-l-title">Email：</div>
+							<div class="reg-l-input">
+								<input id="customTest" name="email" type="text" size="22" maxlength="60" value="" onKeyUp="value=value.replace(' ','')">
+							</div>
+							<div class="reg-l-tips" id="email_notice">
+                                <b class="emailb"><img src="${webroot}${theme_dir}/images/tipimg-b.png" alt="">请输入正确的常用邮箱地址</b>
+							</div>
+                        </li>
+						<li>
+							<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 start -->
+							<div class="reg-l-title">真实姓名(或公司名)：</div>
+							<div class="reg-l-input">
+								<input id="relname" name="realname" type="text" size="22" maxlength="50" value="" onKeyUp="value=value.replace(' ','')">
+							</div>
+							<div class="reg-l-tips" id="realname_notice">
+                                <b class="nameb"><img src="${webroot}${theme_dir}/images/tipimg-b.png" alt="">请输入您的真实姓名(或公司名)</b>
+							</div>
+							<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 end -->
+                        </li>
+                        <!-- v1.6.6.2 RDPROJECT-307 lhm 2013-10-28 start-->
+                        <li>
+							<div class="reg-l-title">手机号码：</div>
+							<div class="reg-l-input">
+								<input id="phone" name="phone" type="text" size="22" maxlength="60" value="" onKeyUp="value=value.replace(' ','')">
+							</div>
+							<div class="reg-l-tips" id="phone_notice">
+                                <b class="phoneb"><span>*</span> (此处可不填)请输入您的手机号码</b>
+							</div>
+                        </li>
+                        <!-- v1.6.6.2 RDPROJECT-307 lhm 2013-10-28 end-->
+						<li>
+							<div class="reg-l-title">介绍人：</div>
+							<div class="reg-l-input">
+								<input id="invite_username" name="invite_username" type="text"
+									size="22" maxlength="60" value="<#if inviteUser?exists&&inviteUser.username?exists>${inviteUser.username}</#if>"
+									onFocus="this.className='biankuang1';"
+									onBlur="this.className='biankuang2';checkInviteUser(this.value);"
+									onKeyUp="value=value.replace(' ','')">
+							</div>
+							
+							<div class="reg-l-tips" id="invite_username_notice">
+								<span>*</span> (此处可不填)如填写介绍人的本站用户名(非真实姓名)
+							
+							</div>
+                        </li>
+                        <#if rule??>
+						<li>
+						    <div class="reg-l-title">验证码：</div>
+					<div class="reg-l-input"><input class="code" name="valicode" type="text" maxlength="5" tabindex="3" style=" width:50px; *margin-left:3px;" onKeyUp="value=value.replace(' ','')"/>
+					<img src="${webroot}/validimg.html" alt="点击刷新" onClick="this.src='${webroot}/validimg.html?t=' + Math.random();" align="absmiddle" style="cursor:pointer; height:22px;" /></div>
+						</li>
+						</#if>
+						<li class="reg-li">
+                        <div class="float_left pr10"><a  class="reg-btn2" id="zhuce" style="cursor: pointer">立即注册</a>
+                        </div>
+                        <!-- 
+                        <span class="float_left"><input type="checkbox" id="dianji" checked="checked" style="position:relative; top:8px; margin-right:8px;">我已阅读并且同意<a id="xybtn_dialog" href="###">协议</a><#if openLoginId?exists><a id="xybtn_dialog" href="${request.getContextPath()}/user/login.html?openLoginId=${openLoginId!}"><font class="red">是否与已有账户绑定</font></a></#if></span>
+                         -->
+                         <span class="float_left">
+                         	<input type="checkbox" id="dianji" checked="checked" style="position:relative; top:8px; margin-right:8px;">我已阅读并且同意<a id="xybtn_dialog" href="###">协议</a>
+                         	<#if openLoginId?exists>
+                         	<a id="xybtn_dialog" href="${request.getContextPath()}/user/login.html?openLoginId=${openLoginId!}"><font color="green">是否与已有账户绑定</font></a>
+                         	<a id="xybtn_dialog" href="${request.getContextPath()}/user/cooperation.html?openLoginId=${openLoginId!}"><font color="red">到处逛逛再说</font></a>
+                         	</#if>
+                         	</span>
+                        <!-- v1.6.7.2  安全优化  sj 2013-11-28 start --> 	
+						<input type="hidden" name="weburl" value="${weburl}" id="weburl"/>
+						<input type="hidden" name="fontUnallowedUsername" value="${fontUnallowedUsername?if_exists}" id="fontUnallowedUsername"/>
+						<!-- v1.6.7.2  安全优化  sj 2013-11-28 end --> 	
+                        <input type="hidden" name="actionType"  value="register" />
+                        <input type="hidden" name="openLoginId"  value="${openLoginId!}" />
+                        <input type="hidden" value="register">
+						</li>
+					</ul>
+                    
+				</div>
+			</div>
+		</div>
+	</form>
+	</div>
+    <div id="modal_dialog" style="display: none; overflow:hidden;" title="协议">
+		<textarea cols="124" rows="20">
+        	欢迎阅读招商贷服务条款协议(下称"本协议")。本协议双方为招商贷 （以下简称"招商"）与招商贷用户（包括个人和企业客户），本服务协议具有合同效力。本协议内容包括协议正文及所有已经发布的或将来可能发布的各类规则。所有规则为协议不可分割的一部分，与协议正文具有同等法律效力。 1. 接受条款。 以任何方式进入招商贷网站即表示您同意自己已经与招商贷订立本协议，且您将受本协议的条款约束。招商贷随时自行全权决定更改条款。如条款有任何变更，招商贷将在其网站上刊载公告，通知予您。如您不同意相关变更，必须停止使用服务。经修订的条款一经在招商贷网站的公布后，立即自动生效。您应在第一次登录后仔细阅读修订后的条款，并有权选择停止继续使用服务；一旦您继续使用服务，则表示您已接受经修订的条款，当您与招商贷发生争议时，应以最新的服务协议为准。除另行明确声明外，任何使服务范围扩大或功能增强的的新内容均受本协议约束。除非经招商贷的授权高层管理人员签订书面协议，本协议不得另行作出修订。 2．定义 2.1 用户及用户注册：用户必须是具备完全民事行为能力的自然人，或者是具有合法经营资格的实体组织。无民事行为能力人、限制民事行为能力人以及无经营或特定经营资格的组织不应当注册为招商贷用户或超过其民事权利或行为能力范围从事信息发布、交易的，其与招商贷之间的服务协议自始无效，招商贷一经发现，有权立即注销该用户，并追究其使用招商贷"服务"的一切法律责任。用户注册是指用户登陆招商贷，并按要求填写相关信息并确认同意履行相关用户协议的过程。用户因进行信息发布、交易、获取有偿服务或接触招商贷服务器而发生的所有应纳税赋，以及一切硬件、软件、服务及其它方面的费用均由用户负责支付。 2.2 会员：在招商贷平台上注册的用户成为招商贷会员。 招商贷作为有借款需求客户（企业、个人）和资金提供方（借出者）的信息对接平台以及获取各类与投融资相关的服务信息的地点。招商贷会对客户和机构的身份信息的真实性进行审核但不能完全控制双方交易所涉及的服务的质量、安全或合法性，信息的真实性或准确性，以及交易方履行其在贸易协议项下的各项义务的能力。招商贷并不作为接受服务方或是提供服务方的身份参与交易行为的本身。招商贷提醒用户应该通过自己的谨慎判断确定服务及相关信息的真实性、合法性和有效性。 3．收费。本公司保留在根据第1条通知您后，收取服务费用的权利。招商贷借入者必须缴纳会员150元/年的服务费，首次借款成功后扣除，借款不成功不收钱，招商贷的借出者也可以自愿申请成为网站VIP会员，会员费为150元/年，一旦借出者成为VIP会员，就享有借入者逾期网站垫付的权利。本公司保留在无须发出书面通知，仅在招商贷网站公示的情况下，暂时或永久地更改或停止部分或全部服务的权利。 4.注册义务您必须按照申请注册会员的表格，真实、准确、完整的填写您的资料；维持并及时更新资料，使其保持真实、准确、完整和反应当前情况。倘若您提供的资料不真实、准确和完整或我公司有合理理由怀疑该资料不真实、准确、完整的，我公司有权暂停或终止您的注册身份，并拒绝您在目前和将来对服务以任何形式使用。 5.注册名、密码和保密在登记过程中，您将选择注册名和密码。注册名的选择应遵守法律法规及社会公德。您必须对您的密码保密，您将对您注册名和密码下发生的所有活动承担责任。如发现任何人未经您同意使用您的注册名跟密码，你需立即通知我公司；对该行为造成的损害，我公司不负任何责任。 5.您的权利和义务 5.1您有权利拥有在招商贷的会员名及登录密码，并有权利使用自己的会员名及密码随时登陆招商贷平台。您不得以任何形式擅自转让或授权他人使用自己的招商贷会员名及密码； 5.2 您有权根据本服务协议的规定以及招商贷上发布的相关规则利用招商贷上信息发布平台查询服务信息、提交融资信息、参加招商贷的有关活动以及有权享受招商贷提供的其它的有关服务； 5.3 您在招商贷上交易过程中如与其他融资机构因交易产生纠纷，可以请求招商贷从中予以协调。您如发现其他机构有违法或违反本服务协议的行为，可以向招商贷进行反映和要求处理。如您因网上交易与其他用户产生诉讼的，您有权通过司法部门要求招商贷提供相关资料； 5.4您同意遵守招商贷的交易规则，接收来自招商贷或招商贷合作伙伴发出的邮件或信息。 5.5您应当保证在使用招商贷平台进行信息发布过程中遵守诚实信用的原则，不得在发布的信息中包含有反动、暴力、淫秽、毒品、赌博、教唆及有损社会公共道德的内容；不得发布各类违法或违规信息； 5.6您不应在招商贷平台上恶意评价其他用户，或采取不正当手段提高自身的信用度或降低其他用户的信用度； 5.7您在招商贷平台上不得发布包含有国家禁止或限制发布包含有侵犯他人知识产权或其它合法权益的机密类信息，也不得发布违背社会公共利益或公共道德的、或是招商贷认为不适合在招商贷上发布的信息。 5.8您承诺自己在使招商贷时实施的所有行为均遵守国家法律、法规和招商贷的相关规定以及各种社会公共利益或公共道德。如有违反导致任何法律后果的发生，您独立承担所有相应的法律责任； 5.9您同意，不对招商贷上任何数据作商业性利用，包括但不限于在未经招商贷事先书面批准的情况下，以复制、传播等方式使用在招商贷网站上展示的任何资料。 6.招商贷的权利义务 6.1招商贷有权通过自身或委托其认可的第三方机构为您提供除信息发布外的融资比较、"融资体检"和实现一站式融资实现等增值服务 6.2招商贷有义务在现有技术上维护整个网上平台的正常运行，并努力提升和改进技术。对与您在注册使用招商贷平台中所遇到的与信息发布或注册有关的问题及反应的情况，招商贷应及时作出回复； 6.3 对于您在招商贷平台上的不当行为或其它任何招商贷认为应当终止服务的情况，招商贷有权随时作出删除相关信息、终止服务提供等处理，而无须征得您的同意； 6.4因网上平台的特殊性，招商贷没有义务对所有会员的注册资料、行为及其他事项进行事先审查； 6.5您在招商贷进行交易过程中如与其它投资者产生纠纷，请求招商贷从中予以调处，经招商贷审核后，招商贷有权通过电子邮件联系向纠纷双方了解情况，并将所了解的情况通过电子邮件互相通知对方； 6.6您因在招商贷平台上进行借款而与其他借出者产生诉讼的，您通过司法部门或行政部门依照法定程序要求招商贷提供相关数据，招商贷应积极配合并提供有关资料； 6.7招商贷有权对您的注册数据及信息发布行为进行查阅，发现注册数据或信息发布行为中存在任何问题或怀疑，均有权向您发出询问及要求改正的通知或者直接作出删除等处理； 6.8经国家生效法律文书或行政处罚决定确认您存在违法行为，或者招商贷有足够事实依据可以认定您存在违法或违反服务协议行为的，招商贷有权在招商贷平台及所在网站上以网络发布形式公布您的违法行为； 6.9在您使用招商贷服务时，招商贷有权接收并记录您的个人信息，包括但不限于IP地址、网站Cookie中的资料及您要求取用的网页记录等。 7、许可使用权您授予本公司永久的、免费的、完整的许可使用权利（并且有权对该权利进行再授权），使我公司有权使用、复制、修改、发布、翻译、分发您的资料或制作其派生作品，以已知或日后开发的任何形式、媒体或技术，将您的资料纳入其他作品里。 8、隐私权我公司不公开您选择保密的注册信息及其他个人信息。但在下列情况下，我公司有权全部或部分披露您的保密信息。 8. 1、根据法律规定，或应行政机关、司法机关要求，向第三人或行政机关、司法机关披露； 8. 2、如您系权利人并针对他人在招商贷上侵犯您利益的行为提起投诉，应被投诉人要求，向被投诉人披露； 8. 3、权利人认为您在招商贷上的行为侵犯其合法权利并提出投诉的，可向权利人披露； 8. 4、您出现违反招商贷网站规则，需要向第三方披露的； 8. 5、根据法律和招商贷网站规则，其他我公司认为适合披露的。 9.免责声明您将对您发布的信息及其他在招商贷上发生的任何行为承担责任，我公司对此不负任何责任。 10. 不可抗力。对于因招商贷合理控制范围以外的原因，包括但不限于自然灾害、罢工或骚乱、物质短缺或定量配给、暴动、战争行为、政府行为、通讯或其他设施故障或严重伤亡事故等，致使招商贷延迟或未能履约的，招商贷不对您承担任何责任。 11. 转让。招商贷转让本协议无需经您同意。 12.管辖因本协议或本公司服务所引起的或与其有关的任何争议，应向浙江省杭州市下城区人民法院提起诉讼并适用中华人民共和国法律。
+        </textarea>		
+	</div>
+    <script>
+		jQuery('#xybtn_dialog').click(function(){
+			jQuery('#modal_dialog').dialog('destroy');
+			jQuery('#modal_dialog').dialog({ modal: true ,height: 410,width:759 });
+		});
+	</script>
+	<!-- v1.6.7.1 RDPROJECT-104 xx 2013-11-11 start -->
+    <script type="text/javascript" src="${webroot}/plugins/rsa/RSA.js"></script>
+    <script type="text/javascript" src="${webroot}/plugins/rsa/BigInt.js"></script>
+    <script type="text/javascript" src="${webroot}/plugins/rsa/Barrett.js"></script>
+    <!-- v1.6.7.1 RDPROJECT-104 xx 2013-11-11 end -->
+    <script type="text/javascript" src="${webroot}${theme_dir}/media/js/jquery.mailAutoComplete-3.1.js"></script>
+    <script type="text/javascript">
+	var userStatus = 0;
+	var paswdStatus = 0;
+	var emailStatus = 0;
+	var relStatus = 0;
+	// v1.6.6.2 RDPROJECT-307 lhm 2013-10-28 start
+	var phoneStatus = 1;
+	// v1.6.6.2 RDPROJECT-307 lhm 2013-10-28 end
+	$("#customTest").mailAutoComplete({
+		boxClass: "out_box",
+		listClass: "list_box",
+		focusClass: "focus_box",
+		markCalss: "mark_box",
+		autoClass: false,
+		textHint: true,
+		hintText: "请输入正确邮箱地址"
+	});//实例化
+	
+	function userName(){
+		var userBox = $("#username");
+		var userMes = $(".userb");
+		var reg = /^([a-zA-Z0-9_]|[\u0391-\uFFE5]){2,15}$/;
+		var str;
+		userBox.focus(function(){
+			userMes.text("");
+		}).blur(function(){
+			str = userBox.val();
+			var str_len = str_length(str);
+			if(str =="")
+			{
+				userMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>请输入4-15位英文,数字或不超过6个汉字 ");
+				userStatus = 0;
+			}
+			else if(str_len<4)
+			{
+				userMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>用户名必须大于4个数字或是1个汉字");
+				userStatus = 0;
+			}
+			else if(str_len>15)
+			{
+				userMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>用户名必须小于15个数字或是6个汉字");
+				userStatus = 0;
+			}
+			<!-- v1.6.7.2  安全优化  sj 2013-11-28 start --> 	
+			else if($('#fontUnallowedUsername').val() != '' && $('#fontUnallowedUsername').val().indexOf(str) > 0){
+				userMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>用户名不能用"+$('#fontUnallowedUsername').val()+"注册");
+				userStatus = 0;
+			}else if(str.indexOf($('#weburl').val()) > 0){
+				userMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>用户名不能用域名注册");
+				userStatus = 0;
+			}
+			<!-- v1.6.7.2  安全优化  sj 2013-11-28 end --> 	
+			else if(reg.exec(str)){
+				//判断是否存在
+				$.get("/user/checkUsername.html", {username: $("#username").val() },function (result){
+					if(result==true){
+						userMes.html("<img src='${webroot}${theme_dir}/images/tipimg-g.png'>可以注册");
+						userStatus = 1;
+					}
+					else{
+						userMes.html("<img src='${webroot}${theme_dir}/images/tipimg-r.png'>用户名已经存在");
+						userStatus = 0;
+					}
+				});
+				userBox.attr("value",str);
+			}
+			else{
+				userMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>请输入4-15位英文,数字或是少于7个汉字作为用户名");
+				userStatus = 0;
+			}
+			return userStatus;
+		})
+	}
+	userStatus = userName();
+	
+	function ckPwd(){
+		var pwdBox = $("#firstpwd");
+		var firstMes = $(".firstpwdb");
+		var checkBox = $("#checkpwd");
+		var checkMes = $(".checkpwdb");
+		var status_pwd = 0;
+		var status_ck = 0;
+		var checkStr = "";
+		var value = "";
+		pwdBox.focus(function(){
+			firstMes.text("");
+			passwordTest();
+		}).blur(function(){
+			value = pwdBox.val();
+			var pwdtestVal = getResult(value);
+			var str_len = value.length;
+			if((str_len>7)&&(str_len<17)){
+				if(pwdtestVal<2)
+				{
+					//1.6.7.2  安全优化  sj 2013-11-28 start
+					firstMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>请输入8至16位，至少数字，字母和特殊字符二种以上组合的密码");
+					//1.6.7.2  安全优化  sj 2013-11-28 end
+					status_pwd = 0;
+				}
+				else{
+					firstMes.html("<img src='${webroot}${theme_dir}/images/tipimg-g.png'>可以注册");
+					status_pwd = 1;
+				}
+			}else{
+				//1.6.7.2  安全优化  sj 2013-11-28 start
+				firstMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>请输入8至16位，至少数字，字母和特殊字符二种以上组合的密码");
+				//1.6.7.2  安全优化  sj 2013-11-28 end
+				status_pwd = 0;
+			}
+			paswdStatus = status_pwd+status_ck;
+			return paswdStatus;
+		}).keyup(function(){
+			checkStr = checkBox.val();
+			value = pwdBox.val();
+			if(checkStr=="")
+			{
+				checkMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>请输入和上面一致的密码");
+				status_ck = 0;
+			}
+			else if(value!=checkStr)
+			{
+				checkMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>两次输入的密码不一致");
+				status_ck = 0;
+			}else{
+				checkMes.html("<img src='${webroot}${theme_dir}/images/tipimg-g.png'>可以注册");
+				status_ck = 1;
+			}	
+		});
+		checkBox.focus(function(){
+			checkMes.text("");
+		}).blur(function(){
+			value = pwdBox.val();
+			checkStr = checkBox.val();
+			if(checkStr=="")
+			{
+				checkMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>请输入和上面一致的密码");
+				status_ck = 0;
+			}
+			else if(checkStr!=value){
+				checkMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>两次输入的密码不一致");
+				status_ck = 0;
+			}
+			else{
+				checkMes.html("<img src='${webroot}${theme_dir}/images/tipimg-g.png'>可以注册");
+				status_ck = 1
+			}
+			paswdStatus = status_pwd+status_ck;
+			return paswdStatus;
+		});
+
+		function passwordTest() {
+			var pwdBox = $("#firstpwd");
+			var firstMes = $(".firstpwdb");
+			pwdBox.keyup(function(){
+				var value = pwdBox.val();
+				var str_len = value.length;
+				if((str_len>7)&&(str_len<17)){
+					var result = getResult(value);
+					check(result);
+					pwdBox.attr("value",value);
+					//判断密码强弱程度
+				}
+				else{
+					//1.6.7.2  安全优化  sj 2013-11-28 start
+					firstMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>请输入8至16位，至少数字，字母和特殊字符二种以上组合的密码");
+					//1.6.7.2  安全优化  sj 2013-11-28 end
+				}
+			})
+		}
+		
+		function getResult(value){
+			var str_len = value.length;
+			var i = 0;
+			if(value.match(/[a-z]/ig)) {
+				i++;
+			}
+			if(value.match(/[0-9]/ig)) {
+				i++;
+			}
+			if(value.match(/(.[^a-z0-9])/ig)) {
+				i++;
+			}
+			if(value.length < 8 && i > 0) {
+				i--;
+			}
+			return i;
+		}
+		
+		function check(num) {
+			if(num == 0) {
+				firstMes.html("<span style='color:#f00'>　密码太短了</span>");
+			} else if (num == 1) {
+				firstMes.html("<span class='hover'>弱</span><span>中</span><span>强</span>");
+			} else if (num == 2) {
+				firstMes.html("<span class='hover'>弱</span><span class='hover'>中</span><span>强</span>");
+			} else if (num == 3) {
+				firstMes.html("<span class='hover'>弱</span><span class='hover'>中</span><span class='hover'>强</span>");
+			} else {
+				firstMes.html("未知错误");
+			}
+		}
+	}
+	paswdStatus = ckPwd();
+	
+	function emailTest(){
+		var emailBox = $("#customTest");
+		var emailMes = $(".emailb");
+		emailBox.focus(function(){
+			emailMes.text("");
+		}).blur(function(){
+			var lastVal = emailBox.val();
+			var repTest = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+			if(!repTest.test(lastVal))
+			{
+				emailMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>邮箱格式不正确")
+				emailStatus = 0;
+            }
+            else{
+                //验证是否存在customTest
+                $.get("/user/checkEmail.html",{ email:lastVal},function(result){
+                    if(result==true)
+                    {
+                    	emailMes.html("<img src='${webroot}${theme_dir}/images/tipimg-g.png'>可以使用");
+						emailStatus = 1;
+						return emailStatus;
+                    }else{
+                    	emailMes.html("<img src='${webroot}${theme_dir}/images/tipimg-r.png'>此邮箱已经存在");
+						emailStatus = 0;
+                        return emailStatus;
+                    }
+                });
+                emailMes.text("");
+            }
+            return emailStatus;
+		})
+	}
+	emailStatus = emailTest();
+	
+	function nameTest(larlen){
+		var nameBox = $("#relname");
+		var nameMes = $(".nameb");
+		var str;
+		var reg = /^[\u0391-\uFFE5]+$/;
+		nameBox.focus(function(){
+		    nameMes.text("");
+		}).blur(function(){
+			str = nameBox.val();
+			<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 start -->
+			if(str.length<=larlen)
+			<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 start -->
+			{
+				if(reg.test(str))
+				{
+					nameMes.html("<img src='${webroot}${theme_dir}/images/tipimg-g.png'>可以注册");
+					nameBox.attr("value",str);
+					relStatus = 1;
+				}
+				else{
+					<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 start -->
+					nameMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>请输入正确中文姓名（或公司名）");
+					<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 start -->
+					relStatus = 0;
+				}
+			}
+			else{
+				<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 start -->
+				nameMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>不能超过25个汉字");
+				<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 end -->
+				relStatus = 0;
+			}
+			return relStatus;
+		})
+	}
+	<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 start -->
+	relStatus = nameTest(25);//实名，不超过25个汉字
+	<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 end -->
+	
+	function str_length(val) {
+		var len = 0;
+		var a = val.split("");
+		for (var i=0;i<a.length;i++) {
+			if (a[i].charCodeAt(0)<299) {
+				len++;
+			} else {
+				len+=2;
+			}
+		}
+		return len;
+	}//判断中文为2个字符，英文为一个
+	
+	// v1.6.6.2 RDPROJECT-307 lhm 2013-10-28 start 
+	function ckPhone(){
+		var phone = $("#phone");
+		var bMes = $(".phoneb");
+		phone.focus(function(){
+			phone.text("");
+		}).blur(function(){
+			var repTest =  /^(13[0-9]{9})|(18[0-9]{9})|(15[0-35-9][0-9]{8})$/;
+			var value = phone.val();
+			if(value !="" && !repTest.test(value)) {
+				bMes.html("<img src='${webroot}${theme_dir}/images/tipimg-y.png'>手机格式不正确")
+				phoneStatus = 0;
+			} else {
+				bMes.html("<img src='${webroot}${theme_dir}/images/tipimg-g.png'>可以注册(可不填写)")
+				phoneStatus = 1;
+			}
+		})
+	}
+	phoneStatus = ckPhone();
+	// v1.6.6.2 RDPROJECT-307 lhm 2013-10-28 end
+		
+	$("#zhuce").click(function(){
+		// v1.6.7.1 RDPROJECT-104 xx 2013-11-11 start
+		<#if rsaFormEncrypt?? && rsaFormEncrypt.status?? && rsaFormEncrypt.status==1>
+			var key ;
+			function bodyRSA(){
+			    setMaxDigits(130);
+			    <#if e?? && m??>
+			    	key = new RSAKeyPair("${e}","","${m}");
+			    </#if>
+			}
+		</#if>
+		// v1.6.7.1 RDPROJECT-104 xx 2013-11-11 end
+		var valicode_val = $("input[name='valicode']").val();
+		var check_form = emailStatus*relStatus*paswdStatus*userStatus*phoneStatus;
+		if(check_form==2) {
+			if(valicode_val=="") {
+				alert("请输入验证码");
+			} else{
+				if($('#dianji').attr("checked")){
+					// v1.6.7.1 RDPROJECT-104 xx 2013-11-11 start
+					<#if rsaFormEncrypt?? && rsaFormEncrypt.status?? && rsaFormEncrypt.status==1>
+						bodyRSA();
+						var firstpwd = $("#firstpwd").val();
+						var checkpwd = $("#checkpwd").val();
+						<#if e?? && m??>
+							firstpwd = encryptedString(key, encodeURIComponent(firstpwd));
+							checkpwd = encryptedString(key, encodeURIComponent(checkpwd));
+						</#if>
+						$("#firstpwd_hid").attr("value", firstpwd);
+						$("#encrypt").attr("value",1);
+						$("#checkpwd_hid").attr("value", checkpwd);
+					</#if>
+					// v1.6.7.1 RDPROJECT-104 xx 2013-11-11 end
+					$("#reg_sub").submit();
+					$(this).unbind().click(function() {
+						$("#reg_msg").html("请勿重复提交！");
+					});
+				} else {
+					alert("请勾选我已阅读并且同意协议")
+				}
+			}
+		} else{
+			return false;
+		}
+	});
+
+</script>
+<#include "include/footer.html"> 
+</body>
+</html>

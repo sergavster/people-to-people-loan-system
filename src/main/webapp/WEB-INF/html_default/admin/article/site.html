@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="栏目管理">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+                            <#if site?exists>
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <div class="toolbor-module">
+                                    <a class="input-button" href="addSite.html" style="line-height:24px;">添加父栏目</a>
+                                    <a class="input-button" href="addSite.html?pid=${site.site_id!0}" style="line-height:24px;">添加子栏目</a>
+                                    <a class="input-button" href="delSite.html?pid=${site.site_id!0}" style="line-height:24px;">删除栏目</a>
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="w750 clearfix">
+
+                                    <form action="modifySite.html" method="post" name="form1" enctype="multipart/form-data">
+                                        <div class="valBox">
+                                            <div class="top">
+                                                <strong>编辑栏目</strong>
+                                            </div>
+                                            <div class="clearfix">
+                                                <ul class="title-v edit">
+                                                    <li>
+                                                        <div class="title">所在栏目：</div>
+                                                        <div class="v">
+                                                            <strong><#if psite??> ${psite.name!}</#if><input type="hidden" name="pid" value="1" /></strong>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="title">栏目名称：</div>
+                                                        <div class="v">
+                                                            <input type="text" align="absmiddle" name="name" value="${site.name!}" />
+                                                            <label><input type="checkbox" name="isurl" value="${site.isurl!0}" onclick="jump_url()" <#if site.isurl??&&site.isurl=="0">checked="checked" </#if> />跳转页</label>
+                                                        </div>
+                                                    </li>
+                                                    
+                                                    <li>
+                                                        <div class="title">识别ID(nid)：</div>
+                                                        <div class="v">
+                                                            <input type="text" align="absmiddle" name="nid"  onkeyup="value=value.replace(/[^a-zA-Z_0-9]/g,'')" value="${site.nid!}"/> 只能为字母和下划线（_）
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="title">状&nbsp;&nbsp;&nbsp; 态：</div>
+                                                        <div class="v">
+                                                            <label><input type="radio" value="0" name="status" <#if site.status??&&site.status==0>checked="checked" </#if>  />隐藏</label>
+                                                            <label><input type="radio" value="1" name="status" <#if site.status??&&site.status==1>checked="checked" </#if> />显示</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="title">栏目类型：</div>
+                                                        <div class="v J_radio">
+                                                            <label><input type="radio" value="0" name="style" <#if site.style??&&site.style=="0">checked="checked" </#if> />列表</label>
+                                                            <label><input type="radio" value="1" name="style" <#if site.style??&&site.style=="1">checked="checked" </#if> />单页文章</label>
+                                                            <label><input type="radio" value="2" name="style" <#if site.style??&&site.style=="2">checked="checked" </#if> />站内链接</label>
+                                                            <label><input type="radio" value="3" name="style" <#if site.style??&&site.style=="3">checked="checked" </#if> />站外链接</label>
+                                                        </div>
+                                                    </li>
+                                                    <li style="display:none" id="jump_url">
+                                                        <div class="title">跳转网址：</div>
+                                                        <div class="v">
+                                                            <input type="text" name="url"  class="input_border" value="${site.url!}" size="30" />
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="title">排列顺序：</div>
+                                                        <div class="v">
+                                                            <input type="text" align="absmiddle" name="order"  onkeyup="value=value.replace(/[^0-9]/g,'')" size="5" value="${site.order!}"/>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="title">所属模块：</div>
+                                                        <div class="v">
+                                                            文章模块
+                                                            <input type="hidden" name="code" value="${site.code!}" />
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="title">栏目描述：</div>
+                                                        <div class="v">
+                                                            <textarea name="description" cols="38" rows="3" id="textarea2">${site.description!}</textarea>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="title">栏目内容：</div>
+                                                        <div class="v">
+                                                            <#include "../../common/ueditor.html"> 
+															<@showUeditor width=680 heigth=100 id="content" name="content" content=site.content!"" /> 
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="title">上传文件：</div>
+                                                        <div class="v">
+                                                            <input type='file' name='files' value='' size='20' id='files'>
+                                                        </div>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                   
+
+
+                                <div id="bottomToolbar" class="clearfix">
+                                    <input type="hidden" value="${site.site_id!0}"  name="site_id" />
+                                    <input type="submit" class="input-button post" name="submit_ok" value="提交">
+                                    <input type="reset" name="reset" class="input-button reset" value="重置">
+                                </div>
+                                 </form>
+                            </#if>
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

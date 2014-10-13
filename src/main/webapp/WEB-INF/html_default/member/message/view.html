@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<#include "../../include/resource.html"> 
+<body>
+<#assign nid="member">
+<#include "../../include/header.html">
+<!--header-end-->
+ 
+<!--用户中心的主栏目 开始-->
+<div id="main" class="clearfix" >
+<div class="wrap950 " style="margin-top:0">
+	<!--左边的导航 开始-->
+	<div class="user_left">
+		<#include "../user_menu.html">
+	</div>
+	<!--左边的导航 结束-->
+	
+	<!--右边的内容 开始-->	
+	<div class="user_right">
+		<div class="user_right_menu">
+			<#assign backUrl="box.html" >
+			<#if type?exists&&type=="sent">
+				<#assign msg_type="sent" >
+				<#assign backUrl="sent.html" >
+			<#else>
+				<#assign msg_type="box" >
+				<#assign backUrl="box.html" >
+			</#if>
+			<#include "msg_menu.html"> 
+		</div>
+		<div class="user_main_title1" >
+            <input type="button" onclick="javascript:location.href='${backUrl}'" value="<<返回" class="btn" /> 
+            <input type="button" value="转发" onclick="javascript:location.href='send.html?sendType=forward&id=${msg.id?c}'"class="btn" />
+            <input type="button" value="删除" onclick="javascript:location.href='set.html?type=1&id=${msg.id?c}'"class="btn" />
+            <input type="button" value="举报" onclick="javascript:location.href='send.html?sendType=report&id=${msg.id?c}'"class="btn" />
+        </div>
+		<div class="user_right_main">
+			 <form method="post" action="send.html" >
+			 <#if type?exists&&type=="sent">
+			 	<div class="user_right_border"  style="background-color:#FCF4EA ">
+					<div class="l">标题：</div>
+					<div class="c">${msg.name!}</div>
+				</div>
+				<div class="user_right_border"  style="background-color:#FCF4EA ">
+					<div class="l">发件人：</div>
+					<div class="c">${msg.receive_username!}</div>
+				</div>
+				<div class="user_right_border"  style="background-color:#FCF4EA ">
+					<div class="l">发送时间：</div>
+					<div class="c">${dateformat(msg.addtime!)}</div>
+				</div>
+				<div class="user_right_border"  style="background-color:#FCF4EA ">
+					<div class="l">发送内容：</div>
+					<div class="c">${msg.content!}</div>
+				</div>
+			 <#else>
+			 	<div class="user_right_border" style="background-color:#FCF4EA ">
+					<div class="l">标题：</div>
+					<div class="c">${msg.name!}</div>
+				</div>
+				<div class="user_right_border" style="background-color:#FCF4EA ">
+					<div class="l">收件人：</div>
+					<div class="c" style=" color: red">
+						<strong>${msg.sent_username!}</strong>
+					</div>
+				</div>
+				<div class="user_right_border" style="background-color:#FCF4EA">
+					<div class="l">发件人：</div>
+		            <div class="c" style="color:red">
+						${msg.receive_username!}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="${request.getContextPath()}/user/show.html?user_id=${msg.sent_user?c}" target="_blank">查看发件人信息</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<a onclick='tipsWindown("加为好友","id:addfriendcontent",400,230,"true","","true","text");' 
+						href="javascript:void(0)">加为好友</a> 
+					</div>
+				</div>
+				<div class="user_right_border" style="background-color:#FCF4EA">
+					<div class="l">发送时间：</div>
+					<div class="c">${dateformat(msg.addtime!)}</div>
+				</div>
+				<div class="user_right_border" style="background-color:#FCF4EA">
+					<div class="l">内容：</div>
+					<div class="c" style="width:600px;">${msg.content!}</div>
+				</div>
+				<div class="user_right_border" style="background-color:#FCF4EA ">
+					<div class="l">回复：</div>
+					<div class="c">
+						<textarea name="content" rows="7" cols="50"></textarea>             
+					</div>
+				</div>
+				<div class="user_right_border" style="background-color:#FCF4EA">
+					<div class="l"></div>
+					<div class="c"><input name="sented" type="checkbox" value="1" />保存到发件箱</div>
+				</div>
+				<div class="user_right_border" style="background-color:#FCF4EA">
+					<div class="l"></div>
+					<div class="c">
+						<input type="submit"  class="btn-action"  value="提交"  />
+						<input type="hidden" name="id" value="${msg.id?c}" />
+						<input type="hidden" name="type" value="reply" />
+					</div>
+				</div>
+				</#if>
+			</form>
+			<div id="addfriendcontent" style="display:none">
+				<form method='post' action='${request.getContextPath()}/member/friend/addfriendrequest.html'>
+					<div align='left'><br>&nbsp;&nbsp;&nbsp;好友：${friend.username}
+					<input type='hidden' name='friends_userid' value='${friend.user_id?c}'></div>
+					<div align='left'>
+						<br>&nbsp;&nbsp;&nbsp;类型：<@linkage name="friend" id="friend" nid="friends_type" />
+					</div><div align='left'><br>&nbsp;&nbsp;&nbsp;内容：<textarea rows='1' cols='30' name='content'></textarea></div>
+					<div align='left'><br>&nbsp;&nbsp;&nbsp;<input type='submit' value='确定添加'></div>
+				</form>
+			</div>
+			<!--  -->
+		</div>
+ 	 </div>
+	<!--右边的内容 结束-->
+	</div>
+</div>
+<script type="text/javascript" src="${request.getContextPath()}${theme_dir}/media/js/tipswindown.js"></script>
+<link href="${request.getContextPath()}${theme_dir}/media/css/tipswindown.css" rel="stylesheet" type="text/css" />
+<#include "../../include/footer.html"> 
+</body>
+</html>

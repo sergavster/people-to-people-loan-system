@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<#include "../../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "../left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="excel内容修改">
+                        <#include "../banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+		                         <div class="toolbor-module">
+							        <input type="button" class="input-button return" value="返回" onclick="checks()">
+							    </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form name="form1" method="post" action="saveCreditUpfiles.html" onsubmit="return check_form();" enctype="multipart/form-data" >
+                                    <div class="valBox" style="margin-bottom:20px;">
+                                    	<div class="top">
+                                            <strong>excel内容查看</strong>
+                                        </div>
+                                        <div class="w349 fp clearfix">
+                                            <ul>
+                                                <li>
+                                                    <div class="title">文件名：</div>
+                                                    <div class="v">
+                                                        ${upfiles.file_name!}
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">文件路径：</div>
+                                                    <div class="v">
+                                                        ${upfiles.file_path!}
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">文件备注：</div>
+                                                    <div class="v">
+                                                        ${upfiles.file_remark!}
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">上传者：</div>
+                                                    <div class="v">
+                                                        ${upfiles.username!}
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">上传时间：</div>
+                                                    <div class="v">
+                                                        ${dateformat(upfiles.addtime!)}
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">充值合计：</div>
+                                                    <div class="v">
+                                                        ${upfileTotal!}
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                        	<table class="data-list">
+		                                        <tr class="header">
+		                                            <td>用户名称</td>
+		                                            <td>上传积分</td>
+		                                            <td>备注</td>
+		                                            <td>状态</td>
+		                                        </tr>
+		                                        <#if list??>
+			                                        <#list list as item>
+			                                            <tr class="s">
+			                                                <td>
+			                                                	<#if upfiles?? && upfiles.status?? && upfiles.status==1>
+			                                                	${item.username!}
+			                                                	<#else>
+			                                                	<input type="text" name="username" value="${item.username!}" />
+			                                                	<input type="hidden" name="user_id" value="${item.user_id!}" />
+			                                                	</#if>
+			                                                </td>
+			                                                <td>
+			                                                	<#if upfiles?? && upfiles.status?? && upfiles.status==1>
+			                                                	${item.money!}
+			                                                	<#else>
+			                                                	<input type="text" id="infonlv" name="credit" value="${item.money?number}" onKeyUp="value=value.replace(/[^0-9]/g,'')"/>元
+			                                                	</#if>
+			                                                </td>
+			                                                <td>
+			                                                	<#if upfiles?? && upfiles.status?? && upfiles.status==1>
+			                                                	${item.remark!}
+			                                                	<#else>
+			                                                	<input type="text" name="remark" value="${item.remark!}" />
+			                                                	</#if>
+			                                                </td>
+			                                                <td><font color="#6699CC"><#if upfiles.status==1>成功<#elseif upfiles.status==0>未审核<#else>审核失败</#if></font></td>
+			                                            </tr>
+			                                        </#list>
+		                                        </#if>
+		                                    </table>
+		                                    <#if upfiles?? && upfiles.status?? && upfiles.status==0>
+		                                    <div class="other clearfix">
+		                                    	<input type="hidden" name="id" value="${upfiles.id?c}" />
+		                                    	<input type="hidden" name="type" value="save"/>
+												<input type="submit" name="reset" value="保存" class="input-button confirm"/>
+							               </div>
+							               </#if>
+                                        </div>
+                                       </div>
+                                       <#if upfiles?? && upfiles.status?? && upfiles.status==1>
+		                                   <div class="add-time">
+										        <span class="mr25"><strong>审核人：</strong>${upfiles.verify_user!"--"},审核时间：${dateformat(upfiles.verify_time!)}</span>
+										   </div>
+									   </#if>
+									   <div>
+	                                   		<span style="color: #f00">* 温馨小提示：如果哪一列的用户不想要了，删除对应的用户名后保存，就不会把那个用户的导入信息保存下来咯。</span>
+	                                   </div>
+                                </form>
+                            </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+<div class="msgClass">
+      ${rsmsg!""}
+ </div>
+ <script type="text/javascript">
+	 function checks()
+	 {
+		window.location.href="showCreditUpfiles.html"; 
+	 }
+	 // v1.6.6.1 RDPROJECT-10 zza 2013-09-24 start
+	 function reg(){
+	        var iput=document.getElementById("infonlv");
+	        iput.value=iput.value.replace(/[^0-9\.]/g,'');
+	        iput.value=iput.value.replace(/\.{2,}/g,'.');
+	        if(/\.\d+\.+/.test(iput.value)){
+	            iput.value=iput.value.replace(/\.+$/g,'');
+	        }
+	    }
+	   $("#infonlv").keyup(function(){
+		   	reg();
+		});
+	// v1.6.6.1 RDPROJECT-10 zza 2013-09-24 end
+ </script>
+    </body>
+</html>
+<#include "../../jsPage.html">

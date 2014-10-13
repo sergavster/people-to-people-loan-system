@@ -1,0 +1,365 @@
+﻿<!DOCTYPE html>
+<html>
+<!--   v1.6.6.2 RDPROJECT-140 yl 2013-10-23 start-->
+<#assign web_title='账户提现 - ${webname!}'>
+<#assign web_description='账户提现，${webname!}p2p网贷平台'> 
+<!--   v1.6.6.2 RDPROJECT-140 yl 2013-10-23 end-->
+<#include "../../include/resource.html">
+<body>
+	<#assign nid="member">
+		<#include "../../common/function.html"> 
+	<#include "../../include/header.html">
+	
+	<!-- #main start-->
+	<div id="main" class="clearfix">
+		<!-- .wrap950 开始-->
+		<div class="wrap950 ">
+			<!--左边的导航user_left 开始-->
+			<div class="user_left">
+			<#assign mid="m_account" >
+				<#include "../user_menu.html">
+			</div>
+			<!--左边的导航user_left 结束-->
+
+			<!--右边的内容user_right 开始-->
+			<div class="user_right">
+				<div class="user_right_menu">
+					<#assign account_type="newcash">
+					<#include "account_menu.html">
+				</div>
+				<#if errormsg?exists&&errormsg!="">
+					<div id="msg25">
+						<p class="error"> ${errormsg} </p>
+					</div>
+				<#elseif msg?exists&&msg!="">
+					<div id="msg24">
+						<p class="ok"> ${msg} </p>
+					</div>
+				<#else>
+				<!--右边的内容user_right_main 开始-->
+				<div class="user_right_main">
+					<div class="user_help alert" style="text-align:left;">
+					<strong>注：</strong><br/>
+1、充值之日起于15日之内提现的将收取金额的千分之三为手续费。 <br/>
+2、充值之日起于15日之外提现：（ 注：开业三个月内充值十五日之外的提现免费，时间从6月28日---9月30日止。) <br/>
+     &nbsp;&nbsp; 单笔取现下限100元（特殊帐户清理可例外）； <br/>
+     &nbsp;&nbsp; 最高单笔提现金额为50000元； <br/>
+     &nbsp;&nbsp; 同一帐户每日取现次数无限制（包括净值标提现）。 <br/>
+3、提现处理时间：周一到周六11:00之前的申请，当日16：00之前完成所有提现申的内部审核及转账； <br/>
+     &nbsp;&nbsp; 11:00到16:00之间的申请,18:00之前完成所有提现申请的内部审核及转帐 <br/>
+     &nbsp;&nbsp; 16:00以后的申请，第二日11:00之前进行处理。 <br/>
+4、周日不处理提现，顺延至下一个工作日11点前处理，法定节假日提现另行通知。 <br/>
+5、不处理当天充值当天提现的申请。 <br/>
+6、线下充值未投标提现扣回线下充值奖励，提现处理时间同上 <br/>
+		<form action="${webroot}/member/account/extract.html" method="post" onSubmit="return check_form_1()" name="form1">
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;">真实姓名：</div>
+				<div class="c">
+					${session_user.realname!"-"}		
+				</div>
+			</div>
+		
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;">账户余额：</div>
+				<div class="c">
+					${ceil(account.total!0)}元
+				</div>
+			</div>
+		
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;">可用余额：</div>
+				<div class="c">
+					${ceil(account.use_money!0)}元
+				</div>
+			</div>
+		
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;">冻结总额：</div>
+				<div class="c">
+					${ceil(account.no_use_money!0)}元
+				</div>
+			</div>
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;color:red">建议最大提现金额：</div>
+				<div class="c" style="color:red">
+					<span id="mostCashMoney" >${uas.max_cash?default(0)}</span>元
+					<script language="javascript">
+					var mostCashMoney = ${(uas.max_cash)?c}*1;
+					var curUseMoney = ${account.use_money?c}*1;
+					var curNum=curUseMoney.toString().split(".")[0].length+3;
+					curUseMoney=((curUseMoney+"").substring(0,curNum));
+					if(mostCashMoney>curUseMoney){
+						document.getElementById("mostCashMoney").innerText = curUseMoney ;
+					}
+					if(mostCashMoney<0){
+						document.getElementById("mostCashMoney").innerText = 0 ;
+					}
+					</script>
+				</div>
+			</div>
+			
+			
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;">提现的银行：</div>
+				
+				<div class="c" style="vertical-align:top">
+					<#if banklist?? && banklist?size gt 0>
+						<#list banklist as item>
+							<div> <input type="radio" name="account" id="account" value="<#if item.bankaccount??>${item.bankaccount!""}</#if>" ><i style="position: relative;top:-2px;font-style: normal">${item.bankname!""} ${item.branch!""} 
+						<#if item.bankaccount??>
+						<#if item.bankaccount?length lt 10>
+							${item.bankaccount}
+						<#else>
+							${item.bankaccount?substring(0,4)}****${item.bankaccount?substring((item.bankaccount?length)-4,(item.bankaccount?length))}
+						</#if>
+						</#if></i></div>
+						</#list>
+					</#if>
+				</div>
+				<div class="l" style="font-weight:bold;"><a href="${webroot}/member/account/addbank.html">新增提现银行</a></div>
+			</div>
+<#if banklist?size = 1> 
+<script>  
+document.getElementById("account").checked=true;
+</script>
+<#else>
+<script>  
+document.all("account")[0].checked=true;
+</script>
+</#if> 			
+
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;">交易密码：</div>
+				<div class="c">
+					<#if session_user.paypassword?exists>
+						<input type="password" name="paypassword" />
+					<#else>
+						<a href="${request.getContextPath()}/memberSecurity/paypwd.html"><font color="#FF0000">请先设置一个支付密码</font></a>
+					</#if>			
+				</div>
+			</div>
+		
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;">提现金额：</div>
+				<div class="c">
+					<input type="text" name="money" id="cash_money" onblur="commit(this);" onKeyUp="value=value.replace(/[^0-9.]/g,'')" /><span id="realacc">实际到账：<font color="#FF0000" id="real_money">0</font> 元</span>
+					<!-- v1.6.5.3 RDPROJECT-96 xx 2013.09.10 start -->
+					<#if dailySurplusCash?exists><span id="realacc"> 本日您还可提现：<font color="#FF0000" id="hongbao_used">${dailySurplusCash?c}</font> 元</span></#if>
+					<!-- v1.6.5.3 RDPROJECT-96 xx 2013.09.10 end -->
+					<!--
+					<span id="realacc">本次提现使用红包抵消提现费用：<font color="#FF0000" id="hongbao_used">0</font> 元</span>
+					-->
+				</div>
+			</div>
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;"></div>
+				<div class="c">
+				<#if ((uas.accountOwnMoney!0) gt 200000)&&((uas.accountUseMoney!0) gt 200000)  >
+					<font color="red">招商贷温馨提醒：您当前最多一次可提现5万！ </font>
+				</#if>
+				</div>
+			</div>
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;">动态口令(可选)：</div>
+				<input name="valicode" type="text" size="11" maxlength="5" tabindex="3" id="valicode"/>&nbsp;
+							<input type="button" value="获取验证码"  class="btn timeval" style="width:110px; height:30px;" onclick="doajax();"/>
+				<div class="c">
+				</div>
+			</div>
+			<script language="javascript">
+			function doajax(){
+				
+				var Time;
+				var phone = jQuery('#phone').val();	
+				var now = new Date(); 
+				var gettime=now.getTime();
+				var phoneBtn = $(".timeval");
+				var timeVal = parseInt("60");
+				Time = setInterval(function(){
+					timeVal--;
+					if(timeVal>0)
+					{
+						phoneBtn.val(timeVal+"秒后重新获取").attr("disabled","disabled");
+					}
+					else{
+						timeVal="60";
+						phoneBtn.val("获取验证码").removeAttr("disabled","disabled");
+						clearInterval(Time);
+						}
+					},1000) 
+				
+				$(function(){
+					$.ajax({
+						"url": "${webroot}/member/identify/mobileaccess.html?mobile="+phone+"&phone_type="+1,
+						"type": "post",
+						"cache": "false",
+						"data": {'name':$("#phone").val()},
+						"dataType": "json",
+						"error": function(){
+						},
+						"success": function(data){
+							if(data != null){
+							}
+						}
+					});
+				});
+			
+			}
+            function sms(){
+            	var phone = jQuery('#phone').val();
+            	alert(phone);
+            	var valicode = jQuery('#valicode').val();
+				if(phone==''){
+					alert('手机号码不能为空'); 
+					return false;
+				}else{
+					
+						$(function(){
+							$.ajax({
+								"url": "${webroot}/member/identify/phoneSms.html?mobile="+phone+"&valicode="+valicode,
+								"type": "post",
+								"cache": "false",
+								"data": {'name':$("#phone").val()},
+								"dataType": "json",
+								"error": function(){
+								},
+								"success": function(data){
+									if(data != null){
+										var error= $(".error").html(data.data);
+										if(error!=''){
+											$("#msg25").css("display","block");
+
+					                	}
+									}
+								}
+							});
+						});
+					}
+			
+				
+            }
+			       function commit(obj) {
+			    	  
+			            if (parseFloat(obj.value) > 0 )
+			            {
+			                var realMoney=parseFloat(obj.value);
+			                var inputValue=parseFloat(obj.value);
+							var wz=(inputValue+"").indexOf(".");
+							 if(wz>0){
+									var curNum=inputValue.toString().split(".")[0].length+3;
+									inputValue=((inputValue+"").substring(0,curNum));
+									obj.value=inputValue;
+				            }
+							if(inputValue<=30000 && inputValue>100){
+			                    realMoney=parseFloat(inputValue-3);
+			                }else if(30000<inputValue && inputValue<=50000){
+			                    realMoney=parseFloat(inputValue-5);
+			                }else if(inputValue>50000 || inputValue <100){
+			                    alert("您好，提现资金不能低于100元高于50000元");
+			                    obj.value=0;
+			                    document.getElementById("real_money").innerText = 0 ;
+			                    return;
+			                }
+			                if(inputValue>50000){
+			                    alert("您好，大额提现金额必须小于5万");
+			                    obj.value=0;
+			                    document.getElementById("real_money").innerText = 0 ;
+			                    return;
+			                }
+			               
+			                
+			                var cashAmount;
+			                cashAmount = parseFloat(inputValue);
+			                
+			                getCashFeeValue(cashAmount);
+			                //document.getElementById("real_money").innerText = realMoney ;
+			            }
+			        }
+			        
+			        function getCashFeeValue(cashAmount){
+			        	jQuery.ajax({
+	        				url:"${webroot}/member/account/getAvailableCash.html",
+	        				dataType:'json', 
+	        				data:"money="+cashAmount,
+	        				success:function(json){
+	        					$("#real_money").html(changeTwoDecimal(cashAmount-json.data.fee));
+	        				}
+	        			});
+			        }
+			        
+			        function changeTwoDecimal(x)
+			        {
+			            var f_x = parseFloat(x);
+			            if (isNaN(f_x))
+			            {
+			                alert('function:changeTwoDecimal->parameter error');
+			                return false;
+			            }
+			            var f_x = Math.round(x*100)/100;
+			            return f_x;
+			        }
+			</script>
+			
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;"></div>
+				<div class="c">
+					<input type="hidden" name="newcash_token" value="${newcash_token?if_exists}" />
+					<input type="hidden" name="type" value="newcash" />
+					<input type="submit" class="btn-action"  name="name"  value="确认提交" size="30" /> 
+				</div>
+			</div>
+		</form>
+				<div class="user_right_foot alert">
+				* 温馨提示：禁止信用卡套现
+				</div>
+		
+					<script>
+					var use_money = ${account.use_money?c};
+					
+					function check_form_1(){
+						 var frm = document.forms['form1'];
+						 var paypassword = frm.elements['paypassword'].value;
+						 var money = frm.elements['money'].value;
+						 var errorMsg = '';
+						  if (paypassword.length == 0 ) {
+							errorMsg += '请输入您的交易密码' + '\n';
+						  }
+						  if (money.length == 0 ) {
+							errorMsg += '请输入你的提现金额' + '\n';
+						  }
+						  <!-- v1.6.5.3 RDPROJECT-96 xx 2013.09.10 start -->       
+						  if (money<100||money>50000) {
+							errorMsg += '您好，提现资金不能低于100元高于50000元' + '\n';
+						  }
+						  <#if dailySurplusCash?exists>
+						  if (money>${dailySurplusCash?c}){
+							errorMsg += '您好，提现资金不能高于'+${dailySurplusCash?c}+'元' + '\n';
+						  }
+						  </#if>
+						  <!-- v1.6.5.3 RDPROJECT-96 xx 2013.09.10 end -->
+						  if (money >use_money) {
+							errorMsg += '您的提现金额大于现有的可用余额' + '\n';
+						  }
+						  if (money>50000) {
+							errorMsg += '您好，提现金额单笔最高5万' + '\n';
+						  }
+						  if (errorMsg.length > 0){
+							{alert(errorMsg); return false;}
+						  } else{  
+							return true;
+						  }
+					}
+					</script>
+				</#if>
+									
+					<!-- 内容结束 -->
+					</div>
+				</div>
+				<!--右边的内容user_right_main 结束-->
+			</div>
+			<!--右边的内容user_right 结束-->
+		</div>
+		<!-- .wrap950 结束-->
+	</div>
+	<!-- #main start-->
+	<#include "../../include/footer.html">

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="逾期的借款标">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <#if param?exists>
+                                    <#if param.get("username")?exists><#assign username=param.get("username")></#if>
+                                    <#if param.get("keywords")?exists><#assign keywords=param.get("keywords")></#if>
+                                </#if>
+                                <div class="toolbor-module search">
+                                    <input type="button" value="搜索"  class="input-button" onclick="sousuo();">
+                                </div>
+                                <div class="toolbor-module search">
+                                    <input type="text" name="username" id="username" value="请输入用户名" data-value="请输入用户名" class="search-value">
+                                </div>
+                                <div class="toolbor-module search">    
+                                    <input type="text" name="keywords" id="keywords" value="请输入关键字" data-value="请输入关键字" class="search-value">
+								</div>
+                                 <!-- v1.6.6.2 RDPROJECT-379 zza 2013-10-24 start -->
+								<div class="toolbor-module search">
+			                        <div style="height:22px;line-height:22px;float:left;">类型：</div>
+			                       <div class="select-box" id="type">
+			                            <div class="tag-select">全部</div>
+			                            <ul class="tag-options">
+			                               <li data-value="100" <#if type==100 >data-selected="selected"</#if> class="open-selected">全部</li>
+			                               <li data-value="102" <#if type==102 >data-selected="selected"</#if>>信用标</li>
+			                               <li data-value="103" <#if type==103 >data-selected="selected"</#if>>抵押标</li>
+			                               <li data-value="104" <#if type==104 >data-selected="selected"</#if>>净值标</li>
+			                               <li data-value="112" <#if type==112 >data-selected="selected"</#if>>担保标</li>
+			                            </ul>
+			                        </div>
+			                    </div>
+			                    <!-- v1.6.6.2 RDPROJECT-379 zza 2013-10-24 end -->
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form action="" method="post">
+                                   
+                                    <table  class="data-list">
+					<tr class="header">
+						<td>ID</td>
+						<td>借款人</td>
+						<td>借款标的名称</td>
+						<td>期数</td>
+						<td>应还时间</td>
+						<td>应还金额</td>
+						<td>应还利息</td>
+						<td>逾期天数</td>
+						<td>逾期利息</td>
+						<td>操作</td>
+						<td>查看</td>
+					</tr>
+					<#import "../../common/function.html" as func>  
+					<#list list as item>
+					<tr>
+						<td>${item.id?c}</td>
+						<td><a onclick='alertPop("用户详细信息查看","url:get?/admin/attestation/viewUserInfo.html?username=${item.username!}",500,230,"true","","true","text");'
+								href="javascript:void(0)">${item.username!}</a></td>
+						<td title="${item.borrow_name!}" align="left">
+						<!-- v1.6.6.2 RDPROJECT-379 zza 2013-10-24 start -->
+                        <span style="color:#FF0000">【<@func.borrowTypeName item=item /> 】</span>
+                        <!-- v1.6.6.2 RDPROJECT-379 zza 2013-10-24 end -->
+						<a href="${webroot}/invest/detail.html?borrowid=${(item.borrow_id!0)?c}" target="_blank">${item.borrow_name!}</a></td>
+						<td>${item.order+1}/${item.time_limit}</td>
+						<td><#if item.repayment_time??> ${dateformat(item.repayment_time)} </#if></td>
+						<td>${(((item.repayment_account)!0)?number)?string("##.##")}元</td>
+						<td>${(((item.interest)!0)?number)?string("##.##")}元</td>
+						<td>${item.late_days!0}天</td>
+						<td>${(((item.late_interest)!0)?number)?string("##.##")}元</td>
+						<#--<td><font color="#006600">代还</font></td>-->
+						<td>
+						<#if item.status?exists && item.status == 0 >
+							<!-- v1.6.7.2 RDPROJECT-618 lx 2013-12-23 start -->
+                            <a href="javascript:;" class="un" onClick="javascript:if(confirm('确定要邮件提醒吗?')) location.href='/admin/borrow/overdueReceivables.html?borrowid=${(item.borrow_id!0)?c}'"><font color="#006600">邮件提醒</font></a>
+							<!-- <a href="/admin/borrow/overdueReceivables.html?borrowid=${(item.borrow_id!0)?c}"><font color="#006600">邮件提醒</font></a> -->
+                            <!-- v1.6.7.2 RDPROJECT-618 lx 2013-12-23 end -->
+							<a href="/admin/borrow/goLateLog.html?borrowid=${(item.borrow_id!0)?c}"><font color="#006600">催收</font></a>
+						 	<#--<#if item.webstatus?exists && item.webstatus != 3 && item.late_days gt 30 >
+							<a href="/admin/borrow/websitepayborrow.html?borrowid=${(item.borrow_id!0)?c}"><font color="#006600">网站垫付</font></a></#if>-->
+							</td>
+						<#else>
+							已还款
+						</#if>
+						<td><a href="/admin/borrow/getLateBorrowDetails.html?borrowid=${(item.borrow_id!0)?c}"><font color="#006600">查看记录</font></a></td>
+					</tr>
+					</#list>
+				</table>
+                                </form>
+
+                                <!--底部工具栏--{-->
+                                <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+
+                                    <!--翻页系统--{-->
+                                    <div class="container">
+                                        <#import "../../common/page.html" as pager>
+                                            <@pager.pagination page=page url="/admin/borrow/late.html" map=param style="style1" />
+                                    </div>
+                                    <!--翻页系统--}-->
+                                </div>
+                                <!--底部工具栏--}-->
+
+                                <script>
+
+                                    var urls = 'late.html?search=true';
+                                    function sousuo(){
+                                        var sou = "";
+                                        var username = $("#username").val();
+                                        if (username!=""&&username!="请输入用户名"){
+                                            sou += "&username="+username;
+                                        }
+                                        var keywords = $("#keywords").val();
+                                        if (keywords!=""&&keywords!="请输入关键字"){
+                                            sou += "&keywords="+keywords;
+                                        }
+                                        // v1.6.6.2 RDPROJECT-379 zza 2013-10-24 start
+                                        var type = $("#type").find(".open-selected").attr("data-value");
+                                        if (type!=null&&type!=""&&type!="undefine"){
+                                            sou += "&type="+type;
+                                        }
+                                        // v1.6.6.2 RDPROJECT-379 zza 2013-10-24 end
+                                        location.href=urls+sou;
+                                    }
+                                </script>
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

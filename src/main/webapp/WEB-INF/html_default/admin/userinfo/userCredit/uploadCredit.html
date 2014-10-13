@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<#include "../../head.html">
+<body>
+<table class="mc">
+    <tr>
+        <td class="mc-l">
+            <!--左侧导航---{-->
+            <div id="navPanelContainer">
+                <div class="system-logo cd"></div>
+                <!--管理员信息---{-->
+                <#include "../../adminInfo.html">
+                    <!--管理员信息---}-->
+                    <div class="nav-wrap">
+                        <#include "../left.html">
+                    </div>
+            </div>
+            <!--左侧导航---}-->
+        </td>
+        <td class="mc-m">
+            <div class="navToggle"></div>
+        </td>
+        <td class="mc-r">
+            <!--顶部导航---{-->
+            <#include "../../topNav.html">
+            <!--顶部导航---}-->
+
+            <!--面包屑导航---{-->
+            <#assign moduleName="批量上传用户积分">
+            <#include "../banner.html">
+            <!--面包屑导航---}-->
+
+            <!--工具栏--{-->
+            <div id="toolbar" class="clearfix">
+                <input type="button" class="input-button return" value="返回" onclick="javascript:location.href='showCreditUpfiles.html'">
+            </div>
+            <!--工具栏--}-->
+
+            <div id="main" class="w750 clearfix">
+                 <form name="form1" method="post" action="" onsubmit="return check_form();" enctype="multipart/form-data" >
+                  <div class="valBox">
+                      <div class="top">
+                          <strong>批量上传用户积分</strong>
+                      </div>
+                      <div class="clearfix">
+                          <ul class="title-v edit">
+                              <li>
+                                  <div class="title">上传文件：</div>
+                                  <div class="v">
+                                      <input type='file' name='excel' value='' size='20' id='excel'  onChange="clickFileName(this)">
+                                  </div>
+                                  <span style="color: #f00;">* 目前仅支持后缀名为 .csv或.xls格式 的文件，上传的内容格式为：用户名、积分（积分不能带小数点）、备注（备注可以不填写）！</span>
+                                  <span>点击下载<a href="/data/credit/credit_csv_demo.csv" style="color: #f60">csv模板</a>、<a href="/data/credit/credit_xls_demo.xls" style="color: #f60">xls模板</a></span>
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+                     <div id="bottomToolbar" class="clearfix">
+                          <input type="hidden" name="type" value="upload" />
+                          <input type="submit" name="submit" value="确认上传" class="input-button confirm"/>
+                     </div>
+                </form>
+
+                <!--底部工具栏--{-->
+                <div id="bottomToolbar" class="clearfix">
+                    <div class="other-tool"> </div>
+
+                    <!--翻页系统--{-->
+                   <div class="container"> </div>
+                    <!--翻页系统--}-->
+                </div>
+                <!--底部工具栏--}-->
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <!--尾部--{-->
+        <td colspan="3" class="mc-b"><#include "../../foot.html"></td>
+        <!--尾部--}-->
+    </tr>
+</table>
+<script>
+	function clickFileName(upload_field) {
+		var re_text_xls = /xls/i; //这名比较关键,定义上传的文件类型,允许上传的就写上.
+		var re_text = /csv/i; //这名比较关键,定义上传的文件类型,允许上传的就写上.
+		var filename = upload_field.value; //这个是得到文件域的值
+		var newFileName = filename.split('.'); //这是将文件名以点分开,因为后缀肯定是以点什么结尾的.
+		newFileName = newFileName[newFileName.length - 1]; //这个是得到文件后缀,因为split后是一个数组所以最后的那个数组就是文件的后缀名.
+		if (newFileName.search(re_text) == -1
+				&& newFileName.search(re_text_xls) == -1) {
+			//search如果没有刚返回-1.这个如果newFileName在re_text里没有,则为不允许上传的类型. .
+			alert("请上传后缀名为 .csv或.xls的文件");
+			upload_field.form.reset();
+			return false;
+		}
+	}
+</script>
+</body>
+</html>
+<#include "../../jsPage.html">

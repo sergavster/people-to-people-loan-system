@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                        	<!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 start -->
+                            <#include "../setting/left.html">
+                            <!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 end -->
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="所有抽奖规则">
+                    	<!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 start -->
+                        <#include "../setting/banner.html">
+                        <!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 end -->
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <div class="toolbor-module search">
+                                    <a href="addRule.html" class="input-button" style="line-height:24px;">+新增抽奖规则</a>
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form action="" method="post">
+                                    <table class="data-list">
+                                        <tr class="header">
+                                            <td>ID</td>
+                                            <td>规则名</td>
+                                            <td>抽奖有效时间</td>
+                                            <td>抽奖类型</td>
+                                            <td>基准积分</td>
+                                            <td>操作</td>
+                                        </tr>
+                                        <#list list as item>
+                                            <tr class="s">
+                                                <td>${item.id!0}</td>
+                                                <td><a href="allObject.html?id=${item.id!0}">${item.name!""}</a></td>
+                                                <td>${item.start_date!""}~${item.end_date!""}</td>
+                                                <td>${item.award_type!0}</td>
+                                                <td>${item.base_point!0}</td>
+                                                <td>
+                                                    <a class="un" href="modifyRule.html?id=${item.id!0}">修改</a>
+                                                </td>
+                                            </tr>
+                                        </#list>
+                                    </table>
+                                </form>
+
+                                <!--底部工具栏--{-->
+                                <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                                <!--底部工具栏--}-->
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

@@ -1,0 +1,281 @@
+<#macro trunct name>
+	<#assign length=name?length>
+	<#if length&gt;15>
+		${name[0..15]}
+	<#else>
+		${name}
+	</#if>
+</#macro>
+
+<!DOCTYPE html>
+<html>
+<#include "../include/resource.html"> 
+<body>
+<#assign nid="invest">
+<#include "../include/header.html">
+<#include "../common/function.html"> 
+<#include "../common/macro_lb.html"> 
+	<!--子栏目 开始-->
+
+	<!--子栏目 结束-->
+
+	<!--header-end-->
+
+<div class="container">
+	<div class="investbox">
+ <!--      
+        <div class="searchbox">
+            <div class="title-greybg">
+                <div class="title-redbg">
+                    搜索详情
+                </div>
+            </div>
+            <div class="searchtxt">
+                <div class="clearfix">
+                    <span class="float_left">
+                        贷款类型：
+                    </span>
+                    <ul class="clearfix chooseJS">
+                        <li>不限</li>
+                        <li>给力标</li>
+                        <li>流转标</li>
+                        <li>净值标</li>
+                        <li>信用标</li>   
+                        <li>秒还标</li>
+                    </ul>
+                </div>
+                
+                <div class="clearfix">
+                    <span class="float_left">
+                        贷款利率：
+                    </span>
+                    <ul class="clearfix chooseJS">
+                        <li>不限</li>
+                        <li>0-12%</li>
+                        <li>12-18%</li>
+                        <li>18%以上</li>
+                    </ul>
+                </div>
+                <div class="clearfix">
+                    <span class="float_left">
+                        贷款期限：
+                    </span>
+                    <ul class="clearfix chooseJS">
+                        <li>不限</li>
+                        <li>1-3个月</li>
+                        <li>3-6个月</li>
+                        <li>6-9个月</li>
+                        <li>9-12个月</li>
+                        <li>12个月以上</li>
+                    </ul>
+                </div>
+                <div class="clearfix">
+                    <span class="float_left">
+                        贷款金额：
+                    </span>
+                    <ul class="clearfix chooseJS">
+                        <li>不限</li>
+                        <li>5万以下</li>
+                        <li>5-10万</li>
+                        <li>10-20万</li>
+                        <li>20-30万</li>
+                        <li>30万</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+       -->
+<div id="" class="clearfix">
+			<img src="${webroot}${theme_dir}/images/donation-img.jpg" class="mb10" style="border:1px solid #c9c9c9;">
+			<div class="box donationtxt ">
+            	<div class="box-title"><b class="redblock"></b>爱贷网爱心公益平台简介</div>
+                <div class="box-con" style="padding:15px; border:1px solid #ddd;">
+                	爱贷网设立"爱心捐助"旨在倡导一方有难，八方支援的互助精神，使遭遇特殊困难的弱势群体感受到社会的关怀，感受到人与人之间的关爱。<br />
+                    1.<b>捐助对象：</b>遭遇重大疾病、意外伤害或特殊困难的个人和家庭。<br />
+                    2.<b>项目来源：</b>爱贷网的捐助对象来自于爱贷网办事处所在地农村或与微公益合作的项目，爱贷网对每一个受捐助对象的真实情况进行核实，符<br />
+                      合条件的才会上传至爱贷网。 <br />
+                    3.<b>捐助形式：</b>目前只支持现金捐助，不接受实物。捐赠申请金额满额后，通过第三方支付平台将善款直接转入受捐人账户中，每一笔捐助明细<br />
+                      会员都可查询。<br />
+                    4.<b>资金来源：</b>爱贷网会员保证金（本金和利息收益）的自主捐助、社会各界爱心人士委托爱贷捐赠的资金、"微公益"基金项目提供的捐助。<br />
+                    5.<b>捐助费用：</b>对每一个独立的捐助收取所捐金额1%的费用，用于转账结算及档案管理。<br />
+                </div>
+            </div>
+		<form action="" method="post">
+			<div class="box donationbox">
+				<div class="box-title"><b class="redblock"></b>详细搜索</div>
+				<div class="box-con" style="padding:15px 20px; border:1px solid #ddd;">
+					<ul class="select-A clearfix">
+                    	
+						<li>借款目的：
+							<#if param?exists&&param.borrow_style?exists>
+								<@linkage name="borrow_style" id="borrow_style"  type="value" default=param.borrow_style nid="borrow_style" noselect="没有限制"/>
+							<#else>
+								<@linkage name="borrow_style" id="borrow_style"  type="value" nid="borrow_style" noselect="没有限制"/>
+							</#if>
+						</li>
+                        <li>期限：
+							<#if map?exists&&map.type?exists>
+								<@linkage name="type" id="type"  default=map.type type="value" nid="loan_type"  noselect="没有限制"/>
+							<#else>
+								<@linkage name="type" id="type"  type="value" nid="loan_type" noselect="没有限制"/>
+							</#if>
+						</li>
+                        <li>关键字：<input type="text" name="keywords" size="20" 
+							value="${(param.keywords)!}" />
+						</li>
+                        <li>
+                            <input type="submit" class="btn searchbtn" id="search_btn" value="搜索" />
+                            <input type="hidden" name="status" value="${status!1}"> 
+                            <input type="hidden" name="search" value="select"> 
+						</li>
+					</ul>
+				</div>
+			</div>
+		</form>
+        <div class="investlist mt10">
+            <div class="title-greybg">
+                
+                    <div class="list-select clearfix" style="border-width:0 1px 0 0;">
+                    <div class="list-select-l title-redbg">排序：${orderstr!}
+                    	<#--<div class="float_right pr10 mt5">
+                        	<a href="#" style="padding:10px 2px 0;"><img src="${webroot}${theme_dir}/images/ico_20.gif"></a>
+                        	<a href="#" style="padding:10px 2px 0;"><img src="${webroot}${theme_dir}/images/ico_40.gif"></a>
+                            <a href="#" style="padding:10px 2px 0;"><img src="${webroot}${theme_dir}/images/ico_60.gif"></a>
+                        </div>-->
+                    </div>
+                    <div class="list-select-r2"><!--金额范围：<select><option value="">0～5000</option><option value="244">5000～10000</option></select>-->
+                    <!--显示：<a href="?wzdai\.com/invest/index.html&epage=20"><img src="/themes/soonmes/images/ico_20.gif"  /></a> <a href="?wzdai\.com/invest/index.html&epage=40"><img src="/themes/soonmes/images/ico_40.gif" /></a> -->
+                    </div>
+                    </div>
+                
+                
+            </div>
+            
+            <div class="listmain">
+            	<ul class="clearfix ul-title">
+                	<li class="width1">头像</li>
+                    <li class="width2">标题/借款者</li>
+                    <li class="width3">金额/利率/用途</li>
+                    <li class="width4">进度/状态</li>
+                    <li class="width5">期限/所在地/等级</li>
+                    <li class="width6"></li>
+                </ul>
+                <#if borrowList?exists>
+                 <#list borrowList as item>
+                 <@indexListItem item=item />
+                 </#list>
+            </div>
+            
+            <div align="center" class="mt10">
+            	<#import "../common/page.html" as pager>
+            	<@pager.pagination page=p url="/donation/index.html?status="+status! map=map style="style1" />
+            </div>
+            <#else>
+            <div align="center" >没有信息</div>
+            </#if>
+          
+        </div>
+    </div>
+    </div>
+</div>
+    
+	<!--main end-->
+<!--	<script type="text/javascript">
+		jQuery(function() {
+			jQuery("[rel='tooltip']").tooltip();
+		});
+	</script>-->
+
+<script type="text/javascript">
+jQuery(function(){
+	jQuery('#invest_dialog').click(function(){
+		jQuery('#modal_dialog').dialog('destroy');
+		jQuery('#modal_dialog').dialog({ modal: true ,height: 410,width:760 });
+	});
+});
+
+function check_form(lowest,most,use_money){
+		 var frm = document.forms['form1'];
+		 var account = frm.elements['money'].value;
+		 var valicode = frm.elements['valicode'].value;
+		 if (account==""){
+		 	alert("投标金额不能为空");
+			return false;
+		 }else if (account>use_money ){
+		 	alert("您的可用余额小于您的投标额，要投标请先充值。");
+			return false;
+		}else if (account>most && most>0){
+		 	alert("投标金额不能大于最大限额"+most+"元");
+			return false;
+		 }else if(account<lowest && lowest>0){
+			alert("投标金额不能低于最小限额"+lowest+"元");
+			return false;
+		 }
+		  /* if (valicode==""){
+		 	alert("验证码不能为空");
+			return false;
+		 }*/
+		if(confirm('确定要投标'+account+'元，确定了将不能取消')){
+			return true;
+		}else{
+			return false;
+		}
+		 
+	}
+        
+        function inputAll(lowest,most,use_money){
+       
+            if(most==0){
+               
+                jQuery("#money").val(use_money);
+            }else if(use_money>most){
+                jQuery("#money").val(most);
+            }else{
+                jQuery("#money").val(use_money);
+            } 
+        }  
+		
+function showRemainTime(){
+	var endtimes=$(".endtime");
+	endtimes.each(function(){
+		RemainTime($(this));
+	});
+}
+showRemainTime();
+setInterval("showRemainTime()",1000);
+
+function RemainTime(t){
+	var iDay,iHour,iMinute,iSecond,account;
+	var sDay="",sTime="";
+	var at="data-time"
+	var iTime=t.attr(at);
+    if (iTime >= 0){
+    	iDay = parseInt(iTime/24/3600);
+        iHour = parseInt((iTime/3600)%24);
+        iMinute = parseInt((iTime/60)%60);
+        iSecond = parseInt(iTime%60);
+    	if (iDay > 0){ 
+   			sDay = iDay + "天"; 
+    	}
+	    sTime =sDay + iHour + "小时" + iMinute + "分钟" + iSecond + "秒";
+	    if(iTime==0){
+        	sTime="<span style='color:green'>时间到了！</span>";
+        }
+			t.attr(at,iTime-1);
+      }else{
+	     sTime="<span style='color:red'>此标已过期！</span>";
+	 }
+	t.html(sTime);
+	}
+</script>
+
+	<script src="${request.getContextPath()}${theme_dir}/media/js/tab.js"></script>
+	<script src="${request.getContextPath()}${theme_dir}/media/js/transition.js"></script>
+
+	<script src="${request.getContextPath()}${theme_dir}/media/js/tooltip.js"></script>
+	<script src="${request.getContextPath()}${theme_dir}/media/js/popover.js"></script>
+
+
+	<#include "../include/footer.html"> 
+</body>
+</html>

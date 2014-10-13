@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+	<#include "../head.html">
+	<body>
+		<table class="mc">
+			<tr>
+				<td class="mc-l">
+					<!--左侧导航-->
+					<div id="navPanelContainer">
+						<div class="system-logo cd"></div>
+						<!--管理员信息-->
+						<#include "../adminInfo.html">
+						<!--管理员信息-->
+						<div class="nav-wrap"><#include "left.html"></div>
+					</div> 					
+					<!--左侧导航-->					
+				</td>
+				
+				<td class="mc-m">
+					<div class="navToggle"></div>
+				</td>
+				
+				<td class="mc-r">
+					<!-- 顶部导航 --> 
+					<#include "../topNav.html"> 
+					<!-- 顶部导航 --> 
+					
+					<!--面包屑导航 -->
+						<#assign moduleName="系统参数"> 
+						<#include "banner.html">
+					<!--面包屑导航 -->
+
+					<!--工具栏--> 
+					<div id="toolbar" class="clearfix">
+					<#if param?exists> 
+						<#if param.get("dotime1")?exists><#assign dotime1=param.get("dotime1")></#if> 
+						<#if param.get("dotime2")?exists><#assign dotime2=param.get("dotime2")></#if> 
+						<#if param.get("username")?exists><#assign username=param.get("username")></#if>
+						<#if param.protocol_type??>
+							<#assign protocol_type=param.get("protocol_type") >
+						<#else>
+							<#assign protocol_type="">
+						</#if> 
+					</#if>
+
+						
+					<div class="toolbor-module search">	
+					    <div style="height:22px;line-height:22px;float:left;">协议类型：</div>
+						<div class="select-box" id="protocol_type">
+							<div class="tag-select">全部</div>
+							<ul class="tag-options">
+								<li data-value=""<#if protocol_type=="" >data-selected="selected"</#if> class="open-selected">全部</li>
+								<li data-value="recharge_protocol"<#if protocol_type=="recharge_protocol" >data-selected="selected"</#if>>充值委托协议</li>
+								<li data-value="cash_protocol"<#if protocol_type=="cash_protocol" >data-selected="selected"</#if>>提现委托协议</li>
+								<li data-value="tender_protocol"<#if protocol_type=="tender_protocol" >data-selected="selected"</#if>>投标委托协议</li>
+								<li data-value="repayment_account_protocol"<#if protocol_type=="repayment_account_protocol" >data-selected="selected"</#if>>借款人归还本息委托协议</li>
+								<li data-value="award_protocol"<#if protocol_type=="award_protocol" >data-selected="selected"</#if>>奖励发放委托协议</li>
+							</ul>
+						</div>						
+						<input type="button" value="搜索" class="input-button" onclick="sousuo();">
+					</div>	
+					 <div class="toolbor-module search" >
+						<div style="height:22px;line-height:22px;float:left;">时间：</div>
+						<input class="_search-value js-datetime" name="dotime1" id="dotime1" value="${dotime1!}"/>
+						
+						<div style="height:22px;line-height:22px;float:left;">  到  </div>
+						<input class="_search-value js-datetime" name="dotime2" id="dotime2" value="${dotime2!}"/>
+					</div>
+				</div>			
+					<!--工具栏-->
+				
+					<div id="main" class="clearfix">
+						<form action="" method="post">
+							<table class="data-list">
+								<tr class="header">
+									<td>序号</td>
+									<td>协议类型</td>
+									<td>生成时间</td>
+									<td>备注</td>
+									<td td width="50px;">下载</td>
+								</tr>
+								<#import "../../common/function.html" as func> 
+								<#list list as item>
+								<tr>
+									<td width="70">${item.id!0}</td>
+									<td>${item.protocol_type_name}</td>
+									<td>${dateformat(item.addtime)}</td>
+									<td>${item.remark!""}</td>
+									<td width="50px;"><a href="${request.getContextPath()}/admin/protocol/protocol.html?id=${item.id?c}&type=${item.protocol_type}">下载</a></td>
+								</tr>
+								</#list>
+							</table>
+						</form>
+						
+
+                       <!--底部工具栏--{-->
+                        <#if sum??><div style="height:22px;line-height:22px;color:red;margin-left:12px; padding-top:10px;"> 充值总额：${sum}元 </div></#if>
+                       <div id="bottomToolbar" class="clearfix" style="padding-top:5px;">
+                           <div class="other-tool">
+                               <dl class="refresh-data">
+                                   <dt class="refresh-data-icon"></dt>
+                                   <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                               </dl>
+                           </div>
+
+                           <!--翻页系统--{-->
+                           <div class="container">
+                               <#import "../../common/page.html" as pager>
+                                   <@pager.pagination page=page url="/admin/protocol/protocolList.html" map=param style="style1"  />
+                           </div>
+                           <!--翻页系统--}-->
+                       </div>
+                       <!--底部工具栏--}-->
+				</td>
+			</tr>
+			<tr>
+				<!--尾部-->
+				<td colspan="3" class="mc-b"><#include "../foot.html"></td>
+				<!--尾部-->
+			</tr>
+		</table>
+	</body>
+</html>
+<#include "../jsPage.html">

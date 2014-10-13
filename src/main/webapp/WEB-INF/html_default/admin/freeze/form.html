@@ -1,0 +1,97 @@
+<!-- v1.6.7.1 RDPROJECT-284 xx 2013-10-30 start -->
+<!-- 新增页面 -->
+<!-- v1.6.7.1 RDPROJECT-284 xx 2013-10-30 end -->
+<div class="valBox">
+	<div class="clearfix">
+		<ul class="title-v edit">
+			<li>
+				<div class="title">用户名：</div>
+				<div class="v">
+					<#if model?? && model.username??>
+						${model.username}
+						<input type="hidden" name="username" id="username" value="${model.username}"/>
+					<#else>
+						<input type="text" name="username" id="username" class="input_border" size="20" maxlength="20" onblur="isExistsByUserName();"/>
+						<font style="color:red"><span id="usernameTip"></span></font>
+					</#if>
+				</div>
+			</li>
+			<li>
+				<div class="title">是否启用：</div>
+				<div class="v">
+					<input type="radio" name="status" id="status" value="0" <#if model?? && model.status?? && model.status==0 >checked="checked"</#if>/>不启用
+					<input type="radio" name="status" id="status" value="1" <#if model?? && model.status?? && model.status==1 >checked="checked"</#if>/>启用
+				</div>
+			</li>
+			<li>
+				<div class="title">冻结点：</div>
+				<div class="v">
+					<input type="checkbox" name="mark" id="mark" value="login" <#if model?? && model.mark?? && model.mark?contains("login")>checked="checked"</#if>/>登录
+					<input type="checkbox" name="mark" id="mark" value="recharge" <#if model?? && model.mark?? && model.mark?contains("recharge")>checked="checked"</#if> />充值
+					<input type="checkbox" name="mark" id="mark" value="cash" <#if model?? && model.mark?? && model.mark?contains("cash")>checked="checked"</#if> />提现
+					<input type="checkbox" name="mark" id="mark" value="tender" <#if model?? && model.mark?? && model.mark?contains("tender")>checked="checked"</#if> />投标
+					<input type="checkbox" name="mark" id="mark" value="borrow" <#if model?? && model.mark?? && model.mark?contains("borrow")>checked="checked"</#if> />发标
+				</div>
+			</li>
+			<li>
+			<li>
+				<div class="title">备注：</div>
+				<div class="v">
+					<textarea rows="" cols="" name="remark" id="remark"><#if model?? && model.remark??>${model.remark}</#if></textarea>
+				</div>
+			</li>
+		</ul>
+	</div>
+
+</div>
+<div id="bottomToolbar" class="clearfix">
+	<input type="hidden" name="userId" value="${model?if_exists.userId?if_exists}">
+	<input type="hidden" name="actionType" value="freeze" />
+	<input class="input-button post" type="button" name="button" id="button" onclick="checkForm();" value="提交" />
+	<input class="input-button reset" type="reset" name="reset" value="重置" />
+</div>
+<script type="text/javascript">
+	function isExistsByUserName(){
+		var username = $("#username").val();
+		if (username == null || username.length == 0) {
+			alert("用户名不能为空！");
+		}else{
+			$.ajax({
+			    type: "get",
+			    url: "/admin/freeze/isExistsByUserName.html?username="+username,
+			    async : false,
+			    dataType: "json",
+			    timeout: 5000,
+			    success: function (json){
+					if(json.result=="true"){
+						$("#usernameTip").html(" *"+username+"的冻结信息已存在,请勿重复添加！");
+						//$("#button").attr("disabled","disabled");
+					}else{
+						$("#usernameTip").html("");
+						//$("#button").attr("disabled","");
+					}
+			    }
+			});
+		}
+	}
+
+
+	function checkForm() {
+		var username = $("#username").val();
+		if (username == null || username.length == 0) {
+			alert("用户名不能为空！");
+			return false;
+		}
+		
+		var chk_value =[];
+		$('input[name="mark"]:checked').each(function(){    
+			chk_value.push($(this).val());    
+		});    
+		if(chk_value.length == 0){
+			alert("请选择冻结点！");
+			return false;
+		}
+		
+		$("#form").submit();
+	}
+</script>

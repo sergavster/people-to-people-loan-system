@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="今日融资数据统计">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+                            <!--工具栏--}-->
+                             <!--工具栏--{-->
+                             <div class="clearfix" id="toolbar">
+                                 <dl class="tool_dl clearfix">
+                                    <div>投标：</div>
+                                    <dd>今日发标总额（初审通过）：${firstVerifyAccount!?string("##.##")}</dd>
+                                    <dd>今日投标总额（复审通过）：${fullVerifyAccount!?string("##.##")}</dd>
+                                    <dd>今日复审利息总额：${dayInterestAccount!?string("##.##")}</dd>
+                                    <dd>今日奖励发放总额：${dayAwardAccount!?string("##.##")}</dd>
+                                </dl>
+                            </div>
+                            <div id="main" class="clearfix">
+                            	
+                                <#if accountList??>
+                                    <table class="data-list">
+                                        <tr class="header">
+                                            <td>标种</td>
+                                            <td>投标总额</td>
+                                            <td>利息总额</td>
+                                            <td>奖励发放总额</td>
+                                        </tr>
+                                        <#list accountList as item>
+                                            <tr class="s">
+                                                <td>${item.type}</td>
+                                                <td>${item.account!?string("##.##")}</td>
+                                                <td>${item.interest!?string("##.##")}</td>
+                                                <td>${item.award!?string("##.##")}</td>
+                                            </tr>
+                                        </#list>
+                                    </table>
+                                    <#else> 暂无信息 </#if>
+                                <!--底部工具栏--}-->
+                            </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

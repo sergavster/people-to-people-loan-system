@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="添加在线客服">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                    <input type="button" class="input-button return" value="返回" onclick="javascript:location.href='addOnlineKf.html'">
+ 
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="w750 clearfix">
+
+                                <form name="form1" method="post" action="" onsubmit="return check_form();" enctype="multipart/form-data" >
+                                    <div class="valBox">
+                                        <div class="top">
+                                            <strong>添加在线客服</strong>
+                                        </div>
+                                        <div class="clearfix">
+                                        <ul class="title-v edit">
+                                                
+                                              
+                                        <li>
+                                            <div class="title">用户名：</div>
+                                            <div class="v">
+                                                <input type="text" name="username"  value=""/>
+                                            </div>
+                                        </li>     
+                                        <li>
+                                            <div class="title">QQ：</div>
+                                            <div class="v">
+                                                <input type="text" name="qq"  class="input_border" value=""/>
+                                            </div>
+                                        </li>
+                                        </ul>
+                                    </div>
+
+                            </div>
+
+                            <div id="bottomToolbar" class="clearfix">
+                                <input type="hidden"  name="actionType" value="addOnlineKf" />
+                                <input class="input-button post" type="submit"  name="submit" value="提交" />
+                                <input class="input-button post" type="reset"  name="reset" value="重置" />
+                            </div>
+                            </form>
+                            </div>
+                            <script>
+                                function check_form(){
+                                	alert(1);
+                                    var username = $("#username").val();
+                                    var content = frm.elements['content'].value;
+                                    var errorMsg = '';
+                                    if (username.length == 0 ) {
+                                        errorMsg += '标题必须填写' + '\n';
+                                    }
+
+                                    if (errorMsg.length > 0){
+                                        alert(errorMsg); return false;
+                                    } else{
+                                        return true;
+                                    }
+                                }
+
+                                function jump_url(){
+                                    if (document.getElementById('jump_url').style.display == ""){
+                                        document.getElementById('jump_url').style.display = "none";
+                                        document.getElementById('jump_id').style.display = "";
+                                    }else{
+                                        document.getElementById('jump_url').style.display = "";
+                                        document.getElementById('jump_id').style.display = "none";
+                                    }
+                                }
+                            </script>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+   <div class="msgClass">
+       ${rsmsg!""}
+   </div>
+    </body>
+</html>
+<#include "../jsPage.html">

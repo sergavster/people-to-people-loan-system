@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!-- v1.6.6.2 RDPROJECT-277 xx 2013-10-22 start -->
+<!-- 新增页面 -->
+<!-- v1.6.6.2 RDPROJECT-277 xx 2013-10-22 end -->
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                    <!--管理员信息---}-->
+                    <div class="nav-wrap">
+                        <#include "left.html">
+                    </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <div id="breadcrumbNav">
+					    <div class="home-icon"></div>
+					    <ul>
+					        <li>基金信托</li>
+					        <li class="v">修改基金信托信息</li>
+					    </ul>
+					</div>
+                    <!--面包屑导航---}-->
+
+					<!--工具栏--{-->
+					<div id="toolbar" class="clearfix">
+                       	<div class="toolbor-module export">
+                           	<input type="button" class="input-button return" value="返回" onclick="javascript:location.href='index.html'">
+						</div>
+					</div>
+					<!--工具栏--}-->
+
+                    <div id="main" class="w750 clearfix">
+                        <form name="form1" id="form" method="post" action="" enctype="multipart/form-data" >
+                            <#include "form.html" />
+                        </form>
+					</div>
+				</td>
+			</tr>
+	        <tr>
+	            <!--尾部--{-->
+	            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+	            <!--尾部--}-->
+	        </tr>
+	    </table>
+	<div class="msgClass">
+		${rsmsg!""}
+	</div>
+</body>
+</html>
+<#include "../jsPage.html">

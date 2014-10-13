@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<bean id="accountDao" 
+        class="com.p2psys.dao.jdbc.AccountDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+    <bean id="rechargeDao"
+        class="com.p2psys.dao.jdbc.RechargeDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+    <bean id="cashDao"
+        class="com.p2psys.dao.jdbc.CashDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+     <bean id="accountLogDao"
+        class="com.p2psys.dao.jdbc.AccountLogDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+    <bean id="hongBaoDao"
+        class="com.p2psys.dao.jdbc.HongBaoDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+    <bean id="operationLogDao"
+        class="com.p2psys.dao.jdbc.OperationLogDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+     <bean id="protocolDao"
+        class="com.p2psys.dao.jdbc.ProtocolDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+     <bean id="repaymentDao"
+        class="com.p2psys.dao.jdbc.RepaymentDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+    <bean id="accountSumDao"
+        class="com.p2psys.dao.jdbc.AccountSumDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+    <bean id="accountSumLogDao"
+        class="com.p2psys.dao.jdbc.AccountSumLogDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>    
+    <bean id="bankDao"
+        class="com.p2psys.dao.jdbc.BankDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>    
+	<!-- v1.6.7.2 RDPROJECT-548 lx 2013-12-6 start -->
+	<bean id="backDao"
+        class="com.p2psys.dao.jdbc.AccountBackDaoImpl">
+       <property name="dataSource">
+           <ref bean="dataSource" />
+       </property>
+    </bean>
+	<!-- v1.6.7.2 RDPROJECT-54 lx 2013-12-6 end -->
+	<bean id="accountService"
+	        class="com.p2psys.service.impl.AccountServiceImpl">
+	        <property name="accountDao">
+	            <ref bean="accountDao" />
+	        </property>
+	        <property name="rechargeDao">
+	            <ref bean="rechargeDao" />
+	        </property>
+	        <property name="tenderDao">
+	            <ref bean="tenderDao" />
+	        </property>
+	        <property name="cashDao">
+	            <ref bean="cashDao" />
+	        </property>
+	         <property name="accountLogDao">
+	            <ref bean="accountLogDao" />
+	        </property>
+	         <property name="collectionDao">
+	            <ref bean="collectionDao" />
+	        </property>
+	         <property name="userDao">
+	            <ref bean="userDao" />
+	        </property>
+	         <property name="hongBaoDao">
+	            <ref bean="hongBaoDao" />
+	        </property>
+	        <property name="operationLogDao">
+	            <ref bean="operationLogDao" />
+	        </property>
+	        <property name="protocolDao">
+	            <ref bean="protocolDao" />
+	        </property>
+	        <property name="repaymentDao">
+	            <ref bean="repaymentDao" />
+	        </property>
+	        <property name="userCacheDao">
+	            <ref bean="userCacheDao" />
+	        </property>
+	        <property name="ruleDao">
+	            <ref bean="ruleDao" />
+	        </property>
+	        <property name="accountSumDao">
+	        	<ref bean="accountSumDao"/>
+	        </property>
+	         <property name="bankDao">
+	        	<ref bean="bankDao"/>
+	        </property>
+	        <!-- v1.6.7.2 RDPROJECT-547 lx 2013-12-6 start -->
+	        <property name="rewardRecordDao">
+	        	<ref bean="rewardRecordDao"/>
+	        </property>
+	        <!-- v1.6.7.2 RDPROJECT-547 lx 2013-12-6 end -->
+	        <!-- v1.6.7.2 RDPROJECT-548 lx 2013-12-6 start -->
+	        <property name="backDao">
+	        	<ref bean="backDao"/>
+	        </property>
+	        <!-- v1.6.7.2 RDPROJECT-54 lx 2013-12-6 end -->
+	  </bean>
+	  
+	  <bean id="accountSumService"
+	        class="com.p2psys.service.impl.AccountSumServiceImpl">
+	        <property name="accountSumDao">
+	            <ref bean="accountSumDao" />
+	        </property>
+	  </bean>
+	  
+</beans>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+<body>
+<!--  V1.6.6.1 RDPROJECT-180 xx 2013-09-25 start -->
+<form id="form" action="">
+<!--  V1.6.6.1 RDPROJECT-180 xx 2013-09-25 start -->
+<table class="mc">
+<tr>
+<td class="mc-l">
+    <!--左侧导航---{-->
+    <div id="navPanelContainer">
+        <div class="system-logo cd"></div>
+        <!--管理员信息---{-->
+        <#include "../adminInfo.html">
+            <!--管理员信息---}-->
+            <div class="nav-wrap">
+                <#include "left.html">
+            </div>
+    </div>
+    <!--左侧导航---}-->
+</td>
+<td class="mc-m">
+    <div class="navToggle"></div>
+</td>
+<td class="mc-r">
+<!--顶部导航---{-->
+<#include "../topNav.html">
+<!--顶部导航---}-->
+
+<!--面包屑导航---{-->
+<#assign moduleName="设置借款标额度">
+<#include "banner.html">
+<!--面包屑导航---}-->
+
+<!--工具栏--{-->
+<div id="toolbar" class="clearfix">
+    <div class="toolbor-module">
+        <input type="button" class="input-button return" value="返回" onclick="history.go(-1)">
+    </div>
+</div>
+<!--工具栏--}-->
+ 
+<div id="main" class="clearfix">
+    <div class="valBox mb15">
+        <div class="top">
+            <strong>设置借款标额度</strong>
+        </div>
+       
+        <div class="fp w349 clearfix">
+            <ul>
+                <li class="color">
+                    <div class="title">标名：</div>
+                    <div class="v">${b.name!}</div>
+                </li>
+                <li class="color">
+                    <div class="title">状态：</div>
+                    <div class="v">
+                        <#import "../../common/function.html" as func>
+                       	<!-- v1.6.6.1 zza 2013-10-11 start -->
+                        <@func.statusTypeName status=b.status item=b/>
+                        <!-- v1.6.6.1 zza 2013-10-11 end -->
+                    </div>
+                </li>
+                <li class="color">
+                    <div class="title">借款用途：</div>
+                    <div class="v">
+                        <@linkage plantext=true default=b.use></@linkage>
+                    </div>
+                </li>
+                <li>
+                    <div class="title">借款期限：</div>
+                    <div class="v">
+                        <@linkage plantext=true default=b.time_limit nid="borrow_time_limit"></@linkage>
+                    </div>
+                </li>
+                <li>
+                    <div class="title">还款方式：</div>
+                    <div class="v">
+                        <!-- v1.6.7.2 RDPROJECT-526 xx 2013-12-10 start -->
+						<@func.borrowStyle type = b.type isday = b.isday style = b.style/>
+						<!-- v1.6.7.2 RDPROJECT-526 xx 2013-12-10 end -->
+                    </div>
+                </li>
+                <li>
+                    <div class="title">借贷总金额：</div>
+                    <div class="v">
+                        ${b.account!}
+                        <input type="hidden" name="account" value="50000" /> 元
+                    </div>
+                </li>
+                <li class="color">
+                    <div class="title">年利率：</div>
+                    <div class="v">
+                        ${b.apr!} %
+                    </div>
+                </li>
+                <li class="color">
+                    <div class="title">最低投标金额：</div>
+                    <div class="v">
+                        <input type="text" size="9" maxlength="9" name="lowest_account" id="lowest_account" onkeyup="this.value=this.value.replace(/^ +| +$/g,'')" value="${b.lowest_account?if_exists}">元&nbsp;(0代表无限制)
+                    </div>
+                </li>
+                <li class="color">
+                    <div class="title">最多投标总额：</div>
+                    <div class="v">
+                        <input type="text" size="9" maxlength="9" name="most_account" id="most_account" onkeyup="this.value=this.value.replace(/^ +| +$/g,'')" value="${b.most_account?if_exists}">元&nbsp;(0代表无限制)
+                    </div>
+                </li>
+                <li>
+                    <div class="title">有效时间：</div>
+                    <!-- v1.6.6.1 zza 2013-10-10 start -->
+                    <div class="v"><@linkage plantext=true default=b.valid_time nid="borrow_valid_time"></@linkage></div>
+                    <!-- v1.6.6.1 zza 2013-10-10 end -->
+                </li>
+            </ul>
+        </div>
+        <input type="hidden" name="id" value="<#if b??&&b.id??>${b.id?c}</#if>">
+        <input type="hidden" name="type" value="update">
+    </div>
+	
+    <div class="valBox mb15">
+        <div class="top">
+            <strong>设置奖励</strong>
+        </div>
+        <div class="ro clearfix">
+            <ul>
+                <li>
+                    <#assign award=b.award!0 >
+                    <label><input type="radio" name="award" value="0"  <#if award==0 > checked="checked"</#if>  disabled="disabled"/>不设置奖励</label>
+                </li>
+                <li>
+                    <label><input type="radio" name="award" value="1"  <#if award==1 > checked="checked"</#if> disabled="disabled"/>按固定金额分摊奖励</label>
+                </li>
+                <li>
+                    <label><input type="radio" name="award" value="2" <#if award==2 > checked="checked"</#if>  disabled="disabled"/>按投标金额比例奖励</label>
+                </li>
+                <li>
+                    <label><input type="checkbox" name="is_false" value="1" <#if b.is_false?exists&&b.is_false=="1" > checked="checked"</#if>   disabled="disabled"/>标的失败时也同样奖励</label>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="valBox mb15">
+        <div class="top">
+            <strong>帐户信息公开</strong>
+        </div>
+        <div class="re clearfix">
+               <!-- v1.6.5.3 RDPROJECT-180 xx 2013.09.17 start -->
+            <ul>
+                <li>
+                    <label><input type="checkbox" name="open_account" value="1" <#if b.open_account?exists&&b.open_account=="1" > checked="checked"</#if>  disabled="disabled"/>公开我的帐户资金情况</label>
+                </li>
+                <li>
+                    <label><input type="checkbox" name="open_borrow" value="1" <#if b.open_borrow?exists&&b.open_borrow=="1" > checked="checked"</#if> disabled="disabled"/>公开我的借款资金情况</label>
+                </li>
+                <li>
+                    <label><input type="checkbox" name="open_tender" value="1" <#if b.open_tender?exists&&b.open_tender=="1" > </#if>  disabled="disabled"/>公开我的投标资金情况</label>
+                </li>
+                <li>
+                    <label><input type="checkbox" name="open_credit" value="1" <#if b.open_credit?exists&&b.open_credit=="1" > checked="checked" </#if>   disabled="disabled"/>公开我的信用额度情况</label>
+                </li>
+            </ul>
+            <!-- v1.6.5.3 RDPROJECT-180 xx 2013.09.17 end -->
+        </div>
+    </div>
+
+    <div class="add-time">
+        <span class="mr25"><strong>添加时间：</strong>${dateformat(b.addtime)}</span>
+        <span><strong>IP：</strong>${b.addip!}</span>
+    </div>
+    <!--  V1.6.6.1 RDPROJECT-180 xx 2013-09-25 start -->
+    <div><input type="button" onclick="checkForm();" value="提交"></div>
+    <!--  V1.6.6.1 RDPROJECT-180 xx 2013-09-25 end -->
+</div>
+</td>
+</tr>
+<tr>
+    <!--尾部--{-->
+    <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+    <!--尾部--}-->
+</tr>
+</table>
+</form>
+<!--  V1.6.6.1 RDPROJECT-180 xx 2013-09-25 start -->
+<script type="text/javascript">
+	function checkForm(){
+		var lowest_account = $("#lowest_account").val();
+		var most_account = $("#most_account").val();
+		if(isNaN(lowest_account)){
+			alert("最低投标金额格式错误,只能为数字。");
+			return false;
+		}
+		if(lowest_account<0){
+			alert("最低投标金额不能小于0。");
+			return false;
+		}
+		if(lowest_account>${b.account}){
+			alert("最低投标金额不能大于借款总金额。");
+			return false;
+		}
+		
+		if(isNaN(most_account)){
+			alert("最多投标金额格式错误,只能为数字。");
+			return false;
+		}
+		if(most_account<0){
+			alert("最多投标金额不能小于0。");
+			return false;
+		}
+		if(most_account>${b.account}){
+			alert("最多投标金额不能大于借款总金额。");
+			return false;
+		}
+		if(most_account>0 && most_account-lowest_account<0){
+			alert("最多投标金额不能小于最低投标金额。");
+			return false;
+		}
+		
+		$("#form").submit();
+	}
+</script>
+<!--  V1.6.6.1 RDPROJECT-180 xx 2013-09-25 start -->
+</body>
+</html>
+<#include "../jsPage.html">

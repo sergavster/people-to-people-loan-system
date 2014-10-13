@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="cooperationQQLoginAction" namespace="/cooperation/qq" extends="wzd-default">
+		<action name="login" class="cooperationQQLoginAction" method="qqLogin">
+			<result type="redirect" >${qqLoginUrl}</result>
+		</action>
+		<action name="success" class="cooperationQQLoginAction" method="loginSuccess">
+			<result name="loginRegister">/user/register.html</result>
+			<result name="loginError">/user/login.html</result>
+		</action>
+	</package>
+</struts>

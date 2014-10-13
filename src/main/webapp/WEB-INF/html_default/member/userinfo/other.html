@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<#include "../../include/resource.html"> 
+<body>
+<#assign nid="member">
+<#include "../../include/header.html">
+<!--header-end-->
+<!--用户中心的主栏目 开始-->
+<div id="main" class="clearfix" >
+<div class="wrap950 " style="margin-top:0">
+	<!--左边的导航 开始-->
+	<div class="user_left">
+		<#include "../user_menu.html">
+	</div>
+	<!--左边的导航 结束-->
+	
+	<!--右边的内容 开始-->	
+	<div class="user_right">
+		<#if msg?exists>
+		<div id="msg24">
+			<p class="ok"> ${msg} </p>
+		</div>
+		<#else>
+			<#if errormsg?exists>
+				<div id="msg25">
+					<p class="error"> ${errormsg} </p>
+				</div>
+			</#if>
+		</#if>
+		<div class="user_right_menu">
+			<#assign userinfo_type="other">
+			<#include "userinfo_menu.html"> 
+		</div>
+		
+		<div class="user_right_main">
+			<form action="" name="form1" method="post" >
+				<div class="user_help alert">请填写您工作经历</div>
+		<div class="user_right_border">
+			<div class="l">个人能力：</div>
+			<div class="c">
+				<textarea rows="7" cols="50" name="ability"><#if info?exists&&info.ability?exists>${info.ability}</#if></textarea><br />（如电脑能力、组织协调能力或其他） 
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">个人爱好：</div>
+			<div class="c">
+				<textarea rows="7" cols="50" name="interest"><#if info?exists&&info.interest?exists>${info.interest}</#if></textarea><br />（突出自己的个性，工作态度或他人对自己的评价等）
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">其他说明：</div>
+			<div class="c">
+				<textarea rows="7" cols="50" name="others"><#if info?exists&&info.others?exists>${info.others}</#if></textarea><br />
+				
+			</div>
+		</div>
+		<div class="user_right_border">
+			<div class="l"></div>
+			<div class="c">
+				<input type="submit" class="btn-action"  name="name"  value="确认提交" size="30" /> 
+			</div>
+		</div>
+		
+		<div class="user_right_foot alert">
+		 * 温馨提示：我们将对所有的信息进行保密
+		</div>
+		<!--工作经历   结束-->
+				<input type="hidden" name="type" value="1" />
+		</form>
+		</div>
+ 	 </div>
+	<!--右边的内容 结束-->
+	</div>
+</div>
+<!--用户中心的主栏目 结束-->
+<script src="${request.getContextPath()}${theme_dir}/media/js/modal.js"></script>
+
+<#include "../../include/footer.html"> 
+</body>
+</html>

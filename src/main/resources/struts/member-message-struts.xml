@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="memberMessage" namespace="/member/message"
+		extends="wzd-default">
+		<action name="box" class="memberMessageAction" method="box">
+			<result name="success" type="ftl">/member/message/box.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="sent" class="memberMessageAction" method="sent">
+			<result name="success" type="ftl">/member/message/sent.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		
+		<action name="send" class="memberMessageAction" method="send">
+			<result name="fail" type="ftl">/member/message/send.html</result>
+			<result name="success" type="ftl">/member/message/send.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		
+		<action name="set" class="memberMessageAction" method="set">
+			<result name="success" type="ftl">/member/message/view.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		
+		<action name="view" class="memberMessageAction" method="view">
+			<result name="success" type="ftl">/member/message/view.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		
+	</package>
+</struts>

@@ -1,0 +1,288 @@
+<#assign webroot=request.getContextPath()>
+
+<#macro displayUserType type_id>
+	<#if type_id==1>
+		超级管理员
+	<#elseif type_id==2>
+		普通用户
+	<#elseif type_id==3>
+		客服
+	<#elseif type_id==7>
+		兼职客服
+	<#elseif type_id==3>
+		信贷审核
+	<#elseif type_id==3>
+		白银会员
+	<#elseif type_id==3>
+		黄金会员
+	<#elseif type_id==15>
+		财务
+	<#else>
+		其他
+	</#if>
+</#macro>
+
+<#macro borrowTypeName item>
+	<#if item.type==101>
+		秒标
+	<#elseif item.type==104>
+		净值标
+	<#elseif item.type==106>
+		文化艺术区
+	<#elseif item.type==107>
+		慈善标
+	<#elseif item.type==109>
+		项目标
+	<#elseif item.type==110>
+		流转标
+	<#elseif item.type==>
+		学信标
+	<#elseif item.type==102>
+		信用标
+	<#elseif item.type==112>
+		担保标
+	<#elseif item.type==113>
+		质押标
+	<#else>
+		抵押标
+	</#if>
+</#macro>
+
+<#macro statusTypeName status>
+	<#if status==-1>
+		已撤回
+	<#elseif status==0>
+		等待初审
+	<#elseif status==1>
+		初审通过
+	<#elseif status==2>
+		初审未通过
+	<#elseif status==3>
+		复审通过
+	<#elseif status==4||status==49>
+		复审未通过
+	<#elseif status==5||status==59>
+		用户取消
+	<#elseif status==6>
+		还款中
+	<#elseif status==7>
+		部分还款
+	<#elseif status==8>
+		<#if borrow.type==110 >
+		停止流转
+		<#else>
+		还款成功
+		</#if>
+
+	<#else>
+		错误状态
+	</#if>
+</#macro>
+
+<#function borrowStatusTypeName borrow>
+	<#if borrow.status??>
+	   <#return "等待初审"> 
+	<#elseif status==-1>
+		<#return "审核失败"> 
+	<#elseif status==0>
+		<#return "等待初审">
+	<#elseif status==1>
+		<#return "初审通过"> 
+	<#elseif status==2>
+		<#return "初审未通过"> 
+	<#elseif status==3>
+		<#return "还款中"> 
+	<#elseif status==4||status==49>
+		<#return "复审未通过"> 
+	<#elseif status==5||status==59>
+		<#return "用户取消"> 
+	<#elseif status==6>
+		<#return "还款中"> 
+	<#elseif status==7>
+		<#return "部分还款"> 
+	<#elseif status==8>
+		<#if borrow.type==110>
+			<#return "停止流转">
+		<#else>  
+			<#return "还款成功"> 
+		</#if>
+	<#else>
+		<#return "错误状态"> 
+	</#if>
+</#function>
+
+<#function borrowTenderText borrow>
+	<#if borrow.status??>
+	   <#if borrow.status==1>
+	   	<#return "立即投标"> 
+	   </#if>
+	   <#return borrowStatusTypeName(borrow)> 
+	<#else>
+	   <#return "">
+	</#if>
+</#function>
+
+<#macro showTenderButton borrow>
+    <#assign nowTime=dateformat("now") >
+	<#if borrow.status==0> 
+		<a class="btn-action">等待初审</a>
+	<#elseif borrow.status==1&&(getRemainTime(borrow.addtime,borrow.valid_time)?number lt 0)&&borrow.type!=110>
+		<a class="btn-action">已经结束</a>
+	<#elseif borrow.status==1&&((borrow.account_yes)?number lt (borrow.account)?number) > 
+		<#if borrow.type==110><a id="invest_dialog" class="btn-action" href="#">立即购买</a><#else><a id="invest_dialog"  class="btn-action" href="#">立即投标</a></#if>
+	<#elseif borrow.status==1&&((borrow.account_yes)?number gt (borrow.account)?number || (borrow.account_yes)?number==(borrow.account)?number) > 
+		<#if borrow.type==110><a class="btn-action">流转中</a><#else><a class="btn-action">等待复审</a></#if>
+	<#elseif borrow.status==2> 
+		<a class="btn-action">初审失败</a>
+	<#elseif borrow.status==3> 
+		<a class="btn-action">还款中</a>
+	<#elseif borrow.status==5||borrow.status==-1> 
+		<a class="btn-action">用户取消</a>
+	<#elseif borrow.status==4> 
+		<a class="btn-action">复审失败
+	<#elseif borrow.status==6> 
+		<a class="btn-action">还款中</a>
+	<#elseif borrow.status==7> 
+		<a class="btn-action">还款中</a>
+	<#elseif borrow.status==8> 
+		<#if borrow.type==110><a class="btn-action">还款中</a><#else>
+		<a class="btn-action">已还款</a></#if>
+	<#else> 
+		<a class="btn-action">用户取消</a> 
+	</#if> 
+	<#if borrow.isday??&&borrow.isday==1> 
+		<#assign time_limit=(borrow.time_limit_day!0)+"天" > 
+		<#assign income=interest(100,borrow.apr/100,borrow.time_limit_day,"end")-100> 
+	<#elseif borrow.style??&&borrow.style=="2"> 
+		<#assign time_limit=(borrow.time_limit!0)+"月" >
+		<#assign income=interest(100,borrow.apr/100,borrow.time_limit,"monthEnd")-100 >
+	<#else>
+ 		<#assign time_limit=(borrow.time_limit!0)+"月" >
+		<#assign income=interest(100,borrow.apr/100,borrow.time_limit,"month")-100 > 
+	</#if>
+	<p>投标100元,年利率${borrow.apr}%，期限${time_limit},可获得利息收益￥${income}元</p>
+</#macro>
+
+<#macro getInterest borrow >
+<#if borrow.isday??&&borrow.isday==1> 
+<#assign income=interest(borrow.account,borrow.apr/100,borrow.time_limit_day,"end")-borrow.account?number> 
+<#else> 
+<#assign income=interest(borrow.account,borrow.apr/100,borrow.time_limit,"month")-borrow.account?number > 
+</#if>
+${income}
+</#macro>
+
+<#macro showBorrowIcon item>
+   <#if item.type==101>	
+    <a href="" target="_blank" 
+        rel="tooltip" title="秒标满额系统自动还款">
+           <img src="${request.getContextPath()}${theme_dir}/images/miao.png" border="0" />
+        </a></#if>	
+        
+    <#if item.type==102>
+      <a href="" target="_blank" 
+        rel="tooltip" title="网站给予的信用额度借款标">
+          <img src="${request.getContextPath()}${theme_dir}/images/xin.png" border="0" alt="点击查看详情" />
+       </a> </#if> 
+	<#if item.type==110>
+        <a href="" target="_blank" 
+        rel="tooltip" title="网站内流转的借款标">
+        <img src="${request.getContextPath()}${theme_dir}/images/zhuan.png" border="0" alt="点击查看详情" />
+          </a></#if>
+    <#if item.type==104>
+        <a href="" target="_blank" 
+        rel="tooltip" title="借款者在网站内资产做保障的借款标">
+          <img src="${request.getContextPath()}${theme_dir}/images/jin.png" border="0" alt="点击查看详情" />
+          </a></#if> 
+   
+	<#if item.type==112>
+        <a href="" target="_blank" 
+        rel="tooltip" title="站内给予的担保额度内发布的借款">
+        <img src="${request.getContextPath()}${theme_dir}/images/dan.png" border="0" alt="点击查看详情" />
+        </a></#if>
+
+    <#if item.isday==1>
+        <a>
+         <img src="${request.getContextPath()}${theme_dir}/images/tian.png" border="0" alt="点击查看详情" />
+        </a></#if>
+     <#if item.award??&&item.award!=0>
+       <a>
+         <img src="${request.getContextPath()}${theme_dir}/images/jiang.png" border="0" alt="点击查看详情" />
+        </a></#if> 
+	 <#if item.pwd??&&item.pwd!="">
+        <a>
+         <img src="${request.getContextPath()}${theme_dir}/images/lock.gif" border="0" alt="点击查看详情" />
+        </a>
+   </#if> 			
+    <#if item.type==113>
+        <a href="" target="_blank" 
+        rel="tooltip">
+         <a><img src="${request.getContextPath()}${theme_dir}/images/zhi.png" border="0" alt="点击查看详情" /></a>
+        </a>
+		</#if>
+		<#if item.type!=113&&item.type==103>
+  <a href="" target="_blank" 
+        rel="tooltip" >
+         <a><img src="${request.getContextPath()}${theme_dir}/images/di.png" border="0" alt="点击查看详情" /></a>
+        </a>
+		</#if>
+
+</#macro>
+
+<#macro showRemainTime addtime valid_time>
+<span id="endtime" class="endtime" data-time="${getRemainTime(addtime,valid_time)!0}"></span>
+</#macro>
+
+<#function getRemainTime addtime valid_time>
+<#assign l=getLinkage("valid_time","id",valid_time) >
+<#if l??&&l.value??>
+	<#assign day=(l.value)?number>
+	<#assign remainTime=(addtime?number+day*24*60*60-(dateformat("now"))?number)?c >
+	<#return remainTime>
+</#if>
+<#return -1>
+</#function>
+
+
+<#function getInterest borrow >
+<#if borrow.isday??&&borrow.isday==1> 
+<#assign income=interest(borrow.account,borrow.apr/100,borrow.time_limit_day,"end")-borrow.account?number> 
+<#else> 
+<#assign income=interest(borrow.account,borrow.apr/100,borrow.time_limit,"month")-borrow.account?number > 
+</#if>
+<#return income>
+</#function>
+
+<#function getRepaytime borrow >
+<#if borrow.isday??&&borrow.isday==1> 
+<#assign repaytime=dateroll(borrow.verify_time!0,0,0,borrow.time_limit_day,"yyyy-MM-dd") > 
+<#else> 
+<#assign repaytime=dateroll(borrow.verify_time!0,0,borrow.time_limit,0,"yyyy-MM-dd") > 
+</#if>
+<#return repaytime>
+</#function>
+
+<#function format4 num >
+<#assign temp=((((num)!0)?number)/10000) >
+<#if temp gt 1>
+<#return temp?string("#")+"万" >
+</#if>
+<#return num >
+</#function>
+
+<#function format2 num>
+<#return (((num)!0)?number)?string("###,###.##")>
+</#function>
+
+<#function ceil num>
+<#assign temp=((num)?c) >
+<#assign len=(temp?index_of("."))>
+<#if (len+3 gt (temp?length))||(len lt 0)>
+	<#assign len=(temp?length)>
+<#else>
+	<#assign len=len+3 >
+</#if>
+<#assign temp=temp?substring(0,len) >
+<#return (temp?number)?c>
+</#function>
+

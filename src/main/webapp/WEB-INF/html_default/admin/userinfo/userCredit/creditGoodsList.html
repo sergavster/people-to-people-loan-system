@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<!--v1.6.7.2 RDPROJECT-569 cx 2013-12-16 end  -->
+<html>
+<#include "../../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <#include "../../adminInfo.html">
+                        <div class="nav-wrap">
+                             <#include "../left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="积分兑换产品管理">
+                        <#include "../banner.html">
+                            <!--面包屑导航---}-->
+						<#if param?exists>
+							<#if param.get("name")?exists><#assign name=param.get("name")></#if>
+							<#if param.get("startDate")?exists><#assign startDate=param.get("startDate")></#if>
+							<#if param.get("endDate")?exists><#assign endDate=param.get("endDate")></#if>
+						</#if>
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                             <div class="toolbor-module export"></div>
+								<div class="toolbor-module search">    
+                                       <a href="addGoods.html" class="input-button" style="line-height:24px;">+新增积分商品</a>
+                                  </div>  
+                                <div class="toolbor-module search">
+			                       		 <div style="height:22px;line-height:22px;float:left;">添加时间：</div>
+			                        	<input class="_search-value js-datetime" name="startDate" id="startDate" value="${startDate!}"  size="15"/>
+			                        	<div style="height:22px;line-height:22px;float:left;margin:0 8px;"> 到 </div>
+			                        	<input class="_search-value js-datetime" name="endDate" id="endDate"  value="${endDate!}" size="15"/>
+			                       		<input type="button" value="搜索"  class="input-button" onclick="searchList();">
+			                     </div>   
+                                 <div class="toolbor-module search">
+                                    <div style="height:22px;line-height:22px;float:left;">商品名称：</div>
+                                    <input type="text" name="name" id="name" value=""  class="search-value">
+                                   </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+							 <form action="" method="post">
+			  	<table class="data-list" >
+				<tr>
+					<td>名称</td>
+		            <td>所需积分</td>
+					<td>商品数量</td>
+					<td>上架时间</td>
+					<td>添加时间</td>
+					<td>修改时间</td>
+					<td>商品类别</td>	
+					<!--  <td>商品详情</td>-->		
+					<td>商城售价</td>
+					<td>市场价</td>
+					<td>商品属性信息</td>
+					<td>操作</td>
+				</tr>
+				<#list list as item>
+				<tr class="s" >
+					<td>${item.name!}</td>
+					<td>${item.credit_value!}</td>
+					<td>${item.store!}</td>
+					<td>${dateformat(item.shelves_time!)}</td>
+					<td>${dateformat(item.add_time!)}</td>
+					<td>${dateformat(item.update_time!)}</td>
+					<td>${item.categoryName!}</td>
+					<!--  <td><a href="${item.pic_url}" target="_blank">${item.description!}</a></td>-->
+					<td>${item.cost!}</td>
+					<td>${item.market_price!}</td>
+					<td><a href="${item.pic_url}" target="_blank">${item.attribute!}</a></td>
+					<td><a class="un" href="updateGoods.html?id=${item.id!}">修改</a>
+					<a class="un" onclick="javascripts:delGoods(${item.id});">删除</a>
+					</td>
+				</tr>
+				</#list>
+				<tr>
+				<td colspan="10" class="action">
+				<div class="floatl">
+					</div>
+				
+				<div class="floatr">
+			
+				</div>
+				</td>
+			</tr>
+				<tr>
+					<td colspan="11" class="page">
+						<#import "../../../common/page.html" as pager>  
+			         	<@pager.pagination page=page url="/admin/credit/creditGoodsList.html" map=param style="style1"  /> 
+					</td>
+				</tr>
+			</table>
+		</form>	
+			<script type="text/javascript">
+			var urls=window.location.href;
+			var index=urls.indexOf("?");
+			if(index>0){
+			  urls=urls.substring(0,index);
+			 }
+            function searchList(){
+               var sou = "";
+               var name = $("#name").val();
+                if (name!=""&&name!=null){
+                     sou += "&name="+name;
+                }
+                 var startDate = $("#startDate").val();
+                 if (startDate!="" && startDate!=null){
+                      sou += "&startDate="+startDate;
+                 }
+                 var endDate = $("#endDate").val();
+ 				if (endDate!=null && endDate!=""){
+ 					sou += "&endDate="+endDate;
+ 				}
+                location.href=urls+"?search=true"+sou;
+              }
+            
+            function delGoods(id){
+            	if(confirm("删除后不可恢复，你确定要删除？")){
+            		window.location.href="delGoods.html?id="+id;
+            	}
+            }
+			</script>
+           </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+<div class="msgClass">
+<@s.actionmessage/>
+</div>
+    </body>
+</html>
+<#include "../../jsPage.html">
+<script>
+</script>
+<!--v1.6.7.2 RDPROJECT-569 cx 2013-12-16 end  -->

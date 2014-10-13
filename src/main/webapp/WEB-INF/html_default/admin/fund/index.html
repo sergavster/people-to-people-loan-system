@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<!-- v1.6.6.2 RDPROJECT-277 xx 2013-10-22 start -->
+<!-- 新增页面 -->
+<!-- v1.6.6.2 RDPROJECT-277 xx 2013-10-22 end -->
+<html>
+<#include "../head.html">
+<body>
+<table class="mc">
+    <tr>
+        <td class="mc-l">
+            <!--左侧导航---{-->
+            <div id="navPanelContainer">
+                <div class="system-logo cd"></div>
+                <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                <!--管理员信息---}-->
+                <div class="nav-wrap">
+                    <#include "left.html">
+                </div>
+            </div>
+            <!--左侧导航---}-->
+        </td>
+        <td class="mc-m">
+            <div class="navToggle"></div>
+        </td>
+        <td class="mc-r">
+            <!--顶部导航---{-->
+            <#include "../topNav.html">
+            <!--顶部导航---}-->
+            
+            <div id="breadcrumbNav">
+			    <div class="home-icon"></div>
+			    <ul>
+			        <li>基金信托</li>
+			        <li class="v">基金信托信息列表</li>
+			    </ul>
+			</div>
+
+            <!--工具栏--{-->
+            <div id="toolbar" class="clearfix">
+            	<div class="toolbor-module export">
+            		<input type="button" onclick="exportxls()" value="导出报表" class="input-button export-btn"/>
+            	</div>
+            	<div class="toolbor-module">
+                    <a href="add.html" class="input-button" style="line-height:24px;">+新增</a>
+                </div>
+            	<div class="toolbor-module search">
+                   <input type="button" value="搜索"  class="input-button" onclick="search();">
+                </div>
+                <div class="toolbor-module search">
+                    <div style="height:22px;line-height:22px;float:left;">类型：</div>
+                   <div class="select-box" id="type">
+                        <div class="tag-select">全部</div>
+                        <ul class="tag-options">
+                           <li data-value="0" <#if type??&&type==0 >data-selected="selected"</#if> class="open-selected">全部</li>
+                           <li data-value="1" <#if type??&&type==1 >data-selected="selected"</#if>>基金</li>
+                           <li data-value="2" <#if type??&&type==2 >data-selected="selected"</#if>>信托</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="toolbor-module search">
+                    <div style="height:22px;line-height:22px;float:left;">发布时间：</div>
+                    <input class="_search-value js-datetime" name="dotime1" id="dotime1" value="" size="15"/>
+                    <div style="height:22px;line-height:22px;float:left;margin:0 8px;"> 到 </div>
+                    <input class="_search-value js-datetime" name="dotime2" id="dotime2" value=""  size="15"/>
+                </div>
+                <div class="toolbor-module search">
+                    <input type="text" name="keywords" id="keywords" value="请输入关键字" data-value="请输入关键字" class="search-value">
+            	</div>
+            </div>
+            <!--工具栏--}-->
+
+            <div id="main" class="clearfix">
+                <form action="" method="post">
+                    <table class="data-list">
+                        <tr class="header">
+                            <td>ID</td>
+                            <td>发布人</td>
+                            <td>标题</td>
+                            <td>募集资金(万)</td>
+                            <td>已认购 (万) | 次</td>
+                            <td>利率</td>
+                            <td>产品期限</td>
+                            <td>发布时间</td>
+                            <td>状态</td>
+                            <td>操作</td>
+                        </tr>
+                        <#import "../../common/function.html" as func>
+                        <#list list as item>
+                            <tr class="s">
+                                <td>${(item.id!)?c}</td>
+                                <td>
+                                    <a href="javascript:void(0)" onclick='alertPop("用户详细信息查看","url:get?${request.getContextPath()}/admin/attestation/viewUserInfo.html?username=${item.username!}",500,230,"true","","true","text")'>
+                                        ${item.username!}
+                                    </a>
+                                </td>
+                                <td title="${item.name}" class="tal">
+                                    <span style="color:#FF0000">【<#if item.type==1>基金<#elseif item.type==2>信托</#if>】</span>
+                                    <a href="${request.getContextPath()}/fund/detail.html?fundId=${item.id?c}" target="_blank">${item.name!}</a>
+                                </td>
+                                <td>${item.account?c}</td>
+                                <td>${item.accountYes?c} | ${item.tenderTime?c}</td>
+                                <td>${item.apr}%</td>
+                                <td>${item.timeLimit}<#if item.isDay?? && item.isDay==0>个月<#elseif item.isDay?? && item.isDay==1>天</#if></td>
+                                <td>${dateformat(item.addTime?c!)}</td>
+                                <td><#if item.status==0>未发布<#elseif item.status==1>发布中<#elseif item.status==8>认购完成</#if></td>
+                                <td>
+                                	<#if item.status==0><a href="/admin/fund/modifyStatus.html?id=${item.id?c}&status=1">开启</a><#elseif item.status==1><a href="/admin/fund/modifyStatus.html?id=${item.id?c}&status=0">关闭</a></#if>
+                                	<#if item.status!=8><a href="/admin/fund/modify.html?id=${item.id?c}">修改</a></#if>
+                                </td>
+                            </tr>
+                        </#list>
+                    </table>
+                </form>
+
+                <!--底部工具栏--{-->
+                <div id="bottomToolbar" class="clearfix">
+                    <div class="other-tool">
+                        <dl class="refresh-data">
+                            <dt class="refresh-data-icon"></dt>
+                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                        </dl>
+                    </div>
+
+                    <!--翻页系统--{-->
+                    <div class="container">
+                        <#import "../../common/page.html" as pager>
+                        <@pager.pagination page=page url=currentUrl map=param style="style1" />
+                    </div>
+                    <!--翻页系统--}-->
+                </div>
+                <!--底部工具栏--}-->
+
+                <script>
+                    var urls = '?search=true';
+                    var xlsurl = '?actionType=export';
+                    function search(){
+                        var sou = "";
+                        var keywords = $("#keywords").val();
+                        if (keywords.length>0 && keywords!="请输入关键字"){
+                            sou += "&keywords="+keywords;
+                        }
+                        var dotime1 = $("#dotime1").val();
+    					if (dotime1!=null&&dotime1!=""&&dotime1!="undefine"){
+    						sou += "&dotime1="+dotime1;
+    					}
+    					var dotime2 = $("#dotime2").val();
+    					if (dotime2!=null&&dotime2!=""&&dotime2!="undefine"){
+    						sou += "&dotime2="+dotime2;
+    					}
+    					var type = $("#type").find(".open-selected").attr("data-value");
+    					if(type>0){
+    						sou += "&type="+type;
+    					}
+                        location.href = urls+sou;
+                    }
+                    function exportxls(){
+                   		var sou = "";
+                   		var keywords = $("#keywords").val();
+                        if (keywords.length>0 && keywords!="请输入关键字"){
+                            sou += "&keywords="+keywords;
+                        }
+                        var dotime1 = $("#dotime1").val();
+    					if (dotime1!=null&&dotime1!=""&&dotime1!="undefine"){
+    						sou += "&dotime1="+dotime1;
+    					}
+    					var dotime2 = $("#dotime2").val();
+    					if (dotime2!=null&&dotime2!=""&&dotime2!="undefine"){
+    						sou += "&dotime2="+dotime2;
+    					}
+    					var type = $("#type").find(".open-selected").attr("data-value");
+    					if(type>0){
+    						sou += "&type="+type;
+    					}
+                        location.href = xlsurl+sou;
+                    }
+                </script>
+            </div>
+
+        </td>
+    </tr>
+    <tr>
+        <!--尾部--{-->
+        <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+        <!--尾部--}-->
+    </tr>
+</table>
+
+</body>
+</html>
+<#include "../jsPage.html">

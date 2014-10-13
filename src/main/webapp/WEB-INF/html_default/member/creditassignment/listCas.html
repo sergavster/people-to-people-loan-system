@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<#assign web_title="债券列表 - ${webname!}p2p网贷平台">
+<#include "../../include/resource.html">
+<body>
+<#assign nid="invest"> <#include "../../include/header.html">
+<#include "../../common/function.html"> 
+<#import "../../common/function.html" as func>
+<div id="bond_list">
+  <ul class="title">
+    <li class="border_left">债券列表</li>
+  </ul>
+  <div class="con">
+   <!--  <ul class="sort clearfix">
+      <li> 排序： </li>
+      <li><a href="#">剩余本金</a></li>
+      <li><a href="#">剩余时间</a></li>
+      <li><a href="#">收益率</a></li>
+    </ul> -->
+	<#if (itemList??)&&(itemList?size > 0)>
+	<#list itemList as item>
+    <ul class="release clearfix">
+      <li class="tit"><a href="#"><font>流转资金</font>[<a target="_blank" href="${webroot}/invest/detail.html?borrowid=${item.related_borrow_id?c}" title="${item.borrow_name!'-'}详情">${item.username}:${item.borrow_name}</a>]</a></li>
+      <li><span>债权人：</span>${item.username}</li>
+      <li><span>剩余本金：</span>${item.credit_price - item.sold_account}</li>
+      <li><span>债权截止日期：</span>${dateformat(item.buy_end_time)}</li>
+      <li><span>转让价格：</span>￥${item.credit_price}</li>
+      <li><span>债权等级：</span><#if item.level == 2>优质<#else>普通</#if></li>
+      <li><span>发布日期：</span>${dateformat(item.addtime)}</li>
+      <li><span>预估收益率：</span>${(item.credit_value - item.credit_price) * 100 / item.credit_price }%</li>
+      <li><span>状态：</span>转让中</li>
+      <li class="btn_li"><a class="bond_btn" href="${webroot}/member/ca/view.html?caId=${item.id?c}">立即购买</a></li>
+    </ul>
+    </#list>
+    </#if>
+  </div>
+</div>
+<#include "../../include/footer.html">
+</body>
+<script>
+$("#bond_list").tabChange({
+	isClick:false,
+    isHover:true,
+	childLi:".title li",//tab选项卡
+	childContent:".con",//tab内容
+	hoverClassName:"hover"//选中当前选项卡的样式
+	});
+</script>
+</html>

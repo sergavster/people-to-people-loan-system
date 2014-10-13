@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<#include "../../include/resource.html">
+<body>
+	<#assign nid="member"> 
+	<#include "../../include/header.html">
+	<!--header-end-->
+	<!--用户中心的主栏目 开始-->
+	<div id="main" class="clearfix" >
+		<div class="wrap950 " style="margin-top:0">
+			<!--左边的导航 开始-->
+			<div class="user_left">
+					<#assign mid="m_identify" >
+			<#include "../user_menu.html"></div>
+			<!--左边的导航 结束--> 
+
+			<!--右边的内容 开始-->
+			<div class="user_right">
+				<div id="msg25" style="display: none;">
+					<p class="error"></p>
+				</div>
+				<div class="user_right_menu">
+					<#assign userinfo_type="phone">
+					<#include "identify_menu.html"></div>
+				<div class="user_right_foot alert">
+				<#if user?exists&&user.phone_status?exists&&user.phone_status==2>
+					手机认证正在审核！
+				<#elseif user?exists&&user.phone_status?exists&&user.phone_status==1>
+					已完成手机认证，认证号码:${user.phone!}
+				<#else> 
+				<form action="" method="post" id="post">
+					手机号码：<input type="text" name="phone" id="phone" value="${(session_user.phone)?default("")}" /> 
+							<input name="valicode" type="text" size="11" maxlength="5" tabindex="3" id="valicode"/>&nbsp;
+							<input type="button" value="获取验证码"  class="btn timeval" style="width:110px; height:30px;" onclick="doajax();"/>
+							<input type="button"  class="btn-action subphone" value="短信验证" onclick="sms()"/>
+							<input type="submit"  class="btn-action newsubphone" value="人工认证" />
+							<input type="hidden"  name="phoneType" value="1" class="phoneType" />
+							
+							<input type="hidden"  name="actionType" value="modifyPhone" class="subphone" />
+							<br />
+							<br />
+				</form>
+				</#if>
+				 <script>
+					jQuery(function(){
+					jQuery('.subphone').click(function(){
+						var phone = jQuery('#phone').val();
+						if(phone==''){
+							alert('手机号码不能为空'); 
+							return false;
+						}else{
+							 reg=/^1[3|4|5|8][0-9]{9}$/; 
+							if(!reg.test(phone)){
+								alert('手机号码格式不正确！');
+								return false;
+							}
+						}
+						});
+				
+					});
+				function doajax(){
+					var phone = jQuery('#phone').val();
+					if(phone==''){
+						alert('手机号码不能为空'); 
+						return false;
+					}else{
+						 reg=/^1[3|4|5|8][0-9]{9}$/; 
+						if(!reg.test(phone)){
+							alert('手机号码格式不正确！');
+							return false;
+						}
+					}
+					
+					if(phone==''){
+						alert("手机号码不能为空");
+					}else{
+					$(function(){
+						$.ajax({
+							"url": "${webroot}/member/identify/mobileaccess.html?mobile="+phone+"&phone_type="+1,
+							"type": "post",
+							"cache": "false",
+							"data": {'name':$("#phone").val()},
+							"dataType": "json",
+							"error": function(){
+							},
+							"success": function(data){
+								// v1.6.7.2 RDPROJECT-505 zza 2013-12-04 start
+								//alert(data);
+								if(data != null && data.data != ""){
+									alert(data.data);
+									// v1.6.7.2 RDPROJECT-505 zza 2013-12-04 end
+									return false;
+								}else{
+									var Time;
+									var phone = jQuery('#phone').val();	
+									var now = new Date(); 
+									var gettime=now.getTime();
+									var phoneBtn = $(".timeval");
+									var timeVal = parseInt("60");
+									Time = setInterval(function(){
+										timeVal--;
+										if(timeVal>0)
+										{
+											phoneBtn.val(timeVal+"秒后重新获取").attr("disabled","disabled");
+										}
+										else{
+											timeVal="60";
+											phoneBtn.val("获取验证码").removeAttr("disabled","disabled");
+											clearInterval(Time);
+											}
+										},1000) 
+								}
+							}
+						});
+					});
+					}
+					
+				}
+                function sms(){
+                	var phone = jQuery('#phone').val();
+                	var valicode = jQuery('#valicode').val();
+					if(phone==''){
+						alert('手机号码不能为空'); 
+						return false;
+					}else{
+						 reg=/^1[3|4|5|8][0-9]{9}$/; 
+						if(!reg.test(phone)){
+							alert('手机号码格式不正确！');
+							return false;
+						}else{
+							$(function(){
+								$.ajax({
+									"url": "${webroot}/member/identify/phoneSms.html?mobile="+phone+"&valicode="+valicode,
+									"type": "post",
+									"cache": "false",
+									"data": {'name':$("#phone").val()},
+									"dataType": "json",
+									"error": function(){
+									},
+									"success": function(data){
+										// v1.6.7.2 RDPROJECT-505 zza 2013-12-04 start
+										if(data != null && data.data != ""){
+										// v1.6.7.2 RDPROJECT-505 zza 2013-12-04 end
+											var error= $(".error").html(data.data);
+											if(error!=''){
+												$("#msg25").css("display","block");
+
+						                	}
+										}
+									}
+								});
+							});
+						}
+					}
+					
+                }
+    
+		</script>
+		<!--邮箱认证 结束-->
+				<div class="user_right_foot alert">
+				 * 温馨提示：我们将对所有的信息进行保密
+				 如何您长期未收到短信，可直接点击人工认证按钮进行认证
+				</div>
+				</div>
+			</div>
+			<!--右边的内容 结束-->
+		</div>
+	</div>
+	<!--用户中心的主栏目 结束-->
+	<script
+		src="${request.getContextPath()}/themes/soonmes/media/js/modal.js"></script>
+
+	<#include "../../include/footer.html">
+</body>
+</html>

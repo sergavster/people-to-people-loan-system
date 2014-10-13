@@ -1,0 +1,146 @@
+<div id="footer">
+	<div class="footer-box">
+		<div class="friendbox">
+		<!-- v1.6.5.3 RDPROJECT-39  zza 2013-09-12 start -->
+			<dl class="clearfix youqing">
+				<#if (cooperativePartnerPic?exists)&&(cooperativePartnerPic?size>0)>
+				<dt>合作伙伴</dt>
+				<#list cooperativePartnerPic as item>
+				<dd>
+					<#if item.pic??>
+					<a href="${item.url}" target="_blank">
+                   	<!-- v1.6.6.2 图片显示 zza 2013-10-31 start -->
+                   	<#if !request.getContextPath()?ends_with("/") && !item.pic?starts_with("/")>
+                   		<img src="${request.getContextPath()}/${item.pic!}" height="50" width="50"/>
+                   	<#else>
+                   		<img src="${request.getContextPath()}${item.pic!}" height="50" width="50"/>
+                   	</#if>
+                    <!-- v1.6.6.2 图片显示 zza 2013-10-31 end -->
+					<#else>
+					<a href="${item.url}" target="_blank">${item.name!}</a>
+					</#if>
+				</dd>
+				</#list> 
+			</dl>
+			</#if>
+			<#if (linksPic?exists)&&(linksPic?size>0)> 
+			<dl class="clearfix hezuo">
+				<dt>友情链接</dt>
+				<#list linksPic as item>
+				<dd>
+					<#if item.pic??>
+					<a href="${item.url}" target="_blank">
+                   	<!-- v1.6.6.2 图片显示 zza 2013-10-31 start -->
+	                   	<#if !request.getContextPath()?ends_with("/") && !item.pic?starts_with("/")>
+	                   		<img src="${request.getContextPath()}/${item.pic!}" height="50" width="50"/>
+	                   	<#else>
+	                   		<img src="${request.getContextPath()}${item.pic!}" height="50" width="50"/>
+	                   	</#if>
+                    <!-- v1.6.6.2 图片显示 zza 2013-10-31 end -->
+					</a>
+					<#else>
+					<a href="${item.url}" target="_blank">${item.name!}</a>
+					</#if>
+				</dd>
+				</#list> 
+			</dl>
+			</#if>
+		</div>
+		<!-- v1.6.5.3 RDPROJECT-39  zza 2013-09-12 end -->
+		<div class="footer-box-list clearfix">
+			<ul>
+				<li class="title1 footer-box-list-title">交易指南</li>
+				<li><a href="${webroot}/article/list.html?catalog=57">收费规则</a>
+				</li>
+				<li><a href="${webroot}/article/list.html?catalog=101">如何借款</a>
+				</li>
+				<li><a href="${webroot}/article/list.html?catalog=100">如何投资</a>
+				</li>
+			</ul>
+			<ul>
+				<li class="title2 footer-box-list-title">使用帮助</li>
+				<li><a href="${webroot}/article/list.html?catalog=98">常见问题</a>
+				</li>
+				<li><a href="${webroot}/article/list.html?catalog=98">新手指南</a>
+				</li>
+				<li><a href="${webroot}/article/list.html?catalog=22">网站公告</a>
+				</li>
+			</ul>
+			<ul>
+				<li class="title3 footer-box-list-title">安全保护</li>
+				<li><a href="${webroot}/article/list.html?catalog=59">媒体报道</a>
+				</li>
+				<li><a href="${webroot}/article/list.html?catalog=3">政策法规</a></li>
+				<li><a href="${webroot}/article/list.html?catalog=63">商业模式</a>
+				</li>
+
+			</ul>
+			<ul>
+				<li class="title4 footer-box-list-title">关于我们</li>
+				<li><a href="${webroot}/article/list.html?catalog=106">合作伙伴</a>
+				</li>
+				<li><a href="${webroot}/article/list.html?catalog=5">联系我们</a></li>
+				<li><a href="${webroot}/article/list.html?catalog=5">加入我们</a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="copyright">
+		<div class="copyright-text">
+			<div class="float_left">
+				<a href="${webroot}/article/detail.html?catalog=2&id=26">关于招商贷</a> |
+				<img src="${webroot}${theme_dir}/images/weibo.png"><a href="#" class="weibo">官方微博</a>
+				<script src="http://s19.cnzz.com/stat.php?id=5451485&web_id=5451485&show=pic" language="JavaScript"></script>
+			</div>
+			<div class="float_right" style="padding-top: 2px;">
+				备案号:<a href="http://www.miibeian.gov.cn/" target="_blank">${beian}</a>
+				地址：${address} 客服电话： ${fuwutel}
+			</div>
+		</div>
+
+	</div>
+</div>
+<div id=floatTools class=float0831>
+	<div class=floatL>
+		<!-- v1.6.6.1 RDPROJECT-203 xx 2013-09-26 start -->
+		<a id=aFloatTools_Show class=btnOpen title=查看在线客服
+			onclick="javascript:jQuery('#divFloatToolsView').animate({width: 'show', opacity: 'show'}, 'normal',function(){ jQuery('#divFloatToolsView').show();kf_setCookie('RightFloatShown', 0, '', '/', 'www.istudy.com.cn'); });jQuery('#aFloatTools_Show').attr('style','display:none');jQuery('#aFloatTools_Hide').attr('style','display:block');"
+			href="javascript:void(0);">展开</a> 
+		<a style="display: none" id=aFloatTools_Hide class=btnCtn title=关闭在线客服
+			onclick="javascript:jQuery('#divFloatToolsView').animate({width: 'hide', opacity: 'hide'}, 'normal',function(){jQuery('#divFloatToolsView').hide();kf_setCookie('RightFloatShown', 1, '', '/', 'www.istudy.com.cn'); });jQuery('#aFloatTools_Show').attr('style','display:block');jQuery('#aFloatTools_Hide').attr('style','display:none');"
+			href="javascript:void(0);">收缩</a>
+		<!-- v1.6.6.1 RDPROJECT-203 xx 2013-09-26 end -->
+	</div>
+	<div id=divFloatToolsView class=floatR style="display: none">
+		<div class=tp></div>
+		<div class=cn>
+			<ul>
+				<li class=top><H3 class=titZx>QQ咨询</H3></li>
+				<!-- v1.6.6.1 RDPROJECT-203 xx 2013-09-26 start -->
+				<li><span class=icoZx style="color: #30b2ed; font-size: 14px; font-weight: bold;">${webname?if_exists}</span></li>
+				<#if kefuList??>
+		            <#list kefuList as item>
+		            	<li style="text-align:left;"><a target="_blank"  href="http://wpa.qq.com/msgrd?v=3&uin=${item.qq!}&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:${item.qq!}:45" alt="点击这里给我发消息" title="点击这里给我发消息">&nbsp;&nbsp;${item.username!}</a></li>
+		            </#list>
+	            </#if>
+	            <!-- v1.6.6.1 RDPROJECT-203 xx 2013-09-26 end -->
+			</ul>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="${webroot}${theme_dir}/media/js/common.js"></script>
+<script type="text/javascript">
+	// v1.6.7.1 RDPROJECT-439 zza 2013-11-12 start
+	$(".scrol_left").slideFn({isTop:false});
+	// v1.6.7.1 RDPROJECT-439 zza 2013-11-12 start
+    $("#nav").nav({childLi:".navul li",childContent:".submenu"});
+    $(".slidebar-successed").slideFn();
+    $("#container").tabChange({childLi:"#tab li",childContent:"#myTabContent1 .list-tab-con",hoverClassName:"active",isClick:true});
+    $("#container").tabChange({isClick:true,childLi:"#tab li",childContent:"#myTabContent .list-tab-con",hoverClassName:"active"});
+    $("[rel='tooltip']").tooltip(); 
+	$(".lazyload").scrollLoading();
+</script>
+
+<div style="margin: 0 auto; width: 131px;">
+	<a href="http://webscan.360.cn/index/checkwebsite/url/www.zhaoshangdai.com">
+	<img border="0" src="http://img.webscan.360.cn/status/pai/hash/c4e0e45f19710e3cc5e0d4d1ea2c041d" /></a>
+</div>

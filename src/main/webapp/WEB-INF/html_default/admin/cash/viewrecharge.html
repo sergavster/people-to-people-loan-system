@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="充值审核">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+		                         <div class="toolbor-module">
+							        <input type="button" class="input-button return" value="返回" onclick="history.go(-1)">
+							    </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form name="form1" method="post" action="verifyRecharge.html" onsubmit="return check_form();" enctype="multipart/form-data" >
+                                    <div class="valBox" style="margin-bottom:20px;">
+                                        <div class="top">
+                                            <strong>充值查看</strong>
+                                        </div>
+                                        <div class="w349 fp clearfix">
+                                            <ul>
+                                                <li>
+                                                    <div class="title">用户名：</div>
+                                                    <div class="v">
+                                                        <a href="javascript:void(0)" onclick='alertPop("用户详细信息查看","url:get?index.php?admin&q=module/user/view&user_id=2675&type=scene",500,230,"true","","true","text");'>${recharge.username}</a>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">充值类型：</div>
+                                                    <div class="v">
+                                                        <#if recharge.type=="1">网上充值<#else>线下充值</#if>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">支付方式：</div>
+                                                    <div class="v">
+                                                        ${recharge.paymentname!}
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">充值总额：</div>
+                                                    <div class="v">
+                                                        ${recharge.money!}元
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">费用：</div>
+                                                    <div class="v">
+                                                        ${recharge.fee!}元
+                                                    </div>
+                                                </li>
+                                                <li class="color">
+                                                    <div class="title">实际到账：</div>
+                                                    <div class="v">
+                                                        ${recharge.total!}元
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">用户备注：</div>
+                                                    <div class="v">
+                                                        ${recharge.remark!}
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">流水号：</div>
+                                                    <div class="v">
+                                                        ${recharge.trade_no!}
+                                                    </div>
+                                                </li>           
+                                                <li>
+                                                    <div class="title">状态：</div>
+                                                    <div class="v">
+                                                        <#if recharge.status==1>成功<#elseif recharge.status==0>未审核<#else>审核失败</#if>
+                                                    </div>
+                                                </li>           
+                                                <li  class="color">
+                                                    <div class="title">添加时间/IP:</div>
+                                                    <div class="v">
+                                                        ${dateformat(recharge.addtime!)}/${recharge.addip!}
+                                                    </div>
+                                                </li>     
+                                                <li class="color"></li>      
+                                                <li class="color"></li>      
+                                                
+                                            </ul>
+                                        </div>
+                                        </div>
+
+                                        <!-- V1.6.6.2 RDPROJECT-2 ljd 2013-10-21 start --> 
+                                        <#if recharge??&&recharge.status??&&(recharge.status==1||recharge.status==2)>
+                                        <div class="add-time">
+									        <span class="mr25"><strong>审核人：</strong>${recharge.verify_name!"--"},审核时间：${dateformat(recharge.verify_time!)},审核备注：${recharge.verify_remark!}</span>
+									    </div>
+									    <#else>
+									    <!-- V1.6.6.2 RDPROJECT-2 ljd 2013-10-21 end --> 
+
+                                        <div id="audit">
+						                    <div class="top">
+						                        <strong>审核此充值信息</strong>
+						                    </div>
+						                    <div class="v">
+						                        <div class="c">
+						                            <div class="choose">
+						                                <label class="mr15"><input name="status" type="radio" value="1" class="radio">充值成功</label>
+						                                <label><input name="status" type="radio" class="radio" value="2" checked="checked">充值失败</label>
+						                            </div>
+						                            <div class="ce">
+						                                到账金额：<input type="text" name="total" value="${(recharge.money!0)?c}" size="15" readonly="" style="text-align:center;">（一旦审核通过将不可再进行修改）
+						                            </div>
+						                            <textarea class="remark" name="verify_remark">输入审核备注...</textarea>
+						                        </div>
+						                        <div class="other clearfix">
+						                        	<input type="hidden" name="id" value="${recharge.id?c}" />
+						                        	<input type="hidden" name="verifyrecharge_token" value="${verifyrecharge_token!"-1"}" />
+													<input type="submit"  name="reset" value="确定审核" class="input-button confirm"/>
+						                        </div>
+
+						                    </div>
+						                </div>
+									</#if>
+                                    
+
+                                </form>
+
+                            </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+    <div class="msgClass">
+      ${rsmsg!""}
+ </div>
+</html>
+<#include "../jsPage.html">
+<script>
+			function check_form(){
+				 var frm = document.forms['form1'];
+				 var verify_remark = frm.elements['verify_remark'].value;
+				 var errorMsg = '';
+				  if (verify_remark.length == 0 ) {
+					errorMsg += '备注必须填写' + '\n';
+				  }
+				  
+				  if (errorMsg.length > 0){
+					alert(errorMsg); return false;
+				  } else{  
+					return true;
+				  }
+			}
+			</script>

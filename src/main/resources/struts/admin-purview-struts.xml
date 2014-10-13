@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="managePurview" namespace="/admin/purview"
+		extends="wzd-admin">
+		
+		<action name="showAllRole" class="managePurviewAction" method="showAllRole">
+			<result name="success" type="ftl">/admin/purview/allrole.html</result>
+		</action>
+		
+		<action name="modifyRole" class="managePurviewAction" method="modifyRole">
+			<result name="success" type="ftl">/admin/purview/modifyrole.html</result>
+		</action>
+		
+		<action name="delRole" class="managePurviewAction" method="delRole">
+			<result name="success" type="ftl">/admin/purview/delrole.html</result>
+		</action>
+		
+		<action name="addRole" class="managePurviewAction" method="addRole">
+			<result name="success" type="ftl">/admin/purview/addrole.html</result>
+		</action>
+		
+		<action name="setPurview" class="managePurviewAction" method="setPurview">
+			<result name="success" type="ftl">/admin/purview/setpurview.html</result>
+		</action>
+		
+		<action name="allPurview" class="managePurviewAction" method="allPurview">
+			<result name="success" type="ftl">/admin/purview/allpurview.html</result>
+		</action>
+		
+		<action name="addPurview" class="managePurviewAction" method="addPurview">
+			<result name="success" type="ftl">/admin/purview/addpurview.html</result>
+		</action>
+		
+		<action name="delPurview" class="managePurviewAction" method="delPurview">
+			<result name="success" type="ftl">/admin/purview/addpurview.html</result>
+		</action>
+		<action name="modifyPurview" class="managePurviewAction" method="modifyPurview">
+
+			<result name="success" type="ftl">/admin/purview/modifypurview.html</result>
+		</action>
+		
+		<action name="allAdmin" class="managePurviewAction" method="allAdmin">
+			<result name="success" type="ftl">/admin/purview/alladmin.html</result>
+		</action>
+		
+		<action name="editAdmin" class="managePurviewAction" method="editAdmin">
+			<result name="success" type="ftl">/admin/purview/editadmin.html</result>
+		</action>
+		
+	</package>
+</struts>

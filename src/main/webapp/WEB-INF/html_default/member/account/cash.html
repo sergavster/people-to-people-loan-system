@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<!--   v1.6.6.2 RDPROJECT-140 yl 2013-10-23 start-->
+<#assign web_title='提现记录 - ${webname!}'>
+<#assign web_description='提现记录，${webname!}p2p网贷平台'>
+<!--   v1.6.6.2 RDPROJECT-140 yl 2013-10-23 end-->
+<#include "../../include/resource.html">
+<body>
+	<#assign nid="member"> 
+	<#include "../../include/header.html">
+	 
+	<!-- #main start-->
+	<div id="main" class="clearfix">
+		<!-- .wrap950 开始-->
+		<div class="wrap950 ">
+			<!--左边的导航user_left 开始-->
+			<div class="user_left">
+				<#include "../user_menu.html">
+			</div>
+			<!--左边的导航user_left 结束-->
+
+			<!--右边的内容user_right 开始-->
+			<div class="user_right">
+				<div class="user_right_menu">
+					<#assign account_type="cash">
+					<#include "account_menu.html">
+				</div>
+				<!--右边的内容user_right_main 开始-->
+				<div class="user_right_main">
+					
+					<!-- 内容开始 -->
+					<form action="" method="post">
+						<table  border="0"  cellspacing="1" class="table table-striped  table-condensed" >
+							<tr class="head">
+								<td>提现银行</td>
+								<td>提现账号</td>
+								<td>提现总额</td>
+								<td>到账金额</td>
+								<td>手续费</td>
+								<td>提现时间</td>
+								<td>状态</td>
+								<td>操作</td>
+								<!-- v1.6.6.1 RDPROJECT-163 liukun 2013-09-10 start -->
+								<td>备注</td>
+								<!-- v1.6.6.1 RDPROJECT-163 liukun 2013-09-10 end -->
+							</tr>
+							<#include "../../common/function.html"> 
+							<#list cash as item>
+							<tr>
+								<td>${item.bankname!}</td>
+								<td>
+			<#if item.account?length lt 8>
+				${item.account}
+			<#else>
+				${item.account?substring(0,4)}****${item.account?substring((item.account?length)-4,(item.account?length))}
+			</#if>
+								</td>
+								<td>￥${format2((item.total!"0"))}</td>
+								<td>￥${format2((item.credited!"0"))}</td>
+								<td>￥${format2((item.fee!"0"))}</td>
+								<td>${dateformat(item.addtime!"0")}</td>
+								<!-- V1.6.5.3 RDPROJECT-142 liukun 2013-09-11 start -->
+								<!-- 
+								<td><#if item.status==0>审核中<#elseif item.status==1>提现成功<#elseif item.status==2>提现失败<#elseif item.status==3>用户取消</#if></td>
+								 -->
+								<td><#if item.status==0||item.status=5||item.status=7>审核中<#elseif item.status==1>成功<#elseif item.status==4>用户取消<#else>审核失败</#if></td>
+								<!-- V1.6.5.3 RDPROJECT-142 liukun 2013-09-11 end -->
+								<!-- v1.6.6.1 RDPROJECT-163 liukun 2013-09-10 start -->
+								<td>
+									<#if item.status==0||item.status=5||item.status=7>
+										<a href="#" onclick="javascript:if(confirm('确定要取消此提现申请')) location.href='cancelcash.html?id=${item.id?c}'">取消提现</a>
+									<#else>
+										-
+									</#if>
+								</td>
+								<td>${item.verify_remark!}</td>
+								<!-- v1.6.6.1 RDPROJECT-163 liukun 2013-09-10 end -->
+							</tr>
+							</#list>
+								<div class="user_help alert">成功提现${summary.cashTotal}元，提现到账${summary.cashCredited}元，提现手续费${summary.cashFee}元。</div>
+							<tr>
+								<td colspan="11" class="page">
+									<div align="center">
+									<#import "../../common/page.html" as pager>  
+		         	 				<@pager.pagination page=p url="/member/account/cash.html" map=param style="style1"  />
+		         	 				</div>  
+								</td>
+							</tr>
+						</table>
+					</form>	
+					<!-- 内容结束 -->
+				</div>
+				<!--右边的内容user_right_main 结束-->
+			</div>
+			<!--右边的内容user_right 结束-->
+		</div>
+		<!-- .wrap950 结束-->
+	</div>
+	<!-- #main start-->
+	<#include "../../include/footer.html">

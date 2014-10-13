@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+<body>
+<table class="mc">
+    <tr>
+        <td class="mc-l">
+            <!--左侧导航---{-->
+            <div id="navPanelContainer">
+                <div class="system-logo cd"></div>
+                <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                <!--管理员信息---}-->
+                <div class="nav-wrap">
+                    <#include "left.html">
+                </div>
+            </div>
+            <!--左侧导航---}-->
+        </td>
+        <td class="mc-m">
+            <div class="navToggle"></div>
+        </td>
+        <td class="mc-r">
+            <!--顶部导航---{-->
+            <#include "../topNav.html">
+            <!--顶部导航---}-->
+
+            <!--面包屑导航---{-->
+            <#assign moduleName="给力标到期">
+            <#include "banner.html">
+            <!--面包屑导航---}-->
+
+            <!--工具栏--{-->
+            <div id="toolbar" class="clearfix">
+                <#if param??&&param.status??>
+                    <#assign status=(param.get("status"))?number >
+                        <#else>
+                            <#assign status=-1>
+                </#if>
+                 <div class="toolbor-module export">
+                                    <input type="button" onclick="exportxls()" value="导出报表" class="input-button export-btn"/>
+                                </div>
+                
+                <div class="toolbor-module search">    
+                    <input type="button" value="搜索"  class="input-button" onclick="sousuo();">
+                </div>
+                <div class="toolbor-module search">
+                    <input type="text" name="username" id="username" value="请输入用户名" data-value="请输入用户名" class="search-value">
+                </div>
+            </div>
+            <!--工具栏--}-->
+
+            <div id="main" class="clearfix">
+                <form action="" method="post">
+                    <table class="data-list">
+                        <tr class="header">
+                            <td>ID</td>
+                            <td>借款人</td>
+                            <td>借款标题</td>
+                            <td>应还时间</td>
+                            <td>应还金额</td>
+                            <td>逾期天数</td>
+                            <td>罚金</td>
+                            <td>操作</td>
+                        </tr>
+                        <#import "../../common/function.html" as func>
+                        	<#list list as item>
+                                <tr class="s">
+                                    <td>${item.borrow_id!}</td>
+                                    <td>
+                                    <a href="javascript:void(0)" onclick='alertPop("用户详细信息查看","url:get?${request.getContextPath()}/admin/attestation/viewUserInfo.html?username=${item.borrow_user!}",500,230,"true","","true","text")'>${item.borrow_user!}</a>
+                                    </td>
+                                    <td><a href="${request.getContextPath()}/invest/detail.html?borrowid=${item.borrow_id?c}" target="_blank">${item.borrow_name}</a></td>
+                                    <td>${dateformat(item.repayment_time!)}</td>
+                                    <td>${func.format2(item.repayment_account!)}</td>
+                                    <#if item??&&item.late_days?exists>
+                                    	<td>${item.late_days!}</td>
+                                    <#else>
+                                    	<td>0天</td>
+                                    </#if>
+                                    <#if item??&&item.forfeit?exists>
+                                    	<td>${item.forfeit!}</td>
+                                    <#else>
+                                    	<td>0元</td>
+                                    </#if>
+                                    <td>-</td>
+                                </tr>
+                             </#list>
+                    </table>
+                </form>
+
+                <!--底部工具栏--{-->
+                <div id="bottomToolbar" class="clearfix">
+                    <div class="other-tool">
+                        <dl class="refresh-data">
+                            <dt class="refresh-data-icon"></dt>
+                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                        </dl>
+                    </div>
+
+                    <!--翻页系统--{-->
+                    <div class="container">
+                        <#import "../../common/page.html" as pager>
+                            <@pager.pagination page=page url=currentUrl map=param style="style1" />
+                    </div>
+                    <!--翻页系统--}-->
+                </div>
+                <!--底部工具栏--}-->
+
+                <script>
+                    var urls = '?search=true';
+                    var xlsurl = 'showFastExpire.html?type=export';
+                    function sousuo(){
+                        var sou = "";
+                        var username = $("#username").val();
+                        if (username!=null&&username!=""&&username!="undefine"&&username!="请输入用户名"){
+                            sou += "&username="+username;
+                        }
+                        var status = $("#status").find(".open-selected").attr("data-value");
+                        if (status!=null&&status!=""&&status!="undefine"){
+                            sou += "&status="+status;
+                        }
+                        var url=urls+sou
+                        location.href=url;
+                    }
+                    function exportxls(){
+                        var sou = "";
+                        var username = $("#username").val();
+                        if (username!=""&&username!="请输入用户名"){
+                            sou += "&username="+username;
+                        }
+                        if (sou!=""){
+                            location.href=xlsurl+sou;
+                        }else{
+                            location.href=xlsurl;
+                        }
+                    }
+                </script>
+            </div>
+
+        </td>
+    </tr>
+    <tr>
+        <!--尾部--{-->
+        <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+        <!--尾部--}-->
+    </tr>
+</table>
+
+</body>
+</html>
+<#include "../jsPage.html">

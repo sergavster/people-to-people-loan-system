@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<#include "include/resource.html"> 
+<body>
+<#include "include/header.html"> 
+	<div id="banner"></div>
+	
+
+<div id="main" class="clearfix">
+    <div id="container">
+        <div class="fb-content">	
+        	<ul>
+            	<li>
+                	<img src="${request.getContextPath()}${theme_dir}/images/biao_02.png" class="biaozhi-img">
+                    <h1>质押标</h1>
+                    <a href="#">[详细信息]</a>
+                    <span>资产抵押</span>
+                    <span>优先购买权</span>
+                    <span>逾期赔付</span>
+                    <a href="${request.getContextPath()}/borrow/loan.html?type=fast" class="fb-btn">立刻发标</a>
+                </li>
+                <li>
+                	<img src="${request.getContextPath()}${theme_dir}/images/biao_04.png" class="biaozhi-img">
+                    <h1>信用标</h1>
+                    <a href="#">[详细信息]</a>
+                    <span>消费需求</span>
+                    <span>优质借款人</span>
+                    <span>额度控制</span>
+                    <a href="${request.getContextPath()}/borrow/loan.html?type=xin" class="fb-btn">立刻发标</a>
+                </li>
+                <li>
+                	<img src="${request.getContextPath()}${theme_dir}/images/biao_06.png" class="biaozhi-img">
+                    <h1>净值标</h1>
+                    <a href="#">[详细信息]</a>
+                    <span>净值担保</span>
+                    <span>期限控制</span>
+                    <span>额度控制</span>
+                    <a href="${request.getContextPath()}/borrow/loan?type=jin" class="fb-btn">立刻发标</a>
+                </li>
+                <li>
+                	<img src="${request.getContextPath()}${theme_dir}/images/biao_08.png" class="biaozhi-img">
+                    <h1>慈善标</h1>
+                    <a href="#">[详细信息]</a>
+                    <span>助学助贫</span>
+                    <span>小额利息</span>
+                    <span>本金保障</span>
+                    <a href="${request.getContextPath()}/borrow/loan.html?type=charity" class="fb-btn">立刻发标</a>
+                </li>
+                <li>
+                	<!--<img src="${request.getContextPath()}${theme_dir}/images/biao_02.png" class="biaozhi-img">-->
+                    <h1>项目标</h1>
+                    <a href="#">[详细信息]</a>
+                    <span>VIP客户</span>
+                    <span>保障+分红</span>
+                    <!--<span>逾期赔付</span>-->
+                    <a href="${request.getContextPath()}/borrow/loan.html?type=art" class="fb-btn">立即进入</a>
+                </li>
+                <li>
+                	<!--<img src="${request.getContextPath()}${theme_dir}/images/biao_02.png" class="biaozhi-img">-->
+                    <h1>安全保障</h1>
+                    <a href="#">[详细信息]</a>
+                    <span>100%本金保障</span>
+                    <span>优先购买权</span>
+                    <span>风险池启动金</span>
+                    
+                </li>
+                <li>
+                	<!--<img src="${request.getContextPath()}${theme_dir}/images/biao_02.png" class="biaozhi-img">-->
+                    <h1>e贷费用</h1>
+                    <a href="#">[详细信息]</a>
+                    <span>借贷利息</span>
+                    <span>奔富费用</span>
+                    <span>充值体现费用</span>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="column">
+            <ul class="list-tab clearfix index-title"><li class="index-tab"><a href="/invest/index.html" class="title-a">借款标列表</a><a class="fl_right">更多</a></li></ul>
+            <ul class="list-main">
+             
+        <!--**************************************************************************-->
+                <#if borrowList?exists>
+                <#list borrowList as item>
+                <li>
+                    <img src="${request.getContextPath()}/imgurl.html?userid=${item.user_id?c}&size=middle" class="pic"/>
+                    <div class="list-main-info">
+                        <h3><a href="${request.getContextPath()}/invest/detail.html?borrowid=${item.id?c}">${item.name}</a>
+                        <#include "common/function.html"> 
+                        <@showBorrowIcon item=item/>																							
+                        </h3>
+                        <ul>
+                            <li>借款金额：<span class="text14">￥<strong>${item.account}</strong>元</span></li>
+                            <li>年利率：<strong>${item.apr}</strong>%</li>
+                            <li>借款期限：<#if item.isday??&&item.isday==1><strong>${item.isday!0}</strong>天
+                            			<#else><strong>${(item.time_limit)?default("0")}</strong>月</#if>
+                                </li>
+                            <li><span style="float:left">信用等级：</span><img class="rank" src="${request.getContextPath()}/data/images/credit/${item.credit_pic}" title="${item.credit_jifen}"  /></li>
+                            <li>
+                            <div class="rate_bg floatl">
+                            <div class="rate_tiao" style="width:${item.scales*100}%"></div>
+                        </div>
+                        <div class="floatl">&nbsp;${item.scales*100}%</div>	
+                            </li>
+                            <li><#if item.isday??&&item.isday==1>到期全额还款<#else>按月分期还款</#if></li>
+                        </ul>
+                    </div>
+                    <div class="list-main-action">
+                        <#assign borrowUrl=request.getContextPath()+"/invest/detail.html?borrowid="+item.id?c>
+                        <#if item.status==3>						
+                            <#if item.repayment_account == item.repayment_yesaccount&&item.repayment_account?number gt 0>
+                            <a href="${borrowUrl}" class="btn-action">已还款</a>
+                            <#else>
+                            <a href="${borrowUrl}" class="btn-action">还款中</a>
+                            </#if>
+                        <#elseif item.status==5>
+                            <img src="${request.getContextPath()}/themes/images/cancel_repayment.jpg" />
+                        <#elseif item.status==4>
+                            <a href="${borrowUrl}" class="btn-action">复审失败</a>
+                        <#elseif item.status==2>
+                            <a href="${borrowUrl}" class="btn-action">等待复审</a>
+                        <#elseif item.scales lt 100>
+                            <a href="${borrowUrl}" class="btn-action">立即投标</a>
+                        <#else>
+                            <a href="${borrowUrl}" class="btn-action">等待复审</a>
+                        </#if>
+                    </div>
+                </li>
+        <!--**************************************************************************-->  
+    </#list>
+    </#if>
+            </ul>
+        </div>
+
+    </div>
+    
+    
+    <div id="sidebar">
+     <#if session_user?exists >
+      <div class="box">
+		<div class="box-title"><strong>用户登录</strong></div>
+			<div class="box-con index-login" style="height:148px;">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+				<td width="100"><img src="${request.getContextPath()}/imgurl.html?userid=${session_user.user_id?c}&size=middle" height="98" width="98" style="padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px; border-top-color: #999; border-right-color: #999; border-bottom-color: #999; border-left-color: #999; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: dashed; border-right-style: dashed; border-bottom-style: dashed; border-left-style: dashed;" class="pic"/></td>
+                    <td style="padding-left:10px;"><strong><font color="#FF0000">${session_user.username!}</font></strong>
+					<br/><br/>
+					<br/><a href="${request.getContextPath()}/member/index.html"><font color="#427E1D">[我的账号]</font></a>
+					
+					<a href="${request.getContextPath()}/user/logout.html"><font color="#FF0000">[退出]</font></a></td>
+                  </tr>
+                </table>
+			    <li style="text-align:center;list-style:none;margin:3px auto;">
+	                 <a href="${request.getContextPath()}/member/account/newrecharge.html" 
+					 class="btn-action">充值</a>&nbsp;&nbsp;&nbsp;
+                     <a href="${request.getContextPath()}/member/account/newcash.html" class="btn-action">提现</a>
+			    </li>
+			</div>
+		</div>
+        <#else>
+         <div class="box">
+            <div class="box-title"><img src="${request.getContextPath()}${theme_dir}/images/login-title-bg.png" style="top:0;">注册登录</div>
+            <div class="box-con index-login">
+                <form name="login" method="post" action="${request.getContextPath()}/user/login.html" >
+                	<div><span>帐号</span><input type="text" name="username" value=""></div>
+                    <div><span>密码</span><input type="password" name="password" value=""></div>
+                    <input type="hidden" name="source" value="index" />
+                    <input type="hidden" name="actionType"  value="login" />
+                    <input type="submit" class="denglu" value="立即登录" />
+                    <input type="button" class="zhuce" value="免费注册" onclick="javascript:window.location.href='user/register.html'" />
+                </form>
+            </div>
+        </div>	
+        </#if>
+        <div class="box" style=" margin-bottom:0;">
+            <div class="box-con article-list"><!-- index-succ -->
+            	<img src="${request.getContextPath()}${theme_dir}/images/hb-img.jpg">
+            	<!--  
+                <ul>
+                	<li><a href="#" target="_blank">专家委员会正式成立</a></li>
+                    <li><a href="#" target="_blank">即日起对符合垫付条件的严重逾期标将... </a></li>
+                    <li><a href="#" target="_blank">官方投标功能上线及修复公告 </a></li>
+                    <li><a href="#" target="_blank">专家委员会正式成立</a></li>
+                </ul>
+                -->
+            </div>
+        </div>
+
+        <div class="box" style=" margin-bottom:0;">
+            <div class="box-title">奔富公告<a href="${request.getContextPath()}/article/list.html?catalog=22" class="box-more">更多</a></div>
+            <div class="box-con article-list">
+                <ul>
+                    <#if (ggList?exists)&&(ggList?size>0)>
+                        <#list ggList as item>
+                        <li><a href="${request.getContextPath()}/article/detail.html?catalog=22&id=${item.id}" target="_blank"><#if item.name?length lt 15>${item.name}<#else>${item.name[0..14]}</#if></a></li>
+                        </#list>
+                    </#if>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="box" style=" margin-bottom:0;">
+            <div class="box-title">新闻动态<a href="${request.getContextPath()}/article/list.html?catalog=59" class="box-more">更多</a></div>
+            <div class="box-con article-list">
+                <ul>
+                    <#if (bdList?exists)&&(bdList?size>0)>
+                    <#list bdList as item>
+                    <li><a href="${request.getContextPath()}/article/detail.html?catalog=59&id=${item.id}" target="_blank"><#if item.name?length lt 15>${item.name}<#else>${item.name[0..14]}</#if></a></li>
+                    </#list>	
+                    </#if>
+                </ul>
+            </div>
+        </div>
+
+        <div class="box" style=" margin-bottom:0;">
+            <div class="box-title">慈善榜<a class="box-more" href="${request.getContextPath()}/article/detail.html?catalog=11"></a></div>
+            <div class="box-con index-succ">
+                <ul>
+                	<#if charityList??>
+                	<#list charityList as item>
+                	<li class="clearfix">
+                    	<img src="" >
+                        <div style="float:left; width:150px;">
+                            <h3><a href="invest/a20531.html" target="_blank" title="${item.name}">${item.name}</a></h3>
+                            <p><span class="text-red">${item.account}元</span><span class="text-red">${item.apr}%</span></p>
+                            <p><span class="text-red">${item.time_limit}个月</span><span class="text-red">[${dateformat(item.addtime)}]</span></p>
+                        </div>
+					</li>
+                    </#list>
+                    </#if>
+                    <!--<#if (cjList?exists)&&(cjList?size>0)>
+                    <#list cjList as item>
+                        <li><a href="${request.getContextPath()}/article/detail.html?catalog=11&id=${item.id}" target="_blank"><#if item.name?length lt 15>${item.name}<#else>${item.name[0..14]}</#if></a></li>
+                    </#list>
+                    </#if>-->
+                    
+                    
+                </ul>
+            </div>
+        </div>
+
+    </div>
+	<!--sidebar end-->
+</div>
+<script type="text/javascript">
+
+jQuery(function(){
+	jQuery("[rel='tooltip']").tooltip();
+	jQuery('#login_btn').click(function(){
+		jQuery('#login_sub').submit();
+	});
+});
+
+</script>
+<script src="${theme_dir}/media/js/tooltip.js"></script>
+<script src="${theme_dir}/media/js/popover.js"></script>
+<script src="${theme_dir}/media/js/transition.js"></script>
+
+<!--main end-->
+<#include "include/footer.html"> 
+</body>
+</html>

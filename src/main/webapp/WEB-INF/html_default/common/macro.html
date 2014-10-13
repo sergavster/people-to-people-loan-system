@@ -1,0 +1,108 @@
+<#macro indexListItem item>
+<#if item.type??&&item.type==110>
+ <li>
+   <img src="${request.getContextPath()}/imgurl.html?userid=${item.user_id?c}&size=middle" class="pic"/>
+   <div class="list-main-info">
+       <h3><a href="${request.getContextPath()}/invest/detail.html?borrowid=${item.id?c}">${item.name}</a>
+       <@showBorrowIcon item=item/>																							
+       </h3>
+       <ul>
+       	   <li>最小流转单位：<strong>￥${item.flow_money!}</strong>%</li>
+       	   <li>年利率：<strong>${item.apr!}</strong>%</li>
+       	   <li>借款期限：<strong>${item.time_limit!}</strong>月</li>
+       	   <li>还款方式：<strong>一次性</strong></li>
+           <li>流转总金额：<span class="text14">￥<strong>${item.account}</strong>元</span></li>
+           <li>已流转：<strong>${(item.account_yes!0)?number/item.flow_money}</strong>份</li>
+           <li>已回购：<strong>0</strong>份</li>
+           <li>还剩：<strong>${((item.account!0)?number-(item.account_yes!0)?number)/item.flow_money}</strong>份</li>
+        </ul>
+    </div>
+    <div class="list-main-action">
+        <#if item.status==1>						
+            <#assign borrowUrl=request.getContextPath()+"/invest/detail.html?borrowid="+item.id?c>
+        </#if>
+        <a href="${borrowUrl!''}" class="btn-action">${borrowTenderText(item)}</a>
+    </div>
+</li>
+<#else> 
+<li>
+   <img src="${request.getContextPath()}/imgurl.html?userid=${item.user_id?c}&size=middle" class="pic"/>
+   <div class="list-main-info">
+       <h3><a href="${request.getContextPath()}/invest/detail.html?borrowid=${item.id?c}">${item.name}</a>
+       <@showBorrowIcon item=item/>																							
+       </h3>
+       <ul>
+           <li>借款金额：<span class="text14">￥<strong>${item.account}</strong>元</span></li>
+           <li>年利率：<strong>${item.apr}</strong>%</li>
+           <li>借款期限：<#if item.isday??&&item.isday==1><strong>${item.isday!0}</strong>天
+           			<#else><strong>${(item.time_limit)?default("0")}</strong>月</#if>
+               </li>
+           <li><span style="float:left">信用等级：</span><img class="rank" src="${request.getContextPath()}/data/images/credit/${item.credit_pic}" title="${item.credit_jifen}"  /></li>
+           <li>
+           <div class="rate_bg floatl">
+           <div class="rate_tiao" style="width:${item.scales*100}%"></div>
+        </div>
+        <div class="floatl">&nbsp;${item.scales*100}%</div>	
+            </li>
+            <li><#if item.isday??&&item.isday==1>到期全额还款<#else>按月分期还款</#if></li>
+        </ul>
+    </div>
+    <div class="list-main-action">
+        <#if item.status==1>						
+            <#assign borrowUrl=request.getContextPath()+"/invest/detail.html?borrowid="+item.id?c>
+        </#if>
+        <a href="${borrowUrl!''}" class="btn-action">${borrowTenderText(item)}</a>
+    </div>
+</li>
+</#if>
+</#macro>
+
+
+<#macro identifyShow detailuser>
+					<a href="${webroot}/member/identify/realname.html">
+								<div class="credit_pic_card_<#if detailuser.real_status??&&detailuser.real_status==1>1<#else>0</#if>" 
+								title="<#if detailuser.real_status??&&detailuser.real_status==1>实名已经认证<#else>实名未认证</#if>">
+								</div>
+							</a>
+							
+                            <a href="${webroot}/member/identify/phone.html" >
+                            	<div class="credit_pic_phone_<#if detailuser.phone_status?exists&&detailuser.phone_status==1>1<#else>0</#if>" 
+                            	title="<#if detailuser.phone_status?exists&&detailuser.phone_status==1>手机已认证<#else>手机未认证</#if>">
+                            	</div>
+                            </a>
+                           
+							<a href="${webroot}/member/identify/email.html">
+								<div class="credit_pic_email_<#if detailuser.email_status?exists&&detailuser.email_status==1>1<#else>0</#if>" 
+								title="<#if detailuser.email_status?exists&&detailuser.email_status==1>邮箱已认证<#else>邮箱未认证</#if>">
+								</div>
+							</a>
+							
+							<a href="${webroot}/member/identify/video.html">
+								<div class="credit_pic_video_<#if detailuser.video_status?exists&&detailuser.video_status==1>1<#else>0</#if>" 
+								title="<#if detailuser.video_status?exists&&detailuser.video_status==1>视频已认证<#else>视频未认证</#if>">
+								</div>
+							</a>
+							<!--  V1.6.6.1 RDPROJECT-201 wcw 2013-09-29 start-->
+							<#if userCache??>
+							<a href="${webroot}/member/vip.html">
+								<div class="credit_pic_vip_<#if userCache.vip_status==1><#assign vip_expire_time=(((userCache.vip_end_time?number)!0))?c>
+<#assign nowtime=dateformat("now") ><#if nowtime?number lt vip_expire_time?number>1<#else>0</#if><#elseif userCache.vip_status==-1>0<#else>0</#if>"
+								title="<#if userCache.vip_status==1><#assign vip_expire_time=(((userCache.vip_end_time?number)!0))?c>
+<#assign nowtime=dateformat("now") ><#if nowtime?number lt vip_expire_time?number>VIP<#else>已经过期</#if><#elseif userCache.vip_status==-1>普通会员<#else>审核中</#if>">
+							    <#else>
+							    <a href="${webroot}/member/vip.html">
+								<div class="credit_pic_vip_<#if detailuser.vip_status==1><#assign vip_expire_time=(((detailuser.vip_verify_time)!0)+60*60*24*365)?c>
+<#assign nowtime=dateformat("now") ><#if nowtime?number lt vip_expire_time?number>1<#else>0</#if><#elseif detailuser.vip_status==-1>0<#else>0</#if>"
+								title="<#if detailuser.vip_status==1><#assign vip_expire_time=(((detailuser.vip_verify_time)!0)+60*60*24*365)?c>
+<#assign nowtime=dateformat("now") ><#if nowtime?number lt vip_expire_time?number>VIP<#else>已经过期</#if><#elseif detailuser.vip_status==-1>普通会员<#else>审核中</#if>">
+							</#if>
+							<!--  V1.6.6.1 RDPROJECT-201 wcw 2013-09-29 end-->
+								</div>
+							</a>
+			<!--				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+							<a href="${webroot}/member/identify/scene.html">
+								<div class="credit_pic_scene_<#if detailuser.scene_status?exists&&detailuser.scene_status==1>1<#else>0</#if>" 
+								title="<#if detailuser.scene_status?exists&&detailuser.scene_status==1>已通过现场认证<#else>未通过现场认证</#if>">
+								</div>
+							</a>
+</#macro>

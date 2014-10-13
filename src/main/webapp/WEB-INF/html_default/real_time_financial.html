@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<#include "include/resource.html"> 
+<body>
+<#assign nid="sscw" >
+<#include "include/header.html"> 
+<#include "common/function.html"> 
+
+<div id="main" class="clearfix">
+		
+	
+	<div class="sscy-box1">
+                <div class="sscy-box1-tit">实时财务</div>
+                <div class="sscy-con">
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td align="center"><b>风险准备金</b></td>
+                      <td align="center"><b>垫付风险金</b></td>
+                      <td align="center"><b>融资总额</b></td>
+                       <td align="center"><b>今日融资总额</b></td>
+                      <td align="center"><b>待还款总额</b></td>
+                    </tr>
+                    <tr>
+                      <td align="center">￥：<i>${((advanced.advance_reserve)!0)?string("###,###.##")}</i>元</td>
+                      <td align="center">￥：<i>${((advanced.no_advanced_account)!0)?string("###,###.##")}</i>元</td>
+                      <td align="center">￥：<i>${((advanced.borrow_total)!0)?string("###,###.##")}</i>元</td>
+                       <td align="center">￥：<i>${((advanced.borrow_day_total)!0)?string("###,###.##")}</i>元</td>
+                      <td align="center">￥：<i>${((advanced.wait_total)!0)?string("###,###.##")}</i>元</td>
+                    </tr>
+                  </table>
+				<!--  
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td align="center"><b>今日数据</b></td>
+                      <td align="center"><b>发标总额</b></td>
+                      <td align="center"><b>已融资金额</b></td>
+                       <td align="center"><b>成交笔数</b></td>
+                      <td align="center"><b>待收利息</b></td>
+                    </tr>
+                    <tr>
+                      <td align="center"><i>(从今日0点到当前时刻)</i></td>
+                      <td align="center">￥：<i>${(todayBorrowTotal!0)?string("###,###.##")}</i>元</td>
+                      <td align="center">￥：<i>${(todayInvestTotal!0)?string("###,###.##")}</i>元</td>
+                       <td align="center"><i>${(todayDealCount!0)?string("###,###.##")}</i>笔</td>
+                      <td align="center">￥：<i>${(todayInterest!0)?string("###,###.##")}</i>元</td>
+                    </tr>
+                  </table>
+                   <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td align="center"><b>总数据</b></td>
+                      <td align="center"><b>风险准备金</b></td>
+                      <td align="center"><b>融资总金额</b></td>
+                       <td align="center"><b>待还款总额</b></td>
+                      <td align="center"><b>为投资人赚得利息</b></td>
+                    </tr>
+                    <tr>
+                      <td align="center"><i>(从平台运营到昨日24点)</i></td>
+                      <td align="center">￥：<i>5,000,000</i>元</td>
+                      <td align="center">￥：<i>${(investTotal!0)?string("###,###.##")}</i>元</td>
+                       <td align="center">￥：<i>${(repayingTotal!0)?string("###,###.##")}</i>元</td>
+                      <td align="center">￥：<i>${(interestTotal!0)?string("###,###.##")}</i>元</td>
+                    </tr>
+                  </table>
+                  -->
+                </div>
+        </div>
+        
+  <#assign borrow_type="publish">
+				    <#if type?exists>
+				    	<#assign borrow_type=type>
+				    </#if>
+         <div class="sscy-box2">
+                <div class="sscy-box2-tit clearfix">
+                	<!--  v1.6.7.2 RDPROJECT-576 lhm 2013-12-12 start -->
+                    <ul>
+                        <li <#if borrow_type?exists&&borrow_type==1>class="hover"</#if> style="margin:0;"><a href="${request.getContextPath()}/realTimeFinancial.html?type=1">一周内应收回欠款列表</a></li>
+                        <li <#if borrow_type?exists&&borrow_type==2>class="hover"</#if>><a href="${request.getContextPath()}/realTimeFinancial.html?type=2">逾期10天内未归还列表</a></li>
+                        <li <#if borrow_type?exists&&borrow_type==3>class="hover"</#if>> <a href="${request.getContextPath()}/realTimeFinancial.html?type=3">逾期10天以上未归还列表</a></li>
+                        <li <#if borrow_type?exists&&borrow_type==4>class="hover"</#if>><a href="${request.getContextPath()}/realTimeFinancial.html?type=4">逾期已归还列表</a></li>
+                    </ul>
+                    <!--  v1.6.7.2 RDPROJECT-576 lhm 2013-12-12 end -->
+                </div>
+                <div class="sscy-con2">
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td align="center"><b>借款编号</b></td>
+                      <td align="center"><b>借款人</b></td>
+                      <td align="center"><b>应归还金额</b></td>
+                      <td align="center"><b>应归还日期</b></td>
+                      <td align="center"><b>状态</b></td>
+                    </tr>
+                    <#list borrowList as item>
+						<#if item.repayment_yestime?? &&item.repayment_time?number &lt; item.repayment_yestime?number>
+							
+								<tr>
+									<td align="center">${item.borrow_id}</td>
+									<td align="center">${item.username!""}</td>
+									<td align="center">￥：<i><#if item??&&item.repayment_account??>${((item.repayment_account!0)?number)?string("###,###.##")}</#if></i>元</td>
+									<td align="center"><#if item??&&item.repayment_time??>${dateformat(item.repayment_time)}</#if></td>
+									<td align="center"><#if item.repayment_yestime??>${dateformat(item.repayment_yestime)}&nbsp;&nbsp;&nbsp;&nbsp;已还款<#else>待还款</#if></td>
+								</tr>
+						<#else>
+							<tr>
+								<td align="center">${item.borrow_id}</td>
+								<td align="center">${item.username!""}</td>
+								<td align="center">￥：<i><#if item??&&item.repayment_account??>${((item.repayment_account!0)?number)?string("###,###.##")}</#if></i>元</td>
+								<td align="center"><#if item??&&item.repayment_time??>${dateformat(item.repayment_time)}</#if></td>
+								<!--  v1.6.7.2 RDPROJECT-576 lhm 2013-12-12 start -->
+								<td align="center"><#if item.repayment_yestime?exists&&item.repayment_yestime!=0>${dateformat(item.repayment_yestime)}&nbsp;&nbsp;&nbsp;&nbsp;已还款<#else>待还款</#if></td>
+								<!--  v1.6.7.2 RDPROJECT-576 lhm 2013-12-12 end -->
+							</tr>
+						</#if>					
+                   </#list>
+                   
+                   <tr>
+					<td colspan="11" class="page" align="center">
+						<#import "common/page.html" as pager>  
+			         	<@pager.pagination page=p url="/realTimeFinancial.html?type="+type map=param style="style1"  /> 
+					</td>
+				</tr>
+                  </table>
+                   
+                </div>
+                <div class="sscy-box2-bot">
+                    
+                </div>
+        </div>
+</div>
+<#include "include/footer.html"> 
+</body>
+</html>

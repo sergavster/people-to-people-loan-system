@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                        	<!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 start -->
+                            <#include "../setting/left.html">
+                            <!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 end -->
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="抽奖记录">
+                    	<!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 start -->
+                        <#include "../setting/banner.html">
+                        <!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 end -->
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+	<form action="${request.getContextPath()}/admin/lottery/ruleAward.html" method="post">
+        <div id="parametersTab">
+            <div class="customer-info ii">
+                <table class="data-list">
+             
+                            <tr class="s">
+                                <td class="r">规则名：</td>
+                                <td class="m">
+                                    <input class="parameters-val" type="text" name="name" value="<#if lotteryRule??>${lotteryRule.name!0}</#if>" />
+                                </td>
+                            </tr>
+                              <tr class="s">
+                                <td class="r">抽奖有效时间起始：</td>
+                                <td class="m">
+                                    <input class="_search-value js-datetime" type="text" name="start_date" value="<#if lotteryRule??>${lotteryRule.start_date!0}</#if>" />
+                                </td>
+                            </tr>
+                             <tr class="s">
+                                <td class="r">抽奖有效时间结束：</td>
+                                <td class="m">
+                                    <input class="_search-value js-datetime" type="text" name="end_date" value="<#if lotteryRule??>${lotteryRule.end_date!0}</#if>" />
+                                </td>
+                            </tr>
+                             <tr class="s">
+                                <td class="r">抽奖类型：</td>
+                                <td class="m">
+                                    <input class="parameters-val" type="radio" name="is_accordingtoaward" value="<#if lotteryRule??>${lotteryRule.is_accordingtoaward!''}</#if>" />按奖品抽奖
+                                    <input class="parameters-val" type="radio" name="is_accordingtoaward" value="<#if lotteryRule??>${lotteryRule.is_accordingtoaward!''}</#if>" />按奖品抽奖
+                                </td>
+                            </tr>
+                             <tr class="s">
+                                <td class="r">金额限制：</td>
+                                <td class="m">
+                                    <input class="parameters-val" type="text" name="point_limit" value="<#if lotteryRule??>${lotteryRule.point_limit!0}</#if>" />
+                                </td>
+                            </tr>
+                             <tr class="s">
+                                <td class="r">抽奖用户限制：</td>
+                                <td class="m">
+                                    <input class="parameters-val" type="text" name="user_limit" value="<#if lotteryRule??>${lotteryRule.user_limit!0}</#if>" />
+                                </td>
+                            </tr>
+                             <tr class="s">
+                                <td class="r">规则描述：</td>
+                                <td class="m">
+                                    <input class="parameters-val" type="text" name="description" value="<#if lotteryRule??>${lotteryRule.description!''}</#if>" />
+                                </td>
+                            </tr>
+                             <tr class="s">
+                                <td class="r">创建时间：</td>
+                                <td class="m">
+                                    <input class="parameters-val" type="text" name="gmt_create" value="<#if lotteryRule??>${lotteryRule.gmt_create!''}</#if>" />
+                                </td>
+                            </tr>
+                             <tr class="s">
+                                <td class="r">修改时间：</td>
+                                <td class="m">
+                                    <input class="parameters-val" type="text" name="gmt_modfied" value="<#if lotteryRule??>${lotteryRule.gmt_gmt_modfied!''}</#if>" />
+                                </td>
+                            </tr>
+                             <tr class="s">
+                                <td class="r">是否提醒：</td>
+                                <td class="m">
+                                    <input class="parameters-val" type="radio" name="msg_type" value="<#if lotteryRule??>${lotteryRule.msg_type!}</#if>" />不需要发送中奖提醒信息
+                                    <input class="parameters-val" type="radio" name="msg_type" value="<#if lotteryRule??>${lotteryRule.msg_type!}</#if>" />短信中奖提醒
+                                    <input class="parameters-val" type="radio" name="msg_type" value="<#if lotteryRule??>${lotteryRule.msg_type!}</#if>" />邮件中奖提醒
+                                    <input class="parameters-val" type="radio" name="msg_type" value="<#if lotteryRule??>${lotteryRule.msg_type!}</#if>" />站内信中奖提醒
+                                </td>
+                            </tr>
+                             <tr class="s">
+                                <td class="r">发送提醒信息内容模板：</td>
+                                <td class="m">
+                                    <input class="parameters-val" type="text" name="context" value="<#if lotteryRule??>${lotteryRule.context!''}</#if>" />
+                                </td>
+                            </tr>
+                             <tr class="s">
+                                <td class="r">发送提醒信息模板标题：</td>
+                                <td class="m">
+                                    <input class="parameters-val" type="text" name="subject" value="<#if lotteryRule??>${lotteryRule.subject!''}</#if>" />
+                                </td>
+                            </tr>
+                </table>
+            </div>
+        </div>
+
+
+        <div id="bottomToolbar" class="clearfix">
+            <input type="submit" class="input-button post" value="提交"> 
+            <input type="hidden" class="input-button post" value="<#if lotteryRule??&&lotteryRule.id??>${lotteryRule.id}</#if>" name="id">
+            <input type="hidden" class="input-button post" value="lettery_modify" name="action_type">
+        </div>
+	</form>
+ </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+    
+    </body>
+</html>
+<#include "../jsPage.html">

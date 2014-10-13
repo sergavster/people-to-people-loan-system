@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="linkage" namespace="/admin/linkage" extends="wzd-admin">
+		<!-- v1.6.7.2 RDPROJECT-26 sj 2013-12-24 start -->
+		<action name="showLinkage"  class="linkageAction" method="showLinkage">
+			<result name="success" type="ftl">/admin/linkage/linkage_list.html</result>
+		</action>
+		<action name="addLinkage"  class="linkageAction" method="addLinkage">
+			<result name="success" type="ftl">/admin/linkage/add_linkage.html</result>
+		</action>
+		<action name="modifyLinkage"  class="linkageAction" method="modifyLinkage">
+			<result name="success" type="ftl">/admin/linkage/modify_linkage.html</result>
+		</action>
+		<!-- v1.6.7.2 RDPROJECT-26 sj 2013-12-24 end -->
+	</package>
+
+</struts>

@@ -1,0 +1,198 @@
+<!-- v1.6.6.2 RDPROJECT-28 wcw 2013-10-17 start-->
+<!DOCTYPE html>
+<html>
+<#include "../../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "../../setting/left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="充值记录">
+                        <#include "../banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+
+                                 <div class="toolbor-module export">
+                                    <input type="button" onClick="exportxls()" value="导出报表" class="input-button export-btn"/>
+                                </div> 
+								<div class="toolbor-module search">    
+                                    <input type="button" value="搜索"  class="input-button" onClick="sousuo();">
+                                </div>
+                                <#if selectType!=1>
+                                <div class="toolbor-module search">
+                                    <input type="text" name="orderNumber" id="orderNumber" value="请输入订单号" data-value="请输入订单号" class="search-value">
+                                </div>
+                              </#if>
+                                
+
+
+                               
+                                <div class="toolbor-module search">
+                                    <div style="height:22px;line-height:22px;float:left;">时间：</div>
+                                    <input class="_search-value js-datetime" name="StartTime" id="StartTime" value="${StartTime!}"/>
+                                    <div style="height:22px;line-height:22px;float:left;margin:0 8px;"> 到 </div>
+                                    <input class="_search-value js-datetime" name="EndTime" value="${EndTime!}" id="EndTime"/>
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form action="" method="post">
+                                    <table class="data-list">
+                                        <tr class="header">
+                                            <td>ID</td>
+                                            <td>商户订单号</td>
+                                            <td>ips订单号</td>
+                                            <td>交易代码</td>
+                                            <td>交易币种</td>
+                                            <td>交易金额</td>
+                                            <td>商户时间</td>
+                                            <td>IPS订单时间</td>
+                                            <td>成功标志</td>
+                                            <td>订单备注信息</td>
+                                        </tr>
+                                        <#if orderMsg.list??>
+                                        <#list orderMsg.list as item>
+                                            <tr class="s">
+                                                <td>${item_index+1}</td>
+                                                <td>${item.orderNo}</td>
+                                                <td>${item.IPSOrderNo}</td>
+                                                <td>${item.trd_Code!}元</td>
+                                                <td>${item.cr_Code!}</td>
+                                                <td>${item.amount!}</td>
+                                                <td>${item.merchantOrderTime!}</td>
+                                                <td>${item.IPSOrderTime!}</td>
+                                                <td><#if item.flag==1>成功<#else>失败</#if></td>
+                                                <td>${item.attach!}</td>
+                                                
+                                            </tr>
+                                            </#list>
+                                            </#if>
+                                    </table>
+                                </form>
+								<style>
+									.page_num{ width:15px; height:15px; border:1px solid #333; margin-right:5px;display:inline-block;*zoom:1;*display:inlinel;line-height:15px;text-align:center;
+												}
+								</style>
+                                <!--底部工具栏--{-->
+                                <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+                             
+                                    <div class="container">
+	                                    <div id="pageitem">
+											共<#if orderMsg.total??>${orderMsg.total}<#else>0</#if>条/<#if totalPage??>${totalPage}<#else>0</#if>页 当前第<#if orderMsg.page??>${orderMsg.page}<#else>1</#if>页
+												&nbsp;<a href="ecpssPayOrderlist.html?selectType=<#if selectType??>${selectType}<#else>0</#if>&page=1">首页</a>
+												<#if orderMsg.page??&&orderMsg.page lte 1>
+												   <span>上一页</span>
+												<#else>
+												&nbsp;<span><a href="ipsOrder.html?selectType=<#if selectType??>${selectType}<#else>0</#if>&Page=<#if orderMsg.page??>${orderMsg.page?number-1}<#else>0</#if>">上一页</a></span> 
+												</#if>
+												
+												<#if orderMsg.page??&&(orderMsg.page lt totalPage)&&(orderMsg.page gte 1)>
+												&nbsp;<a href="ipsOrder.html?selectType=<#if selectType??>${selectType}<#else>0</#if>&Page=${orderMsg.page+1}">下一页</a>
+												<#else>
+												&nbsp;<span>下一页</span>
+												</#if>
+												&nbsp;<a href="ipsOrder.html?selectType=<#if selectType??>${selectType}<#else>0</#if>&Page=<#if totalPage??>${totalPage}<#else>1</#if>">尾页</a>
+											<span class="page_go">转到
+											<input type="text" onfocus="this.select()" value="<#if orderMsg.page??>${orderMsg.page}<#else>1</#if>" onkeydown="if (event.keyCode==13){location.href ='ipsOrder.html?selectType=<#if selectType??>${selectType}<#else>0</#if>&Page='+this.value+''}" size="4" id="page_text">页</span>
+											
+											 <input type="button" onclick="var pageId;pageId=document.getElementById('page_text').value;location.href ='ipsOrder.html?Page='+pageId+'';" value="确定" class="btn">
+											</div>
+									</div>	
+                                    <!--  -->
+                                    
+                                    
+                                </div>
+                                <!--底部工具栏--}-->
+
+                                <script>
+                                    $(function(){
+                                    	 
+                                    });
+                                    var url = 'ipsOrder.html?selectType=<#if selectType??>${selectType}<#else>0</#if>&search=true';
+                                    var xlsurl = 'ipsOrder.html?selectType=<#if selectType??>${selectType}<#else>0</#if>&type=export';
+
+                                    function sousuo(){
+                                        var sou = "";
+                                        var StartTime = $("#StartTime").val();
+                                        var EndTime = $("#EndTime").val();
+                                        var orderNumber = $("#orderNumber").val();
+
+                                        if (StartTime!=null){
+                                            sou += "&StartTime="+StartTime;
+                                        }
+                                        if (EndTime!=null){
+                                            sou += "&EndTime="+EndTime;
+                                        }
+                                        if (orderNumber!=""&&orderNumber!="请输入订单号"){
+                                            sou += "&orderNumber="+orderNumber;
+                                        }
+                                        if (sou!=""){
+                                            location.href=url+sou;
+                                        }
+                                    }
+                                    function exportxls(){
+                                        var sou = "";
+                                        var StartTime = $("#StartTime").val();
+                                        var EndTime = $("#EndTime").val();
+                                        var orderNumber = $("#orderNumber").val();
+                                        if (StartTime!=null){
+                                            sou += "&StartTime="+StartTime;
+                                        }
+                                        if (EndTime!=null){
+                                            sou += "&EndTime="+EndTime;
+                                        }
+                                        if (orderNumber!=""&&orderNumber!="请输入订单号"){
+                                            sou += "&orderNumber="+orderNumber;
+                                        }
+                                        if (sou!=""){
+                                            location.href=xlsurl+sou;
+                                        }else{
+                                            location.href=xlsurl;
+                                        }
+                                    }
+                                </script>
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../../jsPage.html">
+<!-- v1.6.6.2 RDPROJECT-28 wcw 2013-10-17 end-->
+

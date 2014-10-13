@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="${webroot}${theme_dir}/media/js/jquery_1.9.1.js"></script>
+<script src="${webroot}${theme_dir}/media/js/mobile.js"></script>
+<link href="${webroot}${theme_dir}/media/css/mobile.css" rel="stylesheet" />
+<link href="${webroot}${theme_dir}/media/css/mobile_base.css" rel="stylesheet" />
+
+<title>${webname}</title>
+</head>
+
+<body>
+    <div data-role="header">
+    	<a href="invest.html" style="display:block;color:#fff;text-decoration:none;position:absolute;left:10px;">返回列表</a>
+    	<h1>晋商贷登录</h1>
+    </div>
+    <div data-role="content">
+    <form method="post" action="/wx/login.html"  name="login" onSubmit="return check_form_login()" >
+        <input name="refPage" type="hidden" id="refPage" value=" " />
+        <div data-role="fieldcontain">
+            <input name="username" id="username" placeholder="用户名" class="required" value="" type="text">
+        </div>
+        <div data-role="fieldcontain">
+            <input name="password" id="password" placeholder="密码" class="required" value="" type="password">
+        </div>
+        <div style="float:left;width:180px">
+        <div data-role="fieldcontain">
+            <input name="valicode" id="valicode" placeholder="验证码" class="required" value=""  type="text"><img src="${request.getContextPath()}/validimg.html" alt="点击刷新" onClick="this.src='${request.getContextPath()}/validimg.html?t=' + Math.random();" align="absmiddle" style="cursor:pointer; display:inline-block;zoom:1;*display:inline; *float:none;" />
+        </div>
+        </div>
+        <div style="float:left;width:100px;padding:12px 0 0 5px;"></div>
+        <div data-role="fieldcontain">
+        </div>
+        <input type="submit" value="登录" class="denglubtn" />
+        <input type="hidden" name="actionType"  value="login" />
+        <input type="hidden" name="redirectURL"  value="${redirectURL!}" />
+        <input type="hidden" name="openLoginId" value="${openLoginId!}"/>
+    </form>
+    </div>
+    <script>
+		var user = $("#username");
+		var pwd = $("#password");
+		var valicode = $("#valicode");
+		var user_val; 
+		var pwd_val; 
+		var valicode_val; 
+		function check_form_login(){
+			user_val = user.val();
+			pwd_val = pwd.val();
+			valicode_val = valicode.val();
+			if(user_val==""||pwd_val==""||valicode_val=="")
+			{
+				if(!$(".position_ab").is(":visible")){
+					user.parent().append("<div class='position_ab'>请填写用户名</div>");
+					pwd.parent().append("<div class='position_ab'>请填写登录密码</div>");
+					valicode.parent().append("<div class='position_ab'>请填写验证码</div>")
+					return false;	
+				}
+			}		
+			
+		}
+		function check_val(){
+			user.focus(function(){
+				user.siblings(".position_ab").remove();	
+			}).blur(function(){
+				user_val = user.val();
+				if(user_val=="")
+				{
+					user.parent().append("<div class='position_ab'>请填写用户名</div>");	
+				}	
+			})
+			pwd.focus(function(){
+				pwd.siblings(".position_ab").remove();	
+			}).blur(function(){
+				pwd_val = pwd.val();
+				if(pwd_val=="")
+				{
+					pwd.parent().append("<div class='position_ab'>请填写登录密码</div>");
+				}	
+			})
+			valicode.focus(function(){
+				valicode.siblings(".position_ab").remove();	
+			}).blur(function(){
+				valicode_val = valicode.val();
+				if(valicode_val=="")
+				{
+					valicode.parent().append("<div class='position_ab'>请填写验证码</div>")
+				}	
+			})
+		}
+		check_val();
+	</script>
+</body>
+</html>

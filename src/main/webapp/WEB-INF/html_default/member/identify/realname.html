@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html>
+<#include "../../include/resource.html">
+<body>
+	<#assign nid="member"> 
+	<#include "../../include/header.html">
+	<!--header-end-->
+	<!--用户中心的主栏目 开始-->
+	<div id="main" class="clearfix" >
+		<div class="wrap950 " style="margin-top:0">
+			<!--左边的导航 开始-->
+			<div class="user_left">
+			<#assign mid="m_identify" >
+			<#include "../user_menu.html"></div>
+			<!--左边的导航 结束-->
+
+			<!--右边的内容 开始-->
+			<div class="user_right">
+				<#if msg?exists>
+				<div id="msg24">
+					<p class="ok">${msg}</p>
+				</div>
+				<#else> <#if errormsg?exists>
+				<div id="msg25">
+					<p class="error">${errormsg}</p>
+				</div>
+				</#if> </#if>
+				<div class="user_right_menu">
+					<#assign userinfo_type="realname">
+					<#include "identify_menu.html"></div>
+				<div class="user_right_main">
+				<#if user?exists&&user.real_status?exists&&user.real_status==2>
+					<div class="user_help alert">实名认证正在审核中!</div>
+				<#elseif user?exists&&user.real_status?exists&&user.real_status==1>
+					<div class="user_help alert">恭喜您已经通过了实名认证，如要修改请跟客服联系，谢谢！</div>
+					<div class="user_right_border" style="background: #E8EEE5">
+						<div class="l">用户名：</div>
+						<div class="c">${user.username!}</div>
+					</div>
+					<div class="user_right_border" style="background: #E8EEE5">
+						<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 start -->
+						<div class="l"><#if user.nature?? && user.nature==2>公司名<#else>真实姓名</#if>：</div>
+						<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 end -->
+						<div class="c">${user.realname!}</div>
+					</div>
+					<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 start -->
+					<#if user.nature?? && user.nature==1>
+					<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 end -->
+					<div class="user_right_border" style="background: #E8EEE5">
+						<div class="l">性别：</div>
+						<div class="c"><#if user?exists&&user.sex?exists&&user.sex=="1">男<#else>女</#if> </div>
+					</div>
+					
+					<div class="user_right_border" style="background: #E8EEE5">
+						<div class="l">民族：</div>
+						<div class="c">
+						<#if user.nation??>${Typet(user.nation,"name")}<#else>-</#if></div>
+					</div>
+					<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 start -->
+					</#if>
+					<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 end -->
+					<div class="user_right_border" style="background: #E8EEE5">
+						<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 start -->
+						<div class="l"><#if user.nature?? && user.nature==2>注册日期<#else>出生日期</#if>：</div>
+						<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 end -->
+						<div class="c">${user.birthday!}</div>
+					</div>
+					
+					<div class="user_right_border" style="background: #E8EEE5">
+						<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 start -->
+						<div class="l"><#if user.nature?? && user.nature==2>公司所在地<#else>籍贯</#if>：</div>
+						<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 end -->
+						<div class="c">${(user.provincetext)!} ${(user.citytext)!} ${(user.areatext)!} </div>
+					</div>
+					
+					<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 start -->
+					<#if user.nature?? && user.nature==2>
+					<div class="user_right_border" style="background: #E8EEE5">
+						<div class="l">注册地址：</div>
+						<div class="c">${(user.address)!}</div>
+					</div>
+					</#if>
+					<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 end -->
+		
+					<div class="user_right_border" style="background: #E8EEE5">
+						<div class="l">证件类别：</div>
+						<div class="c">
+						<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 start -->
+						<#if user.nature?? && user.nature==2>
+							组织机构证号码
+						<#else>
+							<#if user?exists&&user.card_type?exists>
+								<@linkage name="card_type" plantext=true default=user.card_type></@linkage>
+							<#else>
+								-
+							</#if>
+						</#if>
+						<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 end -->
+						</div>
+					</div>
+		
+					<div class="user_right_border" style="background: #E8EEE5">
+						<div class="l">证件号码：</div>
+						<div class="c">${user.card_id}</div>
+					</div>
+					
+					<!--  
+					<div class="user_right_border" style="background: #E8EEE5">
+						<div class="l">身份证图片：</div>
+						<div class="c">
+							<a href="${request.getContextPath()}${user.card_pic1!}" target="_blank">正面</a> | 
+							<a href="${request.getContextPath()}${user.card_pic2!}" target="_blank">反面</a>
+						</div>
+					</div>
+					-->
+				<#else>
+					<form action="${webroot}/member/identify/realname.html" name="form1" id="form1" method="post" onsubmit="return check_form_relname()" enctype="multipart/form-data">
+					<div class="user_help alert">注意：请认真填写以下的内容，一旦通过实名认证以下信息将不能修改。</div>
+					<div class="user_right_border">
+						<div class="l">用户名：</div>
+						<div class="c">
+							<#if user?exists&&user.username?exists>${user.username}</#if>
+						</div>
+					</div>
+					<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 start -->
+					<div class="user_right_border" id="natureDiv">
+						<div class="l">会员类型：</div>
+						<div class="c">
+							<select name="nature" id="nature" onchange="changeNature(this.value);">
+								<option value="1" <#if user?? && user.nature?? && user.nature==1>selected="selected"</#if>>自然人</option>
+								<option value="2" <#if user?? && user.nature?? && user.nature==2>selected="selected"</#if>>公司法人</option>
+							</select>
+							<font color="#FF0000">*</font> 
+						</div>
+					</div>
+					<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 end -->
+					
+					<div class="user_right_border" id="realnameDiv">
+						<div class="l" id="realnameTitle">真实姓名：</div>
+						<div class="c">
+							<input name="realname"  value="<#if user?exists&&user.realname?exists>${user.realname}</#if>" /><font color="#FF0000">*</font> 
+						</div>
+					</div>
+					
+					<div class="user_right_border" id="sexDiv">
+						<div class="l">性别：</div>
+						<div class="c">
+							<input type="radio" name="sex" value="1"  checked="checked" />男
+			                   <input type="radio" name="sex" value="2"  />女
+							<font color="#FF0000">*</font> 
+						</div>
+					</div>
+					
+					<div class="user_right_border" id="nationDiv">
+						<div class="l">民族：</div>
+						<div class="c">
+							<#if user?exists&&user.nation?exists>
+								<@linkage name="nation" id="nation" nid="nation" default=user.nation noselect="请选择"></@linkage>
+							<#else>
+								<@linkage name="nation" id="nation" nid="nation" noselect="请选择"></@linkage>
+							</#if> 
+						</div>
+					</div>
+					
+					<div class="user_right_border" id="birthdayDiv">
+						<div class="l" id="birthdayTitle">出生日期：</div>
+						<div class="c">
+							<input type="text" name="birthday" value="<#if user?exists&&user.birthday?exists>${user.birthday}</#if>" onclick="change_picktime()" />  <font color="#FF0000">*</font> 
+						</div>
+					</div>
+					
+					<div class="user_right_border" id="provinceDiv">
+						<div class="l" id="provinceTitle">籍贯：</div>
+						<div class="c">
+			                <#if user?exists&&user.province?exists>
+			                		<@region name="province" id="province" value=user.province pid="0"></@region>&nbsp;
+			                	<#else>
+			                		<@region name="province" id="province" pid="0"></@region>&nbsp;
+			                	</#if>
+								
+								<#if user?exists&&user.province?exists>
+									<#if user.city?exists>
+										<@region name="city" id="city" value=user.city pid=user.province></@region>&nbsp;
+									<#else>
+										<@region name="city" id="city" pid=user.province></@region>&nbsp;
+									</#if>
+			                	<#else>
+			                		<@region name="city" id="city" pid="-1"></@region>&nbsp;
+			                	</#if>
+								
+								<#if user?exists&&user.city?exists>
+									<#if user.area?exists>
+										<@region name="area" id="area" value=user.area pid=user.city></@region>&nbsp;
+									<#else>
+										<@region name="area" id="area" pid=user.city></@region>&nbsp;
+									</#if>
+			                	<#else>
+			                		<@region name="area" id="area" pid="-1"></@region>&nbsp;
+			                	</#if>
+						</div>
+					</div>
+					
+					<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 start -->
+					<div class="user_right_border" id="addressDiv" style="display:none;">
+						<div class="l" id="addressTitle">注册地址：</div>
+						<div class="c">
+							<input type="text" name="address" value="<#if user?exists&&user.address?exists>${user.address}</#if>" size="35"/>  <font color="#FF0000">*</font> 
+						</div>
+					</div>
+					<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 end -->
+					<div class="user_right_border" id="card_typeDiv">
+						<div class="l">证件类别：</div>
+						<div class="c">
+							<#if user?exists&&user.card_type?exists>
+								<@linkage name="card_type" id="card_type" nid="card_type" default=user.card_type></@linkage>
+							<#else>
+								<@linkage name="card_type" id="card_type" nid="card_type"></@linkage>
+							</#if> 
+							<font color="#FF0000">*</font> 
+						</div>
+					</div>
+					
+					<div class="user_right_border" id="card_idDiv">
+						<div class="l" id="card_idTitle">证件号码：</div>
+						<div class="c">
+							<input type="text" name="card_id" value="<#if user?exists&&user.card_id?exists>${user.card_id}</#if>" />  
+							<font color="#FF0000" id="card_idTip">*【身份证号码中含X的必须为大写】</font> 
+						</div>
+					</div>
+					
+					<div class="user_right_border" id="card_pic1Div" style="display:none">
+						<div class="l" id="card_pic1Title">身份证正面上传：</div>
+							<div class="c">
+								<input type="file" name="card_pic1" size="20" class="input_border"/>
+								<#if user?exists&&user.card_pic1?exists>
+									<a href="./{ $_G.user_result.card_pic1}" target="_blank" title="有图片">
+										<img src="${request.getContextPath()}${theme_dir}/images/ico_yes.gif" border="0"  />
+									</a>
+								</#if>
+								<font color="#FF0000">*</font>
+				            </div>
+					</div>
+							
+					<div class="user_right_border" id="card_pic2Div" style="display:none">
+						<div class="l" id="card_pic2Title">身份证反面上传：</div>
+							<div class="c">
+								<input type="file" name="card_pic2" size="20" class="input_border"/>
+								<#if user?exists&&user.card_pic2?exists>
+									<a href="./{ $_G.user_result.card_pic2}" target="_blank" title="有图片">
+										<img src="${request.getContextPath()}${theme_dir}/images/ico_yes.gif" border="0"  />
+									</a>
+								</#if>
+								<font color="#FF0000">*</font> 
+							</div>
+					</div>
+					
+					<div class="user_right_border">
+					<div class="l" style="font-weight:bold; float:left;">验证码：</div>
+					<div class="c" >
+						<input name="valicode" type="text" size="11" maxlength="5"  tabindex="3"  style="float:left;"/>&nbsp;<img src="${request.getContextPath()}/validimg.html" alt="点击刷新" onClick="this.src='${request.getContextPath()}/validimg.html?t=' + Math.random();" align="absmiddle" style="cursor:pointer; display:inline-block;zoom:1;*display:inline; *float:none;" />
+					</div>
+				</div>
+					
+					<div class="user_right_border">
+						<div class="e"></div>
+						<div class="c">
+							<input type="submit"  class="btn-action" name="name"  value="确认提交" size="30" /> 			
+						</div>
+					</div>
+					<input type="hidden" name="type" value="1" />
+					</form>
+				</#if>
+				<div class="user_right_foot alert">
+				 * 温馨提示：我们将对所有的信息进行保密
+				</div>
+				
+				<script type="text/javascript">
+					<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 start -->
+					var nature = $("input[name='nature']").val();
+					if(nature==undefined){
+					 	nature = 1;
+					}
+					
+					<#if user?? && user.nature?? && user.nature==2>
+						$("#nature")[0].selectedIndex = 1;
+					<#else>
+						$("#nature")[0].selectedIndex = 0;
+					</#if>
+					
+					//v1.6.7.2 sj 2013-12-23 start
+					var need_upload_card_pic = ${need_upload_card_pic?if_exists}
+					<#if need_upload_card_pic == 1>
+						$("#card_pic1Div").show();
+						$("#card_pic2Div").show();
+					</#if>
+					//v1.6.7.2 sj 2013-12-23 end
+					
+					function changeNature(nat){
+						nature = nat;
+						if(nature==1){//自然人
+							$("#realnameTitle").html("真实姓名：");
+							$("#sexDiv").show();
+							$("#nationDiv").show();
+							$("#birthdayTitle").html("出生日期：");
+							$("#addressDiv").hide();
+							$("#card_typeDiv").show();
+							$("#card_idTitle").html("证件号码：");
+							$("#card_idTip").html("*【身份证号码中含X的必须为大写】");
+							$("#provinceTitle").html("籍贯：");
+							
+							//v1.6.7.2 sj 2013-12-23 start
+							<#if need_upload_card_pic == 1>
+								$("#card_pic1Div").show();
+								$("#card_pic2Div").show();
+								$("#card_pic1Title").html("身份证正面上传：");
+								$("#card_pic2Title").html("身份证反面上传：");
+							<#else>
+								$("#card_pic1Div").hide();
+								$("#card_pic2Div").hide();
+							</#if>
+							//v1.6.7.2 sj 2013-12-23 end
+							
+						}
+						else if(nature==2){//公司法人
+							$("#realnameTitle").html("公司名：");
+							$("#sexDiv").hide();
+							$("#nationDiv").hide();
+							$("#birthdayTitle").html("注册日期：");
+							$("#addressDiv").show();
+							$("#card_typeDiv").hide();
+							$("#card_idTitle").html("组织机构证号码：");
+							$("#card_idTip").html("*");
+							$("#provinceTitle").html("公司所在地：");
+							
+							//v1.6.7.2 sj 2013-12-23 start
+							$("#card_pic1Div").show();
+							$("#card_pic2Div").show();
+							//v1.6.7.2 sj 2013-12-23 end
+							
+							$("#card_pic1Title").html("公司营业执照上传：");
+							$("#card_pic2Title").html("组织机构代码上传：");
+						}
+					}
+					<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 end -->
+					
+					function check_form_relname(){
+						var frm = $("#form1");
+			            var card_pic1 = $("input[name='card_pic1']").val();
+			            var card_pic2 = $("input[name='card_pic2']").val();
+						var realname = $("input[name='realname']").val();
+						var birthday = $("input[name='birthday']").val();
+						var card_id = $("input[name='card_id']").val();
+						var province = $("select[name='province']").val();
+						var city = $("select[name='city']").val();
+						var area = $("select[name='area']").val();
+						var nation = $("select[name='nation']").val();
+						<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 start -->
+						var address = $("input[name='address']").val();
+						var pattern = /^[\u4e00-\u9fa5]+$/ ; 	//实名只能是中文正则
+						var valicode = $("input[name='valicode']").val();
+						<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 end -->
+						var errorMsg = '';
+						
+						<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 start -->
+						var bool = pattern.test(realname);	//验证
+						if (realname.length == 0) {
+							errorMsg += '* ';
+							if(nature==1){
+								errorMsg += '真实姓名不能为空';	
+							}else if(nature==2){
+								errorMsg += '公司名不能为空';	
+							}
+							errorMsg += '\n';
+						}
+						if(!bool){
+						  	errorMsg += '* ';
+							if(nature==1){
+								errorMsg += '真实姓名';	
+							}else if(nature==2){
+								errorMsg += '公司名';	
+							}
+							errorMsg += '只能为中文\n';
+						} 
+						if(nature == 1 && nation == 0)
+						{
+							errorMsg += '* 民族不能为空' + '\n';	  
+						}
+						  
+						if(birthday.length == 0) {
+							errorMsg += '* ';
+							if(nature==1){
+								errorMsg += '出生日期不能为空';	
+							}else if(nature==2){
+								errorMsg += '注册日期不能为空';	
+							}
+							errorMsg += '\n';
+						}
+						if(province == 0 || city==0|| area==0) {
+							errorMsg += '* ';
+							if(nature==1){
+								errorMsg += '籍贯不能为空';	
+							}else if(nature==2){
+								errorMsg += '公司所在地不能为空';	
+							}
+							errorMsg += '\n';
+						}
+						if(nature == 2 && address.length == 0 ) {
+							errorMsg += '* 注册地址不能为空' + '\n';
+						}
+						if(card_id.length == 0 ) {
+							errorMsg += '* 证件号码不能为空' + '\n';
+						}
+						
+						//v1.6.7.2 sj 2013-12-23 start
+						var need_upload_card_pic = ${need_upload_card_pic?if_exists}
+						if(need_upload_card_pic == 1 || nature==2){
+							var pos1 = card_pic1.lastIndexOf(".");
+							var lastname1 = card_pic1.substring(pos1,card_pic1.length);
+							
+							var pos2 = card_pic2.lastIndexOf(".");
+							var lastname2 = card_pic2.substring(pos2,card_pic2.length);
+							
+							if (!(lastname1.toLowerCase()==".jpg" || lastname1.toLowerCase()==".gif" || lastname2.toLowerCase()==".png" ))
+							{
+								errorMsg += '* ';
+								if(nature==1){
+									errorMsg += '身份证正面';	
+								}else if(nature==2){
+									errorMsg += '公司营业执照';	
+								}
+								errorMsg += ",文件类型必须为.jpg, .gif或者.png类型" + '\n';
+							}
+							if (!(lastname2.toLowerCase()==".jpg" || lastname2.toLowerCase()==".gif" || lastname2.toLowerCase()==".png" ))
+							{
+								errorMsg += '* ';
+								if(nature==1){
+									errorMsg += '身份证反面';	
+								}else if(nature==2){
+									errorMsg += '组织机构代码';	
+								}
+								errorMsg += ",文件类型必须为.jpg, .gif或者.png类型" + '\n';
+							}
+						}
+						//v1.6.7.2 sj 2013-12-23 end
+						
+						if(valicode.length == 0){
+							errorMsg += "* 请填写验证码！";
+						}
+						<!-- v1.6.7.1 RDPROJECT-423 xx 2013-11-15 end -->
+						if (errorMsg.length > 0){
+							alert(errorMsg); 
+							return false;
+						} else{  
+							return true;
+						}
+					}
+				</script>
+				
+				</div>
+			</div>
+			<!--右边的内容 结束-->
+		</div>
+	</div>
+	<!--用户中心的主栏目 结束-->
+	<script src="${request.getContextPath()}${theme_dir}/media/js/modal.js"></script>
+	<#include "../../include/footer.html">
+</body>
+</html>

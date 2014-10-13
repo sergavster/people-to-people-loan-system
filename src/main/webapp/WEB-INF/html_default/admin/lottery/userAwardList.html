@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                        	<!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 start -->
+                            <#include "../setting/left.html">
+                            <!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 end -->
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="抽奖记录">
+                    	<!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 start -->
+                        <#include "../setting/banner.html">
+                        <!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 end -->
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+
+                                <div class="toolbor-module export">
+                                    <input type="button" onclick="exportxls()" value="导出报表" class="input-button export-btn"/>                            
+                                </div>
+
+                                <div class="toolbor-module export">
+                                </div>
+                                <#if param?exists>
+                                    <#if param.get("dotime1")?exists><#assign dotime1=param.get("dotime1")></#if>
+                                    <#if param.get("dotime2")?exists><#assign dotime2=param.get("dotime2")></#if>
+                                    <#if param.get("status")?exists><#assign status=param.get("status")></#if>
+                                     <#if param.get("user_name")?exists><#assign user_name=param.get("user_name")></#if>
+                                     <!-- v1.6.7.2 RDPROJECT-83 wcw 2013-11-28 start -->
+                                     <#if param.get("rule_id")?exists><#assign rule_id=param.get("rule_id")></#if>
+                                     <!-- v1.6.7.2 RDPROJECT-83 wcw 2013-11-28 end -->
+                                </#if>
+
+                                <div class="toolbor-module search">
+                                 
+                                    <div class="select-box" id="status">
+                                        <div class="tag-select">全部</div>
+                                        <ul class="tag-options">
+                                            <li data-value=""  class="open-selected">全部</li>
+                                            <li data-value="0" >未中奖</li>
+                                            <li data-value="1" >中奖</li>
+                                        </ul>
+                                    </div>
+                                    <input type="button" value="搜索"  class="input-button" onclick="sousuo();">
+                                </div>
+                                <!-- v1.6.7.2 RDPROJECT-83 wcw 2013-11-28 start -->
+                                 <div class="toolbor-module search">
+                                    <div style="height:22px;line-height:22px;float:left;">规则：</div>
+                                    <div class="select-box" id="rule_id">
+                                        <div class="tag-select">全部</div>
+                                        <ul class="tag-options">
+                                            <li data-value="" class="open-selected">全部</li>
+                                            <#list ruleAwardList as item>
+                                            <li data-value="${item.id}" <#if rule_id??><#if item.id??&&item.id==(rule_id?number)>data-selected="selected"</#if></#if>>${item.name}</li>
+                                            </#list>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- v1.6.7.2 RDPROJECT-83 wcw 2013-11-28 end -->
+                                <div class="toolbor-module search">
+                                    <input type="text" name="user_name" id="user_name" value="请输入用户名" data-value="请输入用户名" class="search-value">
+                                </div>
+                                <div class="toolbor-module search">
+                                    <div style="height:22px;line-height:22px;float:left;">抽奖时间：</div>
+                                    <input class="_search-value" name="dotime1" id="dotime1" value="${dotime1!}" onclick="change_picktime()"/>
+                                    <div style="height:22px;line-height:22px;float:left;margin:0 8px;"> 到 </div>
+                                    <input class="_search-value" name="dotime2" value="${dotime2!}" id="dotime2" onclick="change_picktime()"/>
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form action="" method="post">
+                                    <table class="data-list">
+                                        <tr class="header">
+                                            <td>ID</td>
+                                            <td>用户名</td>
+											<td>奖品等级</td>
+                                            <td>奖品名称</td>
+                                            <td>抽奖时间</td>
+                                            <td>是否中奖</td>
+                                        </tr>
+                                        <#list list as item>
+                                            <tr class="s">
+                                                <td>${(item.id!0)?c}</td>
+                                                <td >${item.user_name!""}</td>
+												<td><#if item.status==1>${(item.level!0)?c}等奖<#else>-</#if></td>
+                                                <td>${item.award_name!}</td>
+                                                <td>${dateformat(item.addtime!"")}</td>
+                                                <td><font color="#6699CC"><#if item.status==1>中奖<#else>未中奖</#if></font></td>
+                                            </tr>
+                                            </#list>
+                                    </table>
+                                </form>
+                               
+                                <!--底部工具栏--{-->
+                                <#if awardSum??><div style="height:22px;line-height:22px;color:red;margin-left:12px; padding-top:10px;">合计汇总金额：${awardSum!0}元 </div></#if>
+                                <div id="bottomToolbar" class="clearfix" style="padding-top:5px;">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+
+                                    <!--翻页系统--{-->
+                                    <div class="container">
+                                        <#import "../../common/page.html" as pager>
+                                            <@pager.pagination page=page url="/admin/lottery/userAwardList.html" map=param style="style1"  />
+                                    </div>
+                                    <!--翻页系统--}-->
+                                </div>
+                                <!--底部工具栏--}-->
+
+                                <script>
+                                     var url = 'userAwardList.html?search=true';
+                                    var xlsurl = 'userAwardList.html?type=export';
+
+                                    function sousuo(){
+                                        var sou = "";
+                                        var username = $("#user_name").val();
+                                        var status = $("#status").find(".open-selected").attr("data-value");
+                                         if (username!=""&&username!="请输入用户名"){
+                                            sou += "&user_name="+username;
+                                        } 
+                            			if (status!="" && status!=null){
+                            				sou += "&status="+status;
+                            			}
+                            			var dotime1 = $("#dotime1").val();
+                                        var dotime2 = $("#dotime2").val();
+                                        var type = $("#type").val();
+                                        if (dotime1!=null){
+                                            sou += "&dotime1="+dotime1;
+                                        }
+                                        if (dotime2!=null){
+                                            sou += "&dotime2="+dotime2;
+                                        }
+                                        <!-- v1.6.7.2 RDPROJECT-83 wcw 2013-11-28 start -->
+                                        var rule_id=$("#rule_id").find(".open-selected").attr("data-value");
+                                        if(rule_id!=null&&rule_id!=""){
+                                        	sou+="&rule_id="+rule_id;
+                                        }
+                                        <!-- v1.6.7.2 RDPROJECT-83 wcw 2013-11-28 end -->
+                                        if (sou!=""){
+                                            location.href=url+sou;
+                                        }
+                                    }
+                                    function exportxls(){
+                                        var sou = "";
+                                        var status = $("#status").find(".open-selected").attr("data-value");
+                                        if (status!="" && status!=null){
+                                            sou += "&status="+status;
+                                        }
+                                        var username = $("#user_name").val();
+                                         if (username!=""&&username!="请输入用户名"){
+                                            sou += "&user_name="+username;
+                                        } 
+                                        var dotime1 = $("#dotime1").val();
+                                        var dotime2 = $("#dotime2").val(); 
+                                        if (dotime1!=null){
+                                            sou += "&dotime1="+dotime1;
+                                        }
+                                        if (dotime2!=null){
+                                            sou += "&dotime2="+dotime2;
+                                        }
+                                        <!-- v1.6.7.2 RDPROJECT-83 wcw 2013-11-28 start -->
+                                        var rule_id=$("#rule_id").find(".open-selected").attr("data-value");
+                                        if(rule_id!=null&&rule_id!=""){
+                                        	sou+="&rule_id="+rule_id;
+                                        }
+                                        <!-- v1.6.7.2 RDPROJECT-83 wcw 2013-11-28 end -->
+                                        if (sou!=""){
+                                            location.href=xlsurl+sou;
+                                        }else{
+                                            location.href=xlsurl;
+                                        }
+                                    } 
+                                </script>
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

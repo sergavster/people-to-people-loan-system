@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="客户信息管理">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <form action="" method="post">
+                                <div class="toolbor-module search">    
+                                    <a href="${request.getContextPath()}/admin/userinfo/accountSumLog.html" class="input-button" >返回</a>
+                                </div>
+                                <div class="toolbor-module search">
+                                </div>
+                                
+                                </form>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                
+                                <table class="data-list">
+                                        <tr class="header">
+                                            <td>用户ID</td>
+											<td>用户名</td>
+											<td>变动前金额</td>
+											<td>操作金额</td>
+											<td>变动后金额</td>
+											<td>添加时间</td>
+											<td>备注</td>
+                                        </tr>
+                                    
+                                     <#list accountSumLogList as obj>
+                                        <tr class="s">
+                                            <td>${(obj.user_id?c)!"-"}</td>
+											<td>${sumUser.username!"-"}</td>
+											<td>${obj.before_money!"0"}</td>
+											<td>${obj.money!"0"}</td>
+											<td>${obj.after_money!"0"}</td>
+											<td>${dateformat((obj.addtime?number)?c)}</td>
+											<td>${obj.remark!"-"}</td>
+                                        </tr>
+                                          </#list>
+                                    </table>
+
+                                <!--底部工具栏--{-->
+                                <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+
+                                    <!--翻页系统--{-->
+                                    <div class="container">
+                                        <#import "../../common/page.html" as pager>
+                                            <@pager.pagination page=page url="/admin/userinfo/sumLogDetail.html?user_id=${user_id?c}" map=params style="style1" />
+                                    </div>
+                                    <!--翻页系统--}-->
+                                </div>
+                                <!--底部工具栏--}-->
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

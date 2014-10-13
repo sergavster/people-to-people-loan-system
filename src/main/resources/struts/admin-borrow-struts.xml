@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="manageBorrow" namespace="/admin/borrow"
+		extends="wzd-admin">
+	<action name="showAllTenderList" class="manageBorrowAction" method="showAllTenderList">
+			<result name="success" type="ftl">/admin/borrow/showAllTenderList.html
+			</result>
+		</action>
+		<action name="showAllBorrow" class="manageBorrowAction" method="showAllBorrow">
+			<result name="success" type="ftl">/admin/borrow/allborrow.html</result>
+			<!--  <interceptor-ref name="manageAuthStack" />-->
+		</action>
+		
+		<action name="viewBorrow" class="manageBorrowAction" method="viewBorrow">
+			<result name="success" type="ftl">/admin/borrow/view.html
+			</result>
+		</action>
+		
+		<action name="verifyBorrow" class="manageBorrowAction" method="verifyBorrow">
+			<result name="success" type="ftl">/admin/borrow/verify.html
+			</result>
+			<!-- <interceptor-ref name="manageAuthStack" />-->
+		</action>
+		
+		<action name="cancelBorrow" class="manageBorrowAction" method="cancelBorrow">
+			<result name="success" type="ftl">/admin/borrow/verify.html
+			</result>
+		</action>
+		
+		<action name="showTrialBorrow" class="manageBorrowAction" method="showTrialBorrow">
+			<result name="success" type="ftl">/admin/borrow/allborrow.html
+			</result>
+		</action>
+		
+		<action name="showNotTrialBorrow" class="manageBorrowAction" method="showNotTrialBorrow">
+			<result name="success" type="ftl">/admin/borrow/allborrow.html
+			</result>
+		</action>
+		
+		<action name="showReviewBorrow" class="manageBorrowAction" method="showReviewBorrow">
+			<result name="success" type="ftl">/admin/borrow/fullborrow.html
+			</result>
+		</action>
+		
+		<action name="viewFullBorrow" class="manageBorrowAction" method="viewFullBorrow">
+			<result name="success" type="ftl">/admin/borrow/viewfull.html
+			</result>
+		</action>
+		
+		<action name="verifyFullBorrow" class="manageBorrowAction" method="verifyFullBorrow">
+			
+		</action>
+		
+		<action name="showBorrowing" class="manageBorrowAction" method="showBorrowing">
+			<result name="success" type="ftl">/admin/borrow/allborrow.html
+			</result>
+		</action>
+		
+		<action name="showIsFullBorrow" class="manageBorrowAction" method="showIsFullBorrow">
+			<result name="success" type="ftl">/admin/borrow/allborrow.html
+			</result>
+		</action>
+		
+		<action name="showNotFullBorrow" class="manageBorrowAction" method="showNotFullBorrow">
+			<result name="success" type="ftl">/admin/borrow/allborrow.html
+			</result>
+		</action>
+		
+		<action name="amountApply" class="manageBorrowAction" method="amountApply">
+			<result name="success" type="ftl">/admin/borrow/amountApply.html
+			</result>
+		</action>
+		
+		<action name="viewAmountApply" class="manageBorrowAction" method="viewAmountApply">
+			<result name="success" type="ftl">/admin/borrow/viewAmountApply.html
+			</result>
+		</action>
+		
+		<action name="verifyAmountApply" class="manageBorrowAction" method="verifyAmountApply">
+			<result name="success" type="ftl">/admin/borrow/viewAmountApply.html
+			</result>
+		</action>
+		
+		<action name="repaid" class="manageBorrowAction" method="repaid">
+			<result name="success" type="ftl">/admin/borrow/repaid.html
+			</result>
+		</action>
+		
+		<action name="late" class="manageBorrowAction" method="late">
+			<result name="success" type="ftl">/admin/borrow/late.html
+			</result>
+		</action>
+		<action name="finishFlow" class="manageBorrowAction" method="finishFlow">
+			<result name="success" type="ftl">/admin/borrow/unFinishFlow.html
+			</result>
+		</action>
+		<action name="unFinishFlow" class="manageBorrowAction" method="unFinishFlow">
+			<result name="success" type="ftl">/admin/borrow/unFinishFlow.html
+			</result>
+		</action>
+		<action name="bonus" class="manageBorrowAction" method="bonus">
+			<result name="success" type="ftl">/admin/borrow/bonus.html
+			</result>
+		</action>
+		
+		<action name="bonusmodify" class="manageBorrowAction" method="bonusmodify">
+			<result name="success" type="ftl">/admin/borrow/bonusmodify.html
+			</result>
+		</action>
+		
+		<action name="allLimit" class="manageBorrowAction" method="allLimit">
+			<result name="success" type="ftl">/admin/borrow/allLimit.html</result>
+		</action>
+		<action name="showElapseBorrow" class="manageBorrowAction" method="showElapseBorrow">
+			<result name="success" type="ftl">/admin/borrow/allborrow.html
+			</result>
+		</action>
+		<action name="showCancelBorrow" class="manageBorrowAction" method="showCancelBorrow">
+			<result name="success" type="ftl">/admin/borrow/allborrow.html
+			</result>
+		</action>
+		<action name="overdue" class="manageBorrowAction" method="overdue">
+			<result name="success" type="ftl">/admin/borrow/overdue.html
+			</result>
+		</action>
+		<action name="repaying" class="manageBorrowAction" method="repaying">
+			<result name="success" type="ftl">/admin/borrow/repaid.html
+			</result>
+		</action>
+		<action name="JsRepaying" class="manageBorrowAction" method="JsRepaying">
+			<result name="success" type="ftl">/admin/borrow/repaying.html
+			</result>
+		</action>
+		<action name="tenderlist" class="manageBorrowAction" method="tenderList">
+			<result name="success" type="ftl">/admin/borrow/tenderlist.html</result>
+		</action>
+		<action name="stopflow" class="manageBorrowAction" method="stopflow">
+			<result name="success" type="ftl">/admin/borrow/tenderlist.html</result>
+		</action>
+		
+		<action name="collect" class="manageBorrowAction" method="collect">
+			<result name="success" type="ftl">/admin/borrow/collectlist.html</result>
+		</action>
+		<action name="showAllRunBorrow" class="manageBorrowAction" method="showAllRunBorrow">
+			<result name="success" type="ftl">/admin/borrow/jklist.html</result>
+		</action>
+		<action name="showExpriredBorrow" class="manageBorrowAction" method="showExpriredBorrow">
+			<result name="success" type="ftl">/admin/borrow/allborrow.html</result>
+		</action>
+		<action name="showTenderAward" class="manageBorrowAction" method="showTenderAward">
+			<result name="success" type="ftl">/admin/borrow/tenderAward.html
+			</result>
+		</action>
+		<!-- 添加催款记录 所有操作 -->
+		<action name="goLateLog" class="manageBorrowAction" method="goLateLog">
+			<result name="success" type="ftl">/admin/borrow/golateborrow.html
+			</result>
+		</action>
+		<action name="addLateLog" class="manageBorrowAction" method="addLateLog">
+		</action>
+		<action name="getLateBorrowDetails" class="manageBorrowAction" method="getLateBorrowDetails">
+			<result name="success" type="ftl">/admin/borrow/showlate.html</result>
+		</action>
+		<action name="overdueReceivables" class="manageBorrowAction" method="overdueReceivables">
+			<result name="success" type="ftl"></result>
+		</action>
+		
+		<action name="recommend" class="manageBorrowAction" method="recommend">
+			<result name="success" type="ftl">/admin/borrow/viewAmountApply.html</result>
+		</action>
+		
+		<action name="showAllQuickenLoans" class="manageBorrowAction" method="showAllQuickenLoans">
+			<result name="success" type="ftl">/admin/borrow/showAllQuickenLoans.html</result>
+		</action>
+		
+		<action name="delQuickenLoans" class="manageBorrowAction" method="delQuickenLoans">
+			<result name="success" type="ftl">/admin/borrow/delQuickenLoans.html</result>
+		</action>
+		
+		<action name="showFastExpire" class="manageBorrowAction" method="showFastExpire">
+			<result name="success" type="ftl">/admin/borrow/allFast.html</result>
+		</action>
+		
+		<action name="rank" class="manageBorrowAction" method="rank">
+			<result name="success" type="ftl">/admin/borrow/rank.html</result>
+		</action>
+		<action name="config" class="manageBorrowAction" method="config">
+			<result name="success" type="ftl">/admin/borrow/config.html</result>
+		</action>
+		<!-- v1.6.5.3 RDPROJECT-180 xx 2013-09-17 start -->
+		<action name="viewBorrowLimit" class="manageBorrowAction" method="viewBorrow">
+			<result name="success" type="ftl">/admin/borrow/viewBorrowLimit.html</result>
+		</action>
+		<!-- v1.6.5.3 RDPROJECT-180 xx 2013-09-17 end -->
+		<action name="viewConfig" class="manageBorrowAction" method="viewConfig">
+			<result name="success" type="ftl">/admin/borrow/viewConfig.html</result>
+		</action>
+		
+		<action name="stopTender" class="manageBorrowAction" method="stopTender">
+			<result name="success" type="ftl">/admin/borrow/tenderlist.html
+			</result>
+			<!-- <interceptor-ref name="manageAuthStack" />-->
+		</action>	
+		
+		<action name="showSpreadBorrow" class="manageBorrowAction" method="showSpreadBorrow">
+			<result name="success" type="ftl">/admin/borrow/showSpreadBorrow.html</result>
+		</action>
+	</package>
+</struts>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="新增文章">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                                <!--工具栏--{-->
+                                <div id="toolbar" class="clearfix">
+                                    <input type="button" class="input-button return" value="返回" onclick="javascript:location.href='showArticle.html'">
+ 
+                                </div>
+                                <!--工具栏--}-->
+
+                                <div id="main" class="w750 clearfix">
+
+				<form name="form1" method="post" action="" onsubmit="return check_form();" enctype="multipart/form-data" >
+				<div class="module_title"><strong>添加内容</strong></div>
+					<div class="module_border">
+					<div class="l">标题：</div>
+					<div class="c">
+						<input type="text" name="name"  class="input_border" value="" size="30" />  
+						<input type="checkbox" onclick="jump_url()"  name="is_jump" value="1"/> 跳转
+					</div>
+				</div>
+				
+				<div class="module_border">
+					<div class="l">定义属性：</div>
+					<div class="c">
+						<input type='checkbox' name='flag[]' value='t' >推荐 <input type='checkbox' name='flag[]' value='h' >头条 <input type='checkbox' name='flag[]' value='f' >幻灯片 		</div>
+				</div>
+			
+				<div class="module_border" id="jump_url" style="display:none">
+					<div class="l">跳转网址：</div>
+					<div class="c">
+						<input type="text" name="jumpurl"  class="input_border" value="" size="30" /></div>
+				</div>
+			
+				<div class="module_border">
+					<div class="l">所属栏目：</div>
+					<div class="c">
+					<select name="site_id">
+					   <option value="123">风险模块</option>
+					</select>
+					</div>
+				</div>
+			
+				<div class="module_border"  >
+					<div class="l">文章来源：</div>
+					<div class="c">
+						<input type="text" name="source"  class="input_border" value="" size="30" /></div>
+				</div>
+			
+				<div class="module_border" >
+					<div class="l">作者：</div>
+					<div class="c">
+						<input type="text" name="author"  class="input_border" value="" size="30" /></div>
+				</div>
+			
+				
+				<div class="module_border"  >
+					<div class="l">发布时间：</div>
+					<div class="c">
+						<input type="text" name="publish"  class="input_border" value="${dateformat(dateformat("now"))}" size="30" onclick="change_picktime('yyyy-MM-dd HH:mm:ss')" readonly=""/></div>
+				</div>
+		
+				<div class="module_border" >
+					<div class="l">状态：</div>
+					<div class="c">
+						<input type="radio" name="status" value="0"  checked="checked"/>隐藏 <input type="radio" name="status" value="1"  checked="checked"/>显示 </div>
+				</div>
+			
+				<div class="module_border" >
+					<div class="l">排序:</div>
+					<div class="c">
+						<input type="text" name="order"  class="input_border" value="10" size="10" />
+					</div>
+				</div>
+			
+				
+			
+				<div class="module_border" >
+					<div class="l">内容简介:</div>
+					<div class="c">
+						<textarea name="summary" cols="45" rows="5"></textarea>
+					</div>
+				</div>
+				<div class="module_border" >
+					<div class="l">内容:</div>
+					<div class="c">
+                    <#include "../../common/ueditor.html"> 
+                    <@showUeditor width=680 heigth=100 id="content" name="content" content="" />					
+
+					</div>
+				</div>
+			
+					<div class="module_border">
+					<div class="l">上传文件:</div>
+					<div class="c">
+						<input type='file' name='files' value='' size='20' id='files'> </div>
+				</div>
+					
+				</div>
+				
+				<div class="module_submit" >
+					<input type="hidden"  name="actionType" value="addArticle" />
+					<input type="submit"  name="submit" value="确认提交" />
+					<input type="reset"  name="reset" value="重置表单" />
+				</div>
+				</form>
+			 </div>
+                            <script>
+			function check_form(){
+				 var frm = document.forms['form1'];
+				 var name = frm.elements['name'].value;
+				 var content = frm.elements['content'].value;
+				 var errorMsg = '';
+				  if (name.length == 0 ) {
+					errorMsg += '标题必须填写' + '\n';
+				  }
+				  
+				  if (errorMsg.length > 0){
+					alert(errorMsg); return false;
+				  } else{  
+					return true;
+				  }
+			}
+			
+			function jump_url(){
+				if (document.getElementById('jump_url').style.display == ""){
+					document.getElementById('jump_url').style.display = "none";
+					document.getElementById('jump_id').style.display = "";
+				}else{
+					document.getElementById('jump_url').style.display = "";
+					document.getElementById('jump_id').style.display = "none";
+				}
+			}
+			</script>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+<div class="msgClass">
+                                                                    ${rsmsg!""}
+                                                                </div>
+    </body>
+</html>
+<#include "../jsPage.html">

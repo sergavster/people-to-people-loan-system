@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="催收借款">
+                    <#include "banner.html">
+                        <!--面包屑导航---}-->
+
+                        <!--工具栏--{-->
+                        <div id="toolbar" class="clearfix">
+                        	 <div class="toolbor-module">
+                                <input type="button" class="input-button return" value="返回" onclick="history.go(-1)">
+                            </div>
+                        </div>
+                        <!--工具栏--}-->
+
+                        <div id="main" class="clearfix">
+                            <form name="form1" method="post" action="/admin/borrow/addLateLog.html" onsubmit="return check_form();">
+						<div class="module_title">
+							<strong>添加催款信息</strong>
+						</div>
+						<div class="module_border">
+							<div class="l">电话类型：</div> 
+							<div class="c">
+								<@linkage name="phone_type" id="phone_type" class="test" default="sdfs" nid="phone_type" type="value" />
+						   </div>
+						</div>
+						<div class="module_border">
+							<div class="l">电话号码：</div>
+							<div class="c">
+								<input type="text" name="phone_num" value="<#if borrow?exists>${borrow.name}</#if>" />
+							</div>
+						</div>
+						<div class="module_border">
+							<div class="l">联系类型：</div>
+							<div class="c">
+								<@linkage name="relation_type" id="relation_type" nid="relation_type" type="value"  />
+							</div>
+						</div>
+						<div class="module_border">
+							<div class="l">联系人名称：</div>
+							<div class="c">
+								<input type="text" name="relation_name" value="<#if borrow?exists>${borrow.name}</#if>" />
+							</div>
+						</div>
+						<div class="module_border">
+							<div class="l">电话号码状态：</div>
+							<div class="c">
+								<@linkage name="phone_status" id="phone_status" nid="phone_status" type="value" />
+							</div>
+						</div>
+						
+						<div class="module_border">
+							<div class="l">还款时间：</div>
+							<div class="c">
+								<input type="text" name="repay_time" class="_search-value js-datetime" value="<#if borrow?exists>${borrow.name}</#if>" />
+							</div>
+						</div>
+						<div class="module_border">
+							<div class="l">催收记录：</div>
+							<div class="c">
+	                                <#include "../../common/ueditor.html"> 
+									<@showUeditor width=680 heigth=100 id="content" name="content" content="" />                                                   
+							    </div>
+						</div>
+						 <div class="other clearfix">
+                            <input type="hidden" name="borrowid" value="${borrowid}" /> 
+                            <input type="submit"  name="reset" value="确认提交" class="input-button confirm"/>
+                         </div>
+					</form>
+
+                           
+                            </div>
+                            <!--底部工具栏--}-->
+
+                           <script charset="utf-8" src="${request.getContextPath()}/plugins/editor/kindeditor/kindeditor-min.js"></script>
+						<script charset="utf-8" src="${request.getContextPath()}/plugins/editor/kindeditor/lang/zh_CN.js"></script>	
+						<script type="text/javascript">
+						var editor;
+						KindEditor.ready(function(K) {
+							editor = K.create('textarea[name="content"]', {
+								resizeType : 1,
+								allowPreviewEmoticons : false,
+								uploadJson : '${webroot}/editorUploadImg.html',
+								fileManagerJson : '${webroot}/editorUploadImg.html',
+								allowImageUpload : true,
+								items : [ 
+									'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+									'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+									'insertunorderedlist', '|', 'emoticons', 'image', 'link']
+							});
+						});
+						
+						function check_form(){
+							$("#submit").attr("disabled", "disabled");
+							return true;
+						}
+						</script>
+                        </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="manageReward" namespace="/admin/reward"
+		extends="wzd-admin">
+		<action name="showAllReward" class="manageRewardAction" method="showAllReward">
+			<result name="success" type="ftl">/admin/reward/showAllReward.html</result>
+		</action>
+		
+		<action name="viewReward" class="manageRewardAction" method="viewReward">
+			<result name="success" type="ftl">/admin/reward/viewReward.html</result>
+		</action>
+		
+		<action name="verifyReward" class="manageRewardAction" method="verifyReward">
+			<result name="success" type="ftl">/admin/reward/viewReward.html</result>
+		</action>
+		
+		<action name="addReward" class="manageRewardAction" method="addReward">
+			<result name="success" type="ftl">/admin/reward/showAllReward.html</result>
+		</action>
+		<!--v1.6.7.2 RDPROJECT-547 lx 2013-12-6 start -->
+		<action name="showRewardRecord" class="manageRewardAction" method="showRewardRecord">
+			<result name="success" type="ftl">/admin/reward/showRewardRecord.html</result>
+		</action>
+		<!--v1.6.7.2 RDPROJECT-547 lx 2013-12-6 end -->
+	</package>
+</struts>

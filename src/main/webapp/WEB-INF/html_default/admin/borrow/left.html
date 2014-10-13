@@ -1,0 +1,106 @@
+<div class="nav-oneself">
+    <div class="nav-visitors-item">
+        <div class="bl hidden"></div>
+        <div class="vg">审核管理</div>
+    </div>
+    <ul class="visitors-block hidden">
+        <li><a class="v" href="${request.getContextPath()}/admin/borrow/showTrialBorrow.html" data-nav="showTrialBorrow.html">发标待审</a></li>
+		<li><a class="v" href="${request.getContextPath()}/admin/borrow/showNotTrialBorrow.html" data-nav="showNotTrialBorrow.html">发标审核未通过</a></li>
+        <li><a class="v" href="${request.getContextPath()}/admin/borrow/showReviewBorrow.html" data-nav="showReviewBorrow.html">己满标待审</a></li>
+        <li><a class="v" href="${request.getContextPath()}/admin/borrow/amountApply.html" data-nav="amountApply.html">借款额度审批</a></li>
+    </ul>
+</div>
+
+<div class="nav-oneself">
+    <div class="nav-visitors-item">
+        <div class="bl hidden"></div>
+        <div class="vg">贷款管理</div>
+    </div>
+    <ul class="visitors-block hidden">
+        <li><a class="v" href="${request.getContextPath()}/admin/borrow/showAllBorrow.html" data-nav="showAllBorrow.html">所有借款</a></li>
+        <li><a class="v" href="${request.getContextPath()}/admin/borrow/showBorrowing.html" data-nav="showBorrowing.html">正在招标款</a></li>
+       <!--  <li><a class="v" href="${request.getContextPath()}/admin/borrow/showAllRunBorrow.html" data-nav="showAllRunBorrow.html">快速借款通道信息</a></li>-->
+		<li><a class="v" href="${request.getContextPath()}/admin/borrow/showCancelBorrow.html" data-nav="showCancelBorrow.html">撤回</a></li>
+		<!--  <li><a class="v" href="${request.getContextPath()}/admin/borrow/showFastExpire.html" data-nav="showFastExpire.html">给力标到期</a></li>-->
+		<li><a class="v" href="${request.getContextPath()}/admin/borrow/showSpreadBorrow.html" data-nav="showSpreadBorrow.html">流标</a></li>
+    </ul>
+</div>
+
+<div class="nav-oneself">
+    <div class="nav-visitors-item">
+        <div class="bl hidden"></div>
+        <div class="vg">满标管理</div>
+    </div>
+    <ul class="visitors-block hidden">
+        <li><a class="v" href="${request.getContextPath()}/admin/borrow/showIsFullBorrow.html" data-nav="showIsFullBorrow.html">满标审核通过</a></li>
+        <li><a class="v" href="${request.getContextPath()}/admin/borrow/showNotFullBorrow.html" data-nav="showNotFullBorrow.html">满标审核未通过</a></li>
+    </ul>
+</div>
+
+<div class="nav-oneself">
+    <div class="nav-visitors-item">
+        <div class="bl hidden"></div>
+        <div class="vg">还款管理</div>
+    </div>
+    <ul class="visitors-block hidden">
+        <li><a class="v" href="${webroot}/admin/borrow/repaid.html" data-nav="repaid.html">已还款借款标</a></li>
+        <!-- <li><a class="v" href="${webroot}/admin/borrow/late.html" data-nav="late.html">到期还款的借款标</a></li> -->
+        <li><a class="v" href="${webroot}/admin/borrow/repaying.html" data-nav="repaying.html">待还款借款标</a></li>
+        <!-- v1.6.5.5 RDPROJECT-119 wcw 2013-09-24 start -->
+<!-- 			<li><a class="v" href="${webroot}/admin/borrow/unFinishFlow.html" data-nav="unFinishFlow.html?pay_status=nopayflow">待还款流转标</a></li>
+ -->
+		<li><a class="v" href="${webroot}/admin/borrow/unFinishFlow.html" data-nav="unFinishFlow.html">待还款流转标</a></li>
+		<li><a class="v" href="${webroot}/admin/borrow/finishFlow.html" data-nav="finishFlow.html">已还款流转标</a></li>
+<!-- v1.6.5.5 RDPROJECT-119 wcw 2013-09-24 end -->
+        <li><a class="v" href="/admin/borrow/late.html" data-nav="late.html">逾期的借款标</a></li>
+    </ul>
+</div>
+<!-- v1.6.5.3 和信贷后台投资排行榜  zza 2013-09-13 start -->
+<div class="nav-oneself">
+    <div class="nav-visitors-item">
+        <div class="bl hidden"></div>
+        <div class="vg">投资排行榜</div>
+    </div>
+    <ul class="visitors-block hidden">
+        <li><a class="v" href="${webroot}/admin/borrow/rank.html" data-nav="rank.html">投资排行榜</a></li>
+    </ul>
+</div>
+<!-- v1.6.5.3 和信贷后台投资排行榜  zza 2013-09-13 end -->
+<!-- v1.6.6.1 借款标后台利率修改  wcw 2013-09-13 start -->
+<div class="nav-oneself">
+    <div class="nav-visitors-item">
+        <div class="bl hidden"></div>
+        <div class="vg">借款配置</div>
+    </div>
+    <ul class="visitors-block hidden">
+        <li><a class="v" href="${webroot}/admin/borrow/config.html" data-nav="config.html">借款配置</a></li>
+    </ul>
+</div>
+<!-- v1.6.6.1 借款标后台利率修改  wcw 2013-09-13 end -->
+<!-- v1.6.6.2 RDPROJECT-277 xx 2013-10-22 start -->
+<!-- v1.6.6.2 RDPROJECT-277 xx 2013-10-22 start -->
+<!-- 基金信托-->
+<!-- v1.6.6.2 RDPROJECT-277 xx 2013-10-22 end -->
+<div class="nav-oneself">
+    <div class="nav-visitors-item">
+        <div class="bl hidden"></div>
+        <div class="vg">基金信托</div>
+    </div>
+    <ul class="visitors-block hidden">
+        <li><a class="v" href="${webroot}/admin/fund/index.html" data-nav="index.html">基金信托</a></li>
+        <li><a class="v" href="${webroot}/admin/fundTender/index.html?status=99" data-nav="index.html">认购信息</a></li>
+    </ul>
+</div>
+<!-- v1.6.6.2 RDPROJECT-277 xx 2013-10-22 end -->
+<div class="nav-oneself">
+    <div class="nav-visitors-item">
+        <div class="bl hidden"></div>
+        <div class="vg">理财宝管理</div>
+    </div>
+    <ul class="visitors-block hidden">
+        <li><a class="v" href="${webroot}/admin/treasure/list.html" data-nav="index.html">理财宝列表</a></li>
+        <li><a class="v" href="${webroot}/admin/treasure/userList.html" data-nav="userList.html">用户理财宝信息</a></li>
+        <li><a class="v" href="${webroot}/admin/treasure/rechargeList.html" data-nav="rechargeList.html">用户投资信息</a></li>
+        <li><a class="v" href="${webroot}/admin/treasure/cashList.html" data-nav="cashList.html">用户转出信息</a></li>
+    </ul>
+</div>

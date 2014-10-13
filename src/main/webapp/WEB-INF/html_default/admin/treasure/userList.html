@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+<body>
+<table class="mc">
+    <tr>
+        <td class="mc-l">
+            <!--左侧导航---{-->
+            <div id="navPanelContainer">
+                <div class="system-logo cd"></div>
+                <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                <!--管理员信息---}-->
+                <div class="nav-wrap">
+                    <#include "../borrow/left.html">
+                </div>
+            </div>
+            <!--左侧导航---}-->
+        </td>
+        <td class="mc-m">
+            <div class="navToggle"></div>
+        </td>
+        <td class="mc-r">
+            <!--顶部导航---{-->
+            <#include "../topNav.html">
+            <!--顶部导航---}-->
+
+            <!--面包屑导航---{-->
+            <#assign moduleName="理财宝用户列表">
+            <#include "../borrow/banner.html">
+            <!--面包屑导航---}-->
+
+            <!--工具栏--{-->
+				<div id="toolbar" class="clearfix">
+					<div class="toolbor-module search">
+						<input type="button" value="搜索" class="input-button" onclick="sousuo();">
+					</div>
+					<div class="toolbor-module search">
+						<input type="text" name="username" id="username" value="请输入用户名" data-value="请输入用户名" class="search-value">
+					</div>
+				</div> 
+			<!--工具栏<td></td>-->
+            	<div id="main" class="clearfix">
+					<table class="data-list">
+                        <tr class="header">
+                            <td>用户名称</td>
+                            <td>理财宝总额</td>
+                            <td>可用总额</td>
+                            <td>获得利息总额</td>
+                            <td>添加时间</td>
+                        </tr>
+                        <#if (itemList?exists)&&(itemList?size>0)>
+                    	<#list itemList as item>
+                        <tr class="s">
+                            <td>${item.username!"-"}</td>
+                            <td>${item.total}</td>
+                            <td>${item.use_moeny}</td>
+                            <td>${item.interest_total}</td>
+                            <td>${dateformat(item.add_time?c)}</td>
+                        </tr>
+                    </#list><#else><tr><td colspan="12">无符合条件信息！</td></tr>
+                    </#if>
+                    </table>
+                    
+                    <!--翻页系统--{-->
+					<div class="container">
+					</div>
+					<!--翻页系统--}-->
+                    
+					<!--底部工具栏--{-->
+					<div id="bottomToolbar" class="clearfix">
+						<div class="other-tool">
+							<dl class="refresh-data">
+								<dt class="refresh-data-icon"></dt>
+								<dd>
+									<a href="javascript:void(0);" class="refresh-page">刷新数据</a>
+								</dd>
+							</dl>
+						</div>
+						 <!--翻页系统--{-->
+	                    <div class="container">
+	                        <#import "../../common/page.html" as pager><@pager.pagination page=page url="/admin/treasure/userList.html" map=params style="style1"  />
+	                    </div>
+	                    <!--翻页系统--}-->
+					</div>
+					<!--底部工具栏--}-->
+
+					<script>
+	                    function sousuo(){
+	                    	var url = '/admin/treasure/userList.html?search=true';
+	                        var sou = "";
+	                        var username = $("#username").val();
+	                        if (username!=null&&username!=""&&username!="undefine"&&username!="请输入用户名"){
+	                            sou += "&username="+username;
+	                        }
+	                        if (sou!=""){
+	                            location.href=url+sou;
+	                        }else location.href=url;
+	                    }
+					</script>
+				</div>
+		</td>
+    </tr>
+    <tr>
+	    <!--尾部--{-->
+	    <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+	    <!--尾部--}-->
+	</tr>
+</table>
+
+</body>
+</html>
+<#include "../jsPage.html">

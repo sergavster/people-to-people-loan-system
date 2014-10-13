@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "../setting/left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    	<#assign moduleName="第三方接口列表">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+</div>
+                            <div id="main" class="clearfix"> 
+                                <form action="" method="post">
+                                    <table class="data-list">
+                                        <tr class="header">
+                                            <td>ID</td>
+                                            <td>接口名称</td>
+                                            <td>商户号</td>
+                                            <td>是否启用直连</td>
+                                            <td>是否启用非直连</td>
+                                            <td>充值费率</td>
+                                            <td>排序</td>
+                                            <td>接口代表值</td>
+                                            <td>操作</td>
+                                        </tr>
+                                        <#list list as item>
+                                            <tr class="s">
+                                                <td>${(item.id!0)?c}</td>
+                                                <td >${item.name!""}</td>
+                                                 <td>${item.merchant_id!""}</td>
+                                                <td>
+                                                   <input type="checkbox" name="is_enable_single" value="1" disabled="disabled" <#if item.is_enable_single==1>checked="checked"</#if>>启用
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" name="is_enable_unsingle" value="1"  disabled="disabled" <#if item.is_enable_unsingle==1>checked="checked"</#if>>启用
+                                                </td>
+                                                <td>${item.recharge_fee!""}</td>
+                                                <td>${item.order}</td>
+                                                <td>${item.interface_value!""}</td>
+                                                <td >
+                                                <input type="hidden" name='type' value="update">
+                                                <a href="updatePayInterface.html?id=${item.id?c}">修改</a>
+	                                                 <a href="deletePaymentInterface.html?id=${item.id?c}" onclick="return confirm('警告：该操作会导致前台用户无法使用${item.name}接口进行支付，您确定要删除该接口？')">删除</a>
+                                                </td> 
+                                                
+                                            </tr>
+                                        </#list>
+                                    </table>
+                                </form>
+                                <!--底部工具栏--{-->
+                                 <#if sum??><div style="height:22px;line-height:22px;color:red;margin-left:12px; padding-top:10px;"> 充值总额：${sum}元 </div></#if>
+                                <div id="bottomToolbar" class="clearfix" style="padding-top:5px;">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+
+                                    <!--翻页系统--{-->
+                                    <div class="container">
+                                        
+                                    </div>
+                                    <!--翻页系统--}-->
+                                </div>
+                                <!--底部工具栏--}-->
+                            
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

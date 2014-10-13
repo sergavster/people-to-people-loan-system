@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html>
+<!--   v1.6.6.2 RDPROJECT-140 yl 2013-10-23 start-->
+<#assign nid="borrow">
+<#if typeStr=="miaobiao">
+<#assign web_title='发布秒还标 - ${webname!}'>
+<#assign web_description='发布秒还标，${webname!}p2p网贷平台'>
+</#if>
+<#if typeStr=="fast">
+<#assign web_title='发布抵押标 - ${webname!}'>
+<#assign web_description='发布抵押标，${webname!}p2p网贷平台'>
+</#if>
+<#if typeStr=="month">
+<#assign web_title='发布信用标 - ${webname!}'>
+<#assign web_description='发布信用标，${webname!}p2p网贷平台'>
+</#if>
+<#if typeStr=="jin">
+<#assign web_title='发布净值标 - ${webname!}'>
+<#assign web_description='发布净值标，${webname!}p2p网贷平台'>
+</#if>
+<#if typeStr=="flow">
+<#assign web_title='发布流转标 - ${webname!}'>
+<#assign web_description='发布流转标，${webname!}p2p网贷平台'>
+</#if>
+<#include "../include/resource.html"> 
+<body>
+<#include "../include/header.html">
+<!--   v1.6.6.2 RDPROJECT-140 yl 2013-10-23 end-->
+<div id="container" class="clearfix">
+<#if typeStr=="">
+<div class="wrap950 list_1 clearfix">
+	<div class="borrow_box">
+		<div><strong>发布按月借款</strong></div>
+		<div>按等额本息法进行计算</div>
+		<div align="center"><a href="/publish/index.html?type=month"><img src="{$tpldir}/images/borrow_yue.jpg" align=""/></a></div>
+	</div>
+	
+	<div class="borrow_box">
+		<div><strong>发布按季借款</strong></div>
+		<div>按等额本息法进行计算</div>
+		<div align="center"><img src="{$tpldir}/images/borrow_ji.jpg" align=""/></div>
+	</div>
+	
+	<div class="borrow_box">
+		<div><strong>发布担保借款</strong></div>
+		<div>按等额本息法进行计算</div>
+		<div align="center"><a href="/publish/index.html?type=vouch"><img src="{$tpldir}/images/borrow_danbao.jpg" align=""/></a></div>
+	</div>
+</div>
+
+<#else>
+<#if typeStr=="vouch">
+
+</#if>
+	
+<!--子栏目 开始-->
+<#--<div class="wrap950 header_site_sub">
+	<#if typeStr=="vouch">
+	<div class="alert alert-error in">
+	<font color="#FF0000">您正在借的是担保标，担保标将先由有担保额度的用户进行担保，等担保额度满了自动会进行投标</font>
+	</div>
+	</#if>
+	<#if typeStr=="jin">
+	<div class="alert alert-error in">
+	<font color="#FF0000">您正在借的是净值标，会员用网站留存的净值金额发布借款</font>
+	</div>
+	</#if>
+	<#if typeStr=="miaobiao">
+	<div class="alert alert-error in">
+	<font color="#FF0000">您正在借的是秒还标，借款成功系统自动还款娱乐反馈标 </font>
+	</div>
+	</#if>
+	<#if typeStr=="fast">
+	<div class="alert alert-error in">
+	<font color="#FF0000">您正在借的是质押标，小微企业现场审核抵押发布借款 </font>
+	</div>
+	</#if>
+	<#if typeStr=="month">
+	<div class="alert alert-error in">
+	<font color="#FF0000">您正在借的是信用标，网站给予的信用额度内发布借款 </font>
+	</div>
+	</#if>
+</div>
+-->
+<!--子栏目 结束-->
+<form name="form1" method="post" id="form1" action="<#if borrow?exists>update.html?id=${borrow.id?c}<#else>add.html</#if>"  enctype="multipart/form-data" onSubmit="return check_form();" >
+<!--借款信息 开始-->
+
+<ul  id="tab" class="list-tab clearfix">
+		<li class="active"><a href="javascript:void(0)" data-toggle="tab">借款信息</a></li>
+		<#if typeStr!="vouch"><li><a href="javascript:void(0)" data-toggle="tab">投标奖励</a></li></#if>
+		<#if typeStr=="vouch"><li><a href="javascript:void(0)" data-toggle="tab">担保奖励</a></li></#if>
+		<li><a href="javascript:void(0)" data-toggle="tab">帐户信息设置</a></li>
+</ul>
+
+<div id="myTabContent1" class="tab-content">
+    <div class="list-tab-con clearfix">
+        <div class="borrow-tab-content">
+            <div class="borrow_module_border" style="height: 38px;">
+                <div class="w">借款总金额：</div>
+                <div class="c">
+                    <span id="infojdmoney" data-content="借款金额应在500元至5,000,000元之间。交易币种均为人民币。借款成功后, 每个月按借款本金收取
+                        <#if typeStr=="miaobiao"> 0元
+                        <#elseif typeStr=="jin"> 0.2%
+                        <#else>0.5 % </#if>,管理费用不计息，不退还，在借款金额中直接扣除。 更详尽的信息请查看帮助网站 收费规则">
+                        <input type="text" name="account"  id="account" value="<#if borrow?exists>${borrow.account?c}</#if>" onKeyUp="value=value.replace(/[^0-9]/g,'')" />
+                    </span>
+                </div>
+                <div class="w">年利率：</div>
+                <div class="c">
+                    <input type="text" name="apr" id="infonlv" data-content="填写您提供给投资者的年利率,所填写的利率是您还款的年利率。1至6个月的年利率不能超过22.4%,7至12个月的年利率不能超过24%.范围：1%至24%，且只保留小数后最后两位。" value="<#if borrow?exists>${borrow.apr}</#if>" onKeyUp="value=value.replace(/[^0-9.]/g,'')" /> %
+                </div>
+            </div>
+            <div class="borrow_module_border" style="height: 38px;">
+                <div class="w">借款用途：</div>
+                <div class="c"  >
+                    <span id="infojkxx" data-content="说明借款成功后的具体用途">
+                    <#if borrow?exists>
+                    <@linkage name="use" id="use" class="test" default="${borrow.use}" nid="borrow_use" />
+                    <#else>
+                    <@linkage name="use" id="use" class="test" nid="borrow_use" />
+                    </#if>
+                    </span>
+                </div>
+                <div class="w" style="">借款期限：</div>
+                <div class="c" style="">
+                        <#if typeStr=='miaobiao'>
+                        <input type="text" name="time_limit" value="1" readonly="readonly" />个月
+                        <#else>
+                        <span id="infotl" data-content="需要借多少时间。">
+                        <span id="time_limit" style="padding:2px 0 0 0; position:relative; top:-3px;">
+                        <#if borrow?exists>
+                         <!-- v1.6.5.5 RDPROJECT-8 wcw 2013-09-24 start -->
+                         <!-- <@linkage name="time_limit" id="time_limit" default="${borrow.time_limit}" type="value" nid="borrow_time_limit" disabled="disabled"/> -->
+                        <@linkage name="time_limit" id="time_limit" default="${borrow.time_limit}" type="value" nid="borrow_time_limit" />
+                         <!-- v1.6.5.5 RDPROJECT-8 wcw 2013-09-24 end -->
+                        <#else>
+                        <!-- v1.6.5.5 RDPROJECT-8 wcw 2013-09-24 start -->
+<!--                          <@linkage name="time_limit" id="time_limit" type="value" nid="borrow_time_limit" disabled="disabled"/>-->
+                        
+                        <@linkage name="time_limit" id="time_limit" type="value" nid="borrow_time_limit"/>
+                         <!-- v1.6.5.5 RDPROJECT-8 wcw 2013-09-24 end -->
+                        </#if>
+                        </span></span>
+
+                        <span id="time_limit_day" >
+                        <#if borrow??>
+                        <@linkage name="time_limit_day" id="time_limit_day" default="${borrow.time_limit_day}" type="value" nid="borrow_time_limit_day" />
+                        <#else>
+                        <@linkage name="time_limit_day" id="time_limit_day" type="value" nid="borrow_time_limit_day"/>
+                        </#if>
+                        </span>
+                        <span style=" padding:2px 0 0 0; position:relative; top:-3px; ">
+                            <a href="#">按天</a>
+                                <input type="checkbox" name="changetoDay"   value="1"  id="changetoDay" onClick="">
+                            </span>
+                        </#if>
+                </div>
+            </div>
+            <!-- V1.6.7.1 RDPROJECT-394 yl 2013-11-11 start -->
+            <!-- 和信贷需要  -->
+			<#if typeStr!='miaobiao' && typeStr!='jin'>
+				 <div class="borrow_module_border" style="height: 38px;">
+					<div class="w">还款来源：</div>
+					<div class="c">
+						<span id="infojdmoney" data-content="请如实描述您的还款来源！">
+			                <input type="text" name="source"  id="source" value="" /> 
+						</span>
+					</div>
+					<div class="w">借款抵押物：</div>
+					<div class="c">
+						<span id="infojdmoney" data-content="请大致描述您的借款抵押物！">
+			                <input type="text" name="collateral"  id="collateral" value="" /> 
+						</span>
+					</div>
+				</div>
+			</#if>
+			<!-- V1.6.7.1 RDPROJECT-394 yl 2013-11-11 end -->
+            <div class="borrow_module_border" id="borrow_day" style="display:none;">
+                <div class="w">是否天标：</div>
+                <div class="c"><input type="hidden" name="isday" id="isday" value="0" />是
+                </div>
+                <div class="sco" style="color:#FF0000" >借款成功后，系统将按照每月30天来计算借款利息。</div>
+            </div>
+          <!--v1.6.6.2 RDPROJECT-294 wcw 2013-10-14 start  -->
+            <#if extensionRule??>
+            <#if typeStr!='miaobiao'&&typeStr!='flow'>
+            <div class="borrow_module_border" style="height: 38px;">
+                <div class="w" style="">展期天数：</div>
+                <div class="c" style="">
+                        <span>
+                        <#if borrow?exists>
+                        <@linkage name="extension_day" id="extension_day" default="${borrow.extension_day}" type="value" nid="borrow_time_limit_day"  noselect="没有限制"/>
+                        <#else>
+                        <@linkage name="extension_day" id="extension_day" type="value" nid="borrow_time_limit_day" noselect="没有限制"/>
+                        </#if>
+                        </span>
+                </div>
+            </div>
+            </#if>
+            </#if>
+            <!--v1.6.6.2 RDPROJECT-294 wcw 2013-10-14 end  -->
+    <#if typeStr=='miaobiao'>
+            <div class="borrow_module_border">
+                <div class="w">是否秒标：</div>
+                <div class="c">
+                <select name="miaobiao" disabled="disabled"><option value="1">是</option><option value="0">否</option></select>
+                </div>
+                <div class="sco" style="color:#FF0000" >借款成功后，系统立即扣除一个月的利息，并自动进行还款操作</div>
+            </div>
+    </#if>
+    <#if typeStr=='fast'>
+            <div class="borrow_module_border">
+                <div class="w">是否质押标：</div>
+                <div class="c">
+                <input type="hidden" name="fastid" value="{$fastid}" />
+                <select name="fastbiao" disabled="disabled"><option value="1">是</option><option value="0">否</option></select>
+                </div>
+                <div class="sco" style="color:#FF0000" ><span id="infogeili" data-content="质押借款标显示标记“质”，是${Application.webname}网站经过严格核查借款者资产负债，根据借款者的信用状况，签订抵押担保手续，确保风险控制在合理的范围内。如借款者到期还款出现困难，借款到期日当天由${webname}垫付本金和利息还款，债权转让为${webname}网站所有，给力标逾期后，每天按千分之八收取罚息，本金利息及罚息全部为${webname}网站收取.">质押借款标显示标记“质”，是${webname}网站经过严格核查借款者资产负债，根据.....</span></div>
+            </div>
+    </#if>
+    <#if typeStr=='jin'>
+            <div class="borrow_module_border">
+                <div class="w">是否净资产标：</div>
+                <div class="c">
+                <select name="jinbiao" disabled="disabled"><option value="1">是</option><option value="0">否</option></select>
+                </div>
+                <div class="sco" style="color:#FF0000" >净资产借款标显示标记“净”.</div>
+            </div>
+    </#if>
+    <#if typeStr=='month'>
+            <div class="borrow_module_border">
+                <div class="w">是否信用标：</div>
+                <div class="c">
+                <select name="jinbiao" disabled="disabled"><option value="1">是</option><option value="0">否</option></select>
+                </div>
+            </div>
+    </#if>
+    <#if typeStr=='flow'>
+            <div class="borrow_module_border">
+                <div class="w">是否流转标：</div>
+                <div class="c">
+                <select name="jinbiao" disabled="disabled"><option value="1">是</option><option value="0">否</option></select>
+                </div>
+                <div class="w">每份金额：</div>
+                <div class="c">
+                    <span id="infojdmoney" data-content="流转标的每一份的金额">
+                        <input type="text" name="flow_money"  id="flow_money" value="${(borrow.flow_money)!}" onKeyUp="value=value.replace(/[^0-9]/g,'')" />
+                    </span>
+                </div>
+            </div>
+    </#if>
+    <!-- v1.6.7.1 RDPROJECT-127 wsl 2013-11-22 start -->
+    <#if typeStr=='pledge'>
+            <div class="borrow_module_border">
+                <div class="w">是否质押标：</div>
+                <div class="c">
+                <select name="jinbiao" disabled="disabled"><option value="1">是</option><option value="0">否</option></select>
+                </div>
+                <div class="sco" style="color:#FF0000" ><span id="infogeili" data-content="质押借款标显示标记“质”，是${Application.webname}网站经过严格核查借款者资产负债，根据借款者的信用状况，签订质押担保手续，确保风险控制在合理的范围内。如借款者到期还款出现困难，借款到期日当天由${webname}垫付本金和利息还款，债权转让为${webname}网站所有，质押标逾期后，每天按千分之八收取罚息，本金利息及罚息全部为${webname}网站收取.">质押借款标显示标记“质”，是${webname}网站经过严格核查借款者资产负债，根据.....</span></div>
+            </div>
+    </#if>
+    <#if typeStr=='industry'>
+            <div class="borrow_module_border">
+                <div class="w">是否实业标：</div>
+                <div class="c">
+                <select name="jinbiao" disabled="disabled"><option value="1">是</option><option value="0">否</option></select>
+                </div>
+                <div class="sco" style="color:#FF0000" >实业借款标显示标记“实”...</div>
+            </div>
+    </#if>
+    <#if typeStr=='jtguarantee'>
+            <div class="borrow_module_border">
+                <div class="w">是否联名担保标：</div>
+                <div class="c">
+                <select name="jinbiao" disabled="disabled"><option value="1">是</option><option value="0">否</option></select>
+                </div>
+                <div class="sco" style="color:#FF0000" >联名担保标借款标显示标记“联”...</div>
+            </div>
+    </#if>
+    <!-- v1.6.7.1 RDPROJECT-127 wsl 2013-11-22 end -->
+    <div class="borrow_module_border">
+                <!-- v1.6.5.5 RDPROJECT-8 wcw 2013-09-24 start -->
+                <div class="w">是否定向标：</div>
+                <div class="c" style="padding-bottom: 0;">
+                                <span id="infoisDXB" data-content="定向标可邀请特定的用户或朋友来投标，设置好密码后，告诉对方此标的密码即可." >
+                            <input type="checkbox" name="isDXB" id="isDXB" value="1" autocomplete="off" <#if borrow?exists && borrow.pwd?exists&&borrow.pwd!="">checked="checked"</#if> onclick="checkDXB()">  </span>
+                </div>
+                            <div class="w">定向标密码：</div>
+                <div class="c">
+                                <span id="infopwd" data-content='定向标密码可以是数字或文字。如"恭喜发财","生日快乐"等等 ' >
+                                <input <#if !borrow?exists || !borrow.pwd?exists>disabled="disabled"</#if> type="text" name="pwd" id="pwd" value="<#if borrow?exists&&borrow.pwd??&&borrow.pwd!="">${borrow.pwd}</#if>"></span>
+                </div>
+                 <!-- v1.6.5.5 RDPROJECT-8 wcw 2013-09-24 end -->
+            </div>
+            <#if typeStr!='flow'>
+                    <div class="borrow_module_border">
+                        <div class="w">最低投标金额：</div>
+                        <div class="c">
+
+                                <span id="infolow" data-content="允许投资者对一个借款标的投标总额的限制">
+                                <#if borrow?exists>
+                                <@linkage name="lowest_account" id="lowest_account" default="${borrow.lowest_account}" nid="borrow_lowest_account"  type="value"/>
+                                <#else>
+                                <@linkage name="lowest_account" id="lowest_account" nid="borrow_lowest_account" type="value" />
+                                </#if>
+                                </span>
+                        </div>
+                        <div class="w">最多投标总额：</div>
+                        <div class="c">
+                        <span id="infomax" data-content="允许投资者对一个借款标的投标总额的限制">
+                        <#if borrow?exists>
+                        <@linkage name="most_account" id="most_account" default="${borrow.most_account}" nid="borrow_most_account" type="value" />
+                        <#else>
+                        <@linkage name="most_account" id="most_account" nid="borrow_most_account" type="value" />
+                        </#if>
+                        </span>
+                        </div>
+                    </div>
+            </#if>
+            <!-- v1.6.6.2 RDPROJECT-333 wcw 2013.10.19 start -->
+            <div class="borrow_module_border">
+            <#if typeStr=='flow'>
+                         <div class="w">单笔最低投标金额：</div>
+                        <div class="c">
+
+                                <span id="infolow" data-content="允许投资者对一个借款标的投标总额的限制">
+                                <#if borrow?exists>
+                                <@linkage name="lowest_single_limit" id="lowest_single_limit" default="${borrow.lowest_single_limit}" nid="borrow_most_account"  type="value"/>
+                                <#else>
+                                <@linkage name="lowest_single_limit" id="lowest_single_limit" nid="borrow_most_account" type="value" />
+                                </#if>
+                                </span>
+                        </div> 
+                        </#if>
+                        <div class="w">单笔最多投标总额：</div>
+                        <div class="c">
+                        <span id="infomax" data-content="允许投资者对一个借款标的投标总额的限制">
+                        <#if borrow?exists>
+                        <@linkage name="most_single_limit" id="most_single_limit" default="${borrow.most_single_limit}" nid="borrow_most_account" type="value" />
+                        <#else>
+                        <@linkage name="most_single_limit" id="most_single_limit" nid="borrow_most_account" type="value" />
+                        </#if>
+                        </span>
+                        </div>
+                    </div>
+                    <!-- v1.6.6.2 RDPROJECT-333 wcw 2013.10.19 end -->
+            
+            <!-- v1.6.7.2 RDPROJECT-473 sj 2013-12-16 start -->       
+            <div class="borrow_module_border" style="height: 38px;">
+            <!-- v1.6.7.2 RDPROJECT-473 sj 2013-12-16 end -->
+            
+                <div class="w">有效时间：</div>
+                <div class="c">
+                <span id="infoyxtime" data-content="设置此次借款的天数。借款进度达到100%后直接进行网站的复审">
+                <#if borrow?exists>
+                <@linkage name="valid_time" id="valid_time" default="${borrow.valid_time}" nid="borrow_valid_time" type="value" />
+                <#else>
+                <@linkage name="valid_time" id="valid_time" nid="borrow_valid_time" type="value" />
+                </#if>
+                </span>
+                </div>
+                <div class="w">还款方式：</div>
+                <div class="c">
+                    <!-- v1.6.7.2 RDPROJECT-526 xx 2013-12-10 start -->
+                    <span id="infohk" data-content="">
+                    <select id="style" name="style">
+                    
+                    </select>
+                    <!-- <#if borrow?exists>
+                    <@linkage name="style" id="style" default="${borrow.style}" nid="borrow_style" type="value" />
+                    <#else>
+                    <@linkage name="style" id="style" nid="borrow_style" type="value" />
+                    </#if> -->
+                    <!-- v1.6.7.2 RDPROJECT-526 xx 2013-12-10 end -->
+                    </span>
+               
+                </div>
+            </div>
+            
+			<!-- v1.6.7.2 RDPROJECT-473 sj 2013-12-19 start -->
+			<#if convestCollection?exists && mostTenderTimes?exists && tenderDays?exists>
+				<div class="borrow_module_border" style="height: 38px;">
+	                <div class="w">待收金额：</div>
+	                <div class="c">
+	                	<input type="text" name="convest_collection"  id="convest_collection" data-content="" value="<#if borrow?exists>${borrow.convest_collection?c}</#if>" onkeyup="value=value.replace(/[^\d]/g,'')" />
+	                </div>
+	                <div class="w">最大投标次数：</div>
+	                <div class="c">
+	                    <input type="text" name="most_tender_times" id="most_tender_times" data-content="" value="<#if borrow?exists>${borrow.most_tender_times}</#if>" onkeyup="value=value.replace(/[^\d]/g,'')" />
+	                </div>
+	            </div>
+	            <div class="borrow_module_border" style="border-bottom: none">
+	                <div class="w">投标天数：</div>
+	                <div class="c">
+	                	<input type="text" name="tender_days" id="tender_days" data-content="" value="<#if borrow?exists>${borrow.tender_days?c}</#if>" onkeyup="value=value.replace(/[^\d]/g,'')" />
+	                </div>
+	            </div>	  
+            <#elseif convestCollection?exists && mostTenderTimes?exists>
+				<div class="borrow_module_border" style="border-bottom: none">
+	                <div class="w">待收金额：</div>
+	                <div class="c">
+	                	<input type="text" name="convest_collection"  id="convest_collection" data-content="" value="<#if borrow?exists>${borrow.convest_collection?c}</#if>" onkeyup="value=value.replace(/[^\d]/g,'')" />
+	                </div>
+	                <div class="w">最大投标次数：</div>
+	                <div class="c">
+	                    <input type="text" name="most_tender_times" id="most_tender_times" data-content="" value="<#if borrow?exists>${borrow.most_tender_times}</#if>" onkeyup="value=value.replace(/[^\d]/g,'')" />
+	                </div>
+	            </div>
+            <#elseif convestCollection?exists && tenderDays?exists>
+	            <div class="borrow_module_border" style="border-bottom: none">
+	            	<div class="w">待收金额：</div>
+	                <div class="c">
+	                	<input type="text" name="convest_collection"  id="convest_collection" data-content="" value="<#if borrow?exists>${borrow.convest_collection?c}</#if>" onkeyup="value=value.replace(/[^\d]/g,'')" />
+	                </div>
+	                <div class="w">投标天数：</div>
+	                <div class="c">
+	                	<input type="text" name="tender_days" id="tender_days" data-content="" value="<#if borrow?exists>${borrow.tender_days?c}</#if>" onkeyup="value=value.replace(/[^\d]/g,'')" />
+	                </div>
+	            </div>	  
+            <#elseif mostTenderTimes?exists && tenderDays?exists>
+	            <div class="borrow_module_border" style="border-bottom: none">
+	            	<div class="w">最大投标次数：</div>
+	                <div class="c">
+	                    <input type="text" name="most_tender_times" id="most_tender_times" data-content="" value="<#if borrow?exists>${borrow.most_tender_times}</#if>" onkeyup="value=value.replace(/[^\d]/g,'')" />
+	                </div>
+	                <div class="w">投标天数：</div>
+	                <div class="c">
+	                	<input type="text" name="tender_days" id="tender_days" data-content="" value="<#if borrow?exists>${borrow.tender_days?c}</#if>" onkeyup="value=value.replace(/[^\d]/g,'')" />
+	                </div>
+	            </div>	  
+            <#elseif convestCollection?exists>
+	            <div class="borrow_module_border" style="border-bottom: none">
+	                <div class="w">待收金额：</div>
+	                <div class="c">
+	                	<input type="text" name="convest_collection"  id="convest_collection" data-content="" value="<#if borrow?exists>${borrow.convest_collection?c}</#if>" onkeyup="value=value.replace(/[^\d]/g,'')" />
+	                </div>
+	            </div>	  
+            <#elseif mostTenderTimes?exists>
+	            <div class="borrow_module_border" style="border-bottom: none">
+	                <div class="w">最大投标次数：</div>
+	                <div class="c">
+	                    <input type="text" name="most_tender_times" id="most_tender_times" data-content="" value="<#if borrow?exists>${borrow.most_tender_times}</#if>" onkeyup="value=value.replace(/[^\d]/g,'')" />
+	                </div>
+	            </div>	  
+            <#elseif tenderDays?exists>
+	            <div class="borrow_module_border" style="border-bottom: none">
+	                <div class="w">投标天数：</div>
+	                <div class="c">
+	                	<input type="text" name="tender_days" id="tender_days" data-content="" value="<#if borrow?exists>${borrow.tender_days?c}</#if>" onkeyup="value=value.replace(/[^\d]/g,'')" />
+	                </div>
+	            </div>	  
+            </#if>
+            <!-- v1.6.7.2 RDPROJECT-473 sj 2013-12-19 end -->
+			
+        </div>
+    </div>
+    <!--借款信息 结束-->
+    <!--投标奖励 开始-->
+    <div class="list-tab-con clearfix hide">
+        <div class="content">
+            <div class="borrow_module_border">
+                <div class="w" style="text-align: left; text-indent: 70px;">
+                    <span id="infowjiang" data-content="如果您设置了奖励金额，将会冻结您帐户中相应的账户余额。如果要设置奖励，请确保您的帐户有足够 的账户余额。">
+                        <input type="radio" name="award" id="award" value="0" {if $var.award==0 || $var.award==""} checked="checked"{/if} onclick="change_j(0)"><b class="borrow_module_border_b">不设置奖励</b></span></div>
+                <div class="c"></div>
+
+                <div class="w"></div>
+                <div class="c"></div>
+            </div>
+            <div class="borrow_module_border" style="border-bottom: none">
+                <div class="w" style="text-align: left; text-indent: 70px;">
+                    <span id="infoyjiang2" data-content="范围：0.1%~6% ，这里设置本次标的要奖励给所有投标用户的奖励比例。">
+                        <input type="radio" name="award" id="award" value="1" <#if borrow?exists &&borrow.award?exists && borrow.award==1>checked="checked"</#if> onclick="change_j(1)"/><b class="borrow_module_border_b">按投标金额比例奖励</b></span></div>
+                <div class="c">
+                    <input type="text" id="part_account" name="part_account" value="<#if borrow?exists && borrow.part_account?exists >${borrow.part_account}</#if>" <#if borrow?exists &&borrow.award?exists && borrow.award==2>disabled="disabled"</#if> size="5" />%
+                </div>
+                <div class="w" style="text-align: left; text-indent: 70px;">
+                    <span id="infoyjiang1" data-content="不能低于5元,不能高于总标的金额的2%，且请保留到“元”为单位。这里设置本次标的要奖励给所有投标用户的总金额。">
+                        <input type="radio" name="award" id="award" value="2" <#if borrow?exists &&borrow.award?exists && borrow.award==2>checked="checked"</#if> onclick="change_j(2)"/><b class="borrow_module_border_b">按固定金额分摊奖励</b></span></div>
+                <div class="c">
+                    <input type="text" id="funds" name="funds" value="<#if borrow?exists && borrow.funds?exists>${borrow.funds}</#if>" <#if borrow?exists &&borrow.award?exists && borrow.award==1>disabled="disabled"</#if> size="5" />元
+                </div>
+            </div>
+            <div class="borrow_module_border">
+                <div class="w" style="text-align: left; text-indent: 70px;">
+                    </div>
+                <div class="c"></div>
+<span id="infowjiang" data-content="如果您设置了奖励金额，将会冻结您帐户中相应的账户余额。如果要设置奖励，请确保您的帐户有足够 的账户余额。">
+                        还款结束后奖励<input type="text" id="late_award" name="late_award" value="<#if borrow??&&borrow.late_award??>${borrow.late_award}<#else>0</#if>"  size="5" />%</span>
+                <div class="w"></div>
+                <div class="c"></div>
+            </div>
+        </div>
+    </div>
+    <!--投标奖励 结束-->
+
+    <#if typeStr=='vouch'>
+    <!--担保奖励 开始-->
+    <div class="list-tab-con clearfix hide">
+        <div class="content">
+            <div class="borrow_module_border">
+                <div class="w">担保比例：</div>
+                <div class="c">
+                <input name="vouch_award" id="infodbbl" data-content="担保奖励按照所要借款的百分比给担保人，比如借100，奖励是3%，担保人借出50，则奖励50*3%=1.5" type="text" value="<#if borrow?exists>${borrow.vouch_award}</#if>" size="6" />%
+                </div>
+                <div class="w">指定担保人：</div>
+                <div class="c">
+                <input name="vouch_user" type="text" id="infodbb2" data-content="指定多个担保人请用|隔开，为空表示所有人都可以担保" value="<#if borrow?exists>${borrow.vouch_user}</#if>" /><input name="is_vouch" type="hidden" value="1" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--担保奖励 结束-->
+    </#if>
+
+    <!--帐户信息公开设置 开始-->
+    <div class="list-tab-con clearfix hide">
+        <div class="content">
+            <!-- v1.6.5.3 RDPROJECT-107  zza 2013-09-11 start -->
+            <div class="borrow_module_border">
+                <div class="w"><span id="infoss1" data-content="如果您勾上此选项，将会实时公开您帐户的：账户总额、可用余额、冻结总额。"><b class="borrow_module_border_b">公开我的帐户资金情况</b><input type="checkbox" name="open_accounts" value="1" checked="checked" disabled="disabled" class="check_box" /></span> 
+                <input type="hidden" name="open_account" value="1"/>
+                </div>
+                <div class="c"></div>
+                <div class="w"><span id="infoss1" data-content="如果您勾上此选项，将会实时公开您帐户的：借款总额、已还款总额、未还款总额、迟还总额、逾期总额。"><b class="borrow_module_border_b">公开我的借款资金情况</b><input type="checkbox" name="open_borrows" value="1" checked="checked" disabled="disabled"  class="check_box" /></span>
+                <input type="hidden" name="open_borrow" value="1"/></div>
+                <div class="c"></div>
+            </div>
+            <div class="borrow_module_border" style="border-bottom: none">
+                <div class="w"><span id="infoss1" data-content="如果您勾上此选项，将会实时公开您帐户的：投标总额、已收回总额、待收回总额。"><b class="borrow_module_border_b">公开我的投标资金情况</b><input type="checkbox" name="open_tender" autocomplete="off" value="1"  class="check_box"  <#if borrow?exists &&borrow.open_tender?exists && borrow.open_tender=="1">checked="checked"</#if>/></span></div>
+                <div class="c"></div>
+                <div class="w">
+                    <span id="infoss1" data-content="如果您勾上此选项，将会实时公开您帐户的：最低信用额度、最高信用额度。"><b class="borrow_module_border_b">公开我的信用额度情况</b> <input type="checkbox" name="open_credits" value="1" checked="checked" disabled="disabled"  class="check_box" /></span>
+                    <input type="hidden" name="open_credit" value="1"/></div>
+                <div class="c"></div>
+            </div>
+        <!-- v1.6.5.3 RDPROJECT-107  zza 2013-09-11 end -->
+        </div>
+    </div>
+
+</div> <!-- myTabContent -->
+<!--帐户信息公开设置 结束-->
+<br/>
+<!--帐户信息公开设置 开始-->
+<ul  id="tab2" class="list-tab clearfix">
+	<li class="active"><a href="#tbxx" data-toggle="tab2">借款标详细信息</a></li>
+</ul>
+<div id="" class="tab-content">
+    <div class="list-tab-con">
+        <div class="content">
+            <div class="module_border">
+                <div class="w">标题：</div>
+                <div style="padding-top:6px;">
+                    <input type="text" name="name" value="<#if borrow?exists>${borrow.name}</#if>" size="50" id="infotitle" data-content="填写借款的标题，写好一点能借的几率也大一点" />
+                </div>
+                <div class="sco" ></div>
+            </div>
+
+            <div class="module_border">
+                <div class="w">信息：</div>
+                <div class="float_left" style="padding-top: 10px; padding-bottom: 10px;">
+                <#include "../common/ueditor.html">
+                <@showUeditor width=680 heigth=100 id="content" name="content" content="" />
+
+                </div>
+            </div>
+            <div class="module_border">
+                <div class="w">验证码：</div>
+                <div style="padding-top:6px;">
+                    <input name="valicode" type="text" size="11" maxlength="5" style="float:left" tabindex="3"/> &nbsp;&nbsp;&nbsp;
+                    <img src="${request.getContextPath()}/validimg.html" alt="点击刷新"
+                         onClick="this.src='${request.getContextPath()}/validimg.html?t=' + Math.random();"
+                         align="absmiddle" style="cursor: pointer; float: left;" />
+                </div>
+                <div class="sco" ></div>
+            </div>
+        </div>
+        <br/>
+        <div class="content" style="text-align:center;position:relative;height:40px;">
+            <input type="hidden" name="btype" value="${btype}" class="btn-action" />
+            <input type="submit" value="确认提交" class="btn-action" style="position:absolute; top:0; right:70px;" />
+        </div>
+        <div class="foot"></div>
+    </div>
+</div> <!-- myTabContent -->
+<!--帐户信息公开设置 结束-->
+<!--帐户信息公开设置 开始-->
+</form>
+
+</div>
+
+<script type="text/javascript">
+<!-- v1.6.7.2 RDPROJECT-526 xx 2013-12-10 start -->
+	$('#isday').val(0);
+	$('#time_limit_day').hide();
+	$('#time_limit').show();
+	$('#borrow_day').hide();
+	$('#changetoDay:checkbox').attr("checked",false);
+	
+	$(function(){
+		<#if borrow??>
+			<#if borrow.isday==1>
+				$('#isday').val('1');
+				$('#time_limit_day').show();
+				$('#time_limit').hide();
+				$('#borrow_day').show();
+				$('#changetoDay:checkbox').attr("checked",true);
+			<#else>
+				$('#isday').val('0');
+				$('#time_limit_day').hide();
+				$('#time_limit').show();
+				$('#borrow_day').hide();
+				$('#changetoDay:checkbox').attr("checked",false);
+			</#if>
+			checkBorrowStyle(${btype},borrow.isday);
+		<#else>
+			checkBorrowStyle(${btype},0);
+		   $('#time_limit_day').css("display","none");
+		</#if>
+	});
+	
+    $('#changetoDay').click(function(){
+		var isday=$('#isday').val();
+		if(isday==0){
+			$('#isday').val('1');
+			$('#time_limit_day').show();
+			$('#time_limit').hide();
+		}else{
+			$('#isday').val('0');
+			$('#time_limit_day').hide();
+			$('#time_limit').show();
+		}
+		isday=$('#isday').val();
+		checkBorrowStyle(${btype},isday);
+		$('#borrow_day').toggle('slow');
+    });
+
+    function checkBorrowStyle(btype,isday){
+		var styleSel = $("#style");
+		var style0 = '<option value="0">按月分期还款</option>';
+		var style2 = '<option value="2">一次性还款</option>';
+		var style3 = '<option value="3">每月还息到期还本</option>';
+		var style4 = '<option value="4">提前付息到期一次性还本</option>';
+		var style5 = '<option value="5">每月提前还息到期还本</option>';
+		var styleOpt;
+		if(btype==101){//秒标
+			styleSel.html(style2);
+		}else if(isday==0){//月标
+			styleOpt += (style0+style2+style3);
+			styleSel.html(styleOpt);
+			if(btype==103 || btype==105){//抵押标、担保标
+				styleOpt += style5;
+				styleSel.html(styleOpt);
+			}
+		}else if(isday==1){//天标
+			styleOpt += (style2+style4);
+			styleSel.html(styleOpt);
+		}
+	}
+<!-- v1.6.7.2 RDPROJECT-526 xx 2013-12-10 end --> 
+	function checkDXB(){
+	    var frm = document.forms['form1'];
+	    if(frm.elements['isDXB'].checked){
+	        frm.elements['pwd'].disabled=false;
+	    }else{
+	        frm.elements['pwd'].disabled=true;
+	        frm.elements['pwd'].value="";
+	    }
+	}
+	
+
+function check_form(){
+   
+	 var frm = document.forms['form1'];
+	 var account = frm.elements['account'].value;
+	 var title = frm.elements['name'].value;
+	 var style = frm.elements['style'].value;
+	 var content = frm.elements['content'].value;
+	 var time_limit = frm.elements['time_limit'].value;
+	 var award = get_award_value();
+	 var part_account = frm.elements['part_account'].value;
+	 var funds = frm.elements['funds'].value;
+	 var apr = frm.elements['apr'].value;
+	 var valicode = frm.elements['valicode'].value;
+	 var most_account = frm.elements['most_account'].value;
+	 var use = frm.elements['most_account'].value;
+	 var lowest_account = frm.elements['lowest_account'].value;
+	
+	 var errorMsg = '';
+	  if (account.length == 0 ) {
+		errorMsg += '- 总金额不能为空' + '\n';
+	  }
+	  
+	  if(danbao){//担宝
+              if(account > danbao_money){//如果大于担保额度,不允许
+                  errorMsg += '- 您当前的借款金额大于您的可用担保额度！' + '\n';
+              }else if(cr < 30 || real_s != '1'){
+                  errorMsg += '- 您尚未通过实名认证' + '\n';
+                  alert(errorMsg);
+                  location.href='/index.php?user&q=code/user/realname';
+                  return false;
+              }else if(vip_status != 1){
+                            errorMsg += '-您不是VIP用户，请先申请VIP！' + '\n';
+                            alert(errorMsg);
+                            location.href="/vip/index.html";
+                            return false;
+              }else if(cr <30){
+                  errorMsg += '- 您当前的积分小于30分，请上传资料进行认证!' + '\n';
+                  alert(errorMsg);
+                  location.href='/index.php?user&q=code/attestation';
+                  return false;
+              }//else if(video_status != '1' && scene_status != '1'){
+                 // errorMsg += '- 您未进行视频认证或者现场认证，请先进行相关认证' + '\n';
+                  //alert(errorMsg);
+                  //location.href='/index.php?user&q=code/user/video_status';
+                  //return false;
+             // }
+	      else if(account>(danbao_money)) errorMsg += '- 借款金额大于担保额度' + '\n';
+	  }else if(miaobiao_is){//秒标
+	  		//var donjie = parseFloat(apr)*parseFloat(account)/(100*12) + parseFloat(account)/100*sxf;//冻结资金
+                        //var donjie = parseFloat(apr)*parseFloat(account)/(100*12);
+	  		//if(parseInt(total_zi) < parseInt(donjie)) errorMsg += '- 您的账户总余额小于(利息+管理手续费的金额)' + '\n';
+	  }else if(fastbiao){
+	  		if(scene_status != '1'){
+                          errorMsg += '- 您未进行现场认证，请先进行现场认证' + '\n';
+                          alert(errorMsg);
+                          location.href='/index.php?user&q=code/user/scene_status';
+                          return false;
+                        } 
+	  		else if(account>5000000) errorMsg += '- 借款总金额不能大于500万' + '\n';
+                        
+	  }else if(jinbiao){//净值标:账户总额减去冻结总额减去待还总额减去替人担保金额
+       
+              if(jinMoney < 500){
+                            errorMsg += '-您的净资产小于500，不能发净资产标！' + '\n';
+              }else if(account>jinMoney){
+                            errorMsg += '-借款金额不能大于净资产！' + '\n';
+              }else if(phone_status != '1'){
+                          errorMsg += '- 您未进行手机认证，请先进行手机认证' + '\n';
+                          alert(errorMsg);
+                          location.href='/index.php?user&q=code/user/phone_status';
+                          return false;
+              }
+              
+          }else{//信用标:
+	  		if(real_s != '1'){
+                            errorMsg += '-请先通过实名认证！' + '\n';
+                            alert(errorMsg);
+                            location.href='/index.php?user&q=code/user/realname';
+                            return false;
+                        }else if(vip_status != 1){
+                            errorMsg += '-您不是VIP用户，请先申请VIP！' + '\n';
+                            alert(errorMsg);
+                            location.href="/vip/index.html";
+                            return false;
+                        }else if(cr < 30 ){
+                            errorMsg += '-您的积分小于30分,请上传资料进行认证！' + '\n';
+                            alert(errorMsg);
+                            location.href="/index.php?user&q=code/attestation";
+                            return false;
+                        }
+                        ////else if(video_status != '1' && scene_status != '1'){
+                          //errorMsg += '- 您未进行视频认证或者现场认证，请先进行相关认证' + '\n';
+                          //alert(errorMsg);
+                          //location.href='/index.php?user&q=code/user/video_status';
+                          //return false;
+                      // }
+
+			else  if(account>max_account) errorMsg += '- 借款金额大于可用信用额度' + '\n';
+	  }
+	
+	  if (apr.length == 0 ) {
+		errorMsg += '- 利率不能为空' + '\n';
+	  }
+	  
+	  if (time_limit >=1 && time_limit<=6 && apr>23.24) {
+		errorMsg += '- 1至6个月的年利率不能超过23.24%' + '\n';
+	  }else if (time_limit >6  && apr>25.24) {
+		errorMsg += '- 6至12个月的年利率不能超过'+max_fax+'%' + '\n';
+	  }
+	  
+	  if (apr<0 ||apr>max_apr) {
+		errorMsg += '- 利率不能大于'+max_apr+'%' + '\n';
+	  }
+	  
+	  if (award==1 && (part_account=="" || part_account<5 || part_account>account*0.02)) {
+		errorMsg += '- 固定金额分摊奖励不能低于5元,不能高于总标的金额的2%' + '\n';
+	  }
+	  if (award==2 && (funds =="" || funds<0.1 || funds>6)) {
+		errorMsg += '- 投标金额比例奖励0.1%~6% ' + '\n';
+	  }
+	  if (most_account!=0 && parseInt(most_account)<parseInt(lowest_account)){
+		  errorMsg += '- 投标最大金额不能小于最小金额' + '\n';
+	  }
+	  if (title.length == 0 ) {
+		errorMsg += '- 标题不能为空' + '\n';
+	  }
+	  if (content.length == 0 ) {
+		errorMsg += '- 内容不能为空' + '\n';
+	  }
+	  if (valicode.length == 0 ) {
+		errorMsg += '- 验证码不能为空' + '\n';
+	  }
+
+	
+	var awa = "";
+	for(var i=0;i<frm.award.length;i++){   
+	   if(frm.award[i].checked){
+		 awa =  frm.award[i].value;
+		}
+	} 
+
+
+	if(awa==1){
+		if (part_account==""){
+			errorMsg += '- 固定分摊比例奖励不能为空 ' + '\n';
+		}
+	}
+	if(awa==2){
+		if (funds==""){
+			errorMsg += '- 投标金额比例奖励不能为空 ' + '\n';
+		}
+	}
+	
+	  if (errorMsg.length > 0){
+		alert(errorMsg); return false;
+	  } else{  
+		return true;
+	  }
+
+}
+function get_award_value()
+{
+    var form1 = document.forms['form1'];
+    
+    for (i=0; i<form1.award.length; i++)    {
+        if (form1.award[i].checked)
+        {
+           return form1.award[i].value;
+        }
+    }
+}
+function change_j(type){
+	var frm = document.forms['form1'];
+	if (type==0){
+                jQuery("#part_account").attr("disabled",true); 
+		jQuery("#funds").attr("disabled",true); 
+                jQuery("#is_false").attr("disabled",true); 
+                
+                //frm.elements['part_account'].disabled = "disabled";
+		//frm.elements['funds'].disabled = "disabled";
+		//frm.elements['is_false'].disabled = "disabled";
+	}else if (type==1){
+                jQuery("#part_account").attr("disabled",false); 
+		jQuery("#funds").attr("disabled",true); 
+                jQuery("#is_false").attr("disabled",false); 
+                
+		//frm.elements['part_account'].disabled = "";
+		//frm.elements['funds'].disabled = "disabled";
+		//frm.elements['is_false'].disabled = "";
+	}else if (type==2){
+            
+                jQuery("#part_account").attr("disabled",true); 
+		jQuery("#funds").attr("disabled",false); 
+                jQuery("#is_false").attr("disabled",false); 
+                
+		//frm.elements['part_account'].disabled = "disabled";
+		//frm.elements['funds'].disabled = "";
+		//frm.elements['is_false'].disabled = "";
+	}
+}	
+
+ 
+</script>
+</#if>
+<script src="${webroot}${theme_dir}/media/js/modal.js"></script>
+
+<#include "../include/footer.html"> 

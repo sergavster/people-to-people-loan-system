@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                        	<!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 start -->
+                            <#include "../setting/left.html">
+                            <!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 end -->
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="短信类型配置">
+                    	<!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 start -->
+                        <#include "../setting/banner.html">
+                        <!-- v1.6.6.2 RDPROJECT-238 lhm 2013-10-21 end -->
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                             <div class="toolbor-module export">
+                                    
+                                </div>
+                                <form action="/admin/notice/noticeTypeList.html" method="post">
+									<div class="toolbor-module search">    
+                                        <input type="submit" value="搜索"  class="input-button" onclick="sousuo();">
+                                    </div>  
+                                  <#if param?exists>
+                                   <#if param.get("noticeTypeNid")?exists><#assign noticeTypeNid=param.get("noticeTypeNid")></#if>
+                                   <!-- v1.6.7.2 RDPROJECT-535 liukun 2013-12-09 start -->
+                                   <#if param.get("noticeTypeSms")?exists><#assign noticeTypeSms=param.get("noticeTypeSms")></#if>
+                                   <#if param.get("noticeTypeEmail")?exists><#assign noticeTypeEmail=param.get("noticeTypeEmail")></#if>
+                                   <#if param.get("noticeTypeMessage")?exists><#assign noticeTypeMessage=param.get("noticeTypeMessage")></#if>
+                                   <!-- v1.6.7.2 RDPROJECT-535 liukun 2013-12-09 end -->  		                   
+				                  </#if>   
+                                    <div class="toolbor-module search">   
+                                    	 <div class="" id="status">
+                                    	 <!-- v1.6.7.2 RDPROJECT-535 liukun 2013-12-09 start -->
+                                    	 短信：<input type="checkbox" name="noticeTypeSms" value="1"  <#if noticeTypeSms?exists && noticeTypeSms=="1">checked="checked"</#if>>
+                                    	 邮件：<input type="checkbox" name="noticeTypeEmail" value="1"  <#if noticeTypeEmail?exists && noticeTypeEmail=="1">checked="checked"</#if>>
+                                    	 站内信：<input type="checkbox" name="noticeTypeMessage" value="1"  <#if noticeTypeMessage?exists && noticeTypeMessage=="1">checked="checked"</#if>>
+                                             	通知类型：	
+                                             <#if noticeTypeNid?exists>
+                                             <@linkage name="noticeTypeNid" id="noticeTypeNid" class="test"  default="${noticeTypeNid}" type="value"  nid="notice_type" />
+						                    <#else>
+                                             <@linkage name="noticeTypeNid" id="noticeTypeNid" class="test"  default="all" type="value" nid="notice_type" />
+						                    </#if>
+						                <!-- v1.6.7.2 RDPROJECT-535 liukun 2013-12-09 end -->    
+                                    </div>
+                                    </div>
+								</form>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+							 <form action="" method="post">
+			  <table class="data-list" >
+				<tr >
+					<td>类型编码</td>
+					<td>类型</td>
+		            <td>名称</td>
+					<td>系统短信</td>
+					<td>是否发送</td>
+					<td>标题模板</td>
+					<td>内容模板</td>
+					<!-- <td>备注</td>	 -->		
+					<td>操作</td>			
+				</tr>
+				
+				<#list list as item>
+				<tr class="s" >
+					<!-- V1.6.6.1 RDPROJECT-331 liukun 2013-10-12 start -->
+					<td>${item.nid}</td>
+					<td><#if item.notice_type??&&item.notice_type==1>短信<#elseif item.notice_type??&&item.notice_type==2>邮件<#else>站内信</#if></td>
+					<td style="">${item.name}</td>
+					<td style="width:5%"><#if item.type??&&item.type==1>系统通知<#elseif item.type??&&item.type==2>系统通知<#else>其它类型</#if></td>
+					<td><#if item.send??&&item.send==1>发送<#else>不发送</#if></td>
+					<td style="text-align:left;word-WRAP:break-word;width:10%">${item.title_templet}</td>
+					<td style="text-align:left;word-WRAP:break-word;width:45%">${item.templet}</td>
+					<!-- <td style="text-align:left;word-WRAP:break-word;">${item.remark}</td> -->
+					<td><a class="un" href="updateNoticeType.html?nid=${item.nid!}&notice_type=${item.notice_type!}">修改</a></td>
+					<!-- V1.6.6.1 RDPROJECT-331 liukun 2013-10-12 end  -->
+			</tr>
+				</#list>
+				<tr>
+				<td colspan="10" class="action">
+				<div class="floatl">
+					</div>
+				
+				<div class="floatr">
+			
+				</div>
+				</td>
+			</tr>
+				<tr>
+					<td colspan="11" class="page">
+						<#import "../../common/page.html" as pager>  
+			         	<@pager.pagination page=page url="/admin/notice/noticeTypeList.html" map=param style="style1"  /> 
+					</td>
+				</tr>
+			</table>
+		</form>	
+		
+           </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+<div class="msgClass">
+<@s.actionmessage/>
+</div>
+    </body>
+</html>
+<#include "../jsPage.html">
+<script>
+    function submitArticle(type){
+        $("#type").val(type);
+        $("#batchOperateArticleForm").submit();
+    }
+</script>

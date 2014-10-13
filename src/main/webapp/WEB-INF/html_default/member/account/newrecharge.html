@@ -1,0 +1,435 @@
+﻿﻿<!DOCTYPE html>
+<html>
+<!--   v1.6.6.2 RDPROJECT-140 yl 2013-10-23 start-->
+<#assign web_title='账户充值 - ${webname!}'>
+<#assign web_description='账户充值，${webname!}p2p网贷平台'> 
+<!--   v1.6.6.2 RDPROJECT-140 yl 2013-10-23 end-->
+<#include "../../include/resource.html">
+<body>
+	<#assign nid="member">
+	<#include "../../include/header.html">
+	 
+	<!-- #main start-->
+	<div id="main" class="clearfix">
+		<!-- .wrap950 开始-->
+		<div class="wrap950 ">
+			<!--左边的导航user_left 开始-->
+			<div class="user_left">
+			<#assign mid="m_account" >
+				<#include "../user_menu.html">
+			</div>
+			<!--左边的导航user_left 结束-->
+
+			<!--右边的内容user_right 开始-->
+			<div class="user_right">
+				<div class="user_right_menu">
+					<#assign account_type="newrecharge">
+					<#include "account_menu.html">
+				</div>
+				<!--右边的内容user_right_main 开始-->
+				<div class="user_right_main">
+					
+					<div class="user_help alert">
+                    * 温馨提示：网上银行充值过程中请耐心等待,充值成功后，请不要关闭浏览器,充值成功后返回${webname},
+                    充值金额才能打入您的帐号。
+
+
+					</div>
+		<div class="user_right_border">
+			<div class="l" style="font-weight:bold;">真实姓名：</div>
+			<div class="c">${session_user.realname!""}</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l" style="font-weight:bold;">联系Email：</div>
+			<div class="c"><#if session_user.email??>*****${session_user.email[5..]!""}<#else>-</#if></div>
+		</div>
+		<form action="" method="post" name="form1"  onsubmit = "return check();"  target="_blank">
+		<div id="returnpay">
+		<div class="user_right_border">
+		
+			<div class="l" style="font-weight:bold;">充值方式：</div>
+			<div class="c" style="vertical-align:middle">
+			<!-- 是否启用网上充值 -->
+				<#if enable_online_recharge?? && enable_online_recharge=="1">
+					<span style="line-height:22px; vertical-align:top; height:22px"><input type="radio" name="type"  id="type"  class="input_border" checked="checked" onClick="change_type(1)" value="1"  /> 网上充值<br></span>
+					<span style="line-height:22px; vertical-align:top; height:22px"><input type="radio" name="type"  id="type" class="input_border"  value="2"  onclick="change_type(2)" /> 线下充值 </span>
+				<#else>
+					线下充值<input type="hidden" name="type" value="2" />
+				</#if>
+			</div>
+		</div>
+		<div class="user_right_border">
+			<div class="l" style="font-weight:bold;">充值金额：</div>
+			<div class="c">
+				<input type="text" name="money"  class="input_border" value="" size="10" onKeyUp="value=value.replace(/[^0-9.]/g,'').trim();commit(this);" maxlength="9" /> 元 <span id="realacc">实际入账：<font color="#FF0000" id="real_money">0</font> 元</span>
+			</div>
+		</div>
+		<#if enable_online_recharge?? && enable_online_recharge=="1">
+			<div id="type_net" class="disnone">
+				<div class="user_right_border">
+				<div class="l" style="font-weight:bold;">充值类型：</div>
+				<div class="c">
+					<font color="red">以下银行是使用个人网上银行支付，只需开通个人网上银行即可!</font>
+					<style type="text/css">
+						#ban table td{height:40px; line-height:40px;padding-right:30px;padding-bottom:10px; width:165px;}
+						#ban table img{width:125px; height:33px;float:right;}
+					</style>
+					<div id="ban">
+                     	<!-- 以下为直连，直连一次只支持一种支付方式 -->
+						<!-- 
+						 <tr>
+						   <td width="150"><input type="radio" name="payment1" value="1025_w" />
+                           <img src="/data/bank/ICBC_OUT.gif" border="0"/></td>
+                           <td width="150"><input type="radio" name="payment1" value="00004_s" />
+                           <img src="/data/bank/ICBC_OUT.gif" border="0"/></td>
+						   <td width="150"><input type="radio" name="payment1" value="00083_s">
+						   <img src="/data/bank/BOC_OUT.gif" border="0"/></td>
+						   <td  width="150"><input type="radio" name="payment1" value="00015_s"/>
+                          <img src="/data/bank/CCB_OUT.gif" border="0"/></td>
+						 </tr>
+						 <tr>
+						   <td><input type="radio" name="payment1" value="00017_s"/>	
+						   <img src="/data/bank/ABC_OUT.gif" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="00021_s"/>
+						   <img src="/data/bank/CMB_OUT.gif" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="00052_s" />
+						   <img src="/data/bank/GDB_OUT.gif" border="0"/></td>
+						 </tr>
+						 <tr>
+						   <td><input type="radio" name="payment1" value="00013_s"/>
+						   <img src="/data/bank/CMBC_OUT.gif" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="00057_s"/>
+						   <img src="/data/bank/CEB_OUT.gif" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="00016_s"/>
+						   <img src="/data/bank/CIB_OUT.gif" border="0"/></td>
+						 </tr>
+						 <tr>
+						   <td><input type="radio" name="payment1" value="00051_s"/>
+						   <img src="/data/bank/yz.jpg" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="00041_s"/>
+                           <img src="/data/bank/hx.jpg" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="00005_s"/>
+						   <img src="/data/bank/COMM_OUT.gif" border="0"/></td>
+						 </tr>
+						 <tr>
+						   <td><input type="radio" name="payment1" value="00054_s"/>
+						   <img src="/data/bank/CITIC_OUT.gif" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="00032_s">
+						   <img src="/data/bank/pf.jpg" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="00023_s">
+						   <img src="/data/bank/SZFZ_OUT.gif" border="0"/></td>
+						 </tr> -->
+						 
+						 <!-- 易生支付 v1.6.5.5 RDPROJECT-148 xx 2013-09-23 start -->
+						 <!-- 
+						 <tr>
+                           <td width="150"><input type="radio" name="payment1" value="ICBC_yisheng" />
+                           <img src="/data/bank/ICBC_OUT.gif" border="0"/></td>
+						   <td width="150"><input type="radio" name="payment1" value="BOC_yisheng">
+						   <img src="/data/bank/BOC_OUT.gif" border="0"/></td>
+						   <td  width="150"><input type="radio" name="payment1" value="CCB_yisheng"/>
+                          <img src="/data/bank/CCB_OUT.gif" border="0"/></td>
+						 </tr>
+						 <tr>
+						   <td><input type="radio" name="payment1" value="ABC_yisheng"/>	
+						   <img src="/data/bank/ABC_OUT.gif" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="CMB_yisheng"/>
+						   <img src="/data/bank/CMB_OUT.gif" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="GDB_yisheng" />
+						   <img src="/data/bank/GDB_OUT.gif" border="0"/></td>
+						 </tr>
+						 <tr>
+						   <td><input type="radio" name="payment1" value="CMBC_yisheng"/>
+						   <img src="/data/bank/CMBC_OUT.gif" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="CEB_yisheng"/>
+						   <img src="/data/bank/CEB_OUT.gif" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="CIB_yisheng"/>
+						   <img src="/data/bank/CIB_OUT.gif" border="0"/></td>
+						 </tr>
+						 <tr>
+						   <td><input type="radio" name="payment1" value="PSBC_yisheng"/>
+						   <img src="/data/bank/yz.jpg" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="HXB_yisheng"/>
+                           <img src="/data/bank/hx.jpg" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="HSBC_yisheng"/>
+						   <img src="/data/bank/COMM_OUT.gif" border="0"/></td>
+						 </tr>
+						 <tr>
+						   <td><input type="radio" name="payment1" value="CITIC_yisheng"/>
+						   <img src="/data/bank/CITIC_OUT.gif" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="SPDB_yisheng">
+						   <img src="/data/bank/pf.jpg" border="0"/></td>
+						 </tr>
+						  -->
+						 <!-- v1.6.5.5 RDPROJECT-148 xx 2013-09-23 end -->
+						 <!-- 双乾支付 v1.6.6.2 RDPROJECT-283 lhm 2013-10-21 start -->
+						 <!--v1.6.6.2  RDPROJECT-169  wcw 2013-10-28 start-->
+                         <ul class="bank_list clearfix">
+                         
+						 <#if onlineBankList??>
+                             <#list onlineBankList as item>
+                                 <li>
+                                   <input type="radio" name="payment1" value="${item.bank_value}" />
+                                   <img src="${item.bank_logo}" border="0"/></td>
+                                 </li>
+                             </#list>
+						 </#if>
+                         </ul>
+						 <!--v1.6.6.2  RDPROJECT-169  wcw 2013-10-28 end-->
+						 
+						 <!-- <tr>
+                           <td width="150"><input type="radio" name="payment1" value="ICBC_95epay" />
+                           <img src="/data/bank/ICBC_OUT.gif" border="0"/></td>
+						   <td width="150"><input type="radio" name="payment1" value="BOC_95epay">
+						   <img src="/data/bank/BOC_OUT.gif" border="0"/></td>
+						   <td  width="150"><input type="radio" name="payment1" value="CCB_95epay"/>
+                          <img src="/data/bank/CCB_OUT.gif" border="0"/></td>
+						 </tr>
+						 <tr>
+						   <td><input type="radio" name="payment1" value="ABC_95epay"/>	
+						   <img src="/data/bank/ABC_OUT.gif" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="CMB_95epay"/>
+						   <img src="/data/bank/CMB_OUT.gif" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="GDB_95epay" />
+						   <img src="/data/bank/GDB_OUT.gif" border="0"/></td>
+						 </tr>
+						 <tr>
+						   <td><input type="radio" name="payment1" value="CMBC_95epay"/>
+						   <img src="/data/bank/CMBC_OUT.gif" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="CEB_95epay"/>
+						   <img src="/data/bank/CEB_OUT.gif" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="CIB_95epay"/>
+						   <img src="/data/bank/CIB_OUT.gif" border="0"/></td>
+						 </tr>
+						 <tr>
+						   <td><input type="radio" name="payment1" value="PSBC_95epay"/>
+						   <img src="/data/bank/yz.jpg" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="HXB_95epay"/>
+                           <img src="/data/bank/hx.jpg" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="HSBC_95epay"/>
+						   <img src="/data/bank/COMM_OUT.gif" border="0"/></td>
+						 </tr>
+						 <tr>
+						   <td><input type="radio" name="payment1" value="CITIC_95epay"/>
+						   <img src="/data/bank/CITIC_OUT.gif" border="0"/></td>
+						   <td><input type="radio" name="payment1" value="SPDB_95epay">
+						   <img src="/data/bank/pf.jpg" border="0"/></td>
+						 </tr> -->
+						 <!-- v1.6.6.2 RDPROJECT-283 lhm 2013-10-21 end -->
+                     	<table width="100%" cellpadding="3" cellspacing="3">
+
+					   </table>
+					</div>
+				<!--v1.6.6.2  RDPROJECT-169  wcw 2013-10-28 start-->
+					
+					<#if interfaceList??>
+						<#list interfaceList as item>
+							<span style="line-height:22px; vertical-align:top; height:22px">
+								<input type="radio" name="payment1" class="input_border" value="${item.interface_value}" id="payment1"/> ${item.name}
+								<input type="hidden" name="payname13" value="${item.name}" /><br/>
+							</span>
+						</#list>
+					</#if>
+				 <!--v1.6.6.2  RDPROJECT-169  wcw 2013-10-28 end-->
+					
+					</div>
+				</div>
+			</div>
+		</#if>
+		<div id="type_now" style="<#if enable_online_recharge?? && enable_online_recharge=="1">display:none</#if>">
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;">充值银行：</div>
+				<div class="c">
+					<div>
+						<font color="red">线下充值如遇到问题，请马上与客服联系联系；<br>
+						（1）线下充值的单笔最低金额不低于<b class="lowmoney_now">10000</b>元。<br>
+						（2）<strong><font color="blue">有效充值登记时间为:周一至周日的8:30到22:00</font></strong>，充值成功请跟我们的客服联系。<br><br>
+						</font>
+					</div>
+					<div class="underline-bank">
+					<!--v1.6.6.2  RDPROJECT-169  wcw 2013-10-28 start-->
+					<#if downBankList??>
+					<#list downBankList as item>
+						<input type="radio" name="payment2"  class="input_border" value="${item.payment!}" />${item.account!}  ${item.branch!}  法人账户：${item.bank_realname!}<br/>
+					</#list>
+					</#if>
+				<!--v1.6.6.2  RDPROJECT-169  wcw 2013-10-28 end-->
+					
+				  </div>
+				</div>
+			</div>
+			<div class="user_right_border">
+				<div class="l" style="font-weight:bold;">线下充值备注：</div>
+				<div class="c">
+					<input type="text" name="remark"  class="input_border" value="" size="30" /><br>（请注明您的用户名，转账银行卡号和转账流水号，以及转账时间，谢谢配合）
+				</div>
+			</div>
+		</div>
+		<div class="user_right_border">
+			<div class="l" style="font-weight:bold; float:left;">验证码：</div>
+			<div class="c" >
+				<input name="valicode" type="text" size="11" maxlength="5"  tabindex="3"  style="float:left;"/>&nbsp;<img src="${request.getContextPath()}/validimg.html" alt="点击刷新" onClick="this.src='${request.getContextPath()}/validimg.html?t=' + Math.random();" align="absmiddle" style="cursor:pointer; display:inline-block;zoom:1;*display:inline; *float:none;" />
+			</div>
+		</div>
+
+		<div class="user_right_border">
+			<div class="l" style="font-weight:bold;"></div>
+			<div class="c">
+				<input type="submit" class="btn-action"  name="name"  value="确认提交" size="30" /> 
+			</div>
+		</div>
+		
+		</div>
+		</form>
+		 <div id="modal_dialog" style="display: none" title="充值情况">
+        	<p>如果您已经完成了充值，请继续以下步骤</p>
+            <div class="">
+        	<span id="close_wd">继续充值</span>　|　
+			<a href="${webroot}/member/account/recharge.html">查看充值记录</a>
+            </div>
+        </div>
+		<script>
+		function check(){
+			var form_box = $("#recharge_form");
+			var val=$('input:radio[name="type"]:checked').val();
+			var money ="";
+			var valicode;
+			if(val==1){
+				money = $("input[name='money']").val();
+				valicode = $("input[name=valicode]").val();
+				var payment1 = $("input[name='payment1']");
+				if(!(money>0))
+				{
+					alert("线上充值金额不能低于0")
+					return false;	
+				}
+				if(!payment1.is(":checked"))
+				{
+					alert("选择充值银行")
+					return false;	
+				}
+				if(valicode=="")
+				{
+					alert("请输入验证码")
+					return false;		
+				}
+				setTimeout(function(){
+					show_recharge();
+				},1000)
+				
+			}
+			var val=$('input:radio[name="type"]:checked').val()
+			if(val==2){
+				money = $("input[name='money']").val();
+				var payment2 = $("input[name='payment2']");
+				valicode = $("input[name=valicode]").val();
+				var lowmoney_now = parseInt($(".lowmoney_now").text());
+				var now_remark = $("input[name='remark']").val();
+				if(money<lowmoney_now)
+				{
+					alert("线下充值金额不能低于"+lowmoney_now)
+					return false;	
+				}
+				if(!payment2.is(":checked"))
+				{
+					alert("选择线下充值银行")
+					return false;	
+				}
+				if(now_remark=="")
+				{
+					alert("输入线下充值备注");
+					return false;	
+				}
+				if(valicode=="")
+				{
+					alert("请输入验证码")
+					return false;		
+				}
+				setTimeout(function(){
+					show_recharge();
+				},1000)
+				
+			}
+			
+			
+			function show_recharge(){
+				jQuery( "#modal_dialog" ).dialog({ autoOpen: false , modal: true ,height: 160,width:360 });
+				jQuery( "#modal_dialog" ).dialog( "open" );
+			}
+
+		}
+		$("#close_wd").click(function(){
+			$(".ui-widget-overlay").remove();	
+			$(".ui-dialog").remove();	
+		})
+		
+		$(document).ready(function() {
+			var val=$('input:radio[name="type"]:checked').val();
+			if(val==2){
+				$("#type_net").hide();
+				$("#type_now").show();
+			}
+			if(val==1){
+				$("#type_net").show();
+				$("#type_now").hide();
+			}
+		});
+
+			function change_type(type){
+          
+				if (type==2){
+                    document.getElementById("type_net").style.display="none";
+                    document.getElementById("type_now").style.display="";
+                    document.getElementById("realacc").style.display="none";
+				}else{
+					document.getElementById("type_now").style.display="none";
+					document.getElementById("type_net").style.display="";
+					document.getElementById("realacc").style.display="";
+				}
+				
+			}
+		function payment (){
+	 		var type = GetRadioValue("type");
+			if (type==1){
+				$("#returnpay").html("<font color='red'>请到打开的新页面充值</font>");
+				
+			}
+			
+		}
+		function ctype(){
+		var resualt=false;
+		
+			alert(document.form1.payment2.length);
+			for(var i=0;i<document.form1.payment2.length;i++)
+			{
+				
+				if(document.form1.payment2[i].checked)
+				{
+				  resualt=true;
+				}
+			}
+			return resualt;
+		}
+        function commit(obj) {
+            if (parseFloat(obj.value) > 0 ) 
+            {
+                var realMoney=parseFloat(obj.value);
+                document.getElementById("real_money").innerText = realMoney ;
+            }
+        }
+    </script>
+		
+		<div class="user_right_foot alert">
+		${webname}禁止信用卡套现、虚假交易等行为,一经发现将予以处罚,包括但不限于：限制收款、冻结账户、永久停止服务,并有可能影响相关信用记录。
+		</div>
+					<!-- 内容结束 -->
+				</div>
+				<!--右边的内容user_right_main 结束-->
+			</div>
+			<!--右边的内容user_right 结束-->
+		</div>
+		<!-- .wrap950 结束-->
+	</div>
+	<!-- #main start-->
+	<#include "../../include/footer.html">

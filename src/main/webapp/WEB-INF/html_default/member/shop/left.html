@@ -1,0 +1,57 @@
+<!-- v1.6.7.2 RDPROJECT-569 cx 2013-12-26 start -->
+<div class="shop"> 
+     	<div class="user_info clearfix">
+     		<div class="user_img">
+     		 <img src="${webroot}/imgurl.html?userid=${detailuser.user_id?c}&size=middle" height="50" width="50" />
+    		</div>
+    		<dl class="user_con">
+    			<dt>${user.username}</dt>
+    			<dd><span>${creditModel.valid_value}&nbsp;</span>积分</dd></a>
+    		    <dt><a href="${request.getContextPath()}/credit/usedCreditDetail.html?user_id=${detailuser.user_id?c}"><font color="#436EEE">我的消费</font></a></dt>
+    		</dl>
+    	</div> 
+    	<div class="shop_category" style="padding-left: 20px;border:1px solid #ccc;width: 150px;height: 68px;">
+    		<b>积分总额</b>:<font color="red">${(userCredit.value)!0}</font><br>
+    		<b>已消费积分</b>:<font color="red">${(userCredit.expense_value)!0}</font><br>
+    		<b>可用积分</b>:<font color="red">${(userCredit.valid_value)!0}</font>
+    	</div>
+        <div class="shop_category">
+            
+            	<#list cateList as item>
+            	<dl>
+            		<dt>
+            		<!-- href="${request.getContextPath()}/credit/shopIndex.html?category_id=${item.id}"  -->
+            		<a class="title" href="#">${item.name}</a>
+            		</dt>
+            		<dd class="clearfix">
+            		<#if item.childList?exists>
+            		 <#list item.childList as child>
+            		  	<a href="${request.getContextPath()}/credit/shopIndex.html?category_id=${child.id}">${child.name}</a>
+            		 </#list>
+            		 </#if>
+            		 </dd>
+            		   </dl>
+            	</#list>
+            	
+          <div class="more"><!--  <a href="#">更多&gt;&gt;</a>--></div>
+        </div> 
+        <#--<div class="shop_Converted">   
+	        <h1>他们都兑换了</h1>   
+	          	<div class="shop_content">
+		          	<ul style="margin-top: 0px;">
+		          	 <#list convertList as con>
+			          	 <li>
+				          	 <dl>
+				          	 	<dt><span>用户：</span>${con.username!}</dt>
+				          	 	<dd><span>商品：</span>${con.goods_name!}</dd>
+				          	 	<dd><span>积分：</span>${con.credit_value!}</dd>
+				          	 	<dd><span>数量：</span>${con.convert_num!}</dd>
+				          	 </dl>
+			          	 </li>
+			        </#list>
+			        </ul>
+	           </div>
+        </div> -->
+</div>
+<!-- v1.6.7.2 RDPROJECT-569 cx 2013-12-26 end -->
+

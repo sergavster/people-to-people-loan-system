@@ -1,0 +1,74 @@
+<div id="head">
+    <div class="clearfix" id="head-info">
+        <#if session_user?exists >
+         <div class="float_left">
+                您好<font color="red"> ${session_user.username!}</font>，欢迎来到<font color="red"> 招商贷！</font><img src="${webroot}${theme_dir}/images/weibo.png" ><a href="#" class="weibo">关注官方微博</a>
+         </div>
+         <div class="float_right">
+            　当前登录账户:${session_user.username!}　|　<a href="${webroot}/user/logout.html">退出</a>　|　<a href="${webroot}/member/index.html">个人中心</a>　|　<a href="${webroot}/service/onlinekefu.html">咨询服务</a>　
+        </div>
+        <#else>
+         <div class="float_left">
+                欢迎来到<font color="red">招商贷！</font><img src="${webroot}${theme_dir}/images/weibo.png" > <a href="#" class="weibo">招商贷官方微博</a>
+         </div>
+         <div class="float_right">
+            <a href="${webroot}/user/login.html">登录</a>　|　<a href="${webroot}/user/register.html">注册</a>　|　
+            <a href="${webroot}/member/index.html">个人中心</a>　|　
+            </span><a href="${webroot}/service/onlinekefu.html">咨询服务</a>　
+        </div>
+        </#if>
+     </div>   
+     <div class="clearfix"  id="head-content">
+        <div class="logo">
+            <a href="/">
+                <img src="${webroot}${theme_dir}/images/logo.png" alt="">
+            </a>
+        </div>
+       <div class="telphone">
+            <img src="${webroot}${theme_dir}/images/telimg.png" alt="">
+        </div>
+     </div>
+             
+     <div  id="nav-wrap">
+        <div id="nav">
+            <#if !nid??><#assign nid="index"></#if>
+            <#macro showSiteUrl site>
+             <#if site.style??&&site.style=="2">${webroot}${site.url!}
+             <#elseif site.style??&&site.style=="3">${site.url!}
+             <#else>/article/list.html?catalog=${(site.site_id!0)?c}
+             </#if>
+            </#macro>
+            <#if tree??&&tree.hasChild()>
+             <ul class="clearfix navul">
+                <#list tree.child as item>
+                 <#if (item.model.status)??&&item.model.status==1>
+                 <li <#if ((item.model.nid)??&&(item.model.nid)==nid)> class="hover2" <#else> class="" </#if> ><a href="<@showSiteUrl site=item.model />">${item.model.name!}</a><b></b></li>
+                 </#if>
+                </#list>
+               </ul>
+            </#if>
+            <#if tree??&&tree.hasChild()>
+              <#list tree.child as item>
+               <#if item??&&(item.model.status!0)==1>
+               <div class="submenu  <#if ((item.model.nid)??&&(item.model.nid)==nid)><#else> hide </#if> ">
+                       <#if item.hasChild()>
+                       <#list item.child as subitem>
+                       <#if (subitem.model.status)??&&subitem.model.status==1>
+                        <a class="b" href="<@showSiteUrl site=subitem.model />">${subitem.model.name}</a>
+                       <#if (subitem_has_next)>　|</#if> 
+                       </#if>　
+                       </#list>
+                      <#else>
+                      <a class="b" > </a>　
+                      </#if>
+                         </div>
+                    </#if>
+           
+            </#list>
+             </#if>
+            
+            
+        </div>
+        
+    </div>
+</div>

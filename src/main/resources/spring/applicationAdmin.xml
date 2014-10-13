@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<bean id="systemDao" class="com.p2psys.dao.jdbc.SystemDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+
+	<bean id="systemService" class="com.p2psys.service.impl.SystemServiceImpl">
+		<property name="systemDao">
+			<ref bean="systemDao" />
+		</property>
+	</bean>
+
+
+	<bean id="usercreditdao" class="com.p2psys.dao.jdbc.UserCreditDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+
+	<!-- <bean id="adminuserinfoservice" class="com.p2psys.service.impl.AdminUserInfoSericeImpl">
+		<property name="usercreditdao">
+			<ref bean="usercreditdao" />
+		</property>
+	</bean> -->
+
+	<bean id="attestationService" class="com.p2psys.service.impl.AttestationServiceImp">
+		<property name="attestationDao">
+			<ref bean="attestationDao" />
+		</property>
+	</bean>
+	
+	<bean id="manageCashService" class="com.p2psys.service.impl.ManageCashServiceImpl">
+		<property name="accountDao">
+			<ref bean="accountDao" />
+		</property>
+		<property name="accountLogDao">
+			<ref bean="accountLogDao" />
+		</property>
+		<property name="cashDao">
+			<ref bean="cashDao" />
+		</property>
+		<property name="hongBaoDao">
+			<ref bean="hongBaoDao" />
+		</property>
+		<property name="userDao">
+			<ref bean="userDao" />
+		</property>
+		<property name="operationLogDao">
+			<ref bean="operationLogDao" />
+		</property>
+		<property name="protocolDao">
+			<ref bean="protocolDao" />
+		</property>
+	</bean>
+		<!-- v1.6.6.2 RDPROJECT-173 wcw 2013-10-25 start -->
+		<bean id="manageBankService" class="com.p2psys.service.impl.ManageBankServiceImpl">
+		<property name="accountDao">
+			<ref bean="accountDao" />
+		</property>
+		<property name="bankDao">
+			<ref bean="bankDao" />
+		</property>
+		<property name="userDao">
+			<ref bean="userDao" />
+		</property>
+	</bean>
+		<!-- v1.6.6.2 RDPROJECT-173 wcw 2013-10-25 end -->
+	
+	<bean id="purviewDao" class="com.p2psys.dao.jdbc.PurviewDaoImpl">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+	<bean id="manageAuthService" class="com.p2psys.service.impl.ManageAuthServiceImpl">
+		<property name="purviewDao">
+			<ref bean="purviewDao" />
+		</property>
+	</bean>
+	
+	 <bean id="creditCardDao"
+        class="com.p2psys.dao.jdbc.CreditCardDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+	
+	<bean id="noticeConfigDao"
+        class="com.p2psys.dao.jdbc.NoticeConfigDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+    <bean id="linkageDao"
+        class="com.p2psys.dao.jdbc.LinkageDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+	 <bean id="noticeDao"
+        class="com.p2psys.dao.jdbc.NoticeDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+	<bean id="creditCardService" class="com.p2psys.service.impl.CreditCardServiceImpl">
+		<property name="creditCardDao">
+			<ref bean="creditCardDao" />
+		</property>
+	</bean>
+	
+	<bean id="quickenLoansDao" class="com.p2psys.dao.jdbc.QuickenLoansDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+
+    
+	<bean id="quickenLoansService" class="com.p2psys.service.impl.QuickenLoansServiceImpl">
+		<property name="quickenLoansDao">
+			<ref bean="quickenLoansDao" />
+		</property>
+	</bean>
+	<bean id="noticeConfigService" class="com.p2psys.service.impl.NoticeConfigServiceImpl">
+		<property name="noticeConfigDao">
+			<ref bean="noticeConfigDao" />
+		</property>
+	</bean>
+     <bean id="linkageService" class="com.p2psys.service.impl.LinkageServiceImpl">
+		<property name="linkageDao">
+			<ref bean="linkageDao" />
+		</property>
+	</bean>
+
+	<!-- v1.6.7.1 RDPROJECT-314 liukun 2013-11-12 start -->
+	<!-- <bean id="smstypeDao"
+        class="com.p2psys.dao.jdbc.SmstypeDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+	<bean id="smstypeService" class="com.p2psys.service.impl.SmstypeServiceImpl">
+		<property name="smstypeDao">
+			<ref bean="smstypeDao" />
+		</property>
+	</bean> -->
+	<bean id="noticeTypeDao"
+        class="com.p2psys.dao.jdbc.NoticeTypeDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+	<bean id="noticeTypeService" class="com.p2psys.service.impl.NoticeTypeServiceImpl">
+		<property name="noticeTypeDao">
+			<ref bean="noticeTypeDao" />
+		</property>
+	</bean>	
+	<bean id="userNoticeConfigDao"
+        class="com.p2psys.dao.jdbc.UserNoticeConfigDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+	<bean id="userNoticeConfigService" class="com.p2psys.service.impl.UserNoticeConfigServiceImpl">
+		<property name="userNoticeConfigDao">
+			<ref bean="userNoticeConfigDao" />
+		</property>
+	</bean>	    
+	<!-- v1.6.7.1 RDPROJECT-314 liukun 2013-11-12 end -->
+	
+	<bean id="upfilesDao" class="com.p2psys.dao.jdbc.UpfilesDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+    <bean id="bankDao" class="com.p2psys.dao.jdbc.BankDaoImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+	<bean id="upfilesService" class="com.p2psys.service.impl.UpfilesServiceImpl">
+		<property name="upfilesDao">
+			<ref bean="upfilesDao" />
+		</property>
+		<property name="userDao">
+			<ref bean="userDao" />
+		</property>
+	</bean>
+</beans>

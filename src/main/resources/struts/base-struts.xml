@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <package name="wzd-default" extends="struts-default" abstract="true">
+    	<result-types>  
+            <result-type name="ftl" class="com.p2psys.freemarker.CustomFreemarkerResult" default="false"/>  
+        </result-types> 
+        <interceptors>
+           <interceptor name="sessiontimeout" class="com.p2psys.web.interceptor.SessionInterceptor"></interceptor>
+           <interceptor name="manageAuth" class="com.p2psys.web.interceptor.ManageAuthInterceptor"></interceptor>
+           <interceptor name="userLog" class="com.p2psys.web.interceptor.UserLogInterceptor"></interceptor>
+           <interceptor name="paramFilter" class="com.p2psys.web.interceptor.ParamFilterInterceptor"></interceptor>
+           <interceptor name="action" class="com.p2psys.web.interceptor.ActionInterceptor"></interceptor>
+           <!-- v1.6.7.1 RDPROJECT-284 xx 2013-11-04 start -->
+           <interceptor name="freeze" class="com.p2psys.web.interceptor.FreezeInterceptor"></interceptor>
+           <!-- v1.6.7.1 RDPROJECT-284 xx 2013-11-04 end -->
+           
+            <!-- 拦截器栈 -->
+            <interceptor-stack name="mydefault">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="paramFilter"/>
+                <interceptor-ref name="sessiontimeout"/>
+                <interceptor-ref name="action" />
+                <!-- v1.6.7.1 RDPROJECT-284 xx 2013-11-04 start -->
+                <interceptor-ref name="freeze"/>
+                <!-- v1.6.7.1 RDPROJECT-284 xx 2013-11-04 end -->
+            </interceptor-stack>
+            <interceptor-stack name="manageAuthStack">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="manageAuth"/>
+                <interceptor-ref name="action" />
+            </interceptor-stack>
+            <interceptor-stack name="globalStack">
+			    <interceptor-ref name="defaultStack" />
+			    <interceptor-ref name="paramFilter"/>
+			    <interceptor-ref name="userLog" />
+			    <interceptor-ref name="action" />
+			 </interceptor-stack>
+			 <!-- v1.6.7.1 RDPROJECT-284 xx 2013-11-04 start -->
+			 <interceptor-stack name="myfreeze">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="freeze"/>
+            </interceptor-stack>
+            <!-- v1.6.7.1 RDPROJECT-284 xx 2013-11-04 end -->
+        </interceptors>
+        
+        <default-interceptor-ref name="globalStack" />
+        <default-action-ref name="pagenotfound"/>
+
+        <global-results>
+        	<result name="index" type="redirect">/index.html</result>
+            <result name="login" type="ftl">/login.html</result>
+            <result name="notfound" type="ftl">/404.html</result>
+            <result name="msg" type="ftl">/msg.html</result>
+            <result name="adminmsg" type="ftl">/admin/msg.html</result>
+            <result name="exception" >/error.jsp</result>
+        </global-results>
+
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="exception"/>
+        </global-exception-mappings>
+         
+    </package>
+    
+    <package name="wzd-admin" extends="struts-default" abstract="true">
+    	<result-types>  
+            <result-type name="ftl" class="com.p2psys.freemarker.CustomFreemarkerResult" default="false"/>  
+        </result-types> 
+        <interceptors>
+           <interceptor name="sessiontimeout" class="com.p2psys.web.interceptor.SessionInterceptor"></interceptor>
+           <interceptor name="manageAuth" class="com.p2psys.web.interceptor.ManageAuthInterceptor"></interceptor>
+           <interceptor name="userLog" class="com.p2psys.web.interceptor.UserLogInterceptor"></interceptor>
+           <interceptor name="paramFilter" class="com.p2psys.web.interceptor.ParamFilterInterceptor"></interceptor>
+          <interceptor name="action" class="com.p2psys.web.interceptor.ActionInterceptor"></interceptor>
+            <!-- 拦截器栈 -->
+            <interceptor-stack name="mydefault">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="paramFilter"/>
+                <interceptor-ref name="sessiontimeout"/>
+                <interceptor-ref name="action" />
+            </interceptor-stack>
+            <interceptor-stack name="manageAuthStack">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="paramFilter"/>
+                <interceptor-ref name="manageAuth"/>
+                <interceptor-ref name="action" />
+            </interceptor-stack>
+            <interceptor-stack name="adminStack">
+			    <interceptor-ref name="defaultStack"/>
+			    <interceptor-ref name="paramFilter"/>
+			    <interceptor-ref name="userLog"/>
+			     <interceptor-ref name="manageAuth"/>
+			     <interceptor-ref name="action" />
+			 </interceptor-stack>
+        </interceptors>
+        
+        <default-interceptor-ref name="adminStack" />
+        <default-action-ref name="pagenotfound"/>
+
+        <global-results>
+        	<result name="index" type="redirect">/index.html</result>
+            <result name="login" type="ftl">/login.html</result>
+            <result name="notfound" type="ftl">/404.html</result>
+            <result name="msg" type="ftl">/msg.html</result>
+            <result name="adminmsg" type="ftl">/admin/msg.html</result>
+           <result name="error"  type="ftl">/404.html</result>
+        </global-results>
+
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="error"/>
+        </global-exception-mappings>
+
+    </package>
+</struts>

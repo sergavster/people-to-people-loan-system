@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="投标记录">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+
+                                <div class="toolbor-module export">
+                                    <input type="button" onClick="exportxls()" value="导出报表" class="input-button export-btn"/>
+                                    <#if param?exists>
+									<#if param.get("dotime1")?exists><#assign dotime1=param.get("dotime1")></#if>
+									<#if param.get("dotime2")?exists><#assign dotime2=param.get("dotime2")></#if>
+									<#if param.get("username")?exists><#assign username=param.get("username")></#if>
+									</#if>
+                                </div>
+                                <div class="toolbor-module search">
+                                    <input type="text" name="username" id="username" value="请输入用户名"  data-value="请输入用户名"  class="search-value">
+                                    <!-- v1.6.7.1 RDPROJECT-402 zza 2013-11-07 start -->
+                                    <input type="text" name="realname" id="realname" value="请输入真实姓名" data-value="请输入真实姓名"  class="search-value">
+                                    <!-- v1.6.7.1 RDPROJECT-402 zza 2013-11-07 end -->
+                                    <input type="button" value="搜索"  class="input-button" onClick="sousuo();">
+                                </div>
+								
+								  <div class="toolbor-module search">
+								  	<!-- v1.6.6.1 RDPROJECT-265 zza 2013-10-08 start -->
+                                    <div style="height:22px;line-height:22px;float:left;">投标时间：</div>
+                                    <!-- v1.6.6.1 RDPROJECT-265 zza 2013-10-08 end -->
+                                    <input class="_search-value js-datetime" name="dotime1" id="dotime1" value="${dotime1!}"/>
+                                    <div style="height:22px;line-height:22px;float:left;margin:0 8px;"> 到 </div>
+                                    <input class="_search-value js-datetime" name="dotime2" value="${dotime2!}" id="dotime2"/>
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <form action="" method="post">
+                                    <table class="data-list">
+                                        <tr class="header">
+                                            <td>ID</td>
+                                            <td>借款标ID</td>
+                                            <td>借款标名称</td>
+                                            <!-- v1.6.7.2 RDPROJECT-510 cx 2013-12-03 start -->
+                                            <td>借款标类型</td>
+                                            <!-- v1.6.7.2 RDPROJECT-510 cx 2013-12-03 end -->
+                                            <td>投标人</td>
+                                            <!-- v1.6.7.1 RDPROJECT-402 zza 2013-11-07 start -->
+                                            <td>真实姓名</td>
+                                            <!-- v1.6.7.1 RDPROJECT-402 zza 2013-11-07 end -->
+                                            <td>操作金额</td>
+                                            <td>有效金额</td>
+                                            <td>还款金额</td>
+                                            <td>利率</td>
+                                            <td>利息</td>
+                                            <td>投标类型</td>
+                                            <td>投标奖励标准</td>
+                                            <td>投标奖励</td>
+                                            <td>还款奖励标准</td>
+                                            <td>待收还款奖励</td>
+											<td>投标时间</td>
+                                        </tr>
+                                        <#include "../../common/function.html"> 
+										<#list list as item>
+										<tr>
+											<td>${item.id?c}</td>
+											<td>${item.borrow_id?c}</td>
+											<td><a href="${request.getContextPath()}/invest/detail.html?borrowid=${item.borrow_id?c}" target="_blank" title="${item.borrow_name}">
+											<#if item.borrow_name?length lt 11>${item.borrow_name}<#else>${item.borrow_name[0..10]}..</#if></a></td>
+											<!-- v1.6.7.2 RDPROJECT-510 cx 2013-12-03 start -->
+											<td><#if item.isday=='1'>${item.time_limit_day!"-"}天<#else>${item.time_limit!"-"}个月</#if></td>
+											<!-- v1.6.7.2 RDPROJECT-510 cx 2013-12-03 end -->
+											<td><a href="javascript:void(0)" onclick='alertPop("用户详细信息查看","url:get?${request.getContextPath()}/admin/attestation/viewUserInfo.html?username=${item.username!}",500,230,"true","","true","text")'>
+		                                        ${item.username!}
+		                                    </a></td>
+		                                    <!-- v1.6.7.1 RDPROJECT-402 zza 2013-11-07 start -->
+											<td>${item.realname!}</td>
+											<!-- v1.6.7.1 RDPROJECT-402 zza 2013-11-07 end -->
+											<td>${item.tender_money!}</td>
+											<td>${item.tender_account!}</td>
+											<td>${((item.repayment_account!0)?number)?string("##.##")}</td>
+											<td>${item.apr!}%</td>
+											<td>${((item.interest!0)?number)?string("##.##")}</td>
+											<td>
+											<#if item.is_auto_tender??&&item.is_auto_tender==1>自动投标
+												<#elseif item.is_auto_tender==2>手机投标
+												<#else>网站投标
+											</#if>
+											</td>
+											<td>
+											<#if item.award=='1'>按投标金额比例奖励 
+											<#elseif item.award=='2'> 按固定金额分摊奖励
+											<#else>-
+											</#if></td>
+											<td>${item.fhMoney!'-'}</td>
+											<td>还款结束奖励比例</td>
+											<td>${item.late_award!'-'}</td>
+											<td>${dateformat(item.addtime!)}</td>
+										</tr>
+										</#list>
+                                         <tr>
+                                         <td colspan="2">利息总额：<#if sum??> ${(sum!0)?string("##.##")}</#if></td>
+                                         <!-- v1.6.6.1 RDPROJECT-265 zza 2013-10-08 start -->
+                                         <td colspan="2">投标操作总额：<#if moneysum??> ${(moneysum!0)?string("##.##")}</#if></td>
+                                         <td colspan="2">投标有效总额：<#if accountsum??> ${(accountsum!0)?string("##.##")}</#if></td>
+                                         <td colspan="3">应还款总额：<#if repaysum??> ${(repaysum!0)?string("##.##")}</#if></td>
+                                         <!-- v1.6.6.1 RDPROJECT-265 zza 2013-10-08 end -->
+                                         <td></td>
+                                         </tr>
+                                    </table>
+                                </form>
+
+                                <!--底部工具栏--{-->
+                                <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+
+                                    <!--翻页系统--{-->
+                                    <div class="container">
+                                        <#import "../../common/page.html" as pager>
+                                            <@pager.pagination page=page url="/admin/cash/tenderLog.html" map=param style="style1" />
+                                    </div>
+                                    <!--翻页系统--}-->
+                                </div>
+                                <!--底部工具栏--}-->
+
+                                <script>
+                                   	var url = 'tenderLog.html?search=true';
+									var xlsurl = 'tenderLog.html?type=export';
+
+                                    function sousuo(){
+										var sou = "";
+										var username = $("#username").val();
+									    if (username!=""&&username!="undefine"&&username!="请输入用户名"){
+											sou += "&username="+username;
+										}
+										var dotime1 = $("#dotime1").val();
+										var dotime2 = $("#dotime2").val();
+									
+										if (dotime1!=null){
+											 sou += "&dotime1="+dotime1;
+										}
+										if (dotime2!=null){
+											 sou += "&dotime2="+dotime2;
+										}
+										// v1.6.7.1 RDPROJECT-402 zza 2013-11-07 start
+                                        var realname = $("#realname").val();
+                                        if (realname!=null&&realname!=""&&realname!="undefine"&&realname!="请输入真实姓名"){
+                                            sou += "&realname="+realname;
+                                        }
+                                     	// v1.6.7.1 RDPROJECT-402 zza 2013-11-07 end
+                                        if (sou!=""){
+                                            location.href=url+sou;
+                                        }
+                                    }
+                                    function exportxls(){
+                                    	//v1.6.7.2 RDPROJECT-510 cx 2013-12-03 start
+                                    	var num='${listsize}';
+                    					num=num.replace(",","");
+                                    	if(num>60000){
+                                    		alert("数据过多，请选择指定的投标时间进行数据查询导出！");
+                                    		return false;
+                                    	}
+                                    	//v1.6.7.2 RDPROJECT-510 cx 2013-12-03 end
+                                        var sou = "";
+                                        var username = $("#username").val();
+                                        if (username!=""&&username!="undefine"&&username!="请输入用户名"){
+											sou += "&username="+username;
+										}
+										var dotime1 = $("#dotime1").val();
+										var dotime2 = $("#dotime2").val();
+									
+										if (dotime1!=null){
+											 sou += "&dotime1="+dotime1;
+										}
+										if (dotime2!=null){
+											 sou += "&dotime2="+dotime2;
+										}
+										// v1.6.7.1 RDPROJECT-402 zza 2013-11-07 start
+                                        var realname = $("#realname").val();
+                                        if (realname!=null&&realname!=""&&realname!="undefine"&&realname!="请输入真实姓名"){
+                                            sou += "&realname="+realname;
+                                        }
+                                     	// v1.6.7.1 RDPROJECT-402 zza 2013-11-07 end
+                                        if (sou!=""){
+                                            location.href=xlsurl+sou;
+                                        }else{
+                                            location.href=xlsurl;
+                                        }
+                                    }
+                                </script>
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

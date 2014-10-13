@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<#include "../include/resource.html"> 
+<body>
+<#include "../include/header.html">
+<link href="${request.getContextPath()}${theme_dir}/media/css/modal.css" rel="stylesheet" type="text/css" /> 
+<link href="${request.getContextPath()}${theme_dir}/media/css/about.css" rel="stylesheet" type="text/css" />
+
+<div class="container zx clearfix">
+    <img src="${webroot}${theme_dir}/images/zx-banner.jpg" alt="" class="mb15"> 
+    <div class="zx-left float_left">
+        <div class="zx-lt"></div>
+        <div class="zx-mt">
+            <!--<a href="#" class="cur">媒体报道</a>
+            <a href="#">最新公告</a>-->
+            <#list sublist as item>
+            	<#if item??&&item.url??&&((item.url)?length gt 0)>
+            	<a id="item${item_index+1}" class="page" href="${webroot}${item.url}">${item.name}</a>
+                <#else>
+                <a id="item${item_index+1}" class="page" href="${webroot}/article/list.html?catalog=${item.site_id}">${item.name}</a>
+                </#if>
+            </#list>
+        </div>
+        
+       <a href="${webroot}/service/onlinekefu.html">
+            <img src="${webroot}${theme_dir}/images/zx-left-kf.jpg" alt="" class="zx-kefuimg" usemap="#Map1">
+        </a>
+    </div>
+
+    <div class="zx-right float_right">
+        <div class="zx-righttitle clearfix">
+            <img src="${webroot}${theme_dir}/images/zx-rightli.jpg" alt="" class="ml10 float_left"><span class="float_left">当前位置：
+			<a id="ctl00_content_NavigationLink1_main" href="/" style=" color:#333; text-decoration:none;">${webname}</a> 
+			<#-- &gt;${psite.name!"网站栏目"}-->&gt;
+			<a href="${request.getContextPath()}/article/list.html?catalog=${catalog}" style="color:#333; text-decoration:none;">${site.name}</a></span>
+		</div>
+		<div style="margin-top: 5px;" class="box_name">
+				<a class="btn-action" style="margin-top:8px;text-decoration:none;color:#fff;"  >
+				${site.name}
+				</a>
+		</div>
+        <div class="zx-righttxt">
+			<div class="info" id="lxjs">
+				<#if site.style??&&site.style=="0">		
+					<!--列表开始-->
+					<div class="content_list">
+						<ul class="list_li_1">
+							<#if (list?exists)&&(list?size>0)>
+							<#list list as item>
+							<li>[${item.publish[0..10]}]<a href="detail.html?catalog=${catalog}&id=${item.id}"  style="color:#000000; text-decoration:none; margin-bottom:1px;">${item.name}</a></li>
+							</#list>
+							</#if>
+						</ul>
+					</div>
+					<!--兼职列表结束-->
+					<!--分页开始-->
+					<#if (list?exists)&&(list?size>0)>
+					<div style="line-height:26px; font-size:14px; text-align:left; width:600px;white-space:nowrap; padding-top:20px; "  >
+						<table class="list_table_page">
+							<#import "../common/page.html" as pager>  
+							<#assign url="/article/list.html?catalog="+site.site_id />
+		         	 		<@pager.pagination page=page url=url map=param style="style1" />
+						</table>
+					</div>
+					<#else>
+					暂无记录
+					</#if>
+					<!--分页结束-->
+					<br>
+				<#else>
+					${site.content!}
+				</#if>
+			</div><!--info-->
+		</div><!--myTabContent-->
+	</div><!--right-->
+</div><!--cor_divtop-->
+
+<script src="${request.getContextPath()}${theme_dir}/media/js/modal.js"></script>
+<script src="${request.getContextPath()}${theme_dir}/media/js/tab.js"></script>
+<script src="${request.getContextPath()}${theme_dir}/media/js/alert.js"></script>
+<#include "../include/footer.html"> 

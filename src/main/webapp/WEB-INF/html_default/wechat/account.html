@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${webname}</title>
+<script src="${webroot}${theme_dir}/media/js/jquery_1.9.1.js"></script>
+<script src="${webroot}${theme_dir}/media/js/mobile.js"></script>
+<link href="${webroot}${theme_dir}/media/css/mobile.css" rel="stylesheet" />
+<link href="${webroot}${theme_dir}/media/css/mobile_base.css" rel="stylesheet" />
+
+</head>
+
+<body>
+<#include "../common/function.html"> 
+<div data-role="page" id="account">
+  <div data-role="header"> <a href="${webroot}/wx/invest.html"  data-ajax="false"  style="float:left;color:#fff;text-decoration:none;position:absolute;left:10px;">返回列表</a>
+    <h1>个人中心</h1>
+    <a data-ajax="false" href="${webroot}/wx/logout.html" style="float:right;color:#fff;text-decoration:none;position:absolute;right:10px;">退出登录</a> </div>
+  <div data-role="content">
+    <div class="content_main">
+      <table width="100%" cellspacing="0" cellpadding="0">
+        <tbody>
+          <tr>
+            <td>账户总额：<font>￥<#if summary??>${ceil(summary.accountTotal!0)}</#if></font></td>
+          </tr>
+          <tr>
+            <td>可用余额：<font>￥<#if summary??><#if (summary.accountUseMoney!0) lt 0.01>0<#else>${ceil(summary.accountUseMoney!0)}</#if></#if></font></td>
+          </tr>
+          <tr>
+            <td>冻结总额：<font>￥<#if summary??>${ceil(summary.accountNoUseMoney!0)}</#if></font></td>
+          </tr>
+          <tr>
+            <td>净资产：<font>￥<#if summary??>${ceil(summary.accountOwnMoney!0)}</#if></font></td>
+          </tr>
+          <tr>
+            <td>待收总额：<font>￥<#if summary??>${((summary.collectTotal)!0)?string("##.##")}</#if></font></td>
+          </tr>
+          <tr>
+            <td>待收利息：<font><#if summary??>￥${(summary.collectInterest!0)?string("##.##")}</#if></font></td>
+          </tr>
+          <tr>
+            <td>最近待收金额：<font>￥<#if summary??>${ceil(summary.newestCollectMoney!0)}</#if></font></td>
+          </tr>
+          <tr>
+            <td>已赚利息：<font>￥${summary.yes_interest}</font></td>
+          </tr>
+          <tr>
+            <td>已赚奖励：<font>￥${summary.awardTotal}</font></td>
+          </tr>
+          <tr>
+            <td>已收总额：<font>￥<#if summary??>${ceil(summary.acceptSum!0)}</#if></font></td>
+          </tr>
+          <tr>
+            <td>借款总额：<font><#if summary??>￥${ceil(summary.borrowTotal!0)}</#if></font></td>
+          </tr>
+          <tr>
+            <td>待还总额：<font><#if summary??>￥${ceil(summary.repayTotal!0)}</#if></font></td>
+          </tr>
+          <tr>
+            <td>最近待还金额：<font><#if summary??>￥${ceil(summary.newestRepayMoney!0)}</#if></font></td>
+          </tr>
+          <tr>
+            <td >最近待还时间：<font><#if summary??&&summary.newestCollectDate??><font>${dateformat(summary.newestCollectDate,"yyyy-MM-dd")}</font><#else>暂无收款</#if></font></td>
+          </tr>
+          <tr>
+            <td>信用总额：<font>￥${(amount.credit)!0}</font></td>
+          </tr>
+          <tr>
+            <td>可用信用额度：<font>￥${(amount.credit_use)!0}</font></td>
+          </tr>
+          <tr>
+            <td style="border:none;">积分总额：<font>${(userCredit.value)!0}</font></td>
+ 		  </tr>
+           <tr>
+            <td style="border:none;">
+            	 <div data-role="navbar">
+                    <a href="${webroot}/wx/applyLoan.html" data-ajax="false" class="btn">我要借款</a>
+                    <a href="${webroot}/wx/articlelist.html?catalog=11" data-ajax="false" class="btn">媒体报道</a>
+                    <a href="${webroot}/wx/articlelist.html?nid=fbgg" data-ajax="false" class="btn">发标预告</a>
+                    <a href="${webroot}/wx/userpwd.html" data-ajax="false" class="btn">修改登录密码</a>
+                    <a href="${webroot}/wx/paypwd.html" data-ajax="false" class="btn">修改交易密码</a>
+                </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div data-role="footer"data-position="fixed">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="/wx/account.html" data-ajax="false"  class="hover_ui_pagebtn">我的账户</a></li>
+                <li><a href="/wx/recharge.html" data-ajax="false">充值</a></li>
+                <li><a href="/wx/newcash.html" data-ajax="false">提现</a></li>
+                <li><a href="/wx/accountlog.html" data-ajax="false" >资金记录</a></li>
+            </ul>
+        </div><!-- /navbar -->
+   </div><!-- /footer -->
+</div>
+</body>
+</html>

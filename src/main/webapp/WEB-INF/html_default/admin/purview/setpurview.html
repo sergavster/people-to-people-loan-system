@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="管理权限">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <div class="toolbor-module search">
+                                    <input type="button" class="input-button return" value="返回" onclick="history.go(-1)">
+                                </div>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="w810 clearfix">
+                                <form enctype="multipart/form-data" name="form1" method="post" action="" onsubmit="return check_form();">
+                                    <p style="margin-bottom:14px;">类型名称：<strong>${role.name!"-"}</strong></p>
+                                    <div id="parametersTab" class="bl">
+
+                                        <ul class="clearfix tab_2">
+                                            <#list purviews as item>
+                                                <li><div class="t">${item.model.name}:</div></li>
+                                            </#list>
+                                        </ul>
+
+                                        <#list purviews as item>
+
+                                                <div class="hidden customer-info">
+                                                    <ul class="title-c">
+                                                        <#list item.childs as subitem>
+                                                        <li>
+                                                            <div class="title">${subitem.model.name}</div>
+                                                            <div class="v clearfix">
+                                                                <#list subitem.childs as thriditem>
+                                                                <label>
+                                                                    <input type="checkbox" value="${thriditem.model.id?c}" name="purviewid" id="other" <#if thriditem.model.checked??&&thriditem.model.checked >checked="checked"</#if> />
+                                                                    ${thriditem.model.name}
+                                                                </label>
+                                                                </#list>
+                                                            </div>
+                                                        </li>
+                                                        </#list>
+                                                    </ul>
+                                                </div>
+
+                                        </#list>
+
+                                    </div>
+                                    <div id="bottomToolbar" class="clearfix">
+                                        <input type="hidden" name="user_typeid" value="${(role.type_id!0)?c}" />
+                                        <input type="hidden" name="actionType" value="setPurview" />
+                                        <input type="submit" value="提交" class="input-button post" />
+                                        <input type="reset" name="reset" class="input-button post" value="重置" />
+                                    </div>
+
+                                </form>
+
+                            </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">
+    <script>
+        $(function(){
+            $(".tab_2 .t").eq(0).addClass("active");
+            $(".customer-info").eq(0).removeClass("hidden");
+        });
+    </script>

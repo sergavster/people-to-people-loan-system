@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<#include "include/resource.html"> 
+<body>
+<#assign nid="member">
+<#include "include/header.html">  
+    <div class="zs-formbg">
+    	<div class="container">
+    <div class="loginhtml">
+        <div class="logindiv">
+            <div class="logintitle">
+                <span class="left-txt">立即登录</span>
+                <span class="right-txt">没有帐号，<a href="${webroot}/user/register.html">立即注册>></a></span>
+            </div>
+            <div class="login-content clearfix">
+            	<!--  V1.6.6.2 RDPROJECT-365 yl 2013-10-24 start -->
+                <!-- <form name="login" method="post" action="${request.getContextPath()}/user/login.html" onkeydown="if(event.keyCode==13) this.submit(); " id="log_in">-->
+                <!-- v1.6.7.1 RDPROJECT-104 xx 2013-11-10 start -->
+                <form name="login" id="loginForm" method="post" action="${request.getContextPath()}/user/login.html"  id="log_in">
+                <!-- v1.6.7.1 RDPROJECT-104 xx 2013-11-10 start -->
+                <!--  V1.6.6.2 RDPROJECT-365 yl 2013-09-24 end -->
+                    <ul class="loginhtml-ul">
+                    	<li class="title">
+                        	<h3>用户登录</h3>
+                        </li>
+						<!--  V1.6.6.1 RDPROJECT-167 liukun 2013-09-12 start -->
+						<!-- 
+                        <#if timeout?exists>
+							<p class="alert" style="color:#f00;">您的登录已经超时，或者您已经在别的地方登录。</p>
+						</#if>
+						 -->
+						<#if timeout?exists>
+						 <li class="clearfix">
+							<p class="alert" style="color:#f00;">您还没有登录，请先登录。</p>
+                        </li>
+						</#if>
+                        <#if newlogin?exists>
+                        <li class="clearfix">
+							<p class="alert" style="color:#f00;">您已经在别的地方登录，请重新登录。</p>
+						</li>
+						</#if>
+						
+						<!--  V1.6.6.1 RDPROJECT-167 liukun 2013-09-12 end -->
+                        <li class="clearfix">
+                            <label for="">帐号：</label><input type="text" name="username" id="username"><span class="formicon icon1"></span>
+                        </li>
+                        <li class="clearfix">
+                            <label for="">密码：</label>
+                            <!-- v1.6.7.1 RDPROJECT-104 xx 2013-11-10 start -->
+                            <#if rsaFormEncrypt?? && rsaFormEncrypt.status?? && rsaFormEncrypt.status==1>
+	                            <input type="password" id="password">
+	                            <input type="hidden" name="password" id="password_hid">
+	                            <input type="hidden" name="encrypt" id="encrypt">
+                            <#else>
+                            	<input type="password" name="password" id="password">
+                            </#if>
+                            <!-- v1.6.7.1 RDPROJECT-104 xx 2013-11-10 end -->
+                            <span class="formicon icon1"></span><div class="mes"></div>
+                        </li>
+                        <!--  V1.6.6.2 RDPROJECT-365 yl 2013-10-22 start -->
+                   		<#if rule?? && rule.status=1>
+                        <li class="clearfix">
+                            <label for="">验证码：</label><input class="code" name="valicode" type="text" maxlength="5" style=" width:150px; *margin-left:3px;" />&nbsp;<img src="${request.getContextPath()}/validimg.html" alt="点击刷新" onClick="this.src='${request.getContextPath()}/validimg.html?t=' + Math.random();" align="absmiddle" style="cursor:pointer; display:inline-block;zoom:1;*display:inline; *float:none;" />
+                        </li>
+                        </#if>
+                        <!--  V1.6.6.2 RDPROJECT-365 yl 2013-10-22 end -->
+                        <!--<li class="clearfix">
+                            <input type="checkbox" class="checkboxs"> 下次自动登录
+                        </li>-->
+                        
+                        <li class="clearfix">
+                            <!-- v1.6.7.1 RDPROJECT-104 xx 2013-11-10 start -->
+                            <input type="button" onclick="doLogin();" value="立即登录" class="denglubtn" />
+                            <!-- v1.6.7.1 RDPROJECT-104 xx 2013-11-10 end -->
+                            <input type="hidden" name="actionType"  value="login" />
+                            <input type="hidden" name="redirectURL"  value="${redirectURL!}" />
+                            <input type="hidden" name="openLoginId" value="${openLoginId!}"/>
+                        </li>
+                        <li style="padding-left:124px;">还不是会员？<a href="${webroot}/user/register.html" style="color:#f00">免费注册</a>　　　　　　　<a href="${webroot}/user/getpwd.html" style="color:#f00">| 忘记密码</a>
+						<br>
+						<a href="/cooperation/qq/login.html"><img src="http://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_1.png"	alt="Connect_logo_1.png" /> QQ登录</a>
+						</li>
+                    </ul>
+                </form>
+					</div>
+        </div>
+    </div>
+</div>
+	</div>
+    <script type="text/javascript" src="${webroot}${theme_dir}/media/js/loginjs.js"></script>
+	<!-- v1.6.7.1 RDPROJECT-104 xx 2013-11-10 start -->
+    <script type="text/javascript" src="${webroot}/plugins/rsa/RSA.js"></script>
+    <script type="text/javascript" src="${webroot}/plugins/rsa/BigInt.js"></script>
+    <script type="text/javascript" src="${webroot}/plugins/rsa/Barrett.js"></script>
+	<script type="text/javascript">  
+		<#if rsaFormEncrypt?? && rsaFormEncrypt.status?? && rsaFormEncrypt.status==1>
+			var key ;
+			function bodyRSA(){
+			    setMaxDigits(130);
+			    <#if e?? && m??>
+			    	key = new RSAKeyPair("${e}","","${m}");
+			    </#if>
+			}
+		</#if>
+		
+		function doLogin() {
+			<#if rsaFormEncrypt?? && rsaFormEncrypt.status?? && rsaFormEncrypt.status==1>
+				bodyRSA();
+				var result = $("#password").val();
+				<#if e?? && m??>
+					result = encryptedString(key, encodeURIComponent(result));
+				</#if>
+				$("#password_hid").attr("value", result);
+				$("#encrypt").attr("value",1);
+			</#if>
+			$("#loginForm").submit();
+		}
+	</script>
+	<!-- v1.6.7.1 RDPROJECT-104 xx 2013-11-10 end -->
+<#include "include/footer.html"> 
+</body>
+</html>

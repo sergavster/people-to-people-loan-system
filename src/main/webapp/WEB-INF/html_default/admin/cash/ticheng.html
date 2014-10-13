@@ -1,0 +1,81 @@
+﻿<!DOCTYPE>
+<html>
+<#include "../head.html">
+<body>
+	<#include "../top.html">
+	<!-- div.main start  -->
+	<div class="main">
+		<!-- div.main_left start  -->
+		<div class="main_left"><#include "left.html"></div>
+		<!-- div.main_left end  -->
+		<!-- div.main_right start  -->
+		<div class="main_right">
+			<#include "banner.html">
+			<div class="main_content">
+				<form action="" method="post">
+				<table  border="0"  cellspacing="1" bgcolor="#CCCCCC" width="100%">
+					<tr>
+			            <td width="" class="main_td">时间</td>
+			            <td width="" class="main_td">用户名</td>
+			            <td width="" class="main_td">好友投资总额(月)</td>
+					</tr>
+					<#list list as item>
+					<tr>
+						<td>${(item.addtimes)!}</td>
+						<td>${(item.username)!}</td>
+						<td>${(item.money)!}</td>
+					</tr>
+					</#list>
+					<tr>
+					<td colspan="10" class="action">
+						<div class="floatl">
+							<input type="button" onclick="exportxls()" value="导出报表" />
+						</div>
+						<div class="floatr">
+							用户名：<input type="text" name="username" id="username" value=""/> <input type="button" value="搜索" onclick="sousuo()">
+						</div>
+					</td>
+					</tr>
+					<tr>
+						<td colspan="9" class="page">
+							<#import "../../common/page.html" as pager>  
+			         	 	<@pager.pagination page=page url="/admin/cash/showFriendTiChengAccount.html" map=param style="style1" />  
+						</td>
+					</tr>
+				</table>
+				</form>	
+				<script>
+				var url = 'showFriendTiChengAccount.html?search=true';
+				var xlsurl='showFriendTiChengAccount.html?type=export'
+				
+				function sousuo(){
+				var sou = "";
+				var username = $("#username").val();
+				if (username!=""){
+					sou += "&username="+username;
+				}
+					if (sou!=""){
+						location.href=url+sou;
+					}
+				}
+				function exportxls(){
+				var sou = "";
+				var username = $("#username").val();
+				if (username!=""){
+					sou += "&username="+username;
+				}
+				if (sou!=""){
+					location.href=xlsurl+sou;
+				}else{
+					location.href=xlsurl;
+				}					
+				}
+				</script>
+			</div>
+		</div>
+		<!-- div.main_right end  -->
+	</div>
+	<!-- div.main end  -->
+	<#include "../foot.html">
+</body>
+</html>

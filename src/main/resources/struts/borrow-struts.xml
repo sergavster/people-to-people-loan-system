@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="borrow" namespace="/borrow" extends="wzd-default">
+		<action name="index" class="borrowAction" method="index">
+			<result name="index" type="ftl">/borrow/index.html</result>
+		</action>
+		<action name="loan" class="borrowAction" method="loan">
+			<result name="detail" type="ftl">/borrow/borrow.html</result>
+			<result name="error" type="ftl">/borrow/borrow.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="add" class="borrowAction" method="add">
+			<result name="success" type="ftl">/msg.html</result>
+			<result name="error" type="ftl">/msg.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="update" class="borrowAction" method="update">
+			<result name="success" type="ftl">/msg.html</result>
+			<result name="error" type="ftl">/msg.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="delete" class="borrowAction" method="delete">
+			<result name="success" type="ftl">/msg.html</result>
+			<result name="error" type="ftl">/msg.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="tender" class="borrowAction" method="tender">
+			<result name="success" type="ftl">/msg.html</result>
+			<result name="error" type="ftl">/msg.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="protocol" class="borrowAction" method="protocol">
+			<result name="success" type="ftl">/msg.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+	</package>
+</struts>

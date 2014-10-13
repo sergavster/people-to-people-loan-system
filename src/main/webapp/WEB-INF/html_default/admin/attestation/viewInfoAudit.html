@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>viewInfoAudit.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+  <div class="module_add">
+	<form name="form1" method="post" action="AuditUserInfo.html" onsubmit="return check_form();" enctype="multipart/form-data" >
+	
+	<div class="module_border">
+		<div class="l">状态:</div>
+		<div class="c">
+		 <label><input type="radio" name="status" value="1" checked="checked"/>审核通过 </label>
+		 <label><input type="radio" name="status" value="2" />审核不通过 </label>
+		</div>
+	</div>
+	
+	<div class="module_border" >
+		<div class="l">通过所得信用积分:</div>
+		<div class="c">
+			<input type="text" name="jifen" value="${creditValue!}" size="5"> 分
+		</div>
+	</div>
+	
+	<div class="module_border" >
+		<div class="l">验证码:</div>
+		<div class="c">
+			<input class="yzm" name="validcode" type="text" size="11" maxlength="5"  tabindex="3"/>&nbsp;<img class="yzm-img" src="${webroot}/validimg.html" alt="点击刷新" onClick="this.src='${webroot}/validimg.html?t=' + Math.random();" align="absmiddle" style="cursor:pointer" />
+		</div>
+	</div>
+		<!--
+	<div class="module_border" >
+		<div class="l">相关图片1:</div>
+		<div class="c">
+			<input type="file" name="pic[]" > 
+		</div>
+	</div>
+	
+
+	<div class="module_border" >
+		<div class="l">相关图片2:</div>
+		<div class="c">
+			<input type="file" name="pic[]" > 
+		</div>
+	</div>
+	
+	
+	<div class="module_border" >
+		<div class="l">相关图片3:</div>
+		<div class="c">
+			<input type="file" name="pic[]" > 
+		</div>
+	</div>
+	-->
+	<div class="module_border" >
+		<div class="l">审核备注:</div>
+		<div class="c">
+			<textarea name="content" cols="35" rows="5"></textarea>
+		</div>
+	</div>
+
+	<div class="module_submit jpl" >
+		<input type="hidden" name="user_id" value="${user_id?c}" />
+		<!-- v1.6.7.1 RDPROJECT-289 sj 2013.11.8 start -->
+		<input type="hidden" name="card_id" value="${card_id}" />
+		<!-- v1.6.7.1 RDPROJECT-289 sj 2013.11.8 end -->
+		<input type="hidden" name="type" value="${type}" />
+		<input type="hidden" name="actionType" value="viewAuditInfo" />
+		<input type="submit"  name="reset" value="确认提交" class="input-button"/>
+	</div>
+	</form>
+</div>
+
+  </body>
+</html>

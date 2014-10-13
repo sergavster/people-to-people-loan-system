@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="催款详情">
+                    <#include "banner.html">
+                        <!--面包屑导航---}-->
+						<!--工具栏--{-->
+                        <div id="toolbar" class="clearfix">
+
+                            <div class="toolbor-module">
+                                            
+                                <input type="button" class="input-button return" value="返回" onclick="history.go(-1)">
+                            </div>
+                        </div>
+                       
+                        <div id="main" class="clearfix">
+                            <form action="" method="post">
+                                <table  class="data-list">
+									<tr class="header">
+										<td>ID</td>
+										<td>电话类型</td>
+										<td>电话号码</td>
+										<td>电话状态</td>
+										<td>联系人类型</td>
+										<td>联系人名称</td>
+										<td>还款时间</td>
+										<td>催收记录</td>
+										<td>操作时间</td>
+									</tr>
+									<#import "../../common/function.html" as func>  
+									<#list list as item>
+									<tr>
+										<td>${item.id?c}</td>
+										<td title="${item.phone_type!}">${item.phone_type!}</td>
+										<td>${item.phone_num}</td>
+										<td>${item.phone_status}</td>
+										<td>${item.relation_type!}</td>
+										<td>${item.relation_name!}</td>
+										<td>${item.repay_time!}</td>
+										<td>${item.memo!}</td>
+										<td>${item.ts!}</td>
+									</tr>
+									</#list>
+								</table>
+                            </form>
+                             <!--底部工具栏--{-->
+                             <div id="bottomToolbar" class="clearfix">
+                                 <div class="other-tool">
+                                     <dl class="refresh-data">
+                                         <dt class="refresh-data-icon"></dt>
+                                         <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                     </dl>
+                                 </div>
+
+                                
+                             </div>
+                             <!--底部工具栏--}-->
+                        </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

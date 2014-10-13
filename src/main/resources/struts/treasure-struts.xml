@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="adminTreasure" namespace="/admin/treasure" extends="wzd-admin">
+		<action name="list" class="adminTreasureAction" method="list">
+			<result name="success" type="ftl">/admin/treasure/list.html</result>
+		</action>
+		<action name="editInit" class="adminTreasureAction" method="editInit">
+			<result name="success" type="ftl">/admin/treasure/edit.html</result>
+		</action>
+		<action name="edit" class="adminTreasureAction" method="edit">
+			<result name="success" type="ftl">/admin/treasure/edit.html</result>
+		</action>
+		<action name="add" class="adminTreasureAction" method="add">
+			<result name="add" type="ftl">/admin/treasure/add.html</result>
+		</action>
+		<action name="checkUser" class="adminTreasureAction" method="checkUser">
+		</action>
+		<action name="audit" class="adminTreasureAction" method="audit">
+			<result name="audit" type="ftl">/admin/treasure/audit.html</result>
+		</action>
+		<action name="editSatus" class="adminTreasureAction" method="editSatus">
+		</action>
+		<action name="userList" class="adminTreasureAction" method="userList">
+			<result name="success" type="ftl">/admin/treasure/userList.html</result>
+		</action>
+		<action name="rechargeList" class="adminTreasureAction" method="rechargeList">
+			<result name="success" type="ftl">/admin/treasure/rechargeList.html</result>
+		</action>
+		<action name="cashList" class="adminTreasureAction" method="cashList">
+			<result name="success" type="ftl">/admin/treasure/cashList.html</result>
+		</action>
+		<action name="editBackStatus" class="adminTreasureAction" method="editBackStatus">
+		</action>
+		<action name="auditCash" class="adminTreasureAction" method="auditCash">
+			<result name="audit" type="ftl">/admin/treasure/auditCash.html</result>
+		</action>
+	</package>
+	
+	<package name="treasure" namespace="/treasure" extends="wzd-default">
+		<action name="detail" class="treasureAction" method="detail">
+			<result name="success" type="ftl">/member/treasure/detail.html</result>
+		</action>
+		<action name="cash" class="treasureAction" method="cash">
+			<result name="success" type="ftl">/member/treasure/cash.html</result>
+			<result name="fail" type="redirect">/treasure/list.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="invest" class="treasureAction" method="invest">
+			<result name="success" type="ftl">/member/treasure/cash.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="rechargeList" class="treasureAction" method="rechargeList">
+			<result name="success" type="ftl">/member/treasure/rechargeList.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="cashList" class="treasureAction" method="cashList">
+			<result name="success" type="ftl">/member/treasure/cashList.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="treasureCash" class="treasureAction" method="treasureCash">
+			<result name="success" type="redirect">/treasure/rechargeList.html</result>
+			<result name="fail" type="redirect">/treasure/rechargeList.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+		<action name="list" class="treasureAction" method="list">
+			<result name="success" type="ftl">/member/treasure/list.html</result>
+			<interceptor-ref name="mydefault" />
+		</action>
+	</package>
+</struts>

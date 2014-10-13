@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!-- v1.6.7.2 RDPROJECT-569 cx 2013-12-26 start -->
+<html>
+<#include "../../include/resource.html">
+<body>
+	<#assign nid="shop"> 
+	<#include "../../common/function.html"> 
+	<#include "../../include/header.html">
+	 
+	<!-- #main start-->
+	<div id="main" class="clearfix" >
+		<div class="wrap950 ">
+			<!--左边的导航user_left 开始-->
+			<div class="shop_left">
+				<#assign mid="m_shop" >
+				<#include "./left.html">
+			</div>
+			<!--左边的导航user_left 结束-->
+			<#if param?exists>
+               <#if param.get("category_id")?exists><#assign category_id=param.get("category_id")></#if>
+               <#if param.get("credit_type")?exists><#assign credit_type=param.get("credit_type")></#if>
+             </#if>
+			<!--右边的内容user_right 开始-->
+			<div class="shop_right">	
+                <div class="shop_banner">
+					<img  src="${webroot}${theme_dir}/images/banner1.jpg" width="732" height="190" alt="积分图片">
+                </div>
+				<div class="shop_search">        
+                    	<span>积分范围</span>
+                        	<a href="/credit/shopIndex.html?credit_type=0" >全部</a>
+                        	<input type="text" id="startCredit" size="8"/> - 
+                    		<input type="text" id="endCredit" size="8">
+                    		<input CLASS="shop_search_btn" type="button" value="搜索" onclick="javascript:searchBtn();" />
+                          <!--    <a href="/credit/shopIndex.html?credit_type=1">1000以下</a>
+                            <a href="/credit/shopIndex.html?credit_type=2">1001-5000</a>
+                            <a href="/credit/shopIndex.html?credit_type=3">5001-10000</a>
+                            <a href="/credit/shopIndex.html?credit_type=4">10001-50000</a>
+                            <a href="/credit/shopIndex.html?credit_type=5">50001-100000</a>
+                            <a href="/credit/shopIndex.html?credit_type=6">100000以上</a>
+                           --> 
+                      
+                    </div>
+		
+					<!-- 内容开始 -->
+					<div class="shop_product clearfix">
+					<#list list as item>
+	                     <dl><dt><img src="${item.compress_pic_url!}"/></dt>
+						 <dd class="tit">${item.name}</dd>	
+						 <dd>所需积分<span>${item.credit_value}</span></dd>
+						 <dd class="convert_btn"><input type="button" onclick="convertValue(${item.id})" value="兑换" class="btn-action"/></dd>
+	                     </dl>
+					 </#list>
+				   </div>
+				    <div class="container">
+                        <#import "../../common/page.html" as pager>
+                            <@pager.pagination page=page url="/credit/shopIndex.html" map=param style="style1" />
+                    </div>
+					<!-- 内容结束 -->
+			</div>
+			<!--右边的内容user_right 结束-->
+		</div>
+	</div>
+	<!-- #main start-->
+	<script type="text/javascript">
+		$('#startCredit').val('${startCredit!}');
+		$('#endCredit').val('${endCredit!}');
+		function searchBtn(){
+			window.location.href="shopIndex.html?startCredit="+$('#startCredit').val()+"&endCredit="+$('#endCredit').val();
+		}
+		function convertValue(goodsId){
+			if(goodsId=='' || goodsId==null){
+				return false;
+			}else{
+				window.location.href="showGoods.html?goodsId="+goodsId;
+			}
+		}
+	</script>
+<#include "../../include/footer.html">
+</body>
+</html>
+<!-- v1.6.7.2 RDPROJECT-569 cx 2013-12-26 end -->

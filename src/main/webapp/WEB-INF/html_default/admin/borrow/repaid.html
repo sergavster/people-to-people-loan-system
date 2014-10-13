@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <!--   v1.6.5.5 RDPROJECT-119 wcw 2013-09-25 start-->
+                    <#if repay_type??&&repay_type=="repaying">
+                    	<#assign moduleName="待还款借款标">
+                    <#elseif repay_type??&&repay_type=="repaid">
+                    	<#assign moduleName="已还款借款标">
+                    	<!--   v1.6.5.5 RDPROJECT-119 wcw 2013-09-25 end-->
+                    <#else>
+                    	<#assign moduleName="还款">
+                    </#if>
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                            <!--   v1.6.5.5 RDPROJECT-119 wcw 2013-09-25 start-->
+                            	<div class="toolbor-module export">
+									<input type="button" onclick="exportxls()" value="导出报表" class="input-button export-btn"/>
+                                </div>
+                                <#if param?exists>
+                                    <#if param.get("username")?exists><#assign username=param.get("username")></#if>
+                                    <#if param.get("keywords")?exists><#assign keywords=param.get("keywords")></#if>
+
+                                </#if>
+								<#if param?exists>
+                                    <#if param.get("repayment_time1")?exists><#assign repayment_time1=param.get("repayment_time1")></#if>
+                                    <#if param.get("repayment_time2")?exists><#assign repayment_time2=param.get("repayment_time2")></#if>
+
+                                </#if>
+                                <!-- v1.6.6.2 RDPROJECT-379 zza 2013-10-24 start -->
+                                <#if param?exists>
+                                    <#if param.get("repayment_yestime1")?exists><#assign repayment_yestime1=param.get("repayment_yestime1")></#if>
+                                    <#if param.get("repayment_yestime2")?exists><#assign repayment_yestime2=param.get("repayment_yestime2")></#if>
+
+                                </#if>
+                                <!-- v1.6.6.2 RDPROJECT-379 zza 2013-10-24 end -->
+                                <div class="toolbor-module search">
+                                    <input type="button" value="搜索"  class="input-button" onclick="sousuo();">
+                                </div>
+                                <div class="toolbor-module search">
+                                    <input type="text" name="username" id="username" value="请输入用户名" data-value="请输入用户名" class="search-value">
+                                </div>    
+                                <div class="toolbor-module search">    
+                                    <input type="text" name="keywords" id="keywords" value="请输入关键字" data-value="请输入关键字" class="search-value">
+                                </div>    
+                                <!-- v1.6.6.2 RDPROJECT-379 zza 2013-10-24 start -->
+								<div class="toolbor-module search">
+			                        <div style="height:22px;line-height:22px;float:left;">类型：</div>
+			                       <div class="select-box" id="type">
+			                            <div class="tag-select">全部</div>
+			                            <ul class="tag-options">
+			                               <li data-value="100" <#if type==100 >data-selected="selected"</#if> class="open-selected">全部</li>
+			                               <li data-value="101" <#if type==101 >data-selected="selected"</#if>>秒还标</li>
+			                               <li data-value="102" <#if type==102 >data-selected="selected"</#if>>信用标</li>
+			                               <li data-value="103" <#if type==103 >data-selected="selected"</#if>>抵押标</li>
+			                               <li data-value="104" <#if type==104 >data-selected="selected"</#if>>净值标</li>
+			                               <li data-value="112" <#if type==112 >data-selected="selected"</#if>>担保标</li>
+			                            </ul>
+			                        </div>
+			                    </div>
+			                    <!-- v1.6.6.2 RDPROJECT-379 zza 2013-10-24 end -->
+								 <div class="toolbor-module search">
+                                    <div style="height:22px;line-height:22px;float:left;">到期时间：</div>
+                                    <div style="float: left;">
+                                    <input class="_search-value js-datetime" type="text" name="repayment_time1" id="repayment_time1" value="${repayment_time1!}" onclick="change_picktime()"/>
+                                    </div>
+                                    <div style="height:22px;line-height:22px;float:left;margin:0 8px;"> 到 </div>
+                                    <input class="_search-value js-datetime" type="text" name="repayment_time2" id="repayment_time2" value="${repayment_time2!}" onclick="change_picktime()"/>
+                                </div>
+                                <!-- v1.6.6.2 RDPROJECT-379 zza 2013-10-24 start -->
+                                <#if repay_type??&&repay_type=="repaid">
+                                	<div class="toolbor-module search">
+                                    <div style="height:22px;line-height:22px;float:left;">还款时间：</div>
+                                    <div style="float: left;">
+                                    <input class="_search-value js-datetime" type="text" name="repayment_yestime1" id="repayment_yestime1" value="${repayment_yestime1!}" onclick="change_picktime()"/>
+                                    </div>
+                                    <div style="height:22px;line-height:22px;float:left;margin:0 8px;"> 到 </div>
+                                    <input class="_search-value js-datetime" type="text" name="repayment_yestime2" id="repayment_yestime2" value="${repayment_yestime2!}" onclick="change_picktime()"/>
+                                </div>
+                                </#if>
+                                <!-- v1.6.6.2 RDPROJECT-379 zza 2013-10-24 end -->
+                            </div>
+                            <!--工具栏--}-->
+						
+                            <div id="main" class="clearfix">
+                                <form action="" method="post">
+                                    <table class="data-list">
+                                        <tr class="header">
+                                            <td>ID</td>
+                                            <td>借款者</td>
+                                            <td>借款标题</td>
+                                            <td>借款标期限</td>
+                                            <td>到期时间</td>
+                                            <td>归还金额</td>
+                                            <!--   v1.6.6.2 RDPROJECT-207 yl 2013-10-23 start-->
+                                            <td>归还本金</td>
+                                            <td>归还利息</td>
+                                            <!--   v1.6.6.2 RDPROJECT-207 yl 2013-10-23 end-->
+                                            <!-- v1.6.7.2 RDPROJECT-510 cx 2013-12-04 start -->
+                                            <td>还款奖励</td>
+                                            <td>归还时间</td>
+                                            <td>已付投标奖励</td>
+                                              <!-- v1.6.7.2 RDPROJECT-510 cx 2013-12-04 end -->  
+                                            <!-- v1.6.6.2 RDPROJECT-204 gc 2013-10-28 start -->
+                                            <td>投标明细</td>
+                                            <!-- v1.6.6.2 RDPROJECT-204 gc 2013-10-28 end -->
+                                                    
+                                            <td>状态</td>
+                                        </tr>
+                                        <#import "../../common/function.html" as func>
+                                            <#list list as item>
+                                                <tr>
+                                                    <td>${item.id?c}</td>
+                                                    <td>${item.username!}</td>
+                                                    <td title="${item.borrow_name!}" class="tal">
+                                                    	<!-- v1.6.6.2 RDPROJECT-379 zza 2013-10-24 start -->
+                                                        <span style="color:#FF0000">【<@func.borrowTypeName item=item /> 】</span>
+                                                        <!-- v1.6.6.2 RDPROJECT-379 zza 2013-10-24 end -->
+                                                        <a href="${webroot}/invest/detail.html?borrowid=${(item.borrow_id!0)?c}" target="_blank">${item.borrow_name!}</a></td>
+                                                    <td>${item.order+1}/${item.time_limit}</td>
+                                                    <td><#if item.expire_time??>${item.expire_time}<#else>-</#if></td>
+                                                    <td>${((item.repayment_account!0)?number)?string("##.##")}元</td>
+                                                    <!--   v1.6.6.2 RDPROJECT-207 yl 2013-10-23 start-->
+                                                    <td>${((item.capital!0)?number)?string("##.##")}元</td>
+                                                    <td>${((item.interest!0)?number)?string("##.##")}元</td>
+                                                    <!--   v1.6.6.2 RDPROJECT-207 yl 2013-10-23 end-->
+                                                  <!-- v1.6.7.2 报表格式 cx 2013-12-02 start -->
+                                                  	<td>
+                                                  	<#if item.late_award??&&item.late_award=='0.00'>没有<#else>${item.late_award!0}%</#if>
+                                                  	</td>
+                                                    <td><#if item.repayment_yestime??>${dateformat(item.repayment_yestime)}<#else>-</#if></td>
+                                                    <td>
+                                                 	 <#if item.award??&&item.award=='0'>	
+                                                        	没有
+                                                        <#elseif item.award??&&item.award=='1'>
+                                                       		${(item.part_account)!0}%
+                                                        <#elseif item.award??&&item.award=='2'>
+                                                        	<#if item.funds??&&item.funds=='0.0'>没有<#else>￥${(item.funds)!0}</#if>
+                                                        <#else>
+                                                      </#if>
+                                                    </td>
+                                                   <!-- v1.6.7.2 报表格式 cx 2013-12-02 end -->
+                                                    <!-- v1.6.6.2 RDPROJECT-204 gc 2013-10-28 start -->
+                                                     <td><a href="${webroot}/admin/borrow/tenderlist.html?borrow_id=${item.borrow_id?c}">明细</a></td>
+                                                    <!-- v1.6.6.2 RDPROJECT-204 gc 2013-10-28 end -->
+                                                    <td><font color="#006600"><#if item.repayment_yestime??>已还<#else>还款中</#if></font></td>
+                                                </tr>
+                                            </#list>
+                                    </table>
+                                    <!-- v1.6.6.2 RDPROJECT-379 zza 2013-10-24 start -->
+                                    <div>
+                                    	<span style="word-spacing: 10px;">
+                                    	<#if model??>
+	                                    	还款金额合计：${model.account}元  
+	                                    	还款本金合计：${model.capital}元     
+											还款利息合计：${model.interest}元      
+										</#if>
+										</span>
+									</div>
+									<!-- v1.6.6.2 RDPROJECT-379 zza 2013-10-24 end -->
+                                </form>
+
+                                <!--底部工具栏--{-->
+                                <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+
+                                    <!--翻页系统--{-->
+                                    <div class="container">
+                                                 <#import "../../common/page.html" as pager>  
+							<#if param?exists>
+								<!-- v1.6.6.1 RDPROJECT-190 xx 2013-09-27 start -->
+								<#if param.get("repayStatus")?exists><#assign repayStatus=param.get("repayStatus")>
+									<#if repayStatus=="1">
+										<@pager.pagination page=page url="/admin/borrow/repaid.html" map=param style="style1" />
+									<#elseif repayStatus=="0">
+										<@pager.pagination page=page url="/admin/borrow/repaying.html" map=param style="style1" />
+									</#if>
+								</#if>
+								<!-- v1.6.6.1 RDPROJECT-190 xx 2013-09-27 end -->
+							</#if>
+                                    </div>
+                                    <!--翻页系统--}-->
+                                </div>
+                                <!--底部工具栏--}-->
+
+                                <script>
+                                <!--   v1.6.5.5 RDPROJECT-119 wcw 2013-09-25 start-->
+									var urls=window.location.href;
+                                    var urls="";
+									var index=urls.indexOf("?");
+									if(index>0){
+										urls=urls.substring(0,index);
+									}
+									var xlsurl=urls+"?actionType=export";
+                                      function sousuo(){
+                                        var sou = "";
+                                        var username = $("#username").val();
+                                        var repayment_time1 = $("#repayment_time1").val();
+                                        var repayment_time2 = $("#repayment_time2").val();
+                                        if (repayment_time1!=null){
+                                            sou += "&repayment_time1="+repayment_time1;
+                                        }
+                                        if (repayment_time2!=null){
+                                            sou += "&repayment_time2="+repayment_time2;
+                                        }
+                                        if (username!=""&&username!="请输入用户名"){
+                                            sou += "&username="+username;
+                                        }
+                                        var keywords = $("#keywords").val();
+                                        if (keywords!=""&&keywords!="请输入关键字"){
+                                            sou += "&keywords="+keywords;
+                                        }
+                                        // v1.6.6.2 RDPROJECT-379 zza 2013-10-24 start
+                                        var repayment_yestime1 = $("#repayment_yestime1").val();
+                                        var repayment_yestime2 = $("#repayment_yestime2").val();
+                                        if (repayment_yestime1!=null){
+                                            sou += "&repayment_yestime1="+repayment_yestime1;
+                                        }
+                                        if (repayment_yestime2!=null){
+                                            sou += "&repayment_yestime2="+repayment_yestime2;
+                                        }
+                                        var type = $("#type").find(".open-selected").attr("data-value");
+                                        if (type!=null&&type!=""&&type!="undefine"){
+                                            sou += "&type="+type;
+                                        }
+                                        // v1.6.6.2 RDPROJECT-379 zza 2013-10-24 end
+                                        location.href=urls+"?search=true"+sou;
+                                    }
+                                    function exportxls(){
+                                    	// v1.6.7.2 RDPROJECT-510 cx 2013-12-04 start
+                                    	var num='${listsize}';
+                    					num=num.replace(",","");
+										if(num>60000){
+											alert("数据过多，请选择指定的还款时间进行数据查询导出！");
+											return false;
+										}
+                                    	// v1.6.7.2 RDPROJECT-510 cx 2013-12-04 end
+                                    	var sou = "";
+                                         var username = $("#username").val();
+                                         var repayment_time1 = $("#repayment_time1").val();
+                                         var repayment_time2 = $("#repayment_time2").val();
+                                        if (repayment_time1!=null){
+                                             sou += "&repayment_time1="+repayment_time1;
+                                        }
+                                         if (repayment_time2!=null){
+                                             sou += "&repayment_time2="+repayment_time2;
+                                         }
+                                         if (username!=""&&username!="请输入用户名"){
+                                             sou += "&username="+username;
+                                         }
+                                         var keywords = $("#keywords").val();
+                                         if (keywords!=""&&keywords!="请输入关键字"){
+                                             sou += "&keywords="+keywords;
+                                         }
+                                         // v1.6.6.2 RDPROJECT-379 zza 2013-10-24 start
+                                         var repayment_yestime1 = $("#repayment_yestime1").val();
+                                         var repayment_yestime2 = $("#repayment_yestime2").val();
+                                         if (repayment_yestime1!=null){
+                                             sou += "&repayment_yestime1="+repayment_yestime1;
+                                         }
+                                         if (repayment_yestime2!=null){
+                                             sou += "&repayment_yestime2="+repayment_yestime2;
+                                         }
+                                         var type = $("#type").find(".open-selected").attr("data-value");
+                                         if (type!=null&&type!=""&&type!="undefine"){
+                                             sou += "&type="+type;
+                                         }
+                                         // v1.6.6.2 RDPROJECT-379 zza 2013-10-24 end
+                                        if (sou!=""){
+                                        	location.href=xlsurl+sou;
+                                        }else{
+                                            location.href=xlsurl;
+                                        }
+                                    }
+                                    <!--   v1.6.5.5 RDPROJECT-119 wcw 2013-09-25 end-->
+                                </script>
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

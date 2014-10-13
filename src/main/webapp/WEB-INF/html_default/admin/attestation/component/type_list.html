@@ -1,0 +1,77 @@
+<!DOCTYPE>
+<html>
+<#include "../../head.html">
+<body>
+	<#include "../../top.html">
+	<!-- div.main start  -->
+	<div class="main">
+		<!-- div.main_left start  -->
+		<div class="main_left"><#include "../left.html"></div>
+		<!-- div.main_left end  -->
+		<!-- div.main_right start  -->
+		<div class="main_right">
+			<div class="main_site">
+				<ul>
+					<#include "../bar.html">
+					<li class="title">证明材料 <span>/ 用户认证信息</span></li>
+
+				</ul>
+			</div>
+			<div class="main_content">
+				<!--模块列表 开始-->
+				<table width="100%" cellspacing="1" cellpadding="5" border="0">
+					<tbody>
+						<tr>
+							<td class="main_td">类型名称</td>
+							<td class="main_td">积分</td>
+							<td class="main_td">简要</td>
+							<td class="main_td">备注</td>
+							<td class="main_td">排序</td>
+							<td class="main_td">状态</td>
+							<td class="main_td">操作</td>
+						</tr>
+						<form method="post"
+							action="${request.getContextPath()}/admin/attestation/type.html">
+							<#if type??> <#list type as obj>
+						<tr>
+							<td bgcolor="#ffffff"><input type="text"
+								name="attestationTypeslist[${obj.type_id}].name"
+								value="${obj.name!}" /></td>
+							<td bgcolor="#ffffff"><input type="text"
+								value="${obj.jifen!}"
+								name="attestationTypeslist[${obj.type_id}].jifen" /></td>
+							<td bgcolor="#ffffff"><input type="text"
+								value="${obj.summary!}"
+								name="attestationTypeslist[${obj.type_id}].summary" /></td>
+							<td bgcolor="#ffffff"><input type="text"
+								value="${obj.remark!}"
+								name="attestationTypeslist[${obj.type_id}].remark" /></td>
+							<td bgcolor="#ffffff"><input type="text"
+								value="${obj.order!}" size="2"
+								name="attestationTypeslist[${obj.type_id}].order"><input
+								type="hidden" value="${obj.type_id!}" size="2"
+								name="attestationTypeslist[${obj.type_id}].type_id"></td>
+							<td bgcolor="#ffffff">开通</td>
+							<td bgcolor="#ffffff"><a
+								onclick="javascript:if(confirm('确定要删除吗?请慎重')) location.href='index.php?wzd888&amp;q=module/attestation/type_del&amp;type_id=19'"
+								href="#">删除</a></td>
+						</tr>
+						</#list> </#if>
+
+						<tr>
+							<td class="action" colspan="7"><input type="hidden"
+								name="type" value="update" /> <input type="submit" value="提交"></td>
+						</tr>
+						</form>
+					</tbody>
+				</table>
+
+
+
+			</div>
+		</div>
+	</div>
+	<!-- div.main end  -->
+	<#include "../../foot.html">
+</body>
+</html>

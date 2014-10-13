@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="客户证明材料">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <form action="${request.getContextPath()}/admin/attestation/userCertify.html" method="post">
+                                	<div class="toolbor-module search">    
+                                        <input type="button" value="搜索" onclick="sousuo();"  class="input-button" >
+                                    </div> 
+                                    <div class="toolbor-module search">
+                                        <input type="text" name="username" id="username" value="请输入用户名" data-value="请输入用户名"  class="search-value">
+                                    </div>
+                                    <div class="toolbor-module search">    
+                                        <input type="text" name="realname" id="realname" value="请输入姓名" data-value="请输入姓名" class="search-value">
+                                    </div>
+                                       
+                                    </div>
+                                </form>
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+                                <#if userCertifyList??>
+
+                                    <table class="data-list">
+                                        <tr class="header">
+                                            <td>认证图片</td>
+                                            <td>ID</td>
+                                            <td>用户名</td>
+                                            <td>真实姓名</td>
+                                            <td>认证类型</td>
+                                            <td>认证状态</td>
+                                            <td>认证积分</td>
+                                            <td>认证简介</td>
+                                            <td>操作</td>
+                                        </tr>
+
+                                        <#list userCertifyList as obj>
+                                            <tr class="s">
+                                                <td><#if obj.litpic??><a target="_blank" href="${webroot}/${obj.litpic}"><img src="${webroot}/${obj.litpic}" style="border:1px solid #ccc; vertical-align:middle;" width="80px;" height="80px;"></a></#if></td>
+                                                <td>${obj.id?c}</td>
+                                                <td>${obj.username!"-"}</td>
+                                                <td>${obj.realname!"-"}</td>
+                                                <td>${obj.type_name!"-"}</td>
+                                                <td><#if obj.status==1>审核通过<#elseif obj.status==3>审核没有通过<#else>未审核</#if></td>
+                                                <td>${obj.jifen!"-"}</td>
+                                                <td>${obj.name!"-"}</td>
+                                                <td>
+                                                    <#if obj.status!=1><a onclick='alertPop("客户证明资料审核","url:post?userCertifyAudit.html?jifen=${obj.jifen}&pid=${obj.id?c}&type=userCertify",500,230,"true","","true","text");'
+                                                                          href="javascript:void(0)">审核</a><#else>-</#if></td>
+                                            </tr>
+                                        </#list>
+                                    </table>
+                                    <#else> 暂无信息 </#if>
+                                <!--底部工具栏--{-->
+                                <div id="bottomToolbar" class="clearfix">
+                                    <div class="other-tool">
+                                        <dl class="refresh-data">
+                                            <dt class="refresh-data-icon"></dt>
+                                            <dd><a href="javascript:void(0);" class="refresh-page">刷新数据</a></dd>
+                                        </dl>
+                                    </div>
+
+                                    <!--翻页系统--{-->
+                                    <div class="container">
+                                        <#import "../../common/page.html" as pager> <@pager.pagination page=page
+                                            url="/admin/attestation/userCertify.html" map=params
+                                            style="style1" />
+
+                                    </div>
+                                    <!--翻页系统--}-->
+                                </div>
+                                <!--底部工具栏--}-->
+								 <script>
+				                    var urls = '?search=true';
+				                    function sousuo(){
+				                        var sou = "";
+				                        var username = $("#username").val();
+				                        var realname = $("#realname").val();
+				                        if (username!=null&&username!=""&&username!="undefine"&&username!="请输入用户名"){
+				                            sou += "&username="+username;
+				                        }
+				                        if (realname!=null&&realname!=""&&realname!="undefine"&&realname!="请输入姓名"){
+				                            sou += "&realname="+realname;
+				                        }
+				                        var status = $("#status").find(".open-selected").attr("data-value");
+				                        if (status!=null&&status!=""&&status!="undefine"){
+				                            sou += "&status="+status;
+				                        }
+				                        var url=urls+sou
+				                        location.href=url;
+				                    }
+				                </script>
+                            </div>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

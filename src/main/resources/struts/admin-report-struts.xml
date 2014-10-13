@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="manageReport" namespace="/admin/report"
+		extends="wzd-admin">
+		<action name="dayRegisterAccount" class="manageReportAction" method="dayRegisterAccount">
+			<result name="success" type="ftl">/admin/report/dayRegisterAccount.html</result>
+		</action>
+		<action name="dayRechargeAccount" class="manageReportAction" method="dayRechargeAccount">
+			<result name="success" type="ftl">/admin/report/dayRechargeAccount.html</result>
+		</action>
+		<action name="dayBorrowAccount" class="manageReportAction" method="dayBorrowAccount">
+			<result name="success" type="ftl">/admin/report/dayBorrowAccount.html</result>
+		</action>
+		<action name="dayAccount" class="manageReportAction" method="dayAccount">
+			<result name="success" type="ftl">/admin/report/dayAccount.html</result>
+		</action>
+		<action name="report" class="reportAction" method="report">
+			<result name="success" type="ftl">/admin/report/report.html</result>
+		</action>
+		<action name="column" class="reportAction" method="column">
+			<result name="success" type="ftl">/admin/report/column.html</result>
+		</action>
+		<action name="list" class="reportAction" method="list">
+			<result name="success" type="ftl">/admin/report/list.html</result>
+		</action>
+		<action name="addColumn" class="reportAction" method="addColumn">
+			<result name="add" type="ftl">/admin/report/addColumn.html</result>
+		</action>
+		<action name="editColumn" class="reportAction" method="editColumn">
+			<result name="success" type="redirect">/admin/report/column.html</result>
+			<result name="edit" type="ftl">/admin/report/editColumn.html</result>
+		</action>
+		<action name="addReport" class="reportAction" method="addReport">
+			<result name="add" type="ftl">/admin/report/addReport.html</result>
+		</action>
+		<action name="editReport" class="reportAction" method="editReport">
+			<result name="success" type="redirect">/admin/report/report.html</result>
+			<result name="edit" type="ftl">/admin/report/editReport.html</result>
+		</action>
+		<action name="monthTender" class="reportTenderAction" method="monthTenderPage">
+			<result name="success" type="ftl">/admin/report/monthTender.html</result>
+		</action>
+		<action name="userStatistics" class="reportUserAction" method="userStatistics">
+			<result name="success" type="ftl">/admin/report/userRreport.html</result>
+		</action>
+		<action name="monthUserNum" class="reportUserAction" method="monthUserNum">
+			<result name="success" type="ftl">/admin/report/monthUserNum.html</result>
+		</action>
+	</package>
+</struts>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+<package name="donation" namespace="/donation" extends="wzd-default">
+
+        <action name="index"  class="donationAction" method="index">
+            <result name="success" type="ftl">/donation/index.html</result>
+            <result name="error">/error.jsp</result>
+        </action>
+        
+         <action name="detail"  class="donationAction" method="detail">
+            <result name="success" type="ftl">/donation/detail.html</result>
+            <result name="error">/error.jsp</result>
+        </action>
+        <action name="detailForJson"  class="donationAction" method="detailForJson"> </action>
+        <action name="detailTenderForJson"  class="donationAction" method="detailTenderForJson">
+        </action>
+         <action name="pagenotfound">  
+             <result type="ftl">/404.html</result>
+ 		</action>
+    </package>
+</struts>

@@ -1,0 +1,77 @@
+<div class="clearfix">
+    <div class="user_menus"> 
+    
+        <div class="zh-JS user_menus-item">
+            <span class="user_menus-title <#if mid??&&mid="m_invest">hover</#if>">我的招商贷</span>
+            <ul >
+            	<li><a href="${webroot}/member/index.html">资金信息</a></li>	
+            	<li><a href="${webroot}/member/account/log.html">资金记录</a></li>	
+            	<li><a href="${webroot}/member/account/bank.html">银行帐户</a></li>
+                <li><a href="${webroot}/member/account/newrecharge.html">充值提现</a></li>
+                <li><a href="${webroot}/member/message/box.html">站内信箱</a></li>
+                <li><a href="${webroot}/member/invest/auto.html">自动投标设置</a></li>
+                   <!--<li><a href="${webroot}/member/account/hongbao.html">红包</a></li>-->
+                <li><a href="${webroot}/modules/member/touyoubao.html"> 投友宝</a></li>
+                <li><a href="${webroot}/treasure/list.html"> 理财宝</a></li>
+                <li><a href="${webroot}/treasure/rechargeList.html"> 理财宝投资记录</a></li>
+                <li><a href="${webroot}/treasure/cashList.html"> 理财宝资金转出</a></li>
+            </ul>
+        </div>  
+        
+        <div class="zh-JS user_menus-item">
+            <span class="user_menus-title <#if mid??&&mid="m_invest">hover</#if>">理财管理</span>
+            <ul >
+                <li><a href="${webroot}/member/invest/bid.html">我的投资</a></li>
+                <li><a href="${webroot}/member/invest/list.html?type=1">收款中的项目</a></li>
+                <li><a href="${webroot}/member/invest/list.html?type=2">已还清项目</a></li>
+                <li><a href="${webroot}/member/invest/auto.html">自动投标</a></li>
+            </ul>
+        </div>     
+        <div class="zh-JS user_menus-item">
+            <span class="user_menus-title  <#if mid??&&mid="m_borrow">hover</#if>">借款管理</span>
+            <ul>
+                <li><a href="${webroot}/member/borrow/borrow.html">正在招标的借款</a></li>
+                <li><a href="${webroot}/member/borrow/borrow.html?type=repayment">正在还款的借款</a></li>
+				<li><a href="${request.getContextPath()}/member/borrow/repaymentdetail.html">还款明细帐</a></li>
+                <li><a href="${webroot}/member/borrow/limitapp.html">授信额度</a></li>
+            </ul>
+        </div>     
+  
+        <div class="zh-JS user_menus-item">
+            <span class="user_menus-title <#if mid??&&mid="m_info">hover</#if>">基本设置</span>
+            <ul>
+                <li><a href="${webroot}/member/userinfo/userinfo.html">个人资料</a></li>
+                <li><a href="${webroot}/member/identify/avatar.html">头像更新</a></li>
+                <li><a href="${webroot}/member/identify/realname.html">认证中心</a></li>
+                <li><a href="${webroot}/member/friend/myfriend.html">好友管理</a></li>
+                <!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-04 start -->
+                <li><a href="${webroot}/memberSecurity/passwordTokenPwd.html">安全中心</a></li>
+                <li><a href="${webroot}/memberPasswordToken/tokenListByUserId.html">密保设置</a></li>
+                <!-- v1.6.7.2 RDPROJECT-505 zza 2013-12-04 end -->
+                <li><a href="${webroot}/noticeconfig/typeconf.html">通知配置</a></li>
+            </ul>
+        </div>    
+     <div class="zh-JS user_menus-item">
+            <span class="user_menus-title  <#if mid??&&mid="m_troublefund">hover</#if>">急难基金管理</span>
+            <ul>
+                <li><a href="${webroot}/member/troublefund/addTroubleFund.html">添加捐赠页面</a></li>
+                <li><a href="${webroot}/member/troublefund/troubleFund.html?giving_way=1">无偿捐赠页面</a></li>
+                <li><a href="${webroot}/member/troublefund/troubleFund.html?giving_way=0">有偿捐赠页面</a></li>
+                <li><a href="${webroot}/member/troublefund/troubleFund.html?donateOutStatus=1">基金无息借款明细</a></li>
+            </ul>
+        </div> 
+        <!--  V1.6.7.1 zhangyz 2013-11-20 start --> 
+  <!--    <div class="zh-JS user_menus-item">
+            <span class="user_menus-title  <#if mid??&&mid="m_shop">hover</#if>">积分商城</span>
+            <ul>
+                <li><a href="${webroot}/credit/cashDetail.html">积分兑换现金</a></li>
+                <li><a href="${webroot}/credit/cashVipInit.html">积分兑换VIP</a></li>
+                <li><a href="${webroot}/credit/cashLog.html">积分兑换记录</a></li>
+                <li><a href="${webroot}/credit/userlog.html">积分操作记录</a></li>
+            </ul>
+    </div>  
+   --> 
+    <!--  V1.6.7.1 zhangyz 2013-11-20 end -->
+</div>
+</div>
+

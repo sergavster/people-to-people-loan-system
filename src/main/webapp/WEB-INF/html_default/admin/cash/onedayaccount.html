@@ -1,0 +1,95 @@
+﻿<!DOCTYPE>
+<html>
+<#include "../head.html">
+<body>
+	<#include "../top.html">
+	<!-- div.main start  -->
+	<div class="main">
+		<!-- div.main_left start  -->
+		<div class="main_left"><#include "left.html"></div>
+		<!-- div.main_left end  -->
+		<!-- div.main_right start  -->
+		<div class="main_right">
+			<#include "banner.html">
+			<div class="main_content">
+				<form action="" method="post">
+				<table  border="0"  cellspacing="1" bgcolor="#CCCCCC" width="100%">
+					<tr>
+						<td width="" class="main_td">ID</td>
+						<td width="" class="main_td">用户名</td>
+						<td width="" class="main_td">真实姓名</td>
+						<td width="" class="main_td">总余额</td>
+						<td width="" class="main_td">可用余额</td>
+						<td width="" class="main_td">冻结金额</td>
+						<td width="" class="main_td">待收金额</td>
+			            <td width="" class="main_td">待还金额</td>
+			            <td width="" class="main_td">净资产</td>
+			            <td width="" class="main_td">时间</td>
+					</tr>
+					<#list list as item>
+					<tr>
+						<td>${(item.id!0)?c}</td>
+						<td>${(item.username)!}</td>
+						<td>${(item.realname)!}</td>
+						<td>${(item.total)!0}</td>
+						<td>${(item.use_money)!0}</td>
+						<td>${(item.no_use_money)!0}</td>
+						<td>${(item.wait_collect)!0}</td>
+			            <td>${(item.wait_repay)!0}</td>
+			            <td>${(item.jin_money)!0}</td>
+			            <td>${item.addtime}</td>
+					</tr>
+					</#list>
+					<tr>
+					<td colspan="10" class="action">
+						<div class="floatl">
+							<input type="button" onclick="exportxls()" value="导出报表" />
+						</div>
+						<div class="floatr">
+							用户名：<input type="text" name="username" id="username" value=""/> <input type="button" value="搜索" onclick="sousuo()">
+						</div>
+					</td>
+					</tr>
+					<tr>
+						<td colspan="9" class="page">
+							<#import "../../common/page.html" as pager>  
+			         	 	<@pager.pagination page=page url="/admin/cash/showOneDayAccount.html" map=param style="style1" />  
+						</td>
+					</tr>
+				</table>
+				</form>	
+				<script>
+				var url = 'showOneDayAccount.html?search=true';
+				var xlsurl='showOneDayAccount.html?type=export'
+				
+				function sousuo(){
+				var sou = "";
+				var username = $("#username").val();
+				if (username!=""){
+					sou += "&username="+username;
+				}
+					if (sou!=""){
+						location.href=url+sou;
+					}
+				}
+				function exportxls(){
+				var sou = "";
+				var username = $("#username").val();
+				if (username!=""){
+					sou += "&username="+username;
+				}
+				if (sou!=""){
+					location.href=xlsurl+sou;
+				}else{
+					location.href=xlsurl;
+				}					
+				}
+				</script>
+			</div>
+		</div>
+		<!-- div.main_right end  -->
+	</div>
+	<!-- div.main end  -->
+	<#include "../foot.html">
+</body>
+</html>

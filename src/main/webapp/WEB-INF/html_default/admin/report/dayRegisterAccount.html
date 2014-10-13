@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="最近一周内未完成认证的用户">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+                            <!--工具栏--}-->
+                             <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                <div class="toolbor-module search">
+                                    <form action="${request.getContextPath()}/admin/report/dayRegisterAccount.html" method="post">
+						                <div class="toolbor-module search">
+						                    <input type="button" value="搜索"  class="input-button" onclick="sousuo();">
+						                </div>
+                                    	<div class="toolbor-module search">
+						                   	<div style="height:22px;line-height:22px;float:left;">时间：</div>
+						                   	<div style="float: left;">
+						                    <input class="_search-value" name="dotime1" id="dotime1" value="${dotime1}" size="15" onclick="change_picktime()"/>
+						                    </div>
+						                    <div style="height:22px;line-height:22px;float:left;margin:0 8px;"> 到 </div>
+						                    <input class="_search-value" name="dotime2" id="dotime2"  value="${dotime2}"  size="15" onclick="change_picktime()"/>
+						                </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div id="main" class="clearfix">
+                            	<div class="clearfix">
+                                    <table class="data-list">
+                                        <tr class="header">
+                                        	<td width="35%">今日注册用户数</td>
+                                            <td>${registerAccount!0}</td>
+                                        </tr>
+                                        <tr class="s">
+                                            <td colspan="2"><b>最近一周内未完成认证的用户（如下列表）</b></td>
+                                        </tr>
+                                    </table>    
+                                </div>
+                                <#if weekRegisterList??>
+                                    <table class="data-list">
+                                        <tr class="header">
+                                            <td>ID</td>
+                                            <td>用户名</td>
+                                            <td>真实姓名</td>
+                                            <td>实名认证</td>
+                                            <td>邮箱认证</td>
+                                            <td>手机认证</td>
+                                            <td>是否VIP</td>
+                                            <td>注册时间</td>
+                                        </tr>
+                                        <#list weekRegisterList as obj>
+                                            <tr class="s">
+                                                <td>${obj.user_id?c}</td>
+                                                <td>${obj.username!"-"}</td>
+                                                <td>${obj.realname!"-"}</td>
+                                                <td><#if obj.real_status??><#if obj.real_status==1>认证<#else><font
+                                                        color="#FF0000">未认证</font></#if><#else><font color="#FF0000">未认证</font></#if>
+                                                </td>
+                                                <td><#if obj.email_status??><#if obj.email_status==1>认证<#else><font
+                                                        color="#FF0000">未认证</font></#if><#else><font color="#FF0000">未认证</font></#if>
+                                                </td>
+                                                <td><#if obj.phone_status??><#if obj.phone_status==1>认证<#else><font
+                                                        color="#FF0000">未认证</font></#if><#else><font color="#FF0000">未认证</font></#if>
+                                                </td>
+                                                <td><#if obj.vip_status??&&obj.vip_status==1>Vip会员<#else><font
+                                                        color="#FF0000">普通会员</font></#if></td>
+                                                <td><#if obj.vip_verify_time??>${dateformat(obj.addtime)!"-"}</#if></td>
+                                            </tr>
+                                        </#list>
+                                    </table>
+                                    <#else> 暂无信息 </#if>
+                                <!--底部工具栏--}-->
+                            </div>
+                            <script>
+			                    var url = 'dayRegisterAccount.html?search=true';
+			                    function sousuo(){
+			                        var sou = "";
+			                        var dotime1 = $("#dotime1").val();
+			                        var dotime2 = $("#dotime2").val();
+			                        if (dotime1!=null){
+			                            sou += "&dotime1="+dotime1;
+			                        }
+			                        if (dotime2!=null){
+			                            sou += "&dotime2="+dotime2;
+			                        }
+			                        if (sou!=""){
+			                            location.href=url+sou;
+			                        }
+			                    }
+			                </script>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

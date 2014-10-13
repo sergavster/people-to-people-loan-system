@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+<package name="index" namespace="/" extends="wzd-default">
+        <action name="pagenotfound">  
+             <result type="ftl">/404.html</result>
+ 		</action>
+		<action name="index"  class="indexAction">
+            <result name="success" type="ftl">/index.html</result>
+        </action>
+      
+        <action name="safe"  class="indexAction"  method="blank">
+            <result name="success" type="ftl">/safe.html</result>
+        </action>
+        <action name="zxindex"  class="indexAction"  method="blank">
+            <result name="success" type="ftl">/zxindex.html</result>
+        </action>
+        <action name="imgurl"  class="imageAction" method="imgurl">
+            <result name="success" type="ftl">/index.html</result>
+        </action>
+        <action name="upload"  class="imageAction" method="upload">
+            <result name="success" type="ftl">/index.html</result>
+        </action>
+        <action name="cropimg"  class="imageAction" method="cropimg">
+            <result name="success" type="ftl">/index.html</result>
+        </action>
+        
+        <action name="saveAvatar"  class="imageAction" method="saveAvatar">
+            <result name="success" type="ftl">/index.html</result>
+        </action>
+        
+        <action name="validimg"  class="imageAction" method="validimg">
+            <result name="success" type="ftl">/index.html</result>
+        </action>
+        
+        <action name="editorUploadImg"  class="imageAction" method="editorUploadImg">
+            <result name="success" type="ftl">/index.html</result>
+        </action>
+        <action name="ueditorUploadImg"  class="imageAction" method="ueditorUploadImg">
+            <result name="success" type="ftl">/index.html</result>
+        </action>
+        
+          <action name="jk"  class="indexAction" method="blank">
+            <result name="success" type="ftl">/jk.html</result>
+        </action>
+          <action name="addjk"  class="indexAction" method="addjk">
+				<!-- v1.6.7.2 快速借款通道 wfl 2013-12-05 start -->
+				<!-- <result name="success" type="ftl">/jk.html</result>
+				<result name="fail" type="ftl">/errormsg.html</result>-->
+				<result name="msg" type="ftl">/msg.html</result>
+				<!-- v1.6.7.2 快速借款通道 wfl 2013-12-05 end -->
+        </action>
+         <action name="realTimeFinancial"  class="indexAction" method="realTimeFinancial">
+            <result name="success" type="ftl">/real_time_financial.html</result>
+              <result name="fail" type="ftl">/errormsg.html</result>
+        </action>
+        
+        <action name="bank" class="indexAction" method="viewCreditCard">
+            <result name="success" type="ftl">/bank.html</result>
+        </action>
+        
+        <action name="addQuickenLoans" class="indexAction" method="addQuickenLoans">
+			<result name="success" type="ftl">/msg.html</result>
+		</action>
+        <action name="moreRank" class="indexAction" method="moreRank">
+        	<result name="success" type="ftl">/moreRank.html</result>
+        </action>
+     </package>
+
+</struts>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${webname}</title>
+<script src="${webroot}${theme_dir}/media/js/jquery_1.9.1.js"></script>
+<script src="${webroot}${theme_dir}/media/js/mobile.js"></script>
+<link href="${webroot}${theme_dir}/media/css/mobile.css" rel="stylesheet" />
+<link href="${webroot}${theme_dir}/media/css/mobile_base.css" rel="stylesheet" />
+<link href="${webroot}${theme_dir}/media/css/mobile_base.css" rel="stylesheet" />
+
+</head>
+
+<body>
+<div data-role="header">
+     <a href="${webroot}/wx/invest.html" style="float:left;color:#fff;text-decoration:none;position:absolute;left:10px;">返回列表</a>
+    <h1>发标预告</h1>
+    <a data-ajax="false" href="${webroot}/wx/logout.html" style="float:right;color:#fff;text-decoration:none;position:absolute;right:10px;">退出登录</a>
+</div>    
+<div data-role="content">  
+	<form name="form1" method="post" id="form1" action="<#if borrow?exists>update.html?id=${borrow.id?c}<#else>add.html</#if>"  enctype="multipart/form-data" onsubmit="return check_form_borrow_m();" >
+	<ul data-role="listview">  
+    	<li>
+        	<div data-role="fieldcontain"> 
+            　 <label for="select-choice-2" class="select">借款期限</label>
+               <br />
+            　 <select name="time_limit" id="time_limit" data-native-menu="false">
+				  <option value ="saab">一个月</option>
+                  <option value="opel">二个月</option>
+                  <option value="audi">三个月</option>
+                  <option value="audi">六个月</option>
+                  <option value="audi">一年</option>
+				</select>
+            </div>
+        </li>
+		<li>
+        	<div data-role="fieldcontain"> 
+            　 <label for="select-choice-area" class="select">申请人地区</label>
+               <br />
+            　 <select name="province" id="province" data-native-menu="false">
+				  <option value ="saab">浙江</option>
+                  <option value="opel">山东</option>
+                  <option value="audi">海南</option>
+                  <option value="audi">西藏</option>
+                  <option value="audi">北京</option>
+				</select>
+                <select name="city" id="city" data-native-menu="false">
+				  <option value ="saab">杭州</option>
+                  <option value="opel">青岛</option>
+                  <option value="audi">海口</option>
+                  <option value="audi">乌鲁木齐</option>
+                  <option value="audi">海定区</option>
+				</select>
+                <select name="area" id="area" data-native-menu="false">
+				  <option value ="saab">西湖区</option>
+                  <option value="opel">青岛</option>
+                  <option value="audi">海口</option>
+                  <option value="audi">乌鲁木齐</option>
+                  <option value="audi">海定区</option>
+				</select>
+            </div>
+		</li>
+        <li>
+        	<input type="text" placeholder="申请人手机" id="borrow_tel" pattern="[0-9]*">
+		</li>
+        <li>
+        	<input type="text" placeholder="申请人QQ" id="borrow_qq" pattern="[0-9]*">
+		</li>
+        <li>
+        	<input type="text" placeholder="申请金额" id="borrow_money" pattern="[0-9]*">
+		</li>
+        <li>
+        	<input type="submit" value="提交">
+        </li>
+	</ul>
+    </form>
+</div>
+<script>
+	var tel = $("#borrow_tel");
+	var QQ = $("#borrow_qq");
+	var money = $("#borrow_money");
+	var telval;
+	var QQval;
+	var moneyval;
+	function check_form_borrow_m(){
+		telval = tel.val();
+		QQval = QQ.val();
+		moneyval = money.val();
+		if(telval==""||QQval==""||moneyval=="")
+		{
+			if($(".position_ab").is(":visible")){
+				tel.parent().append("<div class='position_ab'>请填写手机号码</div>");
+				QQ.parent().append("<div class='position_ab'>请填写QQ号码</div>");
+				money.parent().append("<div class='position_ab'>请填写申请金额</div>")
+				return false;		
+			}
+		}	
+	}
+	function removeTxt(){
+		tel.focus(function(){
+			tel.siblings().remove(".position_ab");	
+		}).blur(function(){
+			telval = tel.val();
+			if(telval=="")
+			tel.parent().append("<div class='position_ab'>请填写手机号码</div>");	
+		})
+		QQ.focus(function(){
+			QQ.siblings().remove(".position_ab");	
+		}).blur(function(){
+			QQval = tel.val();
+			if(QQval=="")
+			QQ.parent().append("<div class='position_ab'>请填写手机号码</div>");	
+		})
+		money.focus(function(){
+			money.siblings().remove(".position_ab");	
+		}).blur(function(){
+			moneyval = tel.val();
+			if(moneyval=="")
+			money.parent().append("<div class='position_ab'>请填写手机号码</div>");	
+		})	
+	}
+	removeTxt();
+</script>   
+</body>
+</html>

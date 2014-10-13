@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts> 
+<package name="admin-credit" namespace="/admin/credit" extends="wzd-default">
+        <action name="showUserCredit"  class="manageUserCreditAction" method="showUserCredit">
+            <result name="success" type="ftl">/admin/userinfo/userCredit/userCredit.html</result>
+        </action>
+        
+        <action name="showUserCreditLog"  class="manageUserCreditAction" method="showUserCreditLog">
+            <result name="success" type="ftl">/admin/userinfo/userCredit/userCreditLog.html</result>
+        </action>
+        <action name="cashLog"  class="manageUserCreditAction" method="cashLog">
+            <result name="success" type="ftl">/admin/userinfo/userCredit/cash_log.html</result>
+        </action>
+        <action name="auditDetail"  class="manageUserCreditAction" method="auditDetail">
+            <result name="success" type="ftl">/admin/userinfo/userCredit/audit_convert.html</result>
+        </action>
+        <action name="audit"  class="manageUserCreditAction" method="audit">
+            <result name="success" type="redirect">/admin/credit/cashLog.html</result>
+        </action>
+        <action name="editCreditInit"  class="manageUserCreditAction" method="editCreditInit">
+            <result name="success" type="ftl">/admin/userinfo/userCredit/editUserCredit.html</result>
+        </action>
+        <action name="editCredit"  class="manageUserCreditAction" method="editCredit">
+            <result name="success" type="redirect">/admin/credit/showUserCredit.html</result>
+        </action>
+        <action name="editBbsInit"  class="manageUserCreditAction" method="editBbsInit">
+            <result name="success" type="ftl">/admin/userinfo/userCredit/editCreditBBS.html</result>
+        </action>
+         <action name="editBss"  class="manageUserCreditAction" method="editCreditBbs">
+        </action>
+        <action name="auditVipInit"  class="manageUserCreditAction" method="auditVipInit">
+        	<result name="success" type="ftl">/admin/userinfo/userCredit/auditVip.html</result>
+        </action>
+        <action name="auditVip"  class="manageUserCreditAction" method="auditVip">
+        	<result name="success" type="redirect">/admin/credit/cashLog.html</result>
+        </action>
+        
+        <!-- v1.6.7.1RDPROJECT-510 cx 2013-12-09 start -->
+         <action name="integralLevel"  class="manageUserCreditAction" method="integralLevel">
+            <result name="success" type="ftl">/admin/userinfo/userCredit/integralLevel.html</result>
+        </action>
+        <!-- v1.6.7.1RDPROJECT-510 cx 2013-12-09 start -->
+        
+        <!-- v1.6.7.2 RDPROJECT-509 zza 2013-12-12 start -->
+		<action name="uploadCredit" class="manageUserCreditAction" method="uploadCredit">
+			<result name="success" type="ftl">/admin/userinfo/userCredit/uploadCredit.html</result>
+		</action>
+		<action name="showCreditUpfiles" class="manageUserCreditAction" method="showCreditUpfiles">
+			<result name="success" type="ftl">/admin/userinfo/userCredit/showCreditUpfiles.html</result>
+		</action>
+		<action name="viewCreditUpfiles" class="manageUserCreditAction" method="viewCreditUpfiles">
+			<result name="success" type="ftl">/admin/userinfo/userCredit/viewCreditUpfiles.html</result>
+		</action>
+		<action name="saveCreditUpfiles" class="manageUserCreditAction" method="saveCreditUpfiles">
+			<result name="success" type="ftl">/admin/userinfo/userCredit/saveCreditUpfiles.html</result>
+		</action>
+		<action name="verifyCreditUpfiles" class="manageUserCreditAction" method="verifyCreditUpfiles">
+			<result name="success" type="ftl">/admin/userinfo/userCredit/viewCreditUpfiles.html</result>
+		</action>
+		<action name="delCreditUpfiles" class="manageUserCreditAction" method="delCreditUpfiles">
+			<result name="success" type="ftl">/admin/userinfo/userCredit/showCreditUpfiles.html</result>
+		</action>
+		<action name="checkUsername"  class="manageUserCreditAction" method="checkUsername">
+        	<result name="input" type="ftl">/admin/userinfo/userCredit/saveCreditUpfiles.html</result>
+        </action>
+        <!-- v1.6.7.2 RDPROJECT-509 zza 2013-12-12 end -->
+        
+        <!-- v1.6.7.2 RDPROJECT-569 cx 2013-12-25 start -->
+        <action name="goodsCatagoryList" class="manageUserCreditAction" method="goodsCatagoryList">
+        	<result name="success" type="ftl">/admin/userinfo/userCredit/goodsCatagoryList.html</result>
+        </action>
+        <action name="addGoodsCategory"  class="manageUserCreditAction" method="addGoodsCategory">
+        	<result name="parent" type="ftl">/admin/userinfo/userCredit/addParentGoodsCategory.html</result>
+        	<result name="child" type="ftl">/admin/userinfo/userCredit/addChildGoodsCategory.html</result>
+        	<result name="list" type="redirect">/admin/credit/goodsCatagoryList.html</result>
+        </action>
+        <action name="delGoodsCategory" class="manageUserCreditAction" method="delGoodsCategory">
+        	<result name="success" type="redirect">/admin/credit/goodsCatagoryList.html</result>
+        </action>
+        
+        <action name="creditGoodsList" class="manageUserCreditAction" method="creditGoodsList">
+        	<result name="success" type="ftl">/admin/userinfo/userCredit/creditGoodsList.html</result>
+        </action>
+        <action name="addGoods" class="manageUserCreditAction" method="addGoods">
+        	<result name="success" type="ftl">/admin/userinfo/userCredit/addGoods.html</result>
+        </action>
+        <action name="updateGoods" class="manageUserCreditAction" method="updateGoods">
+        	<result name="success" type="ftl">/admin/userinfo/userCredit/updateGoods.html</result>
+        </action>
+        <action name="delGoods" class="manageUserCreditAction" method="delGoods">
+        	<result name="success" type="ftl">/admin/userinfo/userCredit/creditGoodsList.html</result>
+        </action>
+        <action name="checkCreditGoods" class="manageUserCreditAction" method="checkCreditGoods">
+        	<result name="success" type="ftl">/admin/userinfo/userCredit/checkCreditGoods.html</result>
+        </action>
+        <action name="auditGoods" class="manageUserCreditAction" method="auditGoods">
+        	<result name="success" type="ftl">/admin/userinfo/userCredit/auditGoods.html</result>
+        </action>
+        <action name="saveAuditGoods" class="manageUserCreditAction" method="saveAuditGoods">
+        	<result name="success" type="ftl">/admin/userinfo/userCredit/checkCreditGoods.html</result>
+        </action>
+        <action name="uploadImg" class="manageUserCreditAction" method="uploadImg" />
+        <!-- v1.6.7.2 RDPROJECT-569 cx 2013-12-25 end -->
+    </package>
+</struts>

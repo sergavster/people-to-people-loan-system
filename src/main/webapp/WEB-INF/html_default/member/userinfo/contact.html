@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<#include "../../include/resource.html"> 
+<body>
+<#assign nid="member">
+<#include "../../include/header.html">
+<!--header-end-->
+<!--用户中心的主栏目 开始-->
+<div id="main" class="clearfix" >
+<div class="wrap950 " style="margin-top:0">
+	<!--左边的导航 开始-->
+	<div class="user_left">
+		<#include "../user_menu.html">
+	</div>
+	<!--左边的导航 结束-->
+	
+	<!--右边的内容 开始-->	
+	<div class="user_right">
+		<#if msg?exists>
+		<div id="msg24">
+			<p class="ok"> ${msg} </p>
+		</div>
+		<#else>
+			<#if errormsg?exists>
+				<div id="msg25">
+					<p class="error"> ${errormsg} </p>
+				</div>
+			</#if>
+		</#if>
+		<div class="user_right_menu">
+			<#assign userinfo_type="contact">
+			<#include "userinfo_menu.html"> 
+		</div>
+		
+		<div class="user_right_main">
+			<form action="" name="form1" method="post" >
+				<div class="user_help alert">请填写您联系方式</div>
+		<div class="user_right_border">
+			<div class="l">居住地电话：</div>
+			<div class="c">
+				<input type="text" size="25" name="tel" value="<#if info?exists&&info.tel?exists>${info.tel}</#if>" />
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">手机号码：</div>
+			<div class="c">
+				<input type="text" size="25" name="phone" value="<#if info?exists&&info.phone?exists>${info.phone}</#if>" />
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">居住所在省市：</div>
+			<div class="c">
+				<#if info?exists&&info.province?exists>
+                		<@region name="province" id="province" value=info.province pid="0"></@region>&nbsp;
+                	<#else>
+                		<@region name="province" id="province" pid="0"></@region>&nbsp;
+                	</#if>
+					
+					<#if info?exists&&info.province?exists>
+						<#if info.city?exists>
+							<@region name="city" id="city" value=info.city pid=info.province></@region>&nbsp;
+						<#else>
+							<@region name="city" id="city" pid=info.province></@region>&nbsp;
+						</#if>
+                	<#else>
+                		<@region name="city" id="city" pid="-1"></@region>&nbsp;
+                	</#if>
+					
+					<#if info?exists&&info.city?exists>
+						<#if info.area?exists>
+							<@region name="area" id="area" value=info.area pid=info.city></@region>&nbsp;
+						<#else>
+							<@region name="area" id="area" pid=info.city></@region>&nbsp;
+						</#if>
+                	<#else>
+                		<@region name="area" id="area" pid="-1"></@region>&nbsp;
+                	</#if>
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">居住地邮编：</div>
+			<div class="c">
+				<input type="text" size="25" name="post" value="<#if info?exists&&info.post?exists>${info.post}</#if>" />
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">现居住地址：</div>
+			<div class="c">
+				<input type="text" size="25" name="address" value="<#if info?exists&&info.address?exists>${info.address}</#if>" /> 
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">第二联系人姓名：</div>
+			<div class="c">
+				<input type="text" size="25" name="linkman1" value="<#if info?exists&&info.linkman1?exists>${info.linkman1}</#if>" />
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">第二联系人关系：</div>
+			<div class="c"> 
+				<#if info?exists&&info.relation1?exists>
+					<@linkage name="relation1" id="relation1" nid="user_relation" default=info.relation1></@linkage>
+				<#else>
+					<@linkage name="relation1" id="relation1" nid="user_relation"></@linkage>
+				</#if>
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">第二联系人电话：</div>
+			<div class="c">
+				<input type="text" size="25" name="tel1" value="<#if info?exists&&info.tel1?exists>${info.tel1}</#if>" />
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">第二联系人手机：</div>
+			<div class="c">
+				<input type="text" size="25" name="phone1" value="<#if info?exists&&info.phone1?exists>${info.phone1}</#if>" />
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">第三联系人姓名：</div>
+			<div class="c">
+				<input type="text" size="25" name="linkman2" value="<#if info?exists&&info.linkman2?exists>${info.linkman2}</#if>" />
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">第三联系人关系：</div>
+			<div class="c">
+				<#if info?exists&&info.relation2?exists>
+					<@linkage name="relation2" id="relation2" nid="user_relation" default=info.relation2></@linkage>
+				<#else>
+					<@linkage name="relation2" id="relation2" nid="user_relation"></@linkage>
+				</#if>
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">第三联系人电话：</div>
+			<div class="c">
+				<input type="text" size="25" name="tel2" value="<#if info?exists&&info.tel2?exists>${info.tel2}</#if>" />
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">第三联系人手机：</div>
+			<div class="c">
+				<input type="text" size="25" name="phone2" value="<#if info?exists&&info.phone2?exists>${info.phone2}</#if>" />
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">第四联系人姓名：</div>
+			<div class="c">
+				<input type="text" size="25" name="linkman3" value="<#if info?exists&&info.linkman3?exists>${info.linkman3}</#if>" />
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">第四联系人关系：</div>
+			<div class="c">
+				<#if info?exists&&info.relation3?exists>
+					<@linkage name="relation3" id="relation3" nid="user_relation" default=info.relation3></@linkage>
+				<#else>
+					<@linkage name="relation3" id="relation3" nid="user_relation"></@linkage>
+				</#if>
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">第四联系人电话：</div>
+			<div class="c">
+				<input type="text" size="25" name="tel3" value="<#if info?exists&&info.tel3?exists>${info.tel3}</#if>" />
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">第四联系人手机：</div>
+			<div class="c">
+				<input type="text" size="25" name="phone3" value="<#if info?exists&&info.phone3?exists>${info.phone3}</#if>" />
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">MSN：</div>
+			<div class="c">
+				<input type="text" size="25" name="msn" value="<#if info?exists&&info.msn?exists>${info.msn}</#if>" />
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">QQ：</div>
+			<div class="c">
+				<input type="text" size="25" name="qq" value="<#if info?exists&&info.qq?exists>${info.qq}</#if>" />
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l">旺旺：</div>
+			<div class="c">
+				<input type="text" size="25" name="wangwang" value="<#if info?exists&&info.wangwang?exists>${info.wangwang}</#if>" />
+			</div>
+		</div>
+		
+		<div class="user_right_border">
+			<div class="l"></div>
+			<div class="c">
+				<input type="submit" class="btn-action"  name="name"  value="确认提交" size="30" /> 
+			</div>
+		</div>
+		
+		<div class="user_right_foot alert">
+		 * 温馨提示：我们将对所有的信息进行保密
+		</div>
+		
+		<!--联系方式   结束-->
+		
+		<!--配偶资料   开始-->
+				<input type="hidden" name="type" value="1" />
+		</form>
+		</div>
+ 	 </div>
+	<!--右边的内容 结束-->
+	</div>
+</div>
+<!--用户中心的主栏目 结束-->
+<script src="${request.getContextPath()}${theme_dir}/media/js/modal.js"></script>
+
+<#include "../../include/footer.html"> 
+</body>
+</html>

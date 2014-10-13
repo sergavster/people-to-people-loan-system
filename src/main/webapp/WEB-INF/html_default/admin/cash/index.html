@@ -1,0 +1,96 @@
+<!DOCTYPE>
+<html>
+<#include "../head.html">
+<body>
+	<#include "../top.html">
+	<!-- div.main start  -->
+	<div class="main">
+		<!-- div.main_left start  -->
+		<div class="main_left"><#include "left.html"></div>
+		<!-- div.main_left end  -->
+		<!-- div.main_right start  -->
+		<div class="main_right">
+			<div class="main_site">
+				<ul>
+					<li class="site_sub"><a
+						href="index.php?wzd888&q=module/userinfo&site_id=46&a=userinfo">信息列表</a>
+						- <a
+						href="index.php?wzd888&q=module/userinfo/new&site_id=46&a=userinfo">添加信息</a>
+						- <a
+						href="index.php?wzd888&q=module/userinfo/log&site_id=46&a=userinfo">信息历史记录</a></li>
+					<li class="title">用户信息 <span>/ 客户信息管理</span>
+				</ul>
+			</div>
+			<div class="main_content">
+				<table border="0" cellspacing="1" bgcolor="#CCCCCC" width="100%">
+					<form action="" method="post">
+						<tr>
+							<td width="*" class="main_td">用户名称</td>
+							<td width="*" class="main_td">真实姓名</td>
+							<td width="" class="main_td">房产资料</td>
+							<td width="" class="main_td">单位资料</td>
+							<td width="" class="main_td">私营业主资料</td>
+							<td width="" class="main_td">财务状况</td>
+							<td width="" class="main_td">联系方式</td>
+							<td width="" class="main_td">配偶资料</td>
+							<td width="" class="main_td">教育背景</td>
+							<td width="" class="main_td">其他信息</td>
+							<td width="" class="main_td">操作</td>
+						</tr>
+						<#if userInfoList??> <#list userInfoList as obj>
+						<tr>
+							<td class="main_td1" align="center">${obj.username!"-"}</td>
+							<td class="main_td1" align="center">${obj.realname!"-"}</td>
+							<td class="main_td1" align="center"><#if
+								obj.building_status>资料完整<#else>信息不完整</#if></td>
+							<td class="main_td1" align="center"><#if
+								obj.company_status>资料完整<#else>信息不完整</#if></td>
+							<td class="main_td1" align="center"><#if
+								obj.firm_status>资料完整<#else>信息不完整</#if></td>
+							<td class="main_td1" align="center"><#if
+								obj.finance_status>资料完整<#else>信息不完整</#if></td>
+							<td class="main_td1" align="center"><#if
+								obj.contact_status>资料完整<#else>信息不完整</#if></td>
+							<td class="main_td1" align="center"><#if
+								obj.mate_status>资料完整<#else>信息不完整</#if></td>
+							<td class="main_td1" align="center"><#if
+								obj.edu_status>资料完整<#else>信息不完整</#if></td>
+							<td class="main_td1" align="center"><#if
+								obj.building_status>资料完整<#else>信息不完整</#if></td>
+
+							<td class="main_td1" align="center"><a
+								href="${request.getContextPath()}/admin/userinfo/edituserinfo.html?user_id=${obj.user_id?c}">修改</a>
+							</td>
+						</tr>
+						</#list>
+
+						<td colspan="15" class="action">
+							<div class="floatl"></div>
+							<div class="floatr">
+								用户名：<input type="text" name="username" id="username" value="" />
+								状态<select id="status"><option value="">全部</option>
+									<option value="1">已通过</option>
+									<option value="0">未通过</option></select> <input type="button" value="搜索"
+									/ onclick="sousuo()">
+							</div>
+						</td>
+						</tr>
+						<tr>
+							<td colspan="9" class="page">共13条 <span class="">首页</span> <span
+								class="">上一页</span> <a
+								href="/index.php?wzd888&q=module/userinfo&site_id=46&a=userinfo&page=2">下一页</a>
+								<a
+								href="/index.php?wzd888&q=module/userinfo&site_id=46&a=userinfo&page=2">尾页</a>
+							</td>
+						</tr>
+						<#else> 暂无 </#if>
+					</form>
+				</table>
+			</div>
+		</div>
+		<!-- div.main_right end  -->
+	</div>
+	<!-- div.main end  -->
+	<#include "../foot.html">
+</body>
+</html>

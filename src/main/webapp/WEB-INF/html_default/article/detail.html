@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<!--   v1.6.6.2 RDPROJECT-140 yl 2013-10-23 start-->
+<#if site.name=="如何投资">
+<#assign web_title='p2p平台如何投资？p2p平台如何理财？ - ${webname!}p2p网贷平台'>
+<#assign web_description='投资人手中有闲置的资金，如何在${webname!}p2p平台上进行投资？p2p平台如何理财能实现利益最大化？'>
+<#else>
+<#assign web_title='${article.name!}-${site.name!"网贷平台"} - ${webname!}'>
+<#assign web_description='${article.name!"民间借贷"},${site.name!"网贷平台"},${webname!}p2p网贷平台'>
+</#if>
+<!--   v1.6.6.2 RDPROJECT-140 yl 2013-10-23 end-->
+<#include "../include/resource.html"> 
+<body>
+<#assign nid="zixun">
+<#include "../include/header.html">
+<link href="${request.getContextPath()}${theme_dir}/media/css/about.css" rel="stylesheet" type="text/css" />
+
+<div class="clearfix" id="container">
+    <img src="${webroot}${theme_dir}/images/zx-banner.jpg" alt="" class="mb15">
+    <div class="consult-nav float_left">
+        <div class="consult-nav-title"></div>
+        <div class="consult-nav-main">
+            <!--<a href="#" class="cur">媒体报道</a>
+            <a href="#">最新公告</a>-->
+            <#list sublist as item>
+                <#if item??&&item.url??&&((item.url)?length gt 0)>
+            	<!-- V1.6.6.2 RDPROJECT-352 ljd 2013-10-18 start -->
+                <a id="item${item_index+1}" class="consult-item" href="${webroot}${item.url!}?nid=${item.nid!}" rel="${item.site_id}">${item.name}</a>
+                <!-- V1.6.6.2 RDPROJECT-352 ljd 2013-10-18 end -->
+                <#elseif item.status==1>
+                <a id="item${item_index+1}" class="page" href="${webroot}/article/list.html?catalog=${item.site_id}" rel="${item.site_id}" >${item.name}</a>
+                </#if>
+            </#list>
+        </div>
+        
+        <a href="${webroot}/service/onlinekefu.html">
+            <img src="${webroot}${theme_dir}/images/zx-left-kf.jpg" alt="" class="zx-kefuimg" usemap="#Map1">
+        </a>
+    </div><!--left-->
+
+    <div class="consult-content float_right">
+        <div class="consult-content-title clearfix"><img src="${webroot}${theme_dir}/images/zx-rightli.jpg" alt="" class="ml10 float_left"><span class="float_left">当前位置：
+			<a id="ctl00_content_NavigationLink1_main" href="/" style=" color:#333; text-decoration:none;">${webname}</a>
+			<#--&gt; 网站栏目-->&gt;
+			<a href="${request.getContextPath()}/article/list.html?catalog=${catalog}" style="color:#333; text-decoration:none;">${site.name}</a></span>
+		</div>
+		<div class="box_name">
+				<a href="#" class="btn-action" style="margin-top:8px;text-decoration:none;color:#fff;"  >
+				${psite.name}
+				</a>
+		</div>
+        <div class="consult-content-text">
+			<div class="info" id="lxjs">
+				<div class="content_h3"><h3>${article.name}</h3></div>
+						<!--内容开始-->
+						<div class="content_ro2">
+						<table width="100%">
+						<tr><td><TABLE style="WIDOWS: 2; TEXT-TRANSFORM: none; TEXT-INDENT: 0px;BORDER-COLLAPSE: collapse; FONT: 12px/15px Tahoma, 'Microsoft Yahei', Simsun; WORD-WRAP: break-word; WHITE-SPACE: normal; ORPHANS: 2; EMPTY-CELLS: show; TABLE-LAYOUT: fixed; LETTER-SPACING: normal; COLOR: rgb(68,68,68); WORD-SPACING: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px" cellSpacing=0 cellPadding=0>
+						<TBODY style="WORD-WRAP: break-word">
+						<TR style="WORD-WRAP: break-word">
+						<TD style="WORD-WRAP: break-word; FONT-SIZE: 14px" id=postmessage_6900 class=t_f>
+						<!-- v1.6.5.3 RDPROJECT-159 xx 2013.09.13 start -->
+							${article.content?if_exists}
+						<!-- v1.6.5.3 RDPROJECT-159 xx 2013.09.13 end -->
+						</TD></TR></TBODY></TABLE></td>
+					</tr>
+					</table>
+						</div>
+						<!--内容结束-->
+						<div class="goodtips">本页面内容仅供参考，以网站的公告与具体规定为准。</div>
+			</div><!--info-->
+		</div><!--myTabContent-->
+	</div><!--right-->
+</div><!--cor_divtop-->
+<script>
+$(function(){
+	var site_id = parseInt("${site.site_id}");
+	var oA = $(".consult-nav-main a");
+	var oArel = "";
+	oA.each(function(){
+		 var index = oA.index(this);
+		 oArel = parseInt($(oA[index]).attr("rel"));
+		 if(site_id == oArel)
+		 {
+			$(oA[index]).addClass("pagehover");
+		 }	
+	})
+})
+</script>
+<script src="${request.getContextPath()}${theme_dir}/media/js/modal.js"></script>
+<#include "../include/footer.html"> 

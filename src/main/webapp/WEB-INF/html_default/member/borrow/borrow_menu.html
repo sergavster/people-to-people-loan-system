@@ -1,0 +1,12 @@
+<ul class="list-tab clearfix">
+	<li <#if borrow_type?exists&&borrow_type=="publish">class="cur"</#if> ><a href="${request.getContextPath()}/member/borrow/borrow.html">招标中项目</a></li>
+	<li <#if borrow_type?exists&&borrow_type=="unpublish">class="cur"</#if> ><a href="${request.getContextPath()}/member/borrow/borrow.html?type=unpublish">待审核项目</a></li>
+	<!-- v1.6.7.2 RDPROJECT-471 zza 2013-11-29 start -->
+	<li <#if borrow_type?exists&&borrow_type=="verifyFail">class="cur"</#if> ><a href="${request.getContextPath()}/member/borrow/borrowVerifyFail.html?type=verifyFail">审核未通过项目</a></li>
+	<li <#if borrow_type?exists&&borrow_type=="borrowBack">class="cur"</#if> ><a href="${request.getContextPath()}/member/borrow/borrowVerifyFail.html?type=borrowBack">用户撤回项目</a></li>
+	<!-- v1.6.7.2 RDPROJECT-471 zza 2013-11-29 end -->
+	<li <#if borrow_type?exists&&borrow_type=="repayment">class="cur"</#if> ><a href="${request.getContextPath()}/member/borrow/borrow.html?type=repayment">还款中项目</a></li>
+	<li <#if borrow_type?exists&&borrow_type=="repaymentyes">class="cur"</#if> ><a href="${request.getContextPath()}/member/borrow/borrow.html?type=repaymentyes">已还款项目</a></li>
+	<li <#if borrow_type?exists&&borrow_type=="repaymentdetail">class="cur"</#if> ><a href="${request.getContextPath()}/member/borrow/repaymentdetail.html">还款明细</a></li>
+	<li <#if borrow_type?exists&&borrow_type=="limitapp">class="cur"</#if> ><a href="${request.getContextPath()}/member/borrow/limitapp.html">额度申请</a></li>
+</ul>

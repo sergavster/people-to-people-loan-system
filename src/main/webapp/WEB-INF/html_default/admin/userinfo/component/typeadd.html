@@ -1,0 +1,82 @@
+<!DOCTYPE>
+<html>
+<#include "../../head.html">
+<body>
+	<#include "../../top.html">
+	<!-- div.main start  -->
+	<div class="main">
+		<!-- div.main_left start  -->
+		<div class="main_left"><#include "../left.html"></div>
+		<!-- div.main_left end  -->
+		<!-- div.main_right start  -->
+		<div class="main_right">
+
+			<div class="main_site">
+				<ul>
+
+					<#include "../bar.html">
+					<li class="title">用户管理 <span>/ 用户管理</span></li>
+
+				</ul>
+			</div>
+			<div class="main_content">
+				<!--模块列表 开始-->
+				<div class="module_add">
+					<form action="${request.getContextPath()}/admin/userinfo/typeadd.html" method="post"
+						name="form1" enctype="multipart/form-data">
+						<div class="module_title">
+							<strong>添加用户类型</strong>
+						</div>
+
+						<div class="module_border">
+							<div class="l">类型名称:</div>
+							<div class="c">
+								<input type="text" size="30" value="" class="input_border"
+									name="usertypes.name">
+							</div>
+						</div>
+
+						<div class="module_border">
+							<div class="l">排序:</div>
+							<div class="c">
+								<input type="text" size="10" value="10" class="input_border"
+									name="usertypes.order">
+							</div>
+						</div>
+
+						<div class="module_border">
+							<div class="l">状态:</div>
+							<div class="c">
+								<input type="radio" checked="checked" value="0" name="usertypes.status">
+								关闭<input type="radio" checked="checked" value="1" name="usertypes.status">开通
+							</div>
+						</div>
+
+						<div class="module_border">
+							<div class="l">简要说明:</div>
+							<div class="c">
+								<textarea rows="6" cols="55" name="usertypes.summary"></textarea>
+							</div>
+						</div>
+
+						<div class="module_border">
+							<div class="l">备注:</div>
+							<div class="c">
+								<textarea rows="6" cols="55" name="usertypes.remark"></textarea>
+							</div>
+						</div>
+
+						<div class="module_submit">
+							<input type="submit" value="确认提交"> <input type="reset"
+								value="重置表单" name="reset">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!-- div.main end  -->
+	<#include "../../foot.html">
+</body>
+</html>

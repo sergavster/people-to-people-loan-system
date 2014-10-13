@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<#include "../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <!--管理员信息---{-->
+                    <#include "../adminInfo.html">
+                        <!--管理员信息---}-->
+                        <div class="nav-wrap">
+                            <#include "left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="审核回款">
+                        <#include "banner.html">
+                            <!--面包屑导航---}-->
+
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                                    <input type="button" class="input-button return" value="返回" onClick="javascript:location.href='showAllHuikuan.html'">
+                             </div>   
+                            <!--工具栏--}-->
+			<div class="main_content">  
+				<form name="form1" method="post" action="verifyHuikuan.html" onsubmit="return check_form();" enctype="multipart/form-data" >
+				<div class="module_title"><strong>&nbsp;&nbsp;&nbsp;&nbsp;回款查看</strong></div><hr/>
+				<div class="module_border">
+					<div class="l">用户名：</div>
+					<div class="c">
+					<a onclick='alertPop("用户详细信息查看","url:post?${request.getContextPath()}/admin/attestation/viewUserInfo.html?username=${huikuan.username!}",500,230,"true","","true","text");'
+                                                                                        href="javascript:void(0)">${huikuan.username!}</a>
+					</div>
+				</div>
+				<div class="module_border">
+					<div class="l">回款金额：</div>
+					<div class="c">${huikuan.huikuan_money}</div>
+				</div>
+				<div class="module_border">
+					<div class="l">回款奖励：</div>
+					<div class="c">${huikuan.huikuan_award!}</div>
+				</div>
+				
+				<div class="module_border">
+					<div class="l">用户备注：</div>
+					<div class="c">${huikuan.remark!}</div>
+				</div>
+
+				<div class="module_border">
+					<div class="l">状态：</div>
+					<!-- v1.6.6.2 zhangyz start -->
+					<div class="c"><#if huikuan.status=="1">成功<#elseif huikuan.status=="0">未审核<#elseif huikuan.status=="5">撤回<#else>审核失败</#if></div>
+					<!-- v1.6.6.2 zhangyz end -->
+				</div>
+			<!-- v1.6.6.2 RDPROJECT-280 zhangyz start -->
+				<#if huikuan?? && huikuan.status?? && (huikuan.status=="1"||huikuan.status=="4" || huikuan.status=="5") >
+			<!-- v1.6.6.2 RDPROJECT-280 zhangyz end -->
+				<#else>
+				 <div id="audit"  style="margin-bottom:20px;">
+				                    <div class="top">
+				                        <strong>审核此回款</strong>
+				                    </div>
+				                    <div class="v">
+				                        <div class="c">
+				                            <div class="choose">
+				                                <label class="mr15"><input name="status" type="radio" value="1" class="radio">回款通过</label>
+				                                <label><input name="status" type="radio" class="radio" value="4" checked="checked">回款不通过</label>
+				                                <!-- v1.6.6.2 zhangyz start -->
+				                                <label><input name="status" type="radio" class="radio" value="5">回款撤回</label>
+				                                <!-- v1.6.6.2 zhangyz end -->
+				                            </div>
+				                            <!--v1.6.6.1 RDPROJECT-30 wcw 2013-09-27 START  --> 
+				                            <textarea class="remark" name="verify_remark">输入审核备注...</textarea>
+				                            <!--v1.6.6.1 RDPROJECT-30 wcw 2013-09-27 end  --> 
+				                        </div>
+				                        <div class="other clearfix">
+											<input type="hidden" name="id" value="${huikuan.id?c}" />
+					                        <input type="hidden" name="user_id" value="${huikuan.user_id?c}" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											<input type="submit"  name="reset" value="确定审核" class="input-button confirm"/>
+				                        </div>
+
+				                    </div>
+				                </div>
+				</#if>
+				</form>
+			</div>
+			
+			<script>
+			function check_form(){
+				return true;
+			}
+			</script>
+
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+
+    </body>
+</html>
+<#include "../jsPage.html">

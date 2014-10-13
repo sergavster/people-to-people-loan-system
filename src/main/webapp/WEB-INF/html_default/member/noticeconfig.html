@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<#include "../include/resource.html">
+<body>
+	<#assign nid="member"> 
+	<#include "../include/header.html">
+	<!--header-end-->
+	<!--用户中心的主栏目 开始-->
+	<div id="main" class="clearfix" >
+		<div class="wrap950 " style="margin-top:0">
+			<!--左边的导航 开始-->
+			<div class="user_left">
+            	<#assign mid="m_security" >
+				<#include "user_menu.html">
+			</div>
+			<!--左边的导航 结束-->
+
+			<!--右边的内容 开始-->
+			<div class="user_right">
+				<#if msg?exists>
+				<div id="msg24">
+					<p class="ok"> ${msg} </p>
+				</div>
+				<#else>
+					<#if errormsg?exists>
+						<div id="msg25">
+							<p class="error"> ${errormsg} </p>
+						</div>
+					</#if>
+				</#if>
+				<#if !query_type?exists>
+					<#assign query_type="">
+				</#if>
+				<div class="user_right_menu">
+					<ul id="tab" class="list-tab clearfix">
+						<li <#if query_type=="typeconf">class="active"</#if>><a href="${request.getContextPath()}/noticeconfig/typeconf.html">接收配置</a></li>
+						<li <#if query_type=="smsfee">class="active"</#if>><a href="${request.getContextPath()}/noticeconfig/smsfee.html">短信付费</a></li>
+						<!--
+						<li <#if query_type=="paypwd">class="active"</#if>><a href="${request.getContextPath()}/memberSecurity/paypwd.html">交易密码</a></li> 
+						<li <#if query_type=="protection">class="active"</#if>><a href="${request.getContextPath()}/memberSecurity/protection.html">密码保护</a></li>
+						<li <#if query_type=="serialStatusSet">class="active"</#if>><a href="${request.getContextPath()}/memberSecurity/serialStatusSet.html">动态口令设置</a></li>
+						<li <#if query_type=="touyoubao">class="active"</#if>><a href="${request.getContextPath()}/modules/member/touyoubao.html">投友宝</a></li>
+						-->
+					</ul>
+				</div>
+				<div class="user_right_main">
+				<#if query_type=="smsfee">
+				<!--短信付费开始-->
+				<form action="" name="form1" method="post" onsubmit="return check_form();">
+				<div class="user_help alert">你的当前短信付费到期时间：${payendtime!"-"}</div>
+				<div class="user_right_border">
+					<div class="e">包月：</div>
+					<div class="c">
+						<input type="radio" name="paymodel" value="1" checked="checked"/> 费用${smsmonthfee}元
+					</div>
+				</div>
+				<div class="user_right_border">
+					<div class="e">包年：</div>
+					<div class="c">
+						<input type="radio" name="paymodel" value="2"/> 费用${smsyearfee}元
+					</div>
+				</div>
+				<!-- v1.6.6.1 RDPROJECT-302 liukun 2013-10-16 begin -->
+				<div class="user_right_border">
+					<div class="e">支付密码：</div>
+					<div class="c">
+						<#if !session_user?exists> <a
+                            href="${request.getContextPath()}/user/login.html"
+                            target="_blank"> <font color="red">请先登陆</font> </a> <#elseif
+                            session_user.paypassword?exists> <input type="password"
+                            name="paypassword" size="11" tabindex="2" /> <#else> <a
+                            href="${request.getContextPath()}/memberSecurity/paypwd.html"
+                            target="_blank"> <font color="red">请先设一个支付交易密码</font> </a>
+                        </#if>
+					</div>
+				</div>
+				<!-- v1.6.6.1 RDPROJECT-302 liukun 2013-10-16 end -->
+				<div class="user_right_border">
+					<div class="e"></div>
+					<div class="c">
+						<input type="hidden" name="actionType" value="smsfee" size="30" />
+						<!-- v1.6.6.1 RDPROJECT-302 liukun 2013-10-16 begin -->
+						<input type="hidden" name="smsfee_token" value="${smsfee_token}" />
+						<!-- v1.6.6.1 RDPROJECT-302 liukun 2013-10-16 end -->
+						<input type="submit" name="name"   class="btn-action"  value="确认提交" size="30" /> 
+					</div>
+				</div>
+				</form>
+				<div class="user_right_foot alert">
+				* 温馨提示：点击付费后费用将立即扣除，立即生效，费用不退。
+				</div>
+				<script>
+					function check_form(){
+						if(confirm("点击付费后费用将立即扣除，立即生效，费用不退。")){
+							return true;
+						}else{
+							return false;
+						}	
+						
+					}
+				</script>
+				<!--短信付费结束-->
+				<#elseif query_type="typeconf">
+			 	<!--修改短信类型配置开始-->
+				<form action="" name="form1" method="post" onsubmit="">
+				<div class="user_help alert">设置您允许接收的通知类型。</div>
+				<!-- V1.6.6.1 RDPROJECT-245 liukun 2013-10-09 start -->
+				<div class="user_help alert">系统短信，无需付费即可接收。普通短信（红色标注）需要付费才可以接收。</div>
+				<div class="clearfix pt10 pb10">
+					<#list NoticeTypeList as item>
+					<div class="user_right_border tel_mes_list">
+						<div class="e">${item.nidName!}</div>
+						<div class="c">
+							 <font <#if item.smsSystem==2>color="red"</#if>>短信</font><input type="checkbox" name="${item.nid}_sms" <#if item.smsSysSend==0> disabled onclick='return false'</#if> <#if item.smsUserReceive==1>checked</#if>>
+							 邮件<input  name="${item.nid}_email" type="checkbox"  <#if item.emailSysSend==0> disabled onclick='return false'</#if> <#if item.emailUserReceive==1>checked</#if>>
+							 站内信<input name="${item.nid}_message" type="checkbox"  <#if item.messageSysSend==0> disabled onclick='return false'</#if> <#if item.messageUserReceive==1>checked</#if>>
+						</div>
+					</div>
+					</#list>
+				</div>
+				<!-- V1.6.6.1 RDPROJECT-245 liukun 2013-10-09 end -->
+				
+				<div class="clearfix">
+					<div class="e"></div>
+					<div class="c">
+						<input type="hidden" name="actionType" value="typeconf" size="30" />
+						<input type="submit" name="name"   class="btn-action"  value="确认提交" size="30" /> 
+					</div>
+				</div>
+				</form>
+				<div class="user_right_foot alert">
+				* 温馨提示：如果系统增加了新的通知类型，会默认您为允许接收。
+				</div>
+				<!--修改短信类型配置 结束-->
+				</#if>
+			</div>
+			<!--右边的内容 结束-->
+			</div>
+		</div>
+	</div>
+	<!--用户中心的主栏目 结束-->
+	<script src="${request.getContextPath()}${theme_dir}/media/js/modal.js"></script>
+	<#include "../include/footer.html">
+</body>
+</html>

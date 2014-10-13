@@ -1,0 +1,44 @@
+<div class="box-info-user">
+				<img class="user-photo" src="${request.getContextPath()}/imgurl.html?userid=${u.user_id?c}&size=middle" />
+				<p>用户名&nbsp;&nbsp;：<a href="${request.getContextPath()}/user/show.html?user_id=${u.user_id?c}">${u.username}</a></p>
+				<p><span class="pullleft">信用积分：</span><img class="rank" src="${request.getContextPath()}/data/images/credit/${u.credit_pic}" title="${u.credit_jifen?c}"  />&nbsp;&nbsp;</p>
+				<p>籍&nbsp;&nbsp;&nbsp;&nbsp;贯：${(u.provincetext)?default("")} ${(u.citytext)?default("")} </p>
+				<p>注册时间：<#if u.addtime?exists>${dateformat(u.addtime)[0..10]}</#if></p>
+
+         <div class="info_a">
+				<ul>
+					<li><div 
+					class="credit_pic_card_<#if (u.real_status?exists)&&u.real_status==1>1<#else>0</#if>" 
+					title="<#if (u.real_status?exists)&&u.real_status==1>实名已认证<#else>未实名认证</#if>"></div>
+					<div class="credit_pic_phone_<#if (u.phone_status?exists)&&u.phone_status==1>1<#else>0</#if>" 
+					title="<#if (u.phone_status?exists)&&u.phone_status==1>手机已认证<#else>手机未认证</#if>"></div>
+                    <div class="credit_pic_email_<#if (u.email_status?exists)&&u.email_status==1>1<#else>0</#if>" 
+                    title="<#if (u.email_status?exists)&&u.email_status==1>邮箱已认证<#else>邮箱未认证</#if>"></div>
+					<div
+					class="credit_pic_video_<#if (u.video_status?exists)&&u.video_status==1>1<#else>0</#if>" 
+					title="<#if (u.video_status?exists)&&u.video_status==1>视频已认证<#else>视频未认证</#if>"></div>
+					<div style="magin-left:5px;" class="credit_pic_vip_0" title="普通会员"></div>
+					<div class="credit_pic_scene_<#if (u.scene_status?exists)&&u.scene_status==1>1<#else>0</#if>" 
+					title="<#if (u.scene_status?exists)&&u.scene_status==1>已通过现场认证<#else>未通过现场认证</#if>"></div> </li>
+				</ul>
+			</div>
+		<br/>
+				<p><a href="${webroot}/member/message/box.html">站内信</a></p>
+			<!--	<p><a href="javascript:void(0)" onclick="location.href='${webroot}/member/friend/addfriendrequest.html'">加为好友</a></p>  -->
+			
+					<p><a href="javascript:void(0)" onclick='tipsWindown("加为好友","id:addfriendcontent_${u.user_id?c}",400,230,"true","","true","text");'>加为好友</a>  
+							<div id="addfriendcontent_${u.user_id?c}" style="display:none">
+								<form method='post' action='${request.getContextPath()}/member/friend/addfriendrequest.html'>
+									<div align='left'><br>&nbsp;&nbsp;&nbsp;好友：${u.username?default("")}
+									<input type='hidden' name='friends_userid' value='${u.user_id?c}'></div>
+									<div align='left'>
+										<br>&nbsp;&nbsp;&nbsp;类型：<@linkage name="friend" id="friend" nid="friends_type" />
+									</div><div align='left'><br>&nbsp;&nbsp;&nbsp;内容：<textarea rows='1' cols='30' name='content'></textarea></div>
+									<div align='left'><br>&nbsp;&nbsp;&nbsp;<input type='submit' value='确定添加'></div>
+								</form>
+							</div>
+					</p>	
+
+				<p><a href="javascript:void(0)" onclick="if(confirm('确定添加为黑名单吗？'))location.href='${webroot}/member/friend/blackfriend.html?username=${u.username}';" style="color:#666666">设为黑名单</a></p>
+				<p><a href="${webroot}/member/message/send.html">举报此人</a></p>
+			</div>

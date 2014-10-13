@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<#include "../../include/resource.html"> 
+<body>
+<#assign nid="member">
+<#include "../../include/header.html">
+<!--header-end-->
+<!--用户中心的主栏目 开始-->
+<div id="main" class="clearfix" >
+<div class="wrap950 " style="margin-top:0">
+	<!--左边的导航 开始-->
+	<div class="user_left">
+		<#include "../user_menu.html">
+	</div>
+	<!--左边的导航 结束-->
+	
+	<!--右边的内容 开始-->	
+	<div class="user_right">
+		<#if msg?exists>
+		<div id="msg24">
+			<p class="ok"> ${msg} </p>
+		</div>
+		<#else>
+			<#if errormsg?exists>
+				<div id="msg25">
+					<p class="error"> ${errormsg} </p>
+				</div>
+			</#if>
+		</#if>
+		<div class="user_right_menu">
+			<#assign userinfo_type="firm">
+			<#include "userinfo_menu.html"> 
+		</div>
+		
+		<div class="user_right_main">
+				<form action="" name="form1" method="post" >
+					<div class="user_help alert">请填写您个人业主资料</div>
+				 <div class="user_right_border">
+					<div class="l">私营企业类型：</div>
+					<div class="c">
+						<#if info?exists&&info.private_type?exists>
+							<@linkage name="private_type" id="private_type" nid="user_company_industry" default=info.private_type></@linkage>
+						<#else>
+							<@linkage name="private_type" id="private_type" nid="user_company_industry"></@linkage>
+						</#if>
+					</div>
+				</div>
+				
+				 <div class="user_right_border">
+					<div class="l">成立日期：</div>
+					<div class="c">
+						<input type="text" size="25" name="private_date" value="<#if info?exists&&info.private_date?exists>${info.private_date}</#if>" onclick="change_picktime()"/> 
+					</div>
+				</div>
+				
+				<div class="user_right_border">
+					<div class="l">经营场所：</div>
+					<div class="c">
+						<input type="text" size="25" name="private_place" value="<#if info?exists&&info.private_place?exists>${info.private_place}</#if>" /> 
+					</div>
+				</div>
+				
+				<div class="user_right_border">
+					<div class="l">租金：</div>
+					<div class="c">
+						<input type="text" size="25" name="private_rent" value="<#if info?exists&&info.private_rent?exists>${info.private_rent}</#if>" /> 元
+					</div>
+				</div>
+				
+				<div class="user_right_border">
+					<div class="l">租期：</div>
+					<div class="c">
+						<input type="text" size="25" name="private_term" value="<#if info?exists&&info.private_term?exists>${info.private_term}</#if>" /> 月
+					</div>
+				</div>
+				
+				<div class="user_right_border">
+					<div class="l">税务编号：</div>
+					<div class="c">
+						<input type="text" size="25" name="private_taxid" value="<#if info?exists&&info.private_taxid?exists>${info.private_taxid}</#if>" /> 
+					</div>
+				</div>
+				
+				<div class="user_right_border">
+					<div class="l">工商登记号：</div>
+					<div class="c">
+						<input type="text" size="25" name="private_commerceid" value="<#if info?exists&&info.private_commerceid?exists>${info.private_commerceid}</#if>" /> 
+					</div>
+				</div>
+				
+				<div class="user_right_border">
+					<div class="l">全年盈利/亏损额：</div>
+					<div class="c">
+						<input type="text" size="25" name="private_income" value="<#if info?exists&&info.private_income?exists>${info.private_income}</#if>" /> 元（年度）
+					</div>
+				</div>
+				
+				<div class="user_right_border">
+					<div class="l">雇员人数：</div>
+					<div class="c">
+						<input type="text" size="25" name="private_employee" value="<#if info?exists&&info.private_employee?exists>${info.private_employee}</#if>" /> 人
+					</div>
+				</div>
+			 
+			 <div class="user_right_border">
+				<div class="l"></div>
+				<div class="c">
+					<input type="submit" class="btn-action"  name="name"  value="确认提交" size="30" /> 
+				</div>
+			</div>
+			
+			
+			<div class="user_right_foot alert">
+			* 温馨提示：我们将对所有的信息进行保密
+			</div>
+			
+			<!--私营业主资料  结束-->
+			 
+			 
+			 <!--财务状况  结束-->
+			 		<input type="hidden" name="type" value="1" />
+			</form>
+		</div>
+ 	 </div>
+	<!--右边的内容 结束-->
+	</div>
+</div>
+<!--用户中心的主栏目 结束-->
+<script src="${request.getContextPath()}${theme_dir}/media/js/modal.js"></script>
+
+<#include "../../include/footer.html"> 
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<!--v1.6.7.2 RDPROJECT-569 cx 2013-12-16 end  -->
+<html>
+<#include "../../head.html">
+    <body>
+    <table class="mc">
+        <tr>
+            <td class="mc-l">
+                <!--左侧导航---{-->
+                <div id="navPanelContainer">
+                    <div class="system-logo cd"></div>
+                    <#include "../../adminInfo.html">
+                        <div class="nav-wrap">
+                             <#include "../left.html">
+                        </div>
+                </div>
+                <!--左侧导航---}-->
+            </td>
+            <td class="mc-m">
+                <div class="navToggle"></div>
+            </td>
+            <td class="mc-r">
+                <!--顶部导航---{-->
+                <#include "../../topNav.html">
+                    <!--顶部导航---}-->
+
+                    <!--面包屑导航---{-->
+                    <#assign moduleName="积分兑换产品管理">
+                        <#include "../banner.html">
+                            <!--面包屑导航---}-->
+                            <!--工具栏--{-->
+                            <div id="toolbar" class="clearfix">
+                             <div class="toolbor-module search">  
+                             			 <input type="button" value="搜索"  class="input-button" onclick="searchList();">
+                                       <a href="addGoodsCategory.html?type=parent" class="input-button" style="line-height:24px;">+新增商品分类</a>
+                                       <a href="addGoodsCategory.html?type=child" class="input-button" style="line-height:24px;">+新增商品子类</a>
+                               </div>
+                               <div class="toolbor-module search">
+                                    <div style="height:22px;line-height:22px;float:left;">分类名：</div>
+                                    <select name="catetoryType" id="catetoryType">
+                                    	<option value="-1">全部</option>
+                                    	<#list parentList as par>
+                                    		<option value="${par.id}">${par.name}</option>
+                                    	</#list>
+                                    </select>
+                                 </div> 
+                            </div>
+                            <!--工具栏--}-->
+
+                            <div id="main" class="clearfix">
+							 <form action="" method="post">
+			  	<table class="data-list" >
+				<tr>
+					<td>ID</td>
+		            <td>商品分类名</td>
+					<td>父类</td>
+					<td>添加时间</td>
+					<td>类型</td>
+					<td>操作</td>
+				</tr>
+				<#list cateList as item>
+				<tr class="s" >
+					<td>${item.id!}</td>
+					<td>${item.name!}</td>
+					<td>${item.parentName!}</td>
+					<td>${dateformat(item.add_time!)}</td>
+					<td>
+					<#if item.is_virtual??&&item.is_virtual==0>实物	
+                     <#elseif item.is_virtual??&&item.is_virtual==1>vip
+                  	 <#elseif item.is_virtual??&&item.is_virtual==2>现金
+                  	 <#elseif item.is_virtual??&&item.is_virtual==3>-
+                    </#if>
+					</td>
+					<td>
+					<a class="un" onclick="javascripts:delGoodsCategory(${item.id});">删除</a>
+					</td>
+				</tr>
+				</#list>
+				<tr>
+			</tr>
+			</table>
+		</form>	
+			<script type="text/javascript">
+			$('#catetoryType').val('${catetoryType}');
+			var urls=window.location.href;
+			var index=urls.indexOf("?");
+			if(index>0){
+			  urls=urls.substring(0,index);
+			 }
+            function searchList(){
+               var search = "";
+                if ($("#catetoryType").val()!=""&&$("#catetoryType").val()!=null){
+                	search += "&catetoryType="+$("#catetoryType").val();
+                }
+                location.href=urls+"?search=true"+search;
+              }
+            
+            function delGoodsCategory(id){
+            	if(confirm("删除后不可恢复，你确定要删除？")){
+            		window.location.href="delGoodsCategory.html?cateId="+id;
+            	}
+            }
+			</script>
+           </div>
+            </td>
+        </tr>
+        <tr>
+            <!--尾部--{-->
+            <td colspan="3" class="mc-b"><#include "../../foot.html"></td>
+            <!--尾部--}-->
+        </tr>
+    </table>
+<div class="msgClass">
+<@s.actionmessage/>
+</div>
+    </body>
+</html>
+<#include "../../jsPage.html">
+<script>
+</script>
+<!--v1.6.7.2 RDPROJECT-569 cx 2013-12-16 end  -->

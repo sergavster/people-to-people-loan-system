@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html>
+<#assign web_title="${borrow.name}债券购买 - ${webname!}p2p网贷平台">
+<#include "../../include/resource.html">
+<body>
+<#assign nid="invest"> <#include "../../include/header.html">
+<div id="bond_buy">
+  <div class="borrow_details">
+    <div class="tit"><a style="color: #B1251D;" target="_blank" href="${webroot}/invest/detail.html?borrowid=${borrow.id?c}" title="${borrow.name!'-'}详情">${borrow.name!"-"}详情</a></div>
+    <ul class="con clearfix">
+      <#include "../../common/function.html"> 
+      <li>借款人：${borrowUser.username!"-"} </li>
+      <li>借款金额：<font>￥${borrow.account?c}</font> </li>
+      <li>年利率：<font>${borrow.apr}%</font></li>
+      <li class="time">初审时间：${dateformat(borrow.verify_time)} </li>
+      <li class="time">还款方式：<@borrowStyle type = borrow.type isday = borrow.isday style = borrow.style/></li>
+    </ul>
+  </div><div class="bond_details">
+    <div class="tit">债券详情 </div>
+    <div class="con">
+      <table>
+        <tr>
+          <th>序号 </th>
+          <th>待收期数 </th>
+          <th>待收本金 </th>
+          <th>待收利息 </th>
+          <th>待收奖励 </th>
+          <th>待收日期</th>
+          <th>合计</th>
+        </tr>
+        <#import "../../common/function.html" as func>
+         <#if (collectionList?exists)&&(collectionList?size>0)>
+         <#list collectionList as item>
+        <tr>
+          <td>${item_index + 1}</td>
+          <td>${item.order + 1}</td>
+          <td>${func.format2(item.capital)}元 </td>
+          <td>${func.format2(item.interest)}元 </td>
+          <td>${func.format2(item.repay_award?c)}元 </td>
+          <td>${dateformat(item.repay_time)} </td>
+          <td>${func.format2(item.repay_account)}元 </td>
+        </tr>
+         </#list>
+         <#else><tr><td colspan="6">无符合条件信息！</td></tr>
+         </#if>
+      </table>
+    </div>
+  </div>
+  
+  <div class="buy">
+    <div class="tit">购买</div>
+    <form action="${webroot}/member/ca/buy.html" method="post" onSubmit="return check_form_1()" name="form1">
+	    <ul class="con clearfix">
+	      <li class="con_tit">现债权人：${caUser.username!"-"}</li>
+	      <li>债券价值：<font>${ca.credit_value}</font>元</li>
+	      <li>转让价格：：<font style="color:#eb6100;">${ca.credit_price}</font>元</li>
+	      <li>预估收益率：<font>${(ca.credit_value - ca.credit_price) * 100 / ca.credit_price }%</font></li>
+	      <input type="hidden" id="isPwd" name="isPwd" value="${ca.pwd!''?length}"/>
+	     <#if ca.pwd?? && ca.pwd?length gt 0>
+	      <li>定向密码：
+	        <input type="password" name="pwd" onfocus="if (value==defaultValue)value=''" onblur="if(!value)value=defaultValue"  />
+	      </li>
+	      </#if>
+	      <li>支付密码：<input type="hidden" name="caId" value="${ca.id?c}"/><input type="hidden" name="buyAccount" value="${ca.credit_price}"/>
+	       <#if session_user.paypassword?exists>
+				<input type="password" name="paypassword" />
+			<#else>
+				<a href="${request.getContextPath()}/memberSecurity/paypwd.html"><font color="#FF0000">请先设置一个支付密码</font></a>
+			</#if>
+	      </li>
+	      <li class="btn_li"><input type="submit" name="name" class="bond_btn" value="确认购买"/></li>
+	    </ul>
+    </form>
+    <script>
+		function check_form_1(){
+			var frm = document.forms['form1'];
+			var paypassword = frm.elements['paypassword'].value;
+			var isPwd = $("#isPwd").val();
+			var errorMsg = '';
+			if(paypassword.length == 0 ){
+				errorMsg += '请输入您的支付密码' + '。\n';
+			}
+			if(isPwd != null && isPwd > 0 ){
+				var paypassword = frm.elements['pwd'].value;
+				if(paypassword.length == 0)errorMsg += '请输入此债权的定向密码' + '。\n';
+			}
+			if (errorMsg.length > 0){
+				alert(errorMsg);
+				return false;
+			} else{  
+				return true;
+			}
+		}
+		</script>
+  </div>
+</div>
+<#include "../../include/footer.html">
+</body>
+</html>

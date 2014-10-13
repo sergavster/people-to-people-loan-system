@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<#include "../../include/resource.html">
+<body>
+	<#assign nid="member"> 
+	<#include "../../include/header.html">
+	<!--header-end-->
+	<!--用户中心的主栏目 开始-->
+	<div id="main" class="clearfix">
+		<div class="wrap950 " style="margin-top:0">
+			<!--左边的导航 开始-->
+			<div class="user_left">
+					<#assign mid="m_identify" >
+			<#include "../user_menu.html"></div>
+			<!--左边的导航 结束-->
+
+			<!--右边的内容 开始-->
+			<div class="user_right">
+				<#if msg?exists>
+				<div id="msg24">
+					<p class="ok">${msg}</p>
+				</div>
+				<#else> <#if errormsg?exists>
+				<div id="msg25">
+					<p class="error">${errormsg}</p>
+				</div>
+				</#if> </#if>
+				<div class="user_right_menu">
+					<#assign userinfo_type="video">
+					<#include "identify_menu.html"></div>
+				<div class="user_right_main">
+				<br/>
+			
+				<#if session_user.video_status??&&session_user.video_status==2>
+					视频认证正在审核！
+				<#elseif session_user.video_status??&&session_user.video_status==1>
+					视频认证已经通过！
+				<#else>
+				  <form action="${webroot}/member/identify/video.html" method="post" name="form1" >
+					如果您需要视频认证，请您点击申请，等待客服将联系。<br/><br/>
+					<input type="submit" class="btn-action"  name="apply" value="申请"  /><br/>
+					<input type="hidden"  name="actionType" value="video"  />
+				</form>
+				</#if>
+				<div class="user_right_foot alert">
+				 * 温馨提示：我们将对所有的信息进行保密
+				</div>
+				</div>
+			</div>
+			<!--右边的内容 结束-->
+		</div>
+	</div>
+	<!--用户中心的主栏目 结束-->
+	<script
+		src="${request.getContextPath()}${theme_dir}/media/js/modal.js"></script>
+
+	<#include "../../include/footer.html">
+</body>
+</html>

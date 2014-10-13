@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<#include "../../include/resource.html">
+<body>
+	<#assign nid="member"> 
+	<#include "../../include/header.html">
+	<!--header-end-->
+	<!--用户中心的主栏目 开始-->
+	<div id="main" class="clearfix" >
+		<div class="wrap950 " style="margin-top:0">
+			<!--左边的导航 开始-->
+			<div class="user_left">
+					<#assign mid="m_identify" >
+			<#include "../user_menu.html"></div>
+			<!--左边的导航 结束-->
+
+			<!--右边的内容 开始-->
+			<div class="user_right">
+				<div class="user_right_menu">
+					<#assign userinfo_type="email">
+					<#include "identify_menu.html">
+				</div>
+				<div class="user_right_main">
+				<#if msg?exists>
+					<div id="msg24">
+						<p class="ok">${msg}</p>
+					</div>
+				<#elseif errormsg?exists>
+					<div id="msg25">
+						<p class="error">${errormsg}</p>
+					</div>
+				<#else>
+					<#if session_user.email_status?exists&&session_user.email_status==1>
+						<div class="user_right_foot alert">
+						 您已经通过邮箱认证！邮箱地址:*****${session_user.email[5..]!""}
+						</div>
+					<#else>
+						<form action="email.html" method="post" onsubmit="this.elements['submit'].disabled='disabled';return true;">
+							重设邮箱：<input type="text" name="email" value="${(session_user.email)?default("")}" />  
+									 <input type="submit"  class="btn-action" name="submit" value="重新激活"  />
+									 <input type="hidden"  name="actionType" value="email"  />
+						</form>
+						<div class="user_right_foot alert">
+						 * 温馨提示：我们将对所有的信息进行保密
+						</div>
+					</#if>
+				</#if>
+				</div>
+			</div>
+			<!--右边的内容 结束-->
+		</div>
+	</div>
+	<!--用户中心的主栏目 结束-->
+	<script
+		src="${request.getContextPath()}/themes/soonmes/media/js/modal.js"></script>
+
+	<#include "../../include/footer.html">
+</body>
+</html>

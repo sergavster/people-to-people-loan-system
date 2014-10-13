@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>viewUserDetailInfo.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body style="overflow:hidden;">
+
+	<div  class="sfz_img">
+	<#if viewcard=="cardC">
+		<img alt="" src="${webroot}/${userInfo.card_pic1!}">
+		<#else>
+		<img alt="" src="${webroot}/${userInfo.card_pic2!}">
+	</#if>
+	</div>
+
+  </body>
+</html>
